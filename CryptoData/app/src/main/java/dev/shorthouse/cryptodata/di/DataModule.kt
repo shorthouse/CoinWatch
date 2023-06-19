@@ -4,8 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.shorthouse.cryptodata.data.CryptocurrencyRepository
-import dev.shorthouse.cryptodata.data.CryptocurrencyRepositoryImpl
+import dev.shorthouse.cryptodata.data.repository.CryptocurrencyRepository
+import dev.shorthouse.cryptodata.data.repository.CryptocurrencyRepositoryImpl
 import dev.shorthouse.cryptodata.data.source.remote.CryptocurrencyApi
 import javax.inject.Singleton
 
