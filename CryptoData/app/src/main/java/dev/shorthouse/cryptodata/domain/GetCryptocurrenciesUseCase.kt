@@ -1,26 +1,24 @@
 package dev.shorthouse.cryptodata.domain
 
 import dev.shorthouse.cryptodata.common.Resource
-import dev.shorthouse.cryptodata.data.CryptocurrencyRepository
+import dev.shorthouse.cryptodata.data.repository.CryptocurrencyRepository
+import dev.shorthouse.cryptodata.di.IoDispatcher
 import dev.shorthouse.cryptodata.model.Cryptocurrency
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
-import java.io.IOException
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class GetCryptocurrenciesUseCase @Inject constructor(
-    private val repository: CryptocurrencyRepository,
+    private val cryptocurrencyRepository: CryptocurrencyRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) {
-    operator fun invoke(): Flow<Resource<List<Cryptocurrency>>> = flow {
-        try {
-            emit(Resource.Loading())
-            val cryptocurrency = repository.getCryptocurrencies()
-            emit(Resource.Success(cryptocurrency))
-        } catch (e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
-        } catch (e: IOException) {
-            emit(Resource.Error("Couldn't reach server. Check your internet connection"))
-        }
+    suspend operator fun invoke(): Flow<Resource<List<Cryptocurrency>>> {
+        return getCryptocurrencies()
+    }
+
+    private suspend fun getCryptocurrencies(): Flow<Resource<List<Cryptocurrency>>> {
+        return cryptocurrencyRepository.getCryptocurrencies()
+            .flowOn(ioDispatcher)
     }
 }
