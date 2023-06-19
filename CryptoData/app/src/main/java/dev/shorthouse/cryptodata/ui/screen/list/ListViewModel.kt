@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,28 +25,31 @@ class ListViewModel @Inject constructor(
     }
 
     private fun getCryptocurrencies() {
-        getCryptocurrenciesUseCase().onEach { result ->
-            _uiState.update {
-                when (result) {
-                    is Resource.Loading -> {
-                        it.copy(
-                            isLoading = true,
-                        )
-                    }
+        viewModelScope.launch {
+            getCryptocurrenciesUseCase().onEach { result ->
+                _uiState.update {
+                    when (result) {
+                        is Resource.Loading -> {
+                            it.copy(
+                                isLoading = true,
+                            )
+                        }
 
-                    is Resource.Success -> {
-                        it.copy(
-                            cryptocurrencies = result.data ?: emptyList(),
-                        )
-                    }
+                        is Resource.Success -> {
+                            it.copy(
+                                cryptocurrencies = result.data ?: emptyList(),
+                                isLoading = false,
+                            )
+                        }
 
-                    is Resource.Error -> {
-                        it.copy(
-                            error = result.message ?: "An unexpected error occurred",
-                        )
+                        is Resource.Error -> {
+                            it.copy(
+                                error = result.message ?: "An unexpected error occurred",
+                            )
+                        }
                     }
                 }
-            }
-        }.launchIn(viewModelScope)
+            }.launchIn(viewModelScope)
+        }
     }
 }
