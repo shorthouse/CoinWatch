@@ -14,5 +14,6 @@ val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)
 val dark_onSurfaceVariant = Color(0xFF8F909A)
 
-val Green = Color(0xFF2E7D32)
+val PositiveGreenBackground = Color(0xFFDBFBEC)
+val PositiveGreen = Color(0xFF10DC78)
 val Red = Color(0xFFB00020)
