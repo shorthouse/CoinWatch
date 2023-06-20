@@ -4,8 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.shorthouse.cryptodata.data.repository.CryptocurrencyRepository
-import dev.shorthouse.cryptodata.data.repository.CryptocurrencyRepositoryImpl
+import dev.shorthouse.cryptodata.data.repository.CoinRepository
+import dev.shorthouse.cryptodata.data.repository.CoinRepositoryImpl
 import dev.shorthouse.cryptodata.data.source.remote.CryptocurrencyApi
 import javax.inject.Singleton
 
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 object DataModule {
     @Provides
     @Singleton
-    fun provideCryptocurrencyRepository(api: CryptocurrencyApi): CryptocurrencyRepository {
-        return CryptocurrencyRepositoryImpl(api)
+    fun provideCryptocurrencyRepository(api: CryptocurrencyApi): CoinRepository {
+        return CoinRepositoryImpl(api)
     }
 }
