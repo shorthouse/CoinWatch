@@ -13,72 +13,96 @@ data class CoinDetailDto(
     @SerializedName("market_data")
     val marketData: MarketData,
     val description: Description,
-    val links: Links,
+    val links: Links
 )
 
 fun CoinDetailDto.toCoinDetail(): CoinDetail {
+    val currentPrice = marketData.currentPrice.gbp
+    val dailyHigh = marketData.dailyHigh.gbp
+    val dailyLow = marketData.dailyLow.gbp
+
+    val dailyHighChangePercentage = 100 * (1 - (currentPrice / dailyHigh))
+    val dailyLowChangePercentage = 100 * (currentPrice / dailyLow)
+
     return CoinDetail(
         id = id,
         symbol = symbol.uppercase(),
         name = name,
         image = image.large,
-        genesisDate = genesisDate,
-        currentPrice = marketData.currentPrice.gbp,
+        currentPrice = currentPrice,
         priceChangePercentage = marketData.priceChange,
-//        allTimeHigh = marketData.allTimeHigh.gbp.toCurrencyString(),
-//        allTimeHighDate = marketData.allTimeHighDate.gbp,
-//        allTimeLow = marketData.allTimeLow.gbp.toCurrencyString(),
-//        allTimeLowDate = marketData.allTimeLowDate.gbp,
-//        marketCap = marketData.marketCap.gbp,
-//        marketCapChangePercentage = marketData.marketCapChangePercentage.toPercentageString(),
-//        marketCapRank = marketData.marketCapRank,
+        genesisDate = genesisDate,
+        //        allTimeHigh = marketData.allTimeHigh.gbp.toCurrencyString(),
+        //        allTimeHighDate = marketData.allTimeHighDate.gbp,
+        //        allTimeLow = marketData.allTimeLow.gbp.toCurrencyString(),
+        //        allTimeLowDate = marketData.allTimeLowDate.gbp,
+        marketCapRank = marketData.marketCapRank,
+        marketCap = marketData.marketCap.gbp,
+        marketCapChangePercentage = marketData.marketCapChangePercentage,
+        dailyHigh = dailyHigh,
+        dailyHighChangePercentage = dailyHighChangePercentage,
+        dailyLow = dailyLow,
+        dailyLowChangePercentage = dailyLowChangePercentage,
+
         description = description.en,
         homepageLink = links.homepage.firstOrNull(),
-        blockchainLink = links.blockchainSite.firstOrNull(),
-        subredditLink = links.subreddit,
+        githubLink = links.reposUrl.github.firstOrNull(),
+        subredditLink = links.subreddit
     )
 }
 
 data class Description(
-    val en: String,
+    val en: String
 )
 
 data class Links(
-    val homepage: List<String?>,
-    @SerializedName("blockchain_site")
-    val blockchainSite: List<String?>,
+    val homepage: List<String>,
     @SerializedName("subreddit_url")
     val subreddit: String?,
+    @SerializedName("repos_url")
+    val reposUrl: ReposUrl
+)
+
+data class ReposUrl(
+    val github: List<String>
 )
 
 data class Image(
     val thumb: String,
     val small: String,
-    val large: String,
+    val large: String
 )
 
 data class CurrentPrice(
-    val gbp: Double,
+    val gbp: Double
 )
 
 data class AllTimeHigh(
-    val gbp: Double,
+    val gbp: Double
 )
 
 data class AllTimeHighDate(
-    val gbp: String,
+    val gbp: String
 )
 
 data class AllTimeLow(
-    val gbp: Double,
+    val gbp: Double
 )
 
 data class AllTimeLowDate(
-    val gbp: String,
+    val gbp: String
 )
 
 data class MarketCap(
-    val gbp: Long,
+    val gbp: Long
+)
+
+data class DailyHigh(
+    val gbp: Double
+)
+
+data class DailyLow(
+    val gbp: Double
 )
 
 data class MarketData(
@@ -100,4 +124,8 @@ data class MarketData(
     val marketCapChangePercentage: Double,
     @SerializedName("market_cap_rank")
     val marketCapRank: Int,
+    @SerializedName("high_24h")
+    val dailyHigh: DailyHigh,
+    @SerializedName("low_24h")
+    val dailyLow: DailyLow
 )
