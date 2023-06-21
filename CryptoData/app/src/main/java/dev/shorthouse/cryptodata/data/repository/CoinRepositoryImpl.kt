@@ -1,20 +1,21 @@
 package dev.shorthouse.cryptodata.data.repository
 
+import android.util.Log
 import dev.shorthouse.cryptodata.common.Resource
-import dev.shorthouse.cryptodata.data.source.remote.CryptocurrencyApi
+import dev.shorthouse.cryptodata.data.source.remote.CoinApi
 import dev.shorthouse.cryptodata.data.source.remote.dto.toCoinDetail
 import dev.shorthouse.cryptodata.data.source.remote.dto.toCryptocurrency
 import dev.shorthouse.cryptodata.model.Coin
 import dev.shorthouse.cryptodata.model.CoinDetail
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import java.io.IOException
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class CoinRepositoryImpl @Inject constructor(
-    private val api: CryptocurrencyApi,
+    private val api: CoinApi
 ) : CoinRepository {
-    override suspend fun getCryptocurrencies(): Flow<Resource<List<Coin>>> = flow {
+    override fun getCryptocurrencies(): Flow<Resource<List<Coin>>> = flow {
         emit(Resource.Loading())
 
         try {
@@ -40,7 +41,7 @@ class CoinRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCoinDetail(): Flow<Resource<CoinDetail>> = flow {
+    override fun getCoinDetail(): Flow<Resource<CoinDetail>> = flow {
         emit(Resource.Loading())
 
         try {
