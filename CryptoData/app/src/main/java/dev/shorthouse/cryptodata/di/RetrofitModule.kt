@@ -5,12 +5,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.shorthouse.cryptodata.common.Constants
-import dev.shorthouse.cryptodata.data.source.remote.CryptocurrencyApi
+import dev.shorthouse.cryptodata.data.source.remote.CoinApi
+import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -39,7 +39,7 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideCryptocurrencyApi(retrofit: Retrofit): CryptocurrencyApi {
-        return retrofit.create(CryptocurrencyApi::class.java)
+    fun provideCryptocurrencyApi(retrofit: Retrofit): CoinApi {
+        return retrofit.create(CoinApi::class.java)
     }
 }
