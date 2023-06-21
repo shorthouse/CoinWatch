@@ -4,20 +4,20 @@ import dev.shorthouse.cryptodata.common.Resource
 import dev.shorthouse.cryptodata.data.repository.CoinRepository
 import dev.shorthouse.cryptodata.di.IoDispatcher
 import dev.shorthouse.cryptodata.model.Coin
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import javax.inject.Inject
 
-class GetCryptocurrenciesUseCase @Inject constructor(
+class GetCoinsUseCase @Inject constructor(
     private val coinRepository: CoinRepository,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
-    suspend operator fun invoke(): Flow<Resource<List<Coin>>> {
+    operator fun invoke(): Flow<Resource<List<Coin>>> {
         return getCryptocurrencies()
     }
 
-    private suspend fun getCryptocurrencies(): Flow<Resource<List<Coin>>> {
+    private fun getCryptocurrencies(): Flow<Resource<List<Coin>>> {
         return coinRepository.getCryptocurrencies()
             .flowOn(ioDispatcher)
     }
