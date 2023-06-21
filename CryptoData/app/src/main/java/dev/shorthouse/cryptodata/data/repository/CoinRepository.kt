@@ -6,7 +6,7 @@ import dev.shorthouse.cryptodata.model.CoinDetail
 import kotlinx.coroutines.flow.Flow
 
 interface CoinRepository {
-    suspend fun getCryptocurrencies(): Flow<Resource<List<Coin>>>
+    fun getCryptocurrencies(): Flow<Resource<List<Coin>>>
 
-    suspend fun getCoinDetail(): Flow<Resource<CoinDetail>>
+    fun getCoinDetail(): Flow<Resource<CoinDetail>>
 }
