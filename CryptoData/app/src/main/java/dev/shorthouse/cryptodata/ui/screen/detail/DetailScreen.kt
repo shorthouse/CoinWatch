@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Cake
-import androidx.compose.material.icons.rounded.CalendarToday
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -221,22 +220,34 @@ private fun DetailContent(
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.weight(1f)
+            ) {
                 Text(
-                    text = "Creation date",
+                    text = "All Time High",
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = coinDetail.genesisDate
+                    text = stringResource(
+                        id = R.string.coin_current_price,
+                        coinDetail.allTimeHigh
+                    )B
                 )
             }
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.weight(1f)
+            ) {
                 Text(
-                    text = "Creation date",
+                    text = "All Time Low",
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = coinDetail.genesisDate
+                    text = stringResource(
+                        id = R.string.coin_current_price,
+                        coinDetail.allTimeLow
+                    )
                 )
             }
         }
@@ -267,7 +278,11 @@ fun DetailScreenPreview() {
                 marketCap = 34934943,
                 marketCapChangePercentage = 4.5,
                 marketCapRank = 2,
-                genesisDate = "30th July 2015"
+                genesisDate = "30th July 2015",
+                allTimeHigh = 3260.39,
+                allTimeLow = 0.79,
+                allTimeLowDate = "10th October 2015",
+                allTimeHighDate = "22nd May 2021"
             ),
             isLoading = false,
             error = null,

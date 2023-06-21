@@ -17,10 +17,10 @@ data class CoinDetail(
     val dailyLowChangePercentage: Double,
 
     val genesisDate: String,
-    //    val allTimeHigh: String,
-    //    val allTimeHighDate: String,
-    //    val allTimeLow: String,
-    //    val allTimeLowDate: String,
+    val allTimeHigh: Double,
+    val allTimeHighDate: String,
+    val allTimeLow: Double,
+    val allTimeLowDate: String,
 
     val description: String,
 
