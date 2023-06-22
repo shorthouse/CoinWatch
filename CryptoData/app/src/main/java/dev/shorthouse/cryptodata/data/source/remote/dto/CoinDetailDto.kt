@@ -1,7 +1,6 @@
 package dev.shorthouse.cryptodata.data.source.remote.dto
 
 import com.google.gson.annotations.SerializedName
-import dev.shorthouse.cryptodata.model.CoinDetail
 
 data class CoinDetailDto(
     val id: String,
@@ -15,41 +14,6 @@ data class CoinDetailDto(
     val description: Description,
     val links: Links
 )
-
-fun CoinDetailDto.toCoinDetail(): CoinDetail {
-    val currentPrice = marketData.currentPrice.gbp
-    val dailyHigh = marketData.dailyHigh.gbp
-    val dailyLow = marketData.dailyLow.gbp
-
-    val dailyHighChangePercentage = 100 * (1 - (currentPrice / dailyHigh))
-    val dailyLowChangePercentage = 100 * (currentPrice / dailyLow)
-
-    return CoinDetail(
-        id = id,
-        symbol = symbol.uppercase(),
-        name = name,
-        image = image.large,
-        currentPrice = currentPrice,
-        priceChangePercentage = marketData.priceChange,
-        genesisDate = genesisDate,
-        allTimeHigh = marketData.allTimeHigh.gbp,
-        allTimeHighDate = marketData.allTimeHighDate.gbp,
-        allTimeLow = marketData.allTimeLow.gbp,
-        allTimeLowDate = marketData.allTimeLowDate.gbp,
-        marketCapRank = marketData.marketCapRank,
-        marketCap = marketData.marketCap.gbp,
-        marketCapChangePercentage = marketData.marketCapChangePercentage,
-        dailyHigh = dailyHigh,
-        dailyHighChangePercentage = dailyHighChangePercentage,
-        dailyLow = dailyLow,
-        dailyLowChangePercentage = dailyLowChangePercentage,
-
-        description = description.en,
-        homepageLink = links.homepage.firstOrNull(),
-        githubLink = links.reposUrl.github.firstOrNull(),
-        subredditLink = links.subreddit
-    )
-}
 
 data class Description(
     val en: String
@@ -105,6 +69,11 @@ data class DailyLow(
     val gbp: Double
 )
 
+data class HistoricalPrices(
+    @SerializedName("price")
+    val usd: List<Double>
+)
+
 data class MarketData(
     @SerializedName("current_price")
     val currentPrice: CurrentPrice,
@@ -127,5 +96,7 @@ data class MarketData(
     @SerializedName("high_24h")
     val dailyHigh: DailyHigh,
     @SerializedName("low_24h")
-    val dailyLow: DailyLow
+    val dailyLow: DailyLow,
+    @SerializedName("sparkline_7d")
+    val historicalPrices: HistoricalPrices,
 )
