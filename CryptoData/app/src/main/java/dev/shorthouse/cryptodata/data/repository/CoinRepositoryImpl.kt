@@ -1,16 +1,15 @@
 package dev.shorthouse.cryptodata.data.repository
 
-import android.util.Log
 import dev.shorthouse.cryptodata.common.Resource
 import dev.shorthouse.cryptodata.data.source.remote.CoinApi
-import dev.shorthouse.cryptodata.data.source.remote.dto.toCoinDetail
-import dev.shorthouse.cryptodata.data.source.remote.dto.toCryptocurrency
 import dev.shorthouse.cryptodata.model.Coin
 import dev.shorthouse.cryptodata.model.CoinDetail
-import java.io.IOException
-import javax.inject.Inject
+import dev.shorthouse.cryptodata.model.toCoin
+import dev.shorthouse.cryptodata.model.toCoinDetail
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.io.IOException
+import javax.inject.Inject
 
 class CoinRepositoryImpl @Inject constructor(
     private val api: CoinApi
@@ -23,7 +22,7 @@ class CoinRepositoryImpl @Inject constructor(
 
             if (response.isSuccessful && response.body() != null) {
                 val cryptocurrencies = response.body()!!.map {
-                    it.toCryptocurrency()
+                    it.toCoin()
                 }
 
                 emit(Resource.Success(cryptocurrencies))
