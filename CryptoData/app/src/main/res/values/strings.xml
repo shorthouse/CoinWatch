@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">CryptoData</string>
     <string name="coin_price_change">%1$.2f%%</string>
-    <string name="coin_current_price">£%1$.2f</string>
+    <string name="coin_current_price">$%1$.2f</string>
 </resources>

@@ -38,35 +38,35 @@ data class Image(
 )
 
 data class CurrentPrice(
-    val gbp: Double
+    val usd: Double
 )
 
 data class AllTimeHigh(
-    val gbp: Double
+    val usd: Double
 )
 
 data class AllTimeHighDate(
-    val gbp: String
+    val usd: String
 )
 
 data class AllTimeLow(
-    val gbp: Double
+    val usd: Double
 )
 
 data class AllTimeLowDate(
-    val gbp: String
+    val usd: String
 )
 
 data class MarketCap(
-    val gbp: Long
+    val usd: Long
 )
 
 data class DailyHigh(
-    val gbp: Double
+    val usd: Double
 )
 
 data class DailyLow(
-    val gbp: Double
+    val usd: Double
 )
 
 data class HistoricalPrices(
@@ -98,5 +98,5 @@ data class MarketData(
     @SerializedName("low_24h")
     val dailyLow: DailyLow,
     @SerializedName("sparkline_7d")
-    val historicalPrices: HistoricalPrices,
+    val historicalPrices: HistoricalPrices
 )

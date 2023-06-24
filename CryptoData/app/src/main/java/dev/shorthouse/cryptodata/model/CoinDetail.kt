@@ -34,9 +34,9 @@ data class CoinDetail(
 )
 
 fun CoinDetailDto.toCoinDetail(): CoinDetail {
-    val currentPrice = marketData.currentPrice.gbp
-    val dailyHigh = marketData.dailyHigh.gbp
-    val dailyLow = marketData.dailyLow.gbp
+    val currentPrice = marketData.currentPrice.usd
+    val dailyHigh = marketData.dailyHigh.usd
+    val dailyLow = marketData.dailyLow.usd
 
     val dailyHighChangePercentage = 100 * (1 - (currentPrice / dailyHigh))
     val dailyLowChangePercentage = 100 * (currentPrice / dailyLow)
@@ -49,12 +49,12 @@ fun CoinDetailDto.toCoinDetail(): CoinDetail {
         currentPrice = currentPrice,
         priceChangePercentage = marketData.priceChange,
         genesisDate = genesisDate,
-        allTimeHigh = marketData.allTimeHigh.gbp,
-        allTimeHighDate = marketData.allTimeHighDate.gbp,
-        allTimeLow = marketData.allTimeLow.gbp,
-        allTimeLowDate = marketData.allTimeLowDate.gbp,
+        allTimeHigh = marketData.allTimeHigh.usd,
+        allTimeHighDate = marketData.allTimeHighDate.usd,
+        allTimeLow = marketData.allTimeLow.usd,
+        allTimeLowDate = marketData.allTimeLowDate.usd,
         marketCapRank = marketData.marketCapRank,
-        marketCap = marketData.marketCap.gbp,
+        marketCap = marketData.marketCap.usd,
         marketCapChangePercentage = marketData.marketCapChangePercentage,
         dailyHigh = dailyHigh,
         dailyHighChangePercentage = dailyHighChangePercentage,
