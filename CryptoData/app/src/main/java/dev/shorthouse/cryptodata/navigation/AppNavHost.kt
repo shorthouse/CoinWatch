@@ -14,12 +14,12 @@ import dev.shorthouse.cryptodata.ui.screen.list.ListScreen
 fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = Screen.ListScreen.route,
+    startDestination: String = Screen.ListScreen.route
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination,
-        modifier = modifier,
+        modifier = modifier
     ) {
         composable(route = Screen.ListScreen.route) {
             ListScreen(navController = navController)
