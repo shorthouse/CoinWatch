@@ -3,24 +3,22 @@ package dev.shorthouse.cryptodata.ui.screen.detail
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Cake
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,7 +46,6 @@ import dev.shorthouse.cryptodata.R
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailListItem
-import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinLinkCard
 import dev.shorthouse.cryptodata.ui.screen.detail.component.PriceChangePercentageChip
 import dev.shorthouse.cryptodata.ui.screen.detail.component.rememberChartMarker
 import dev.shorthouse.cryptodata.ui.theme.AppTheme
@@ -148,6 +145,7 @@ private fun DetailContent(
         modifier = modifier
             .fillMaxSize()
             .padding(24.dp)
+            .verticalScroll(rememberScrollState())
     ) {
         val greyscaleColorFilter =
             remember { ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0F) }) }
@@ -162,48 +160,25 @@ private fun DetailContent(
 
         Text(
             text = stringResource(
-                id = R.string.coin_current_price,
+                id = R.string.currency_format_decimal,
                 coinDetail.currentPrice
             ),
             style = MaterialTheme.typography.headlineSmall
         )
 
         PriceChangePercentageChip(
-            priceChangePercentage = coinDetail.priceChangePercentage
+            priceChangePercentage = coinDetail.priceChangePercentage24h
         )
 
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(24.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            val linkCardModifier = Modifier.weight(1f).height(80.dp)
-
-            CoinLinkCard(
-                imageVector = Icons.Rounded.Home,
-                linkText = "Homepage",
-                modifier = linkCardModifier
-            )
-            CoinLinkCard(
-                imageVector = Icons.Rounded.Cake,
-                linkText = "GitHub",
-                modifier = linkCardModifier
-            )
-            CoinLinkCard(
-                imageVector = Icons.Rounded.Close,
-                linkText = "Subreddit",
-                modifier = linkCardModifier
-            )
-        }
-
-        val chartEntries = coinDetail.historicalPrices.mapIndexed { index, historicalPrice ->
+        val chartEntries = coinDetail.historicalPrices7d.mapIndexed { index, historicalPrice ->
             entryOf(x = index, y = historicalPrice)
         }
 
         Chart(
             chart = lineChart(
                 axisValuesOverrider = AxisValuesOverrider.fixed(
-                    minY = coinDetail.historicalPrices.min().toFloat(),
-                    maxY = coinDetail.historicalPrices.max().toFloat()
+                    minY = coinDetail.historicalPrices7d.min().toFloat(),
+                    maxY = coinDetail.historicalPrices7d.max().toFloat()
                 )
             ),
             model = entryModelOf(chartEntries),
@@ -213,66 +188,87 @@ private fun DetailContent(
             marker = rememberChartMarker()
         )
 
-        CoinDetailListItem(
-            header = "Daily High",
-            price = coinDetail.dailyHigh,
-            priceChangePercentage = coinDetail.dailyHighChangePercentage
-        )
-
-        CoinDetailListItem(
-            header = "Daily Low",
-            price = coinDetail.dailyLow,
-            priceChangePercentage = coinDetail.dailyLowChangePercentage
-        )
-
-        CoinDetailListItem(
-            header = "Market Cap",
-            price = coinDetail.marketCap.toDouble(),
-            priceChangePercentage = coinDetail.marketCapChangePercentage
-        )
-
-        Divider()
-
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = "Creation date",
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                text = coinDetail.genesisDate
-            )
-        }
-        Row(
+        Text(
+            text = "Market Data",
+            style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.fillMaxWidth()
+        )
+
+        Surface(
+            shadowElevation = 4.dp,
+            tonalElevation = 0.dp,
+            color = MaterialTheme.colorScheme.surface,
+            shape = RoundedCornerShape(12.dp),
         ) {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = "All Time High",
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.padding(
+                    horizontal = 12.dp,
+                    vertical = 12.dp
                 )
-                Text(
-                    text = stringResource(
-                        id = R.string.coin_current_price,
+            ) {
+                CoinDetailListItem(
+                    header = "Market Cap Rank",
+                    value = coinDetail.marketCapRank.toString()
+                )
+                CoinDetailListItem(
+                    header = "Market Cap",
+                    value = stringResource(
+                        id = R.string.currency_format_integer,
+                        coinDetail.marketCap
+                    )
+                )
+                CoinDetailListItem(
+                    header = "Total Supply",
+                    value = coinDetail.totalSupply.toString()
+                )
+            }
+        }
+
+        Text(
+            text = "Historic Data",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Surface(
+            shadowElevation = 4.dp,
+            tonalElevation = 0.dp,
+            color = MaterialTheme.colorScheme.surface,
+            shape = RoundedCornerShape(12.dp),
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.padding(
+                    horizontal = 16.dp,
+                    vertical = 8.dp
+                )
+            ) {
+                CoinDetailListItem(
+                    header = "All Time Low",
+                    value = stringResource(
+                        id = R.string.currency_format_decimal,
+                        coinDetail.allTimeLow
+                    )
+                )
+                CoinDetailListItem(
+                    header = "All Time High",
+                    value = stringResource(
+                        id = R.string.currency_format_decimal,
                         coinDetail.allTimeHigh
                     )
                 )
-            }
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = "All Time Low",
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                CoinDetailListItem(
+                    header = "All Time Low Date",
+                    value = coinDetail.allTimeLowDate
                 )
-                Text(
-                    text = stringResource(
-                        id = R.string.coin_current_price,
-                        coinDetail.allTimeLow
-                    )
+                CoinDetailListItem(
+                    header = "All Time High Date",
+                    value = coinDetail.allTimeHighDate
+                )
+                CoinDetailListItem(
+                    header = "Genesis Date",
+                    value = coinDetail.genesisDate
                 )
             }
         }
@@ -287,28 +283,12 @@ fun DetailScreenPreview() {
         DetailScreen(
             coinDetail = CoinDetail(
                 id = "ethereum",
-                symbol = "ETH",
                 name = "Ethereum",
+                symbol = "ETH",
                 image = "",
                 currentPrice = 1432.27,
-                priceChangePercentage = 4.497324,
-                description = "Ethereum is a global, open-source platform for decentralized applications. In other words, the vision is to create a world computer that anyone can build applications in a decentralized manner; while all states and data are distributed and publicly accessible. Ethereum supports smart contracts in which developers can write code in order to program digital value. Examples of decentralized apps (dapps) that are built on Ethereum includes tokens, non-fungible tokens, decentralized finance apps, lending protocol, decentralized exchanges, and much more.\r\n\r\nOn Ethereum, all transactions and smart contract executions require a small fee to be paid. This fee is called Gas. In technical terms, Gas refers to the unit of measure on the amount of computational effort required to execute an operation or a smart contract. The more complex the execution operation is, the more gas is required to fulfill that operation. Gas fees are paid entirely in Ether (ETH), which is the native coin of the blockchain. The price of gas can fluctuate from time to time depending on the network demand.",
-                homepageLink = "https://ethereum.org",
-                githubLink = "https://github.com/ethereum/go-ethereum",
-                subredditLink = "https://www.reddit.com/r/ethereum",
-                dailyHigh = 1539.23,
-                dailyHighChangePercentage = -4.23,
-                dailyLow = 1419.21,
-                dailyLowChangePercentage = 2.13,
-                marketCap = 34934943,
-                marketCapChangePercentage = 4.5,
-                marketCapRank = 2,
-                genesisDate = "30th July 2015",
-                allTimeHigh = 3260.39,
-                allTimeLow = 0.79,
-                allTimeLowDate = "10th October 2015",
-                allTimeHighDate = "22nd May 2021",
-                historicalPrices = listOf(
+                priceChangePercentage24h = 4.497324,
+                historicalPrices7d = listOf(
                     1642.7485409659523,
                     1637.7870409655195,
                     1635.7994218934289,
@@ -477,7 +457,19 @@ fun DetailScreenPreview() {
                     1922.831648666678,
                     1916.261852379821,
                     1917.3066847022285
-                )
+                ),
+                dailyHigh = 1539.23,
+                dailyHighChangePercentage = -4.23,
+                dailyLow = 1419.21,
+                dailyLowChangePercentage = 2.13,
+                marketCapRank = 2,
+                marketCap = 34934943,
+                totalSupply = 414424.21,
+                allTimeLow = 0.79,
+                allTimeHigh = 3260.39,
+                allTimeLowDate = "10th October 2015",
+                allTimeHighDate = "22nd May 2021",
+                genesisDate = "30th July 2015",
             ),
             isLoading = false,
             error = null,
