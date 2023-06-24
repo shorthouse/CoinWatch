@@ -4,33 +4,24 @@ import dev.shorthouse.cryptodata.data.source.remote.dto.CoinDetailDto
 
 data class CoinDetail(
     val id: String,
-    val symbol: String,
     val name: String,
+    val symbol: String,
     val image: String,
     val currentPrice: Double,
-    val priceChangePercentage: Double,
-
-    val historicalPrices: List<Double>,
-
-    val marketCap: Long,
-    val marketCapChangePercentage: Double,
-    val marketCapRank: Int,
+    val priceChangePercentage24h: Double,
+    val historicalPrices7d: List<Double>,
     val dailyHigh: Double,
     val dailyHighChangePercentage: Double,
     val dailyLow: Double,
     val dailyLowChangePercentage: Double,
-
-    val genesisDate: String,
-    val allTimeHigh: Double,
-    val allTimeHighDate: String,
+    val marketCapRank: Int,
+    val marketCap: Long,
+    val totalSupply: Double,
     val allTimeLow: Double,
+    val allTimeHigh: Double,
     val allTimeLowDate: String,
-
-    val description: String,
-
-    val homepageLink: String?,
-    val githubLink: String?,
-    val subredditLink: String?
+    val allTimeHighDate: String,
+    val genesisDate: String,
 )
 
 fun CoinDetailDto.toCoinDetail(): CoinDetail {
@@ -43,27 +34,23 @@ fun CoinDetailDto.toCoinDetail(): CoinDetail {
 
     return CoinDetail(
         id = id,
-        symbol = symbol.uppercase(),
         name = name,
+        symbol = symbol.uppercase(),
         image = image.large,
         currentPrice = currentPrice,
-        priceChangePercentage = marketData.priceChange,
-        genesisDate = genesisDate,
-        allTimeHigh = marketData.allTimeHigh.usd,
-        allTimeHighDate = marketData.allTimeHighDate.usd,
-        allTimeLow = marketData.allTimeLow.usd,
-        allTimeLowDate = marketData.allTimeLowDate.usd,
-        marketCapRank = marketData.marketCapRank,
-        marketCap = marketData.marketCap.usd,
-        marketCapChangePercentage = marketData.marketCapChangePercentage,
+        priceChangePercentage24h = marketData.priceChangePercentage24h,
+        historicalPrices7d = marketData.historicalPrices7d.usd,
         dailyHigh = dailyHigh,
         dailyHighChangePercentage = dailyHighChangePercentage,
         dailyLow = dailyLow,
         dailyLowChangePercentage = dailyLowChangePercentage,
-        historicalPrices = marketData.historicalPrices.usd,
-        description = description.en,
-        homepageLink = links.homepage.firstOrNull(),
-        githubLink = links.reposUrl.github.firstOrNull(),
-        subredditLink = links.subreddit
+        marketCapRank = marketData.marketCapRank,
+        marketCap = marketData.marketCap.usd,
+        totalSupply = marketData.totalSupply,
+        allTimeLow = marketData.allTimeLow.usd,
+        allTimeHigh = marketData.allTimeHigh.usd,
+        allTimeLowDate = marketData.allTimeLowDate.usd,
+        allTimeHighDate = marketData.allTimeHighDate.usd,
+        genesisDate = genesisDate,
     )
 }
