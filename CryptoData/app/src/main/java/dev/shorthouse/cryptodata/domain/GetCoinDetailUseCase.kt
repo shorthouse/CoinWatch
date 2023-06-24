@@ -13,12 +13,12 @@ class GetCoinDetailUseCase @Inject constructor(
     private val coinRepository: CoinRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
-    operator fun invoke(): Flow<Resource<CoinDetail>> {
-        return getCoinDetail()
+    operator fun invoke(coinId: String): Flow<Resource<CoinDetail>> {
+        return getCoinDetail(coinId = coinId)
     }
 
-    private fun getCoinDetail(): Flow<Resource<CoinDetail>> {
-        return coinRepository.getCoinDetail()
+    private fun getCoinDetail(coinId: String): Flow<Resource<CoinDetail>> {
+        return coinRepository.getCoinDetail(coinId = coinId)
             .flowOn(ioDispatcher)
     }
 }

@@ -1,6 +1,5 @@
 package dev.shorthouse.cryptodata.ui.screen.detail
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,17 +23,13 @@ class DetailViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     init {
-        savedStateHandle.get<String>(Constants.PARAM_COIN_ID)?.let { cryptocurrencyId ->
-            getCryptocurrencyDetail(cryptocurrencyId)
+        savedStateHandle.get<String>(Constants.PARAM_COIN_ID)?.let { coinId ->
+            getCryptocurrencyDetail(coinId = coinId)
         }
     }
 
-    private fun getCryptocurrencyDetail(cryptocurrencyId: String) {
-        Log.d("HDS", "got to here 1.5")
-
-        getCoinDetailUseCase().onEach { result ->
-            Log.d("HDS", result.message.toString())
-            Log.d("HDS", "got to here 2")
+    private fun getCryptocurrencyDetail(coinId: String) {
+        getCoinDetailUseCase(coinId = coinId).onEach { result ->
 
             _uiState.update {
                 when (result) {

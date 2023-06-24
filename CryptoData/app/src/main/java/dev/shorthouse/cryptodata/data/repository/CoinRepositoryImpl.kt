@@ -6,10 +6,10 @@ import dev.shorthouse.cryptodata.model.Coin
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.model.toCoin
 import dev.shorthouse.cryptodata.model.toCoinDetail
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import java.io.IOException
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class CoinRepositoryImpl @Inject constructor(
     private val api: CoinApi
@@ -18,7 +18,7 @@ class CoinRepositoryImpl @Inject constructor(
         emit(Resource.Loading())
 
         try {
-            val response = api.getCryptocurrencies()
+            val response = api.getCoins()
 
             if (response.isSuccessful && response.body() != null) {
                 val cryptocurrencies = response.body()!!.map {
@@ -40,11 +40,11 @@ class CoinRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getCoinDetail(): Flow<Resource<CoinDetail>> = flow {
+    override fun getCoinDetail(coinId: String): Flow<Resource<CoinDetail>> = flow {
         emit(Resource.Loading())
 
         try {
-            val response = api.getCoinDetail()
+            val response = api.getCoinDetail(coinId = coinId)
 
             if (response.isSuccessful && response.body() != null) {
                 val coinDetail = response.body()!!.toCoinDetail()
