@@ -63,7 +63,7 @@ fun CoinListItem(
 //            )
             Text(
                 text = stringResource(
-                    id = R.string.coin_current_price,
+                    id = R.string.currency_format_decimal,
                     coin.currentPrice
                 ),
                 style = MaterialTheme.typography.bodyMedium
