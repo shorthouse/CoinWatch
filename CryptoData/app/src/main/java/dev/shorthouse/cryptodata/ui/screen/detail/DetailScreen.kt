@@ -1,7 +1,6 @@
 package dev.shorthouse.cryptodata.ui.screen.detail
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,7 +27,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -122,11 +120,11 @@ private fun DetailTopBar(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = coinName,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleMedium
                 )
                 Text(
                     text = coinSymbol,
-                    style = MaterialTheme.typography.labelLarge.copy(
+                    style = MaterialTheme.typography.titleMedium.copy(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 )
@@ -141,8 +139,6 @@ private fun DetailContent(
     coinDetail: CoinDetail,
     modifier: Modifier = Modifier
 ) {
-    Log.d("HDS", coinDetail.toString())
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier

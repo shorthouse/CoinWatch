@@ -1,6 +1,6 @@
 package dev.shorthouse.cryptodata.model
 
-import dev.shorthouse.cryptodata.data.source.remote.dto.CoinDetailApiModel
+import dev.shorthouse.cryptodata.data.source.remote.model.CoinDetailApiModel
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.NumberFormat

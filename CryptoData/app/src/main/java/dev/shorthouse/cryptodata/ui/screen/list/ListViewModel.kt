@@ -3,7 +3,7 @@ package dev.shorthouse.cryptodata.ui.screen.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.shorthouse.cryptodata.common.Resource
+import dev.shorthouse.cryptodata.common.Result
 import dev.shorthouse.cryptodata.domain.GetCoinsUseCase
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,33 +14,33 @@ import kotlinx.coroutines.flow.update
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
-    private val getCryptocurrenciesUseCase: GetCoinsUseCase
+    private val getCoinsUseCase: GetCoinsUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ListUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
-        getCryptocurrencies()
+        getCoins()
     }
 
-    private fun getCryptocurrencies() {
-        getCryptocurrenciesUseCase().onEach { result ->
+    private fun getCoins() {
+        getCoinsUseCase().onEach { result ->
             _uiState.update {
                 when (result) {
-                    is Resource.Loading -> {
+                    is dev.shorthouse.cryptodata.common.Resource.Result.Loading -> {
                         it.copy(
                             isLoading = true
                         )
                     }
 
-                    is Resource.Success -> {
+                    is dev.shorthouse.cryptodata.common.Resource.Result.Success -> {
                         it.copy(
-                            cryptocurrencies = result.data ?: emptyList(),
+                            coins = result.data ?: emptyList(),
                             isLoading = false
                         )
                     }
 
-                    is Resource.Error -> {
+                    is dev.shorthouse.cryptodata.common.Resource.Result.Error -> {
                         it.copy(
                             error = result.message ?: "An unexpected error occurred",
                             isLoading = false
