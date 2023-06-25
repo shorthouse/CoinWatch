@@ -28,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -159,10 +158,7 @@ private fun DetailContent(
         )
 
         Text(
-            text = stringResource(
-                id = R.string.currency_format_decimal,
-                coinDetail.currentPrice
-            ),
+            text = coinDetail.currentPrice,
             style = MaterialTheme.typography.headlineSmall
         )
 
@@ -198,7 +194,7 @@ private fun DetailContent(
             shadowElevation = 4.dp,
             tonalElevation = 0.dp,
             color = MaterialTheme.colorScheme.surface,
-            shape = RoundedCornerShape(12.dp),
+            shape = RoundedCornerShape(12.dp)
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -213,10 +209,7 @@ private fun DetailContent(
                 )
                 CoinDetailListItem(
                     header = "Market Cap",
-                    value = stringResource(
-                        id = R.string.currency_format_integer,
-                        coinDetail.marketCap
-                    )
+                    value = coinDetail.marketCap
                 )
                 CoinDetailListItem(
                     header = "Total Supply",
@@ -235,7 +228,7 @@ private fun DetailContent(
             shadowElevation = 4.dp,
             tonalElevation = 0.dp,
             color = MaterialTheme.colorScheme.surface,
-            shape = RoundedCornerShape(12.dp),
+            shape = RoundedCornerShape(12.dp)
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -246,17 +239,11 @@ private fun DetailContent(
             ) {
                 CoinDetailListItem(
                     header = "All Time Low",
-                    value = stringResource(
-                        id = R.string.currency_format_decimal,
-                        coinDetail.allTimeLow
-                    )
+                    value = coinDetail.allTimeLow
                 )
                 CoinDetailListItem(
                     header = "All Time High",
-                    value = stringResource(
-                        id = R.string.currency_format_decimal,
-                        coinDetail.allTimeHigh
-                    )
+                    value = coinDetail.allTimeHigh
                 )
                 CoinDetailListItem(
                     header = "All Time Low Date",
@@ -286,7 +273,7 @@ fun DetailScreenPreview() {
                 name = "Ethereum",
                 symbol = "ETH",
                 image = "",
-                currentPrice = 1432.27,
+                currentPrice = "$1,432.27",
                 priceChangePercentage24h = 4.497324,
                 historicalPrices7d = listOf(
                     1642.7485409659523,
@@ -458,18 +445,14 @@ fun DetailScreenPreview() {
                     1916.261852379821,
                     1917.3066847022285
                 ),
-                dailyHigh = 1539.23,
-                dailyHighChangePercentage = -4.23,
-                dailyLow = 1419.21,
-                dailyLowChangePercentage = 2.13,
                 marketCapRank = 2,
-                marketCap = 34934943,
-                totalSupply = 414424.21,
-                allTimeLow = 0.79,
-                allTimeHigh = 3260.39,
+                marketCap = "$34934943",
+                totalSupply = 41423.23,
+                allTimeLow = "$0.79",
+                allTimeHigh = "$3260.39",
                 allTimeLowDate = "10th October 2015",
                 allTimeHighDate = "22nd May 2021",
-                genesisDate = "30th July 2015",
+                genesisDate = "30th July 2015"
             ),
             isLoading = false,
             error = null,
