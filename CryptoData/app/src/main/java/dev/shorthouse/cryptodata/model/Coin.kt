@@ -1,7 +1,7 @@
 package dev.shorthouse.cryptodata.model
 
 import com.google.gson.annotations.SerializedName
-import dev.shorthouse.cryptodata.data.source.remote.dto.CoinApiModel
+import dev.shorthouse.cryptodata.data.source.remote.model.CoinApiModel
 
 data class Coin(
     val id: String,
