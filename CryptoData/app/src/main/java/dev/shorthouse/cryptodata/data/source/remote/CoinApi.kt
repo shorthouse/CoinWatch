@@ -1,7 +1,8 @@
 package dev.shorthouse.cryptodata.data.source.remote
 
-import dev.shorthouse.cryptodata.data.source.remote.dto.CoinApiModel
-import dev.shorthouse.cryptodata.data.source.remote.dto.CoinDetailApiModel
+import dev.shorthouse.cryptodata.data.source.remote.model.CoinApiModel
+import dev.shorthouse.cryptodata.data.source.remote.model.CoinDetailApiModel
+import dev.shorthouse.cryptodata.data.source.remote.model.CoinPastPricesApiModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -29,4 +30,12 @@ interface CoinApi {
         @Query("developer_data") developerData: Boolean = false,
         @Query("sparkline") sparkline: Boolean = true
     ): Response<CoinDetailApiModel>
+
+    @GET("coins/{coinId}/market_chart")
+    suspend fun getCoinPrices(
+        @Path("coinId") coinId: String,
+        @Query("days") periodDays: String = "7",
+        @Query("vs_currency") currency: String = "usd",
+        @Query("precision") numDecimalPlaces: String = "2"
+    ): Response<CoinPastPricesApiModel>
 }
