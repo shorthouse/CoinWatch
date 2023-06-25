@@ -14,7 +14,7 @@ import javax.inject.Singleton
 object DataModule {
     @Provides
     @Singleton
-    fun provideCryptocurrencyRepository(api: CoinApi): CoinRepository {
+    fun provideCoinRepository(api: CoinApi): CoinRepository {
         return CoinRepositoryImpl(api)
     }
 }

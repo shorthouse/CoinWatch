@@ -39,7 +39,7 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideCryptocurrencyApi(retrofit: Retrofit): CoinApi {
+    fun provideCoinApi(retrofit: Retrofit): CoinApi {
         return retrofit.create(CoinApi::class.java)
     }
 }
