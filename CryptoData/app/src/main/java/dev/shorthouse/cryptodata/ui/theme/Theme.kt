@@ -15,20 +15,23 @@ private val LightColorScheme = lightColorScheme(
     primary = Purple40,
     secondary = PurpleGrey40,
     tertiary = Pink40,
-    onSurfaceVariant = light_onSurfaceVariant,
+    onSurfaceVariant = light_onSurfaceVariant
 )
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80,
-    onSurfaceVariant = dark_onSurfaceVariant,
+    primary = Purple200,
+    secondary = Teal200,
+    background = dark_background,
+    onBackground = dark_onBackground,
+    surface = dark_surface,
+    onSurface = dark_onSurface,
+    onSurfaceVariant = dark_onSurfaceVariant
 )
 
 @Composable
 fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     val colorScheme = when {
         darkTheme -> DarkColorScheme
@@ -46,7 +49,8 @@ fun AppTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
-        content = content,
+        typography = AppTypography,
+        shapes = AppShapes,
+        content = content
     )
 }
