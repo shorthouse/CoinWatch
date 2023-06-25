@@ -42,7 +42,8 @@ class ListViewModel @Inject constructor(
 
                     is Resource.Error -> {
                         it.copy(
-                            error = result.message ?: "An unexpected error occurred"
+                            error = result.message ?: "An unexpected error occurred",
+                            isLoading = false
                         )
                     }
                 }
