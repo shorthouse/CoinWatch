@@ -48,7 +48,8 @@ class DetailViewModel @Inject constructor(
 
                     is Resource.Error -> {
                         it.copy(
-                            error = result.message
+                            error = result.message,
+                            isLoading = false
                         )
                     }
                 }
