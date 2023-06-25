@@ -7,8 +7,6 @@ data class CoinDetailApiModel(
     val name: String,
     val symbol: String,
     val image: Image,
-    @SerializedName("genesis_date")
-    val genesisDate: String,
     @SerializedName("market_data")
     val marketData: MarketData
 )
@@ -57,8 +55,8 @@ data class MarketData(
     val marketCapRank: Int,
     @SerializedName("market_cap")
     val marketCap: MarketCap,
-    @SerializedName("total_supply")
-    val totalSupply: Double,
+    @SerializedName("circulating_supply")
+    val circulatingSupply: Double,
     @SerializedName("atl")
     val allTimeLow: AllTimeLow,
     @SerializedName("ath")
