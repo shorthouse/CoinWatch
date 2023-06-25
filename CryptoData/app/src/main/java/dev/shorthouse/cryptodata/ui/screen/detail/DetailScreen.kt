@@ -1,14 +1,13 @@
 package dev.shorthouse.cryptodata.ui.screen.detail
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -18,7 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -44,9 +42,9 @@ import com.patrykandpatrick.vico.core.entry.entryOf
 import dev.shorthouse.cryptodata.R
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
+import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailList
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailListItem
 import dev.shorthouse.cryptodata.ui.screen.detail.component.PriceChangePercentageChip
-import dev.shorthouse.cryptodata.ui.screen.detail.component.rememberChartMarker
 import dev.shorthouse.cryptodata.ui.theme.AppTheme
 
 @Composable
@@ -56,20 +54,18 @@ fun DetailScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    uiState.coinDetail?.let {
-        DetailScreen(
-            coinDetail = it,
-            isLoading = uiState.isLoading,
-            error = uiState.error,
-            onNavigateUp = { navController.navigateUp() }
-        )
-    }
+    DetailScreen(
+        coinDetail = uiState.coinDetail,
+        isLoading = uiState.isLoading,
+        error = uiState.error,
+        onNavigateUp = { navController.navigateUp() }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    coinDetail: CoinDetail,
+    coinDetail: CoinDetail?,
     isLoading: Boolean,
     error: String?,
     onNavigateUp: () -> Unit,
@@ -80,29 +76,33 @@ fun DetailScreen(
     } else if (!error.isNullOrBlank()) {
         Text(text = error)
     } else {
-        Scaffold(
-            topBar = {
-                DetailTopBar(
-                    coinDetail = coinDetail,
-                    onNavigateUp = onNavigateUp
-                )
-            },
-            content = { scaffoldPadding ->
-                DetailContent(
-                    coinDetail = coinDetail,
-                    modifier = Modifier.padding(scaffoldPadding)
-                )
-            },
-            modifier = modifier
-        )
+        coinDetail?.let {
+            Scaffold(
+                topBar = {
+                    DetailTopBar(
+                        coinName = coinDetail.name,
+                        coinSymbol = coinDetail.symbol,
+                        onNavigateUp = onNavigateUp
+                    )
+                },
+                content = { scaffoldPadding ->
+                    DetailContent(
+                        coinDetail = coinDetail,
+                        modifier = Modifier.padding(scaffoldPadding)
+                    )
+                },
+                modifier = modifier
+            )
+        }
     }
 }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun DetailTopBar(
+    coinName: String,
+    coinSymbol: String,
     onNavigateUp: () -> Unit,
-    coinDetail: CoinDetail,
     modifier: Modifier = Modifier
 ) {
     CenterAlignedTopAppBar(
@@ -117,13 +117,13 @@ private fun DetailTopBar(
         title = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = coinDetail.name,
+                    text = coinName,
                     style = MaterialTheme.typography.titleLarge,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = coinDetail.symbol,
+                    text = coinSymbol,
                     style = MaterialTheme.typography.labelLarge.copy(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -137,13 +137,13 @@ private fun DetailTopBar(
 @Composable
 private fun DetailContent(
     coinDetail: CoinDetail,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .padding(24.dp)
+            .padding(horizontal = 16.dp)
             .verticalScroll(rememberScrollState())
     ) {
         val greyscaleColorFilter =
@@ -152,15 +152,19 @@ private fun DetailContent(
         AsyncImage(
             model = coinDetail.image,
             placeholder = painterResource(R.drawable.ic_launcher_background),
-            contentDescription = null,
+            contentDescription = "Coin image",
             colorFilter = greyscaleColorFilter,
-            modifier = Modifier.size(60.dp)
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .size(64.dp)
         )
 
         Text(
             text = coinDetail.currentPrice,
             style = MaterialTheme.typography.headlineSmall
         )
+
+        Spacer(Modifier.height(4.dp))
 
         PriceChangePercentageChip(
             priceChangePercentage = coinDetail.priceChangePercentage24h
@@ -181,84 +185,53 @@ private fun DetailContent(
             chartScrollSpec = rememberChartScrollSpec(
                 isScrollEnabled = false
             ),
-            marker = rememberChartMarker()
+            modifier = Modifier.padding(vertical = 32.dp)
         )
 
-        Text(
-            text = "Market Data",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Surface(
-            shadowElevation = 4.dp,
-            tonalElevation = 0.dp,
-            color = MaterialTheme.colorScheme.surface,
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(
-                    horizontal = 12.dp,
-                    vertical = 12.dp
-                )
-            ) {
+        CoinDetailList(
+            title = "Market Data",
+            items = listOf(
                 CoinDetailListItem(
-                    header = "Market Cap Rank",
+                    name = "Market Cap Rank",
                     value = coinDetail.marketCapRank.toString()
-                )
+                ),
                 CoinDetailListItem(
-                    header = "Market Cap",
+                    name = "Market Cap",
                     value = coinDetail.marketCap
-                )
+                ),
                 CoinDetailListItem(
-                    header = "Total Supply",
-                    value = coinDetail.totalSupply.toString()
-                )
-            }
-        }
-
-        Text(
-            text = "Historic Data",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.fillMaxWidth()
+                    name = "Circulating Supply",
+                    value = coinDetail.circulatingSupply
+                ),
+            )
         )
 
-        Surface(
-            shadowElevation = 4.dp,
-            tonalElevation = 0.dp,
-            color = MaterialTheme.colorScheme.surface,
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(
-                    horizontal = 16.dp,
-                    vertical = 8.dp
-                )
-            ) {
+        Spacer(Modifier.height(16.dp))
+
+        CoinDetailList(
+            title = "Historic Data",
+            items = listOf(
                 CoinDetailListItem(
-                    header = "All Time Low",
+                    name = "All Time Low",
                     value = coinDetail.allTimeLow
-                )
+                ),
                 CoinDetailListItem(
-                    header = "All Time High",
+                    name = "All Time High",
                     value = coinDetail.allTimeHigh
-                )
+                ),
                 CoinDetailListItem(
-                    header = "All Time Low Date",
+                    name = "All Time Low Date",
                     value = coinDetail.allTimeLowDate
-                )
+                ),
                 CoinDetailListItem(
-                    header = "All Time High Date",
+                    name = "All Time High Date",
                     value = coinDetail.allTimeHighDate
                 )
-                CoinDetailListItem(
-                    header = "Genesis Date",
-                    value = coinDetail.genesisDate
-                )
-            }
-        }
+
+            )
+        )
+
+        Spacer(Modifier.height(16.dp))
     }
 }
 
@@ -447,12 +420,11 @@ fun DetailScreenPreview() {
                 ),
                 marketCapRank = 2,
                 marketCap = "$34934943",
-                totalSupply = 41423.23,
+                circulatingSupply = "41423423423.23",
                 allTimeLow = "$0.79",
                 allTimeHigh = "$3260.39",
-                allTimeLowDate = "10th October 2015",
-                allTimeHighDate = "22nd May 2021",
-                genesisDate = "30th July 2015"
+                allTimeLowDate = "10 October 2015",
+                allTimeHighDate = "22 May 2021",
             ),
             isLoading = false,
             error = null,
