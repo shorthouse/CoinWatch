@@ -1,7 +1,7 @@
 package dev.shorthouse.cryptodata.data.source.remote
 
-import dev.shorthouse.cryptodata.data.source.remote.dto.CoinDetailDto
-import dev.shorthouse.cryptodata.data.source.remote.dto.CoinDto
+import dev.shorthouse.cryptodata.data.source.remote.dto.CoinApiModel
+import dev.shorthouse.cryptodata.data.source.remote.dto.CoinDetailApiModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -18,7 +18,7 @@ interface CoinApi {
         @Query("page") pageNum: Int = 1,
         @Query("sparkline") sparkline: Boolean = false,
         @Query("locale") locale: String = "en"
-    ): Response<List<CoinDto>>
+    ): Response<List<CoinApiModel>>
 
     @GET("coins/{coinId}")
     suspend fun getCoinDetail(
@@ -28,5 +28,5 @@ interface CoinApi {
         @Query("community_data") communityData: Boolean = false,
         @Query("developer_data") developerData: Boolean = false,
         @Query("sparkline") sparkline: Boolean = true
-    ): Response<CoinDetailDto>
+    ): Response<CoinDetailApiModel>
 }

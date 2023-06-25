@@ -2,7 +2,7 @@ package dev.shorthouse.cryptodata.data.source.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class CoinDetailDto(
+data class CoinDetailApiModel(
     val id: String,
     val name: String,
     val symbol: String,
@@ -10,7 +10,7 @@ data class CoinDetailDto(
     @SerializedName("genesis_date")
     val genesisDate: String,
     @SerializedName("market_data")
-    val marketData: MarketData,
+    val marketData: MarketData
 )
 
 data class Image(
@@ -41,14 +41,6 @@ data class MarketCap(
     val usd: Long
 )
 
-data class DailyHigh(
-    val usd: Double
-)
-
-data class DailyLow(
-    val usd: Double
-)
-
 data class HistoricalPrices7d(
     @SerializedName("price")
     val usd: List<Double>
@@ -61,10 +53,6 @@ data class MarketData(
     val priceChangePercentage24h: Double,
     @SerializedName("sparkline_7d")
     val historicalPrices7d: HistoricalPrices7d,
-    @SerializedName("high_24h")
-    val dailyHigh: DailyHigh,
-    @SerializedName("low_24h")
-    val dailyLow: DailyLow,
     @SerializedName("market_cap_rank")
     val marketCapRank: Int,
     @SerializedName("market_cap")
@@ -78,5 +66,5 @@ data class MarketData(
     @SerializedName("atl_date")
     val allTimeLowDate: AllTimeLowDate,
     @SerializedName("ath_date")
-    val allTimeHighDate: AllTimeHighDate,
+    val allTimeHighDate: AllTimeHighDate
 )

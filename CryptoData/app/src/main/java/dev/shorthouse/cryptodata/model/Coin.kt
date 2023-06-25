@@ -1,7 +1,7 @@
 package dev.shorthouse.cryptodata.model
 
 import com.google.gson.annotations.SerializedName
-import dev.shorthouse.cryptodata.data.source.remote.dto.CoinDto
+import dev.shorthouse.cryptodata.data.source.remote.dto.CoinApiModel
 
 data class Coin(
     val id: String,
@@ -11,16 +11,16 @@ data class Coin(
     @SerializedName("current_price")
     val currentPrice: Double,
     @SerializedName("price_change_percentage_24h")
-    val priceChangePercentage: Double,
+    val priceChangePercentage: Double
 )
 
-fun CoinDto.toCoin(): Coin {
+fun CoinApiModel.toCoin(): Coin {
     return Coin(
         id = id,
         symbol = symbol.uppercase(),
         name = name,
         image = image,
         currentPrice = currentPrice,
-        priceChangePercentage = priceChangePercentage,
+        priceChangePercentage = priceChangePercentage
     )
 }
