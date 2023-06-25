@@ -23,19 +23,19 @@ data class CoinDetail(
     val allTimeLow: String,
     val allTimeHigh: String,
     val allTimeLowDate: String,
-    val allTimeHighDate: String,
+    val allTimeHighDate: String
 )
 
 fun CoinDetailApiModel.toCoinDetail(): CoinDetail {
-    val currencyDecimalFormatter = NumberFormat.getCurrencyInstance(Locale.getDefault()).apply {
+    val currencyDecimalFormatter = NumberFormat.getCurrencyInstance(Locale.US).apply {
         currency = Currency.getInstance("USD")
     }
-    val currencyIntegerFormatter = NumberFormat.getCurrencyInstance(Locale.getDefault()).apply {
+    val currencyIntegerFormatter = NumberFormat.getCurrencyInstance(Locale.US).apply {
         currency = Currency.getInstance("USD")
         maximumFractionDigits = 0
     }
 
-    val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.getDefault())
+    val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.US)
     val allTimeLowLocalDate = LocalDateTime.parse(
         marketData.allTimeLowDate.usd,
         DateTimeFormatter.ISO_DATE_TIME
@@ -64,6 +64,6 @@ fun CoinDetailApiModel.toCoinDetail(): CoinDetail {
         allTimeLow = currencyDecimalFormatter.format(marketData.allTimeLow.usd),
         allTimeHigh = currencyDecimalFormatter.format(marketData.allTimeHigh.usd),
         allTimeLowDate = dateFormatter.format(allTimeLowLocalDate),
-        allTimeHighDate = dateFormatter.format(allTimeHighLocalDate),
+        allTimeHighDate = dateFormatter.format(allTimeHighLocalDate)
     )
 }
