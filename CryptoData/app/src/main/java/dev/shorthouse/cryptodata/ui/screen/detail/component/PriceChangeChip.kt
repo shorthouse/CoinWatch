@@ -3,7 +3,7 @@ package dev.shorthouse.cryptodata.ui.screen.detail.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,7 +26,7 @@ fun PriceChangePercentageChip(
         modifier = modifier
             .background(
                 color = backgroundColor,
-                shape = RoundedCornerShape(16.dp)
+                shape = MaterialTheme.shapes.small
             )
             .padding(horizontal = 12.dp, vertical = 4.dp)
     ) {

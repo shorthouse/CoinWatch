@@ -10,7 +10,7 @@ class CoinDetailPreviewProvider : PreviewParameterProvider<CoinDetail> {
             name = "Ethereum",
             symbol = "ETH",
             image = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
-            currentPrice = "1912.33",
+            currentPrice = "$1912.33",
             priceChangePercentage24h = 0.56675,
             marketCapRank = 2,
             marketCap = "$229,934,363,110",

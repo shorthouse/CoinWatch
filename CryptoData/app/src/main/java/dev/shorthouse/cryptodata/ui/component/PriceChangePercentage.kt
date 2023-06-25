@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ExpandLess
 import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -45,7 +46,8 @@ fun PriceChangePercentage(
                 id = R.string.coin_price_change,
                 priceChangePercentage
             ),
-            color = textColor
+            color = textColor,
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }

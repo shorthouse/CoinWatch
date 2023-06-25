@@ -28,16 +28,16 @@ fun CoinDetailList(
     Column(modifier = modifier) {
         Text(
             text = title,
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleSmall,
         )
 
         Spacer(Modifier.height(4.dp))
 
         Surface(
-            shadowElevation = 4.dp,
+            shadowElevation = 0.dp,
             tonalElevation = 0.dp,
             color = MaterialTheme.colorScheme.surface,
-            shape = RoundedCornerShape(12.dp)
+            shape = MaterialTheme.shapes.medium
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -54,10 +54,12 @@ fun CoinDetailList(
                     ) {
                         Text(
                             text = coinDetailListItem.name,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.bodyLarge
                         )
                         Text(
-                            text = coinDetailListItem.value
+                            text = coinDetailListItem.value,
+                            style = MaterialTheme.typography.bodyLarge
                         )
                     }
                 }
