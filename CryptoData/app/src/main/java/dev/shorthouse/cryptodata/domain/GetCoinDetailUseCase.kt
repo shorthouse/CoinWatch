@@ -1,6 +1,6 @@
 package dev.shorthouse.cryptodata.domain
 
-import dev.shorthouse.cryptodata.common.Resource
+import dev.shorthouse.cryptodata.common.Result
 import dev.shorthouse.cryptodata.data.repository.CoinRepository
 import dev.shorthouse.cryptodata.di.IoDispatcher
 import dev.shorthouse.cryptodata.model.CoinDetail
@@ -13,11 +13,11 @@ class GetCoinDetailUseCase @Inject constructor(
     private val coinRepository: CoinRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
-    operator fun invoke(coinId: String): Flow<Resource<CoinDetail>> {
+    operator fun invoke(coinId: String): Flow<Result<CoinDetail>> {
         return getCoinDetail(coinId = coinId)
     }
 
-    private fun getCoinDetail(coinId: String): Flow<Resource<CoinDetail>> {
+    private fun getCoinDetail(coinId: String): Flow<Result<CoinDetail>> {
         return coinRepository.getCoinDetail(coinId = coinId)
             .flowOn(ioDispatcher)
     }

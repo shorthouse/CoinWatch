@@ -32,7 +32,7 @@ fun ListScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     ListScreen(
-        cryptocurrencies = uiState.cryptocurrencies,
+        cryptocurrencies = uiState.coins,
         isLoading = uiState.isLoading,
         error = uiState.error,
         onItemClick = {
