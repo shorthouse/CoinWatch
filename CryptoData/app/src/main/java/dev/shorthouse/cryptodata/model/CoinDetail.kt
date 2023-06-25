@@ -1,56 +1,62 @@
 package dev.shorthouse.cryptodata.model
 
-import dev.shorthouse.cryptodata.data.source.remote.dto.CoinDetailDto
+import dev.shorthouse.cryptodata.data.source.remote.dto.CoinDetailApiModel
+import java.text.NumberFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 data class CoinDetail(
     val id: String,
     val name: String,
     val symbol: String,
     val image: String,
-    val currentPrice: Double,
+    val currentPrice: String,
     val priceChangePercentage24h: Double,
     val historicalPrices7d: List<Double>,
-    val dailyHigh: Double,
-    val dailyHighChangePercentage: Double,
-    val dailyLow: Double,
-    val dailyLowChangePercentage: Double,
     val marketCapRank: Int,
-    val marketCap: Long,
+    val marketCap: String,
     val totalSupply: Double,
-    val allTimeLow: Double,
-    val allTimeHigh: Double,
+    val allTimeLow: String,
+    val allTimeHigh: String,
     val allTimeLowDate: String,
     val allTimeHighDate: String,
-    val genesisDate: String,
+    val genesisDate: String
 )
 
-fun CoinDetailDto.toCoinDetail(): CoinDetail {
-    val currentPrice = marketData.currentPrice.usd
-    val dailyHigh = marketData.dailyHigh.usd
-    val dailyLow = marketData.dailyLow.usd
+fun CoinDetailApiModel.toCoinDetail(): CoinDetail {
+    val dateFormatter = DateTimeFormatter.ofPattern("d MM yyyy", Locale.getDefault())
+//
+    val allTimeLowLocalDate = LocalDateTime.parse(marketData.allTimeLowDate.usd)
+//    val allTimeHighLocalDate = LocalDateTime.parse(marketData.allTimeHighDate.usd)
+//    val genesisLocalDate = LocalDateTime.parse(
+//        genesisDate,
+//        DateTimeFormatter.ofPattern("yyyy-mm-dd")
+//    )
 
-    val dailyHighChangePercentage = 100 * (1 - (currentPrice / dailyHigh))
-    val dailyLowChangePercentage = 100 * (currentPrice / dailyLow)
+    val currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US)
 
     return CoinDetail(
         id = id,
         name = name,
         symbol = symbol.uppercase(),
         image = image.large,
-        currentPrice = currentPrice,
+        currentPrice = currencyFormatter.format(marketData.currentPrice.usd),
         priceChangePercentage24h = marketData.priceChangePercentage24h,
         historicalPrices7d = marketData.historicalPrices7d.usd,
-        dailyHigh = dailyHigh,
-        dailyHighChangePercentage = dailyHighChangePercentage,
-        dailyLow = dailyLow,
-        dailyLowChangePercentage = dailyLowChangePercentage,
         marketCapRank = marketData.marketCapRank,
-        marketCap = marketData.marketCap.usd,
+        marketCap = currencyFormatter.format(marketData.marketCap.usd),
         totalSupply = marketData.totalSupply,
-        allTimeLow = marketData.allTimeLow.usd,
-        allTimeHigh = marketData.allTimeHigh.usd,
-        allTimeLowDate = marketData.allTimeLowDate.usd,
-        allTimeHighDate = marketData.allTimeHighDate.usd,
-        genesisDate = genesisDate,
+        allTimeLow = currencyFormatter.format(marketData.allTimeLow.usd),
+        allTimeHigh = currencyFormatter.format(marketData.allTimeHigh.usd),
+        allTimeLowDate = "formatDate(marketData.allTimeLowDate.usd)",
+        allTimeHighDate = "allTimeHighLocalDate.format(dateFormatter)",
+        genesisDate = "genesisLocalDate.format(dateFormatter)"
     )
+}
+
+private fun formatDate(dateTimeString: String): String {
+    val formatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.getDefault())
+    val dateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ISO_DATE_TIME)
+    return dateTime.format(formatter)
 }
