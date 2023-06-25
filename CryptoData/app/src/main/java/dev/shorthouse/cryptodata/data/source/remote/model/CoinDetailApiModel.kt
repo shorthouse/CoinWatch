@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.data.source.remote.dto
+package dev.shorthouse.cryptodata.data.source.remote.model
 
 import com.google.gson.annotations.SerializedName
 
