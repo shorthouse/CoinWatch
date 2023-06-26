@@ -1,11 +1,11 @@
 package dev.shorthouse.cryptodata.ui.preview
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.shorthouse.cryptodata.model.CoinDetail
+import dev.shorthouse.cryptodata.model.CoinDetailOld
 
-class CoinDetailPreviewProvider : PreviewParameterProvider<CoinDetail> {
+class CoinDetailPreviewProvider : PreviewParameterProvider<CoinDetailOld> {
     override val values = sequenceOf(
-        CoinDetail(
+        CoinDetailOld(
             id = "ethereum",
             name = "Ethereum",
             symbol = "ETH",
