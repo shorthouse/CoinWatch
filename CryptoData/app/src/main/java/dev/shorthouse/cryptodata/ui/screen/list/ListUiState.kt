@@ -1,9 +1,9 @@
 package dev.shorthouse.cryptodata.ui.screen.list
 
-import dev.shorthouse.cryptodata.model.Coin
+import dev.shorthouse.cryptodata.model.CoinListItem
 
-data class ListUiState(
-    val coins: List<Coin> = emptyList(),
-    val isLoading: Boolean = false,
-    val error: String? = null
-)
+sealed interface ListUiState {
+    object Loading : ListUiState
+    data class Success(val data: List<CoinListItem>) : ListUiState
+    object Error : ListUiState
+}

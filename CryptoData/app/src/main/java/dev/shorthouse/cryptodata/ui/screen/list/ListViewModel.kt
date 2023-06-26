@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.cryptodata.common.Result
-import dev.shorthouse.cryptodata.domain.GetCoinsUseCase
+import dev.shorthouse.cryptodata.domain.GetCoinListItemsUseCase
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,9 +14,9 @@ import kotlinx.coroutines.flow.update
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
-    private val getCoinsUseCase: GetCoinsUseCase
+    private val getCoinsUseCase: GetCoinListItemsUseCase
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(ListUiState())
+    private val _uiState = MutableStateFlow<ListUiState>(ListUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
     init {
@@ -25,26 +25,16 @@ class ListViewModel @Inject constructor(
 
     private fun getCoins() {
         getCoinsUseCase().onEach { result ->
-            _uiState.update {
-                when (result) {
-                    is dev.shorthouse.cryptodata.common.Resource.Result.Loading -> {
-                        it.copy(
-                            isLoading = true
-                        )
+            when (result) {
+                is Result.Success -> {
+                    _uiState.update {
+                        ListUiState.Success(result.data ?: emptyList())
                     }
+                }
 
-                    is dev.shorthouse.cryptodata.common.Resource.Result.Success -> {
-                        it.copy(
-                            coins = result.data ?: emptyList(),
-                            isLoading = false
-                        )
-                    }
-
-                    is dev.shorthouse.cryptodata.common.Resource.Result.Error -> {
-                        it.copy(
-                            error = result.message ?: "An unexpected error occurred",
-                            isLoading = false
-                        )
+                is Result.Error -> {
+                    _uiState.update {
+                        ListUiState.Error
                     }
                 }
             }
