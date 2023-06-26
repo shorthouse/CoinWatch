@@ -1,6 +1,5 @@
 package dev.shorthouse.cryptodata.ui.screen.detail
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,8 +26,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -43,11 +40,9 @@ import com.patrykandpatrick.vico.core.entry.entryOf
 import dev.shorthouse.cryptodata.R
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
-import dev.shorthouse.cryptodata.ui.preview.CoinDetailPreviewProvider
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailList
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailListItem
 import dev.shorthouse.cryptodata.ui.screen.detail.component.PriceChangePercentageChip
-import dev.shorthouse.cryptodata.ui.theme.AppTheme
 
 @Composable
 fun DetailScreen(
@@ -57,9 +52,7 @@ fun DetailScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     DetailScreen(
-        coinDetail = uiState.coinDetail,
-        isLoading = uiState.isLoading,
-        error = uiState.error,
+        uiState = uiState,
         onNavigateUp = { navController.navigateUp() }
     )
 }
@@ -67,34 +60,33 @@ fun DetailScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    coinDetail: CoinDetail?,
-    isLoading: Boolean,
-    error: String?,
+    uiState: DetailUiState,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (isLoading) {
-        LoadingIndicator()
-    } else if (!error.isNullOrBlank()) {
-        Text(text = error)
-    } else {
-        coinDetail?.let {
-            Scaffold(
-                topBar = {
-                    DetailTopBar(
-                        coinName = coinDetail.name,
-                        coinSymbol = coinDetail.symbol,
-                        onNavigateUp = onNavigateUp
-                    )
-                },
-                content = { scaffoldPadding ->
-                    DetailContent(
-                        coinDetail = coinDetail,
-                        modifier = Modifier.padding(scaffoldPadding)
-                    )
-                },
-                modifier = modifier
-            )
+    when (uiState) {
+        is DetailUiState.Loading -> LoadingIndicator()
+        is DetailUiState.Error -> Text("error")
+        is DetailUiState.Success -> {
+            val coinDetail = uiState.data
+            coinDetail?.let {
+                Scaffold(
+                    topBar = {
+                        DetailTopBar(
+                            coinName = it.name,
+                            coinSymbol = it.symbol,
+                            onNavigateUp = onNavigateUp
+                        )
+                    },
+                    content = { scaffoldPadding ->
+                        DetailContent(
+                            coinDetail = it,
+                            modifier = Modifier.padding(scaffoldPadding)
+                        )
+                    },
+                    modifier = modifier
+                )
+            }
         }
     }
 }
@@ -167,29 +159,13 @@ private fun DetailContent(
         Spacer(Modifier.height(4.dp))
 
         PriceChangePercentageChip(
-            priceChangePercentage = coinDetail.priceChangePercentage24h
+            priceChangePercentage = 2.0
         )
 
-        val chartModel = remember {
-            entryModelOf(
-                coinDetail.historicalPrices7d.mapIndexed { index, historicalPrice ->
-                    entryOf(x = index, y = historicalPrice)
-                }
-            )
-        }
-
-        Chart(
-            chart = lineChart(
-                axisValuesOverrider = AxisValuesOverrider.fixed(
-                    minY = coinDetail.historicalPrices7d.min().toFloat(),
-                    maxY = coinDetail.historicalPrices7d.max().toFloat()
-                )
-            ),
-            model = chartModel,
-            chartScrollSpec = rememberChartScrollSpec(
-                isScrollEnabled = false
-            ),
-            modifier = Modifier.padding(vertical = 32.dp)
+        CoinPastPricesChart(
+            coinPastPrices = coinDetail.pastPrices,
+            minPrice = coinDetail.minPrice,
+            maxPrice = coinDetail.maxPrice
         )
 
         CoinDetailList(
@@ -239,17 +215,54 @@ private fun DetailContent(
 }
 
 @Composable
-@Preview(name = "Light Mode", showBackground = true)
-@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-fun DetailScreenPreview(
-    @PreviewParameter(CoinDetailPreviewProvider::class) coinDetail: CoinDetail
+private fun CoinPastPricesChart(
+    coinPastPrices: List<Double>,
+    minPrice: Double,
+    maxPrice: Double
 ) {
-    AppTheme {
-        DetailScreen(
-            coinDetail = coinDetail,
-            isLoading = false,
-            error = null,
-            onNavigateUp = {}
+    val chartModel = remember {
+        entryModelOf(
+            coinPastPrices.mapIndexed { index, historicalPrice ->
+                entryOf(x = index, y = historicalPrice)
+            }
         )
     }
+
+    Chart(
+        chart = lineChart(
+            axisValuesOverrider = AxisValuesOverrider.fixed(
+                minY = minPrice.toFloat(),
+                maxY = maxPrice.toFloat()
+            )
+        ),
+        model = chartModel,
+        chartScrollSpec = rememberChartScrollSpec(
+            isScrollEnabled = false
+        ),
+        modifier = Modifier.padding(vertical = 32.dp)
+    )
 }
+
+// @Composable
+// @Preview(name = "Light Mode", showBackground = true)
+// @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+// fun DetailScreenPreview(
+//    @PreviewParameter(CoinDetailPreviewProvider::class) coinDetail: CoinDetailOld
+// ) {
+//    AppTheme {
+//        DetailScreen(
+//            coinDetail = coinDetail,
+//            coinPastPrices = CoinPastPrices(
+//                prices = emptyList(),
+//                minPrice = "0",
+//                maxPrice = "0",
+//                minPriceChangePercentage = 0.1,
+//                maxPriceChangePercentage = -0.2
+//            ),
+//            isLoading = false,
+//            error = null,
+//            onNavigateUp = {},
+//            isCoinPastPricesLoading = false
+//        )
+//    }
+// }
