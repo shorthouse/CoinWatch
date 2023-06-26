@@ -19,23 +19,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import dev.shorthouse.cryptodata.R
-import dev.shorthouse.cryptodata.model.Coin
+import dev.shorthouse.cryptodata.model.CoinListItem
 import dev.shorthouse.cryptodata.ui.theme.AppTheme
 
 @Composable
 fun CoinListItem(
-    coin: Coin,
-    onItemClick: (Coin) -> Unit,
+    coinListItem: CoinListItem,
+    onItemClick: (CoinListItem) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .clickable { onItemClick(coin) }
+            .clickable { onItemClick(coinListItem) }
             .padding(vertical = 12.dp, horizontal = 16.dp)
     ) {
         AsyncImage(
-            model = coin.image,
+            model = coinListItem.image,
             contentDescription = null,
             alignment = Alignment.Center,
             modifier = Modifier.size(32.dp)
@@ -43,12 +43,12 @@ fun CoinListItem(
         Spacer(Modifier.width(16.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = coin.name,
+                text = coinListItem.name,
                 style = MaterialTheme.typography.titleSmall,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = coin.symbol,
+                text = coinListItem.symbol,
                 style = MaterialTheme.typography.bodySmall.copy(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
@@ -56,15 +56,14 @@ fun CoinListItem(
             )
         }
         Column(horizontalAlignment = Alignment.End) {
-//            Text(
-//                text = coin.priceChangePercentage,
-//                style = MaterialTheme.typography.bodyLarge,
-//                color = if (coin.priceChangePercentage[0] == '+') PositiveGreen else Red,
-//            )
+            Text(
+                text = coinListItem.priceChangePercentage.toString(),
+                style = MaterialTheme.typography.bodyLarge
+            )
             Text(
                 text = stringResource(
                     id = R.string.currency_format_decimal,
-                    coin.currentPrice
+                    coinListItem.currentPrice
                 ),
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -78,7 +77,7 @@ fun CoinListItem(
 private fun CoinListItemPreview() {
     AppTheme {
         CoinListItem(
-            coin = Coin(
+            coinListItem = CoinListItem(
                 id = "ethereum",
                 symbol = "ETH",
                 name = "Ethereum",
