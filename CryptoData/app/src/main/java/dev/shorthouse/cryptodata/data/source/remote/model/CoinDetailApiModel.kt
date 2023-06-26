@@ -39,18 +39,9 @@ data class MarketCap(
     val usd: Long
 )
 
-data class HistoricalPrices7d(
-    @SerializedName("price")
-    val usd: List<Double>
-)
-
 data class MarketData(
     @SerializedName("current_price")
     val currentPrice: CurrentPrice,
-    @SerializedName("price_change_percentage_24h")
-    val priceChangePercentage24h: Double,
-    @SerializedName("sparkline_7d")
-    val historicalPrices7d: HistoricalPrices7d,
     @SerializedName("market_cap_rank")
     val marketCapRank: Int,
     @SerializedName("market_cap")

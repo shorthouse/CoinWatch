@@ -1,24 +1,25 @@
 package dev.shorthouse.cryptodata.domain
 
 import dev.shorthouse.cryptodata.common.Result
-import dev.shorthouse.cryptodata.data.repository.CoinRepository
-import dev.shorthouse.cryptodata.di.IoDispatcher
+import dev.shorthouse.cryptodata.data.repository.detail.CoinDetailRepository
 import dev.shorthouse.cryptodata.model.CoinDetail
 import javax.inject.Inject
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
 
 class GetCoinDetailUseCase @Inject constructor(
-    private val coinRepository: CoinRepository,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    private val coinDetailRepository: CoinDetailRepository
 ) {
-    operator fun invoke(coinId: String): Flow<Result<CoinDetail>> {
-        return getCoinDetail(coinId = coinId)
+    operator fun invoke(coinId: String, periodDays: String): Flow<Result<CoinDetail>> {
+        return getCoinDetail(
+            coinId = coinId,
+            periodDays = periodDays
+        )
     }
 
-    private fun getCoinDetail(coinId: String): Flow<Result<CoinDetail>> {
-        return coinRepository.getCoinDetail(coinId = coinId)
-            .flowOn(ioDispatcher)
+    private fun getCoinDetail(coinId: String, periodDays: String): Flow<Result<CoinDetail>> {
+        return coinDetailRepository.getCoinDetail(
+            coinId = coinId,
+            periodDays = periodDays
+        )
     }
 }

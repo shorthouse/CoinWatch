@@ -2,7 +2,7 @@ package dev.shorthouse.cryptodata.data.source.remote.model
 
 import com.google.gson.annotations.SerializedName
 
-data class CoinApiModel(
+data class CoinListItemApiModel(
     val id: String,
     val symbol: String,
     val name: String,
