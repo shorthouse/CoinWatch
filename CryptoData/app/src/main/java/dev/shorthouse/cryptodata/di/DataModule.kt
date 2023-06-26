@@ -24,8 +24,14 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideCoinListItemRepository(coinApi: CoinApi): CoinListItemRepository {
-        return CoinListItemRepositoryImpl(coinApi = coinApi)
+    fun provideCoinListItemRepository(
+        coinNetworkDataSource: CoinNetworkDataSource,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher
+    ): CoinListItemRepository {
+        return CoinListItemRepositoryImpl(
+            coinNetworkDataSource = coinNetworkDataSource,
+            ioDispatcher = ioDispatcher
+        )
     }
 
     @Provides
