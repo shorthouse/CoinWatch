@@ -7,16 +7,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.shorthouse.cryptodata.model.Percentage
 import dev.shorthouse.cryptodata.ui.component.PriceChangePercentage
 import dev.shorthouse.cryptodata.ui.theme.NegativeRedBackground
 import dev.shorthouse.cryptodata.ui.theme.PositiveGreenBackground
 
 @Composable
 fun PriceChangePercentageChip(
-    priceChangePercentage: Double,
+    priceChangePercentage: Percentage,
     modifier: Modifier = Modifier
 ) {
-    val backgroundColor = if (priceChangePercentage >= 0) {
+    val backgroundColor = if (priceChangePercentage.amount >= 0) {
         PositiveGreenBackground
     } else {
         NegativeRedBackground
@@ -28,7 +29,7 @@ fun PriceChangePercentageChip(
                 color = backgroundColor,
                 shape = MaterialTheme.shapes.small
             )
-            .padding(horizontal = 12.dp, vertical = 4.dp)
+            .padding(horizontal = 6.dp, vertical = 2.dp)
     ) {
         PriceChangePercentage(
             priceChangePercentage = priceChangePercentage
