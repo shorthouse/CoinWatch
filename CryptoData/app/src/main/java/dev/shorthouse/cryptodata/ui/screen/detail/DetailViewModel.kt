@@ -25,20 +25,27 @@ class DetailViewModel @Inject constructor(
     private lateinit var coinId: String
 
     init {
+        _uiState.update { DetailUiState.Loading }
+
         savedStateHandle.get<String>(Constants.PARAM_COIN_ID)?.let { coinId ->
             this.coinId = coinId
-            getCoinDetail(coinId = coinId, periodDays = "14")
+            getCoinDetail(coinId = coinId, periodDays = "7")
         }
     }
 
-    private fun getCoinDetail(coinId: String, periodDays: String) {
-        _uiState.update { DetailUiState.Loading }
+    fun onClickChartPeriod(chartPeriodDays: String) {
+        getCoinDetail(coinId = this.coinId, periodDays = chartPeriodDays)
+    }
 
+    private fun getCoinDetail(coinId: String, periodDays: String) {
         getCoinDetailUseCase(coinId = coinId, periodDays = periodDays).onEach { result ->
             when (result) {
                 is Result.Success -> {
                     _uiState.update {
-                        DetailUiState.Success(result.data)
+                        DetailUiState.Success(
+                            coinDetail = result.data,
+                            chartPeriodDays = periodDays
+                        )
                     }
                 }
 

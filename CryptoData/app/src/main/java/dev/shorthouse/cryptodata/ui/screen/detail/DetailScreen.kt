@@ -1,12 +1,17 @@
 package dev.shorthouse.cryptodata.ui.screen.detail
 
+import android.content.res.Configuration
+import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -15,6 +20,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +32,9 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -40,9 +49,11 @@ import com.patrykandpatrick.vico.core.entry.entryOf
 import dev.shorthouse.cryptodata.R
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
+import dev.shorthouse.cryptodata.ui.preview.CoinDetailPreviewProvider
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailList
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailListItem
 import dev.shorthouse.cryptodata.ui.screen.detail.component.PriceChangePercentageChip
+import dev.shorthouse.cryptodata.ui.theme.AppTheme
 
 @Composable
 fun DetailScreen(
@@ -53,7 +64,8 @@ fun DetailScreen(
 
     DetailScreen(
         uiState = uiState,
-        onNavigateUp = { navController.navigateUp() }
+        onNavigateUp = { navController.navigateUp() },
+        onClickChartPeriod = { viewModel.onClickChartPeriod(it) }
     )
 }
 
@@ -62,13 +74,14 @@ fun DetailScreen(
 fun DetailScreen(
     uiState: DetailUiState,
     onNavigateUp: () -> Unit,
+    onClickChartPeriod: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (uiState) {
         is DetailUiState.Loading -> LoadingIndicator()
         is DetailUiState.Error -> Text("error")
         is DetailUiState.Success -> {
-            val coinDetail = uiState.data
+            val coinDetail = uiState.coinDetail
             coinDetail?.let {
                 Scaffold(
                     topBar = {
@@ -81,6 +94,8 @@ fun DetailScreen(
                     content = { scaffoldPadding ->
                         DetailContent(
                             coinDetail = it,
+                            chartPeriodDays = uiState.chartPeriodDays,
+                            onClickChartPeriod = onClickChartPeriod,
                             modifier = Modifier.padding(scaffoldPadding)
                         )
                     },
@@ -129,8 +144,12 @@ private fun DetailTopBar(
 @Composable
 private fun DetailContent(
     coinDetail: CoinDetail,
+    chartPeriodDays: String,
+    onClickChartPeriod: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    Log.d("HDS", "input chart period: $chartPeriodDays")
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -152,32 +171,111 @@ private fun DetailContent(
         )
 
         Text(
-            text = coinDetail.currentPrice,
+            text = coinDetail.currentPrice.formattedAmount,
             style = MaterialTheme.typography.headlineSmall
         )
 
         Spacer(Modifier.height(4.dp))
 
         PriceChangePercentageChip(
-            priceChangePercentage = 2.0
+            priceChangePercentage = coinDetail.periodPriceChangePercentage
         )
+
+        Spacer(Modifier.height(32.dp))
 
         CoinPastPricesChart(
             coinPastPrices = coinDetail.pastPrices,
-            minPrice = coinDetail.minPrice,
-            maxPrice = coinDetail.maxPrice
+            minPrice = coinDetail.minPastPrice.amount,
+            maxPrice = coinDetail.maxPastPrice.amount
         )
+
+        Spacer(Modifier.height(24.dp))
+
+        val chartPeriodOptions = listOf(
+            "1",
+            "7",
+            "30",
+            "365"
+        )
+
+        Row {
+            chartPeriodOptions.forEach { chartPeriodOption ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .selectable(
+                            selected = (chartPeriodOption == chartPeriodDays),
+                            onClick = { onClickChartPeriod(chartPeriodOption) },
+                            role = Role.RadioButton
+                        )
+                ) {
+                    RadioButton(
+                        selected = (chartPeriodOption == chartPeriodDays),
+                        onClick = null,
+                        modifier = Modifier.padding(8.dp)
+                    )
+
+                    Text(
+                        text = chartPeriodOption,
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    )
+                }
+            }
+        }
+
+        Row {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = "Period Low",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Text(
+                    text = coinDetail.minPastPrice.formattedAmount,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                PriceChangePercentageChip(
+                    priceChangePercentage = coinDetail.minPriceChangePercentage
+                )
+            }
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = "Period High",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Text(
+                    text = coinDetail.maxPastPrice.formattedAmount,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                PriceChangePercentageChip(
+                    priceChangePercentage = coinDetail.maxPriceChangePercentage
+                )
+            }
+        }
+
+        Spacer(Modifier.height(24.dp))
 
         CoinDetailList(
             title = stringResource(R.string.list_header_market_data),
             items = listOf(
                 CoinDetailListItem(
                     name = stringResource(R.string.list_item_market_cap_rank),
-                    value = coinDetail.marketCapRank.toString()
+                    value = coinDetail.marketCapRank
                 ),
                 CoinDetailListItem(
                     name = stringResource(R.string.list_item_market_cap),
-                    value = coinDetail.marketCap
+                    value = coinDetail.marketCap.formattedAmount
                 ),
                 CoinDetailListItem(
                     name = stringResource(R.string.list_item_circulating_supply),
@@ -193,11 +291,11 @@ private fun DetailContent(
             items = listOf(
                 CoinDetailListItem(
                     name = stringResource(R.string.list_item_atl),
-                    value = coinDetail.allTimeLow
+                    value = coinDetail.allTimeLow.formattedAmount
                 ),
                 CoinDetailListItem(
                     name = stringResource(R.string.list_item_ath),
-                    value = coinDetail.allTimeHigh
+                    value = coinDetail.allTimeHigh.formattedAmount
                 ),
                 CoinDetailListItem(
                     name = stringResource(R.string.list_item_atl_date),
@@ -218,7 +316,8 @@ private fun DetailContent(
 private fun CoinPastPricesChart(
     coinPastPrices: List<Double>,
     minPrice: Double,
-    maxPrice: Double
+    maxPrice: Double,
+    modifier: Modifier = Modifier
 ) {
     val chartModel = remember {
         entryModelOf(
@@ -239,30 +338,24 @@ private fun CoinPastPricesChart(
         chartScrollSpec = rememberChartScrollSpec(
             isScrollEnabled = false
         ),
-        modifier = Modifier.padding(vertical = 32.dp)
+        modifier = modifier
     )
 }
 
-// @Composable
-// @Preview(name = "Light Mode", showBackground = true)
-// @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-// fun DetailScreenPreview(
-//    @PreviewParameter(CoinDetailPreviewProvider::class) coinDetail: CoinDetailOld
-// ) {
-//    AppTheme {
-//        DetailScreen(
-//            coinDetail = coinDetail,
-//            coinPastPrices = CoinPastPrices(
-//                prices = emptyList(),
-//                minPrice = "0",
-//                maxPrice = "0",
-//                minPriceChangePercentage = 0.1,
-//                maxPriceChangePercentage = -0.2
-//            ),
-//            isLoading = false,
-//            error = null,
-//            onNavigateUp = {},
-//            isCoinPastPricesLoading = false
-//        )
-//    }
-// }
+@Composable
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+fun DetailScreenPreview(
+    @PreviewParameter(CoinDetailPreviewProvider::class) coinDetail: CoinDetail
+) {
+    AppTheme {
+        DetailScreen(
+            uiState = DetailUiState.Success(
+                coinDetail = coinDetail,
+                chartPeriodDays = "7"
+            ),
+            onNavigateUp = {},
+            onClickChartPeriod = {}
+        )
+    }
+}
