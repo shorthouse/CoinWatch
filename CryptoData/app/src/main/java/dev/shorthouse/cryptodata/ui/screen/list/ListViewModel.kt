@@ -3,53 +3,41 @@ package dev.shorthouse.cryptodata.ui.screen.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.shorthouse.cryptodata.common.Resource
-import dev.shorthouse.cryptodata.domain.GetCryptocurrenciesUseCase
+import dev.shorthouse.cryptodata.common.Result
+import dev.shorthouse.cryptodata.domain.GetCoinListItemsUseCase
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
-    private val getCryptocurrenciesUseCase: GetCryptocurrenciesUseCase,
+    private val getCoinsUseCase: GetCoinListItemsUseCase
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(ListUiState())
+    private val _uiState = MutableStateFlow<ListUiState>(ListUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
     init {
-        getCryptocurrencies()
+        getCoins()
     }
 
-    private fun getCryptocurrencies() {
-        viewModelScope.launch {
-            getCryptocurrenciesUseCase().onEach { result ->
-                _uiState.update {
-                    when (result) {
-                        is Resource.Loading -> {
-                            it.copy(
-                                isLoading = true,
-                            )
-                        }
-
-                        is Resource.Success -> {
-                            it.copy(
-                                cryptocurrencies = result.data ?: emptyList(),
-                                isLoading = false,
-                            )
-                        }
-
-                        is Resource.Error -> {
-                            it.copy(
-                                error = result.message ?: "An unexpected error occurred",
-                            )
-                        }
+    private fun getCoins() {
+        getCoinsUseCase().onEach { result ->
+            when (result) {
+                is Result.Success -> {
+                    _uiState.update {
+                        ListUiState.Success(result.data ?: emptyList())
                     }
                 }
-            }.launchIn(viewModelScope)
-        }
+
+                is Result.Error -> {
+                    _uiState.update {
+                        ListUiState.Error
+                    }
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 }
