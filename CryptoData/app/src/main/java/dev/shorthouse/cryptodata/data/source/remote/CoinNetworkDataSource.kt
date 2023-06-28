@@ -1,15 +1,19 @@
 package dev.shorthouse.cryptodata.data.source.remote
 
+import dev.shorthouse.cryptodata.data.source.remote.model.CoinApiModel
+import dev.shorthouse.cryptodata.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.cryptodata.data.source.remote.model.CoinDetailApiModel
 import dev.shorthouse.cryptodata.data.source.remote.model.CoinListItemApiModel
-import dev.shorthouse.cryptodata.data.source.remote.model.CoinPastPricesApiModel
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.days
 import retrofit2.Response
 
 class CoinNetworkDataSource @Inject constructor(
     private val coinApi: CoinApi
 ) {
+    suspend fun getCoins(coinId: String? = null): Response<List<CoinApiModel>> {
+        return coinApi.getCoins(coinId = coinId)
+    }
+
     suspend fun getCoinListItems(): Response<List<CoinListItemApiModel>> {
         return coinApi.getCoinListItems()
     }
@@ -18,11 +22,10 @@ class CoinNetworkDataSource @Inject constructor(
         return coinApi.getCoinDetail(coinId = coinId)
     }
 
-    suspend fun getCoinPastPrices(
+    suspend fun getCoinChart(
         coinId: String,
-        periodDays: String
-    ): Response<CoinPastPricesApiModel> {
-        val test = 10.days
-        return coinApi.getCoinPastPrices(coinId = coinId, periodDays = periodDays)
+        chartPeriodDays: String
+    ): Response<CoinChartApiModel> {
+        return coinApi.getCoinChart(coinId = coinId, periodDays = chartPeriodDays)
     }
 }

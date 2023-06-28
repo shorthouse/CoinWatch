@@ -3,7 +3,7 @@ package dev.shorthouse.cryptodata.data.repository.detail
 import dev.shorthouse.cryptodata.common.Result
 import dev.shorthouse.cryptodata.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.cryptodata.data.source.remote.model.CoinDetailApiModel
-import dev.shorthouse.cryptodata.data.source.remote.model.CoinPastPricesApiModel
+import dev.shorthouse.cryptodata.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.cryptodata.di.IoDispatcher
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.model.Percentage
@@ -28,9 +28,9 @@ class CoinDetailRepositoryImpl @Inject constructor(
     ): Flow<Result<CoinDetail>> = flow {
         val coinDetailResponse = coinNetworkDataSource.getCoinDetail(coinId = coinId)
 
-        val coinPastPricesResponse = coinNetworkDataSource.getCoinPastPrices(
+        val coinPastPricesResponse = coinNetworkDataSource.getCoinChart(
             coinId = coinId,
-            periodDays = periodDays
+            chartPeriodDays = periodDays
         )
 
         if (coinDetailResponse.isSuccessful && coinPastPricesResponse.isSuccessful) {
@@ -50,7 +50,7 @@ class CoinDetailRepositoryImpl @Inject constructor(
 
     private fun createCoinDetail(
         coinDetailApiModel: CoinDetailApiModel,
-        coinPastPricesApiModel: CoinPastPricesApiModel
+        coinPastPricesApiModel: CoinChartApiModel
     ): CoinDetail {
         val numberGroupingFormat = NumberFormat.getNumberInstance(Locale.US).apply {
             isGroupingUsed = true
@@ -71,7 +71,7 @@ class CoinDetailRepositoryImpl @Inject constructor(
         val periodPriceChangePercentage = ((currentPrice - oldestPastPrice) / oldestPastPrice) * 100
 
         return CoinDetail(
-            id = coinDetailApiModel.id,
+            id = coinDetailApiModel.id
             name = coinDetailApiModel.name,
             symbol = coinDetailApiModel.symbol.uppercase(),
             image = coinDetailApiModel.image.large,

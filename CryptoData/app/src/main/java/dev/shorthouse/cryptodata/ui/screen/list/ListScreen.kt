@@ -15,6 +15,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import dev.shorthouse.cryptodata.model.Coin
 import dev.shorthouse.cryptodata.model.CoinListItem
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
 import dev.shorthouse.cryptodata.ui.screen.Screen
@@ -29,8 +30,8 @@ fun ListScreen(
 
     ListScreen(
         uiState = uiState,
-        onItemClick = {
-            navController.navigate(Screen.DetailScreen.route + "/${it.id}")
+        onItemClick = { coin ->
+            navController.navigate(Screen.DetailScreen.route + "/${coin.id}")
         }
 
     )
@@ -40,7 +41,7 @@ fun ListScreen(
 @Composable
 fun ListScreen(
     uiState: ListUiState,
-    onItemClick: (CoinListItem) -> Unit,
+    onItemClick: (Coin) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -75,7 +76,7 @@ fun ListScreen(
                                 val coinListItem = coinListItems[index]
 
                                 CoinListItem(
-                                    coinListItem = coinListItem,
+                                    coin = coinListItem,
                                     onItemClick = { onItemClick(coinListItem) }
                                 )
                             }

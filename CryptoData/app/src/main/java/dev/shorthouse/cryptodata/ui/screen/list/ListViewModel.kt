@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.cryptodata.common.Result
-import dev.shorthouse.cryptodata.domain.GetCoinListItemsUseCase
+import dev.shorthouse.cryptodata.domain.GetCoinsUseCase
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.update
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
-    private val getCoinsUseCase: GetCoinListItemsUseCase
+    private val getCoinsUseCase: GetCoinsUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<ListUiState>(ListUiState.Loading)
     val uiState = _uiState.asStateFlow()

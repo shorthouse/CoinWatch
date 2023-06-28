@@ -7,6 +7,8 @@ data class CoinDetailApiModel(
     val name: String,
     val symbol: String,
     val image: Image,
+    @SerializedName("current_price")
+    val currentPrice: Double,
     @SerializedName("market_data")
     val marketData: MarketData
 )
@@ -40,8 +42,6 @@ data class MarketCap(
 )
 
 data class MarketData(
-    @SerializedName("current_price")
-    val currentPrice: CurrentPrice,
     @SerializedName("market_cap_rank")
     val marketCapRank: Int,
     @SerializedName("market_cap")

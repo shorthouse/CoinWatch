@@ -1,0 +1,16 @@
+package dev.shorthouse.cryptodata.model
+
+data class Coin(
+    val id: String,
+    val name: String,
+    val symbol: String,
+    val image: String,
+    val currentPrice: String,
+    val marketCapRank: Int,
+    val marketCap: String,
+    val circulatingSupply: String,
+    val allTimeLow: String,
+    val allTimeHigh: String,
+    val allTimeLowDate: String,
+    val allTimeHighDate: String,
+)

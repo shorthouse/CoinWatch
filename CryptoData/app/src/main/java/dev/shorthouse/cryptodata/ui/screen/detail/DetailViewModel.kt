@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.cryptodata.common.Constants
 import dev.shorthouse.cryptodata.common.Result
-import dev.shorthouse.cryptodata.domain.GetCoinDetailUseCase
+import dev.shorthouse.cryptodata.domain.GetCoinsUseCase
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.update
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getCoinDetailUseCase: GetCoinDetailUseCase
+    private val getCoinsUseCase: GetCoinsUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
     val uiState = _uiState.asStateFlow()
@@ -38,12 +38,12 @@ class DetailViewModel @Inject constructor(
     }
 
     private fun getCoinDetail(coinId: String, periodDays: String) {
-        getCoinDetailUseCase(coinId = coinId, periodDays = periodDays).onEach { result ->
+        getCoinsUseCase(coinId = coinId).onEach { result ->
             when (result) {
                 is Result.Success -> {
                     _uiState.update {
                         DetailUiState.Success(
-                            coinDetail = result.data,
+                            coinDetail = result.data?.first(),
                             chartPeriodDays = periodDays
                         )
                     }
