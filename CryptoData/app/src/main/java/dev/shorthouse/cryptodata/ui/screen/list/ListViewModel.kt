@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.update
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
-    private val getCoinsUseCase: GetCoinsUseCase,
+    private val getCoinsUseCase: GetCoinsUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<ListUiState>(ListUiState.Loading)
     val uiState = _uiState.asStateFlow()

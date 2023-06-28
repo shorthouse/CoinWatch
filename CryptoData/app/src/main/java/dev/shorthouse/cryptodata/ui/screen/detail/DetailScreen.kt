@@ -42,7 +42,7 @@ import com.patrykandpatrick.vico.core.chart.values.AxisValuesOverrider
 import com.patrykandpatrick.vico.core.entry.entryModelOf
 import com.patrykandpatrick.vico.core.entry.entryOf
 import dev.shorthouse.cryptodata.R
-import dev.shorthouse.cryptodata.model.Coin
+import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailList
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailListItem
@@ -135,7 +135,7 @@ private fun DetailTopBar(
 
 @Composable
 private fun DetailContent(
-    coinDetail: Coin,
+    coinDetail: CoinDetail,
     chartPeriodDays: String,
     onClickChartPeriod: (String) -> Unit,
     modifier: Modifier = Modifier

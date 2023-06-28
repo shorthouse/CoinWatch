@@ -18,8 +18,8 @@ class CoinRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : CoinRepository {
-    override fun getCoins(coinId: String?): Flow<Result<List<Coin>>> = flow {
-        val response = coinNetworkDataSource.getCoins(coinId = coinId)
+    override fun getCoins(): Flow<Result<List<Coin>>> = flow {
+        val response = coinNetworkDataSource.getCoins()
 
         if (response.isSuccessful) {
             val coins = response.body()!!.map {
@@ -39,10 +39,6 @@ class CoinRepositoryImpl @Inject constructor(
             maximumFractionDigits = 2
         }
 
-        val numberGroupingFormat = NumberFormat.getNumberInstance(Locale.US).apply {
-            isGroupingUsed = true
-        }
-
         return Coin(
             id = id,
             name = name,
@@ -50,12 +46,7 @@ class CoinRepositoryImpl @Inject constructor(
             image = image,
             currentPrice = currencyFormat.format(currentPrice),
             marketCapRank = marketCapRank,
-            marketCap = currencyFormat.format(marketCap),
-            circulatingSupply = numberGroupingFormat.format(circulatingSupply),
-            allTimeLow = currencyFormat.format(allTimeLow),
-            allTimeHigh = currencyFormat.format(allTimeHigh),
-            allTimeLowDate = allTimeLowDate,
-            allTimeHighDate = allTimeHighDate
+            priceChangePercentage24h = priceChangePercentage24h
         )
     }
 }

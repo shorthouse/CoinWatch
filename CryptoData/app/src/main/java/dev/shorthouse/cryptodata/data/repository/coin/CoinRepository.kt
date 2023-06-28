@@ -5,5 +5,5 @@ import dev.shorthouse.cryptodata.model.Coin
 import kotlinx.coroutines.flow.Flow
 
 interface CoinRepository {
-    fun getCoins(coinId: String? = null): Flow<Result<List<Coin>>>
+    fun getCoins(): Flow<Result<List<Coin>>>
 }

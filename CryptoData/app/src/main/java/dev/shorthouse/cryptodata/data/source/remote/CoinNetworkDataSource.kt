@@ -3,19 +3,14 @@ package dev.shorthouse.cryptodata.data.source.remote
 import dev.shorthouse.cryptodata.data.source.remote.model.CoinApiModel
 import dev.shorthouse.cryptodata.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.cryptodata.data.source.remote.model.CoinDetailApiModel
-import dev.shorthouse.cryptodata.data.source.remote.model.CoinListItemApiModel
 import javax.inject.Inject
 import retrofit2.Response
 
 class CoinNetworkDataSource @Inject constructor(
     private val coinApi: CoinApi
 ) {
-    suspend fun getCoins(coinId: String? = null): Response<List<CoinApiModel>> {
-        return coinApi.getCoins(coinId = coinId)
-    }
-
-    suspend fun getCoinListItems(): Response<List<CoinListItemApiModel>> {
-        return coinApi.getCoinListItems()
+    suspend fun getCoins(): Response<List<CoinApiModel>> {
+        return coinApi.getCoins()
     }
 
     suspend fun getCoinDetail(coinId: String): Response<CoinDetailApiModel> {

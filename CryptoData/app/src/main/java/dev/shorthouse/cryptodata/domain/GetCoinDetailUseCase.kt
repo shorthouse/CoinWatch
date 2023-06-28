@@ -9,17 +9,11 @@ import kotlinx.coroutines.flow.Flow
 class GetCoinDetailUseCase @Inject constructor(
     private val coinDetailRepository: CoinDetailRepository
 ) {
-    operator fun invoke(coinId: String, periodDays: String): Flow<Result<CoinDetail>> {
-        return getCoinDetail(
-            coinId = coinId,
-            periodDays = periodDays
-        )
+    operator fun invoke(coinId: String): Flow<Result<CoinDetail>> {
+        return getCoinDetail(coinId = coinId)
     }
 
-    private fun getCoinDetail(coinId: String, periodDays: String): Flow<Result<CoinDetail>> {
-        return coinDetailRepository.getCoinDetail(
-            coinId = coinId,
-            periodDays = periodDays
-        )
+    private fun getCoinDetail(coinId: String): Flow<Result<CoinDetail>> {
+        return coinDetailRepository.getCoinDetail(coinId = coinId)
     }
 }

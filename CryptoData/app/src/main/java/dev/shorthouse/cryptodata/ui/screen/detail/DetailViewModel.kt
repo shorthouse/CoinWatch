@@ -4,12 +4,15 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.shorthouse.cryptodata.common.Constants
+import dev.shorthouse.cryptodata.common.Constants.PARAM_COIN_ID
 import dev.shorthouse.cryptodata.common.Result
-import dev.shorthouse.cryptodata.domain.GetCoinsUseCase
+import dev.shorthouse.cryptodata.domain.GetCoinChartUseCase
+import dev.shorthouse.cryptodata.domain.GetCoinDetailUseCase
+import dev.shorthouse.cryptodata.model.CoinChart
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -17,42 +20,50 @@ import kotlinx.coroutines.flow.update
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getCoinsUseCase: GetCoinsUseCase,
+    private val getCoinDetailUseCase: GetCoinDetailUseCase,
+    private val getCoinChartUseCase: GetCoinChartUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    private lateinit var coinId: String
+    private val chartPeriodDaysFlow = MutableStateFlow("7")
+    private val coinChartFlow = MutableStateFlow<Result<CoinChart>>(Result.Error())
 
     init {
-        _uiState.update { DetailUiState.Loading }
-
-        savedStateHandle.get<String>(Constants.PARAM_COIN_ID)?.let { coinId ->
-            this.coinId = coinId
-            getCoinDetail(coinId = coinId, periodDays = "7")
+        savedStateHandle.get<String>(PARAM_COIN_ID)?.let { coinId ->
+            getCoinDetail(coinId = coinId)
         }
     }
 
     fun onClickChartPeriod(chartPeriodDays: String) {
-        getCoinDetail(coinId = this.coinId, periodDays = chartPeriodDays)
+        chartPeriodDaysFlow.value = chartPeriodDays
     }
 
-    private fun getCoinDetail(coinId: String, periodDays: String) {
-        getCoinsUseCase(coinId = coinId).onEach { result ->
-            when (result) {
-                is Result.Success -> {
-                    _uiState.update {
-                        DetailUiState.Success(
-                            coinDetail = result.data?.first(),
-                            chartPeriodDays = periodDays
-                        )
-                    }
-                }
+    private fun getCoinDetail(coinId: String) {
+        chartPeriodDaysFlow.onEach { chartPeriodDays ->
+            getCoinChartUseCase(coinId = coinId, chartPeriodDays).onEach { coinChartResult ->
+                coinChartFlow.value = coinChartResult
+            }
+        }
 
-                is Result.Error -> {
-                    _uiState.update {
-                        DetailUiState.Error
-                    }
+        val coinDetailFlow = getCoinDetailUseCase(coinId = coinId)
+
+        combine(
+            coinDetailFlow,
+            coinChartFlow,
+            chartPeriodDaysFlow
+        ) { coinDetailResult, coinChartResult, chartPeriodDays ->
+            if (coinDetailResult is Result.Success && coinChartResult is Result.Success) {
+                _uiState.update {
+                    DetailUiState.Success(
+                        coinDetail = coinDetailResult.data,
+                        coinChart = coinChartResult.data,
+                        chartPeriodDays = chartPeriodDays
+                    )
+                }
+            } else {
+                _uiState.update {
+                    DetailUiState.Error
                 }
             }
         }.launchIn(viewModelScope)

@@ -9,11 +9,11 @@ import kotlinx.coroutines.flow.Flow
 class GetCoinsUseCase @Inject constructor(
     private val coinRepository: CoinRepository
 ) {
-    operator fun invoke(coinId: String? = null): Flow<Result<List<Coin>>> {
-        return getCoins(coinId = coinId)
+    operator fun invoke(): Flow<Result<List<Coin>>> {
+        return getCoins()
     }
 
-    private fun getCoins(coinId: String? = null): Flow<Result<List<Coin>>> {
-        return coinRepository.getCoins(coinId = coinId)
+    private fun getCoins(): Flow<Result<List<Coin>>> {
+        return coinRepository.getCoins()
     }
 }

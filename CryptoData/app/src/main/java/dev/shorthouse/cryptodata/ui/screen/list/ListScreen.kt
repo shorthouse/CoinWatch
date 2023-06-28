@@ -16,7 +16,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.shorthouse.cryptodata.model.Coin
-import dev.shorthouse.cryptodata.model.CoinListItem
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
 import dev.shorthouse.cryptodata.ui.screen.Screen
 import dev.shorthouse.cryptodata.ui.screen.list.component.CoinListItem

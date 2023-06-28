@@ -12,11 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import dev.shorthouse.cryptodata.R
 import dev.shorthouse.cryptodata.model.Coin
 
 @Composable
@@ -53,15 +51,12 @@ fun CoinListItem(
             )
         }
         Column(horizontalAlignment = Alignment.End) {
-//            Text(
-//                text = coin.priceChangePercentage.toString(),
-//                style = MaterialTheme.typography.bodyLarge
-//            )
             Text(
-                text = stringResource(
-                    id = R.string.currency_format_decimal,
-                    coin.currentPrice
-                ),
+                text = coin.priceChangePercentage24h.toString(),
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Text(
+                coin.currentPrice,
                 style = MaterialTheme.typography.bodyMedium
             )
         }

@@ -9,18 +9,8 @@ data class CoinApiModel(
     val image: String,
     @SerializedName("current_price")
     val currentPrice: Double,
-    @SerializedName("market_cap")
-    val marketCap: Double,
+    @SerializedName("price_change_percentage_24h")
+    val priceChangePercentage24h: Double,
     @SerializedName("market_cap_rank")
-    val marketCapRank: Int,
-    @SerializedName("circulating_supply")
-    val circulatingSupply: Double,
-    @SerializedName("atl")
-    val allTimeLow: String,
-    @SerializedName("atl_date")
-    val allTimeLowDate: String,
-    @SerializedName("ath")
-    val allTimeHigh: String,
-    @SerializedName("ath_date")
-    val allTimeHighDate: String,
+    val marketCapRank: Int
 )
