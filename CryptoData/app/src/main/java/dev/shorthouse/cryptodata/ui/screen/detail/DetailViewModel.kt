@@ -40,13 +40,16 @@ class DetailViewModel @Inject constructor(
     }
 
     private fun getCoinDetail(coinId: String) {
+        val coinDetailFlow = getCoinDetailUseCase(coinId = coinId)
+
         chartPeriodDaysFlow.onEach { chartPeriodDays ->
-            getCoinChartUseCase(coinId = coinId, chartPeriodDays).onEach { coinChartResult ->
+            getCoinChartUseCase(
+                coinId = coinId,
+                chartPeriodDays = chartPeriodDays
+            ).onEach { coinChartResult ->
                 coinChartFlow.value = coinChartResult
             }
         }
-
-        val coinDetailFlow = getCoinDetailUseCase(coinId = coinId)
 
         combine(
             coinDetailFlow,

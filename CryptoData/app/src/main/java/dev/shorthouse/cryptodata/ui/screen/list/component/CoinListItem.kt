@@ -1,5 +1,6 @@
 package dev.shorthouse.cryptodata.ui.screen.list.component
 
+import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,9 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import dev.shorthouse.cryptodata.model.Coin
+import dev.shorthouse.cryptodata.ui.theme.AppTheme
 
 @Composable
 fun CoinListItem(
@@ -63,21 +66,22 @@ fun CoinListItem(
     }
 }
 
-// @Composable
-// @Preview(name = "Light Mode", showBackground = true)
-// @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-// private fun CoinListItemPreview() {
-//    AppTheme {
-//        CoinListItem(
-//            coin = CoinListItem(
-//                id = "ethereum",
-//                symbol = "ETH",
-//                name = "Ethereum",
-//                image = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
-//                currentPrice = 1345.62,
-//                priceChangePercentage = 0.42
-//            ),
-//            onItemClick = {}
-//        )
-//    }
-// }
+@Composable
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+private fun CoinListItemPreview() {
+    AppTheme {
+        CoinListItem(
+            coin = Coin(
+                id = "ethereum",
+                symbol = "ETH",
+                name = "Ethereum",
+                image = "",
+                currentPrice = "$1345.62",
+                priceChangePercentage24h = 0.42,
+                marketCapRank = 2
+            ),
+            onItemClick = {}
+        )
+    }
+}

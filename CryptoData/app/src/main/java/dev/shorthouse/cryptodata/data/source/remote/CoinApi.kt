@@ -25,6 +25,11 @@ interface CoinApi {
     suspend fun getCoinDetail(
         @Query("ids") coinId: String,
         @Query("vs_currency") currency: String = "usd",
+        @Query("order") order: String = "market_cap_desc",
+        @Query("per_page") coinsPerPage: Int = 100,
+        @Query("page") page: Int = 1,
+        @Query("sparkline") includeSparklineData: Boolean = false,
+        @Query("price_change_percentage") priceChangePercentagePeriods: String = "24h",
         @Query("locale") locale: String = "en",
         @Query("precision") currencyDecimalPlaces: String = "2"
     ): Response<CoinDetailApiModel>

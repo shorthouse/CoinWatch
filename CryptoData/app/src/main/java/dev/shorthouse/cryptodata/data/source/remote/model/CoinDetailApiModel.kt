@@ -16,11 +16,11 @@ data class CoinDetailApiModel(
     @SerializedName("circulating_supply")
     val circulatingSupply: Double,
     @SerializedName("atl")
-    val allTimeLow: String,
+    val allTimeLow: Double,
     @SerializedName("atl_date")
     val allTimeLowDate: String,
     @SerializedName("ath")
-    val allTimeHigh: String,
+    val allTimeHigh: Double,
     @SerializedName("ath_date")
     val allTimeHighDate: String
 )
