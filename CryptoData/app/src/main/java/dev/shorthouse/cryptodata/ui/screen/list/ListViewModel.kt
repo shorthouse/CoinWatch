@@ -31,12 +31,13 @@ class ListViewModel @Inject constructor(
                         ListUiState.Success(result.data ?: emptyList())
                     }
                 }
-
                 is Result.Error -> {
                     _uiState.update {
                         ListUiState.Error
                     }
                 }
+
+                else -> {}
             }
         }.launchIn(viewModelScope)
     }

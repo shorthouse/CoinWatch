@@ -4,6 +4,6 @@ import dev.shorthouse.cryptodata.model.Coin
 
 sealed interface ListUiState {
     object Loading : ListUiState
-    data class Success(val data: List<Coin>) : ListUiState
+    data class Success(val coins: List<Coin>) : ListUiState
     object Error : ListUiState
 }

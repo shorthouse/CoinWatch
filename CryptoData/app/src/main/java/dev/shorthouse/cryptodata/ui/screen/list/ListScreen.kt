@@ -1,5 +1,6 @@
 package dev.shorthouse.cryptodata.ui.screen.list
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -12,13 +13,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.shorthouse.cryptodata.model.Coin
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
+import dev.shorthouse.cryptodata.ui.preview.ListUiStatePreviewProvider
 import dev.shorthouse.cryptodata.ui.screen.Screen
 import dev.shorthouse.cryptodata.ui.screen.list.component.CoinListItem
+import dev.shorthouse.cryptodata.ui.theme.AppTheme
 
 @Composable
 fun ListScreen(
@@ -49,7 +54,7 @@ fun ListScreen(
         is ListUiState.Loading -> LoadingIndicator()
         is ListUiState.Error -> Text("error")
         is ListUiState.Success -> {
-            val coinListItems = uiState.data
+            val coinListItems = uiState.coins
 
             Scaffold(
                 topBar = {
@@ -88,26 +93,16 @@ fun ListScreen(
     }
 }
 
-//
-// @Composable
-// @Preview(name = "Light Mode", showBackground = true)
-// @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-// private fun ListScreenPreview() {
-//    AppTheme {
-//        ListScreen(
-//            cryptocurrencies = listOf(
-//                CoinListItem(
-//                    id = "ethereum",
-//                    symbol = "ETH",
-//                    name = "Ethereum",
-//                    image = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
-//                    currentPrice = 1345.62,
-//                    priceChangePercentage = 0.42
-//                )
-//            ),
-//            isLoading = false,
-//            error = null,
-//            onItemClick = {}
-//        )
-//    }
-// }
+@Composable
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+private fun ListScreenPreview(
+    @PreviewParameter(ListUiStatePreviewProvider::class) uiState: ListUiState,
+) {
+    AppTheme {
+        ListScreen(
+            uiState = uiState,
+            onItemClick = {}
+        )
+    }
+}

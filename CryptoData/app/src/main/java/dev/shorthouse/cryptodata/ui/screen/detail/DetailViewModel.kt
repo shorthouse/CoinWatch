@@ -1,5 +1,6 @@
 package dev.shorthouse.cryptodata.ui.screen.detail
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,7 +9,6 @@ import dev.shorthouse.cryptodata.common.Constants.PARAM_COIN_ID
 import dev.shorthouse.cryptodata.common.Result
 import dev.shorthouse.cryptodata.domain.GetCoinChartUseCase
 import dev.shorthouse.cryptodata.domain.GetCoinDetailUseCase
-import dev.shorthouse.cryptodata.model.CoinChart
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,7 +27,6 @@ class DetailViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     private val chartPeriodDaysFlow = MutableStateFlow("7")
-    private val coinChartFlow = MutableStateFlow<Result<CoinChart>>(Result.Error())
 
     init {
         savedStateHandle.get<String>(PARAM_COIN_ID)?.let { coinId ->
@@ -35,40 +34,30 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun onClickChartPeriod(chartPeriodDays: String) {
+    fun updateChartPeriodDays(chartPeriodDays: String) {
         chartPeriodDaysFlow.value = chartPeriodDays
     }
 
     private fun getCoinDetail(coinId: String) {
         val coinDetailFlow = getCoinDetailUseCase(coinId = coinId)
 
-        chartPeriodDaysFlow.onEach { chartPeriodDays ->
+        combine(coinDetailFlow, chartPeriodDaysFlow) { coinDetailResult, chartPeriodDays ->
             getCoinChartUseCase(
                 coinId = coinId,
                 chartPeriodDays = chartPeriodDays
             ).onEach { coinChartResult ->
-                coinChartFlow.value = coinChartResult
-            }
-        }
-
-        combine(
-            coinDetailFlow,
-            coinChartFlow,
-            chartPeriodDaysFlow
-        ) { coinDetailResult, coinChartResult, chartPeriodDays ->
-            if (coinDetailResult is Result.Success && coinChartResult is Result.Success) {
-                _uiState.update {
-                    DetailUiState.Success(
-                        coinDetail = coinDetailResult.data,
-                        coinChart = coinChartResult.data,
-                        chartPeriodDays = chartPeriodDays
-                    )
+                if (coinDetailResult is Result.Success && coinChartResult is Result.Success) {
+                    _uiState.update {
+                        DetailUiState.Success(
+                            coinDetail = coinDetailResult.data!!,
+                            coinChart = coinChartResult.data!!,
+                            chartPeriodDays = chartPeriodDays
+                        )
+                    }
+                } else {
+                    Log.d("HDS", "error coccured with coin detail or coin chart result")
                 }
-            } else {
-                _uiState.update {
-                    DetailUiState.Error
-                }
-            }
+            }.launchIn(viewModelScope)
         }.launchIn(viewModelScope)
     }
 }

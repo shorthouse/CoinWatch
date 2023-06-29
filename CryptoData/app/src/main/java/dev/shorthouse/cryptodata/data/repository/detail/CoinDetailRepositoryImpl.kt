@@ -24,7 +24,7 @@ class CoinDetailRepositoryImpl @Inject constructor(
         val response = coinNetworkDataSource.getCoinDetail(coinId = coinId)
 
         if (response.isSuccessful) {
-            val coinDetail = response.body()!!.toCoinDetail()
+            val coinDetail = response.body()!!.first().toCoinDetail()
 
             emit(Result.Success(coinDetail))
         } else {
@@ -48,14 +48,14 @@ class CoinDetailRepositoryImpl @Inject constructor(
         return CoinDetail(
             id = id,
             name = name,
-            symbol = symbol,
+            symbol = symbol.uppercase(),
             image = image,
             currentPrice = currencyFormat.format(currentPrice),
             marketCapRank = marketCapRank,
             marketCap = currencyFormat.format(marketCap),
             circulatingSupply = numberGroupingFormat.format(circulatingSupply),
             allTimeLow = currencyFormat.format(allTimeLow),
-            allTimeHigh = currencyFormat.format(allTimeHighDate),
+            allTimeHigh = currencyFormat.format(allTimeHigh),
             allTimeLowDate = dateFormatter.format(
                 LocalDateTime.parse(
                     allTimeLowDate,

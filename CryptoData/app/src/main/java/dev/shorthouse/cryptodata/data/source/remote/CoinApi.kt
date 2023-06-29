@@ -32,7 +32,7 @@ interface CoinApi {
         @Query("price_change_percentage") priceChangePercentagePeriods: String = "24h",
         @Query("locale") locale: String = "en",
         @Query("precision") currencyDecimalPlaces: String = "2"
-    ): Response<CoinDetailApiModel>
+    ): Response<List<CoinDetailApiModel>>
 
     @GET("coins/{coinId}/market_chart")
     suspend fun getCoinChart(

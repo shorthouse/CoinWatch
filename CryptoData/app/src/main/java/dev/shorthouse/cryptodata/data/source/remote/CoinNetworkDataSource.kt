@@ -13,7 +13,7 @@ class CoinNetworkDataSource @Inject constructor(
         return coinApi.getCoins()
     }
 
-    suspend fun getCoinDetail(coinId: String): Response<CoinDetailApiModel> {
+    suspend fun getCoinDetail(coinId: String): Response<List<CoinDetailApiModel>> {
         return coinApi.getCoinDetail(coinId = coinId)
     }
 
