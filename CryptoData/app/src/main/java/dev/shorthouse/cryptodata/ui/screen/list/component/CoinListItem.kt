@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import dev.shorthouse.cryptodata.model.Coin
+import dev.shorthouse.cryptodata.model.Price
 import dev.shorthouse.cryptodata.ui.theme.AppTheme
 
 @Composable
@@ -59,7 +60,7 @@ fun CoinListItem(
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(
-                coin.currentPrice,
+                coin.currentPrice.formattedAmount,
                 style = MaterialTheme.typography.bodyMedium
             )
         }
@@ -77,7 +78,7 @@ private fun CoinListItemPreview() {
                 symbol = "ETH",
                 name = "Ethereum",
                 image = "",
-                currentPrice = "$1345.62",
+                currentPrice = Price(1345.62),
                 priceChangePercentage24h = 0.42,
                 marketCapRank = 2
             ),

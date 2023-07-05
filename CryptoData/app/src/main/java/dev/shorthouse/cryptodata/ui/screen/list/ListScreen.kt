@@ -97,7 +97,7 @@ fun ListScreen(
 @Preview(name = "Light Mode", showBackground = true)
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 private fun ListScreenPreview(
-    @PreviewParameter(ListUiStatePreviewProvider::class) uiState: ListUiState,
+    @PreviewParameter(ListUiStatePreviewProvider::class) uiState: ListUiState
 ) {
     AppTheme {
         ListScreen(
