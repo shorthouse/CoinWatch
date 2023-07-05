@@ -238,7 +238,7 @@ private fun DetailContent(
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
-                    text = coinChart.minPrice.toString(),
+                    text = coinChart.minPrice.formattedAmount,
                     style = MaterialTheme.typography.bodyLarge
                 )
                 PriceChangePercentageChip(
@@ -256,7 +256,7 @@ private fun DetailContent(
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
-                    text = coinChart.maxPrice.toString(),
+                    text = coinChart.maxPrice.formattedAmount,
                     style = MaterialTheme.typography.bodyLarge
                 )
                 PriceChangePercentageChip(
