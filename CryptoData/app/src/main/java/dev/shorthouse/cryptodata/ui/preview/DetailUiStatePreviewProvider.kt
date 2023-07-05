@@ -5,6 +5,7 @@ import dev.shorthouse.cryptodata.model.CoinChart
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.model.Price
 import dev.shorthouse.cryptodata.ui.screen.detail.DetailUiState
+import kotlin.time.Duration.Companion.days
 
 class DetailUiStatePreviewProvider : PreviewParameterProvider<DetailUiState> {
     override val values = sequenceOf(
@@ -31,7 +32,7 @@ class DetailUiStatePreviewProvider : PreviewParameterProvider<DetailUiState> {
                 maxPriceChangePercentage = -2.27,
                 periodPriceChangePercentage = 7.06
             ),
-            chartPeriodDays = "7"
+            chartPeriod = 7.days
         )
     )
 }
