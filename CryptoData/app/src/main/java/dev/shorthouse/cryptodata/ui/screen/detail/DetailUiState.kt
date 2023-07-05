@@ -2,13 +2,14 @@ package dev.shorthouse.cryptodata.ui.screen.detail
 
 import dev.shorthouse.cryptodata.model.CoinChart
 import dev.shorthouse.cryptodata.model.CoinDetail
+import kotlin.time.Duration
 
 sealed interface DetailUiState {
     object Loading : DetailUiState
     data class Success(
         val coinDetail: CoinDetail,
         val coinChart: CoinChart,
-        val chartPeriodDays: String
+        val chartPeriod: Duration
     ) : DetailUiState
     object Error : DetailUiState
 }

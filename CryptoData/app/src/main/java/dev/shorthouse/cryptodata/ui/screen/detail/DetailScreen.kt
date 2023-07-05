@@ -54,6 +54,8 @@ import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailList
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailListItem
 import dev.shorthouse.cryptodata.ui.screen.detail.component.PriceChangePercentageChip
 import dev.shorthouse.cryptodata.ui.theme.AppTheme
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
 
 @Composable
 fun DetailScreen(
@@ -65,7 +67,7 @@ fun DetailScreen(
     DetailScreen(
         uiState = uiState,
         onNavigateUp = { navController.navigateUp() },
-        onClickChartPeriod = { viewModel.updateChartPeriodDays(it) }
+        onClickChartPeriod = { viewModel.updateChartPeriod(it) }
     )
 }
 
@@ -74,7 +76,7 @@ fun DetailScreen(
 fun DetailScreen(
     uiState: DetailUiState,
     onNavigateUp: () -> Unit,
-    onClickChartPeriod: (String) -> Unit,
+    onClickChartPeriod: (Duration) -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (uiState) {
@@ -93,7 +95,7 @@ fun DetailScreen(
                     DetailContent(
                         coinDetail = uiState.coinDetail,
                         coinChart = uiState.coinChart,
-                        chartPeriodDays = uiState.chartPeriodDays,
+                        chartPeriod = uiState.chartPeriod,
                         onClickChartPeriod = onClickChartPeriod,
                         modifier = Modifier.padding(scaffoldPadding)
                     )
@@ -143,8 +145,8 @@ private fun DetailTopBar(
 private fun DetailContent(
     coinDetail: CoinDetail,
     coinChart: CoinChart,
-    chartPeriodDays: String,
-    onClickChartPeriod: (String) -> Unit,
+    chartPeriod: Duration,
+    onClickChartPeriod: (Duration) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -168,7 +170,7 @@ private fun DetailContent(
         )
 
         Text(
-            text = coinDetail.currentPrice,
+            text = coinDetail.currentPrice.formattedAmount,
             style = MaterialTheme.typography.headlineSmall
         )
 
@@ -182,18 +184,20 @@ private fun DetailContent(
 
         CoinPastPricesChart(
             coinPastPrices = coinChart.prices,
-            minPrice = coinChart.minPrice,
-            maxPrice = coinChart.maxPrice,
+            minPrice = coinChart.minPrice.amount,
+            maxPrice = coinChart.maxPrice.amount
         )
 
         Spacer(Modifier.height(24.dp))
 
-        val chartPeriodOptions = listOf(
-            "1",
-            "7",
-            "30",
-            "365"
-        )
+        val chartPeriodOptions = remember {
+            listOf(
+                1.days,
+                7.days,
+                30.days,
+                365.days
+            )
+        }
 
         Row {
             chartPeriodOptions.forEach { chartPeriodOption ->
@@ -201,19 +205,19 @@ private fun DetailContent(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .selectable(
-                            selected = (chartPeriodOption == chartPeriodDays),
+                            selected = (chartPeriodOption == chartPeriod),
                             onClick = { onClickChartPeriod(chartPeriodOption) },
                             role = Role.RadioButton
                         )
                 ) {
                     RadioButton(
-                        selected = (chartPeriodOption == chartPeriodDays),
+                        selected = (chartPeriodOption == chartPeriod),
                         onClick = null,
                         modifier = Modifier.padding(8.dp)
                     )
 
                     Text(
-                        text = chartPeriodOption,
+                        text = chartPeriodOption.inWholeDays.toString(),
                         style = MaterialTheme.typography.bodyMedium.copy(
                             color = MaterialTheme.colorScheme.onSurface
                         )
@@ -272,7 +276,7 @@ private fun DetailContent(
                 ),
                 CoinDetailListItem(
                     name = stringResource(R.string.list_item_market_cap),
-                    value = coinDetail.marketCap
+                    value = coinDetail.marketCap.formattedAmount
                 ),
                 CoinDetailListItem(
                     name = stringResource(R.string.list_item_circulating_supply),
@@ -288,11 +292,11 @@ private fun DetailContent(
             items = listOf(
                 CoinDetailListItem(
                     name = stringResource(R.string.list_item_atl),
-                    value = coinDetail.allTimeLow
+                    value = coinDetail.allTimeLow.formattedAmount
                 ),
                 CoinDetailListItem(
                     name = stringResource(R.string.list_item_ath),
-                    value = coinDetail.allTimeHigh
+                    value = coinDetail.allTimeHigh.formattedAmount
                 ),
                 CoinDetailListItem(
                     name = stringResource(R.string.list_item_atl_date),
@@ -343,7 +347,7 @@ private fun CoinPastPricesChart(
 @Preview(name = "Light Mode", showBackground = true)
 @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 fun DetailScreenPreview(
-    @PreviewParameter(DetailUiStatePreviewProvider::class) uiState: DetailUiState,
+    @PreviewParameter(DetailUiStatePreviewProvider::class) uiState: DetailUiState
 ) {
     AppTheme {
         DetailScreen(
