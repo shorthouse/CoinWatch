@@ -27,17 +27,11 @@ class ListViewModel @Inject constructor(
         getCoinsUseCase().onEach { result ->
             when (result) {
                 is Result.Success -> {
-                    _uiState.update {
-                        ListUiState.Success(result.data ?: emptyList())
-                    }
+                    _uiState.update { ListUiState.Success(result.data) }
                 }
                 is Result.Error -> {
-                    _uiState.update {
-                        ListUiState.Error
-                    }
+                    _uiState.update { ListUiState.Error(result.message) }
                 }
-
-                else -> {}
             }
         }.launchIn(viewModelScope)
     }
