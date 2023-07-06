@@ -21,15 +21,20 @@ class CoinDetailRepositoryImpl @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : CoinDetailRepository {
     override fun getCoinDetail(coinId: String): Flow<Result<CoinDetail>> = flow {
-        val response = coinNetworkDataSource.getCoinDetail(coinId = coinId)
+        emit(
+            try {
+                val response = coinNetworkDataSource.getCoinDetail(coinId = coinId)
+                val body = response.body()
 
-        if (response.isSuccessful) {
-            val coinDetail = response.body()!!.first().toCoinDetail()
-
-            emit(Result.Success(coinDetail))
-        } else {
-            emit(Result.Error())
-        }
+                if (response.isSuccessful && body != null) {
+                    Result.Success(body.first().toCoinDetail())
+                } else {
+                    Result.Error(message = response.message())
+                }
+            } catch (e: Throwable) {
+                Result.Error(message = e.message)
+            }
+        )
     }.flowOn(ioDispatcher)
 
     private fun CoinDetailApiModel.toCoinDetail(): CoinDetail {

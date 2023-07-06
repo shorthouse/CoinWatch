@@ -21,18 +21,23 @@ class CoinChartRepositoryImpl @Inject constructor(
         coinId: String,
         chartPeriodDays: String
     ): Flow<Result<CoinChart>> = flow {
-        val response = coinNetworkDataSource.getCoinChart(
-            coinId = coinId,
-            chartPeriodDays = chartPeriodDays
+        emit(
+            try {
+                val response = coinNetworkDataSource.getCoinChart(
+                    coinId = coinId,
+                    chartPeriodDays = chartPeriodDays
+                )
+                val body = response.body()
+
+                if (response.isSuccessful && body != null) {
+                    Result.Success(body.toCoinChart())
+                } else {
+                    Result.Error(message = response.message())
+                }
+            } catch (e: Throwable) {
+                Result.Error(message = e.message)
+            }
         )
-
-        if (response.isSuccessful) {
-            val coinChart = response.body()!!.toCoinChart()
-
-            emit(Result.Success(coinChart))
-        } else {
-            emit(Result.Error())
-        }
     }.flowOn(ioDispatcher)
 
     private fun CoinChartApiModel.toCoinChart(): CoinChart {

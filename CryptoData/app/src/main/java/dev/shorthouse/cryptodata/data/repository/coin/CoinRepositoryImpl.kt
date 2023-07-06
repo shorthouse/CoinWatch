@@ -17,17 +17,20 @@ class CoinRepositoryImpl @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : CoinRepository {
     override fun getCoins(): Flow<Result<List<Coin>>> = flow {
-        val response = coinNetworkDataSource.getCoins()
+        emit(
+            try {
+                val response = coinNetworkDataSource.getCoins()
+                val body = response.body()
 
-        if (response.isSuccessful) {
-            val coins = response.body()!!.map {
-                it.toCoin()
+                if (response.isSuccessful && body != null) {
+                    Result.Success(body.map { it.toCoin() })
+                } else {
+                    Result.Error(message = response.message())
+                }
+            } catch (e: Throwable) {
+                Result.Error(message = e.message)
             }
-
-            emit(Result.Success(coins))
-        } else {
-            emit(Result.Error())
-        }
+        )
     }.flowOn(ioDispatcher)
 
     private fun CoinApiModel.toCoin(): Coin {

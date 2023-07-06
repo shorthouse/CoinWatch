@@ -11,5 +11,5 @@ sealed interface DetailUiState {
         val coinChart: CoinChart,
         val chartPeriod: Duration
     ) : DetailUiState
-    object Error : DetailUiState
+    data class Error(val message: String?) : DetailUiState
 }
