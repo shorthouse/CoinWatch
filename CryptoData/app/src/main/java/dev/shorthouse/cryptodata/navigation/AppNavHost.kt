@@ -7,8 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.shorthouse.cryptodata.ui.screen.Screen
-import dev.shorthouse.cryptodata.ui.screen.detail.DetailScreen
-import dev.shorthouse.cryptodata.ui.screen.list.ListScreen
+import dev.shorthouse.cryptodata.ui.screen.detail.CoinDetailScreen
+import dev.shorthouse.cryptodata.ui.screen.list.CoinListScreen
 
 @Composable
 fun AppNavHost(
@@ -22,10 +22,10 @@ fun AppNavHost(
         modifier = modifier
     ) {
         composable(route = Screen.ListScreen.route) {
-            ListScreen(navController = navController)
+            CoinListScreen(navController = navController)
         }
         composable(route = Screen.DetailScreen.route + "/{coinId}") {
-            DetailScreen(navController = navController)
+            CoinDetailScreen(navController = navController)
         }
     }
 }
