@@ -5,12 +5,13 @@ import dev.shorthouse.cryptodata.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.cryptodata.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.cryptodata.di.IoDispatcher
 import dev.shorthouse.cryptodata.model.CoinChart
+import dev.shorthouse.cryptodata.model.Percentage
 import dev.shorthouse.cryptodata.model.Price
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 
 class CoinChartRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,
@@ -56,10 +57,10 @@ class CoinChartRepositoryImpl @Inject constructor(
         return CoinChart(
             prices = prices,
             minPrice = Price(minPrice),
-            minPriceChangePercentage = minPriceChangePercentage,
+            minPriceChangePercentage = Percentage(minPriceChangePercentage),
             maxPrice = Price(maxPrice),
-            maxPriceChangePercentage = maxPriceChangePercentage,
-            periodPriceChangePercentage = periodPriceChangePercentage
+            maxPriceChangePercentage = Percentage(maxPriceChangePercentage),
+            periodPriceChangePercentage = Percentage(periodPriceChangePercentage)
         )
     }
 }
