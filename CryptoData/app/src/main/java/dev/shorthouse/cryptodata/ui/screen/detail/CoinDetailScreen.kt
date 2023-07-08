@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -47,6 +49,7 @@ import dev.shorthouse.cryptodata.model.CoinChart
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
 import dev.shorthouse.cryptodata.ui.component.PercentageChange
+import dev.shorthouse.cryptodata.ui.component.PriceChart
 import dev.shorthouse.cryptodata.ui.previewdata.CoinDetailUiStatePreviewProvider
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailList
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailListItem
@@ -320,6 +323,12 @@ private fun CoinPastPricesChart(
             }
         )
     }
+
+    PriceChart(
+        prices = coinPastPrices,
+        chartColor = Color.Green,
+        modifier = Modifier.fillMaxHeight()
+    )
 
     Chart(
         chart = lineChart(
