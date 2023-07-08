@@ -1,6 +1,5 @@
 package dev.shorthouse.cryptodata.ui.screen.list.component
 
-import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,10 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import dev.shorthouse.cryptodata.model.Coin
-import dev.shorthouse.cryptodata.model.Price
+import dev.shorthouse.cryptodata.ui.component.PercentageChange
+import dev.shorthouse.cryptodata.ui.previewdata.CoinPreviewProvider
 import dev.shorthouse.cryptodata.ui.theme.AppTheme
 
 @Composable
@@ -55,10 +56,7 @@ fun CoinListItem(
             )
         }
         Column(horizontalAlignment = Alignment.End) {
-            Text(
-                text = coin.priceChangePercentage24h.toString(),
-                style = MaterialTheme.typography.bodyLarge
-            )
+            PercentageChange(percentage = coin.priceChangePercentage24h)
             Text(
                 coin.currentPrice.formattedAmount,
                 style = MaterialTheme.typography.bodyMedium
@@ -68,20 +66,13 @@ fun CoinListItem(
 }
 
 @Composable
-@Preview(name = "Light Mode", showBackground = true)
-@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-private fun CoinListItemPreview() {
+@Preview(showBackground = true)
+private fun CoinListItemPreview(
+    @PreviewParameter(CoinPreviewProvider::class) coin: Coin
+) {
     AppTheme {
         CoinListItem(
-            coin = Coin(
-                id = "ethereum",
-                symbol = "ETH",
-                name = "Ethereum",
-                image = "",
-                currentPrice = Price(1345.62),
-                priceChangePercentage24h = 0.42,
-                marketCapRank = 2
-            ),
+            coin = coin,
             onItemClick = {}
         )
     }
