@@ -4,7 +4,7 @@ import java.text.NumberFormat
 import java.util.Currency
 import java.util.Locale
 
-data class Price(val amount: Double) {
+data class Price(private val price: Double?) {
     companion object {
         private val currencyFormat: NumberFormat =
             NumberFormat.getCurrencyInstance(Locale.US).apply {
@@ -16,5 +16,6 @@ data class Price(val amount: Double) {
 
     constructor(amount: Long) : this(amount.toDouble())
 
+    val amount: Double = price ?: 0.0
     val formattedAmount: String = currencyFormat.format(amount)
 }

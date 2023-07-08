@@ -1,9 +1,7 @@
 package dev.shorthouse.cryptodata.model
 
-import java.math.BigDecimal
-
 data class CoinChart(
-    val prices: List<BigDecimal>,
+    val prices: List<Double>,
     val minPrice: Price,
     val minPriceChangePercentage: Percentage,
     val maxPrice: Price,

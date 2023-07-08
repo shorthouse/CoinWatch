@@ -51,7 +51,6 @@ import dev.shorthouse.cryptodata.ui.previewdata.CoinDetailUiStatePreviewProvider
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailList
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailListItem
 import dev.shorthouse.cryptodata.ui.theme.AppTheme
-import java.math.BigDecimal
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 
@@ -309,9 +308,9 @@ private fun CoinDetailContent(
 
 @Composable
 private fun CoinPastPricesChart(
-    coinPastPrices: List<BigDecimal>,
-    minPrice: BigDecimal,
-    maxPrice: BigDecimal,
+    coinPastPrices: List<Double>,
+    minPrice: Double,
+    maxPrice: Double,
     modifier: Modifier = Modifier
 ) {
     val chartModel = remember {
