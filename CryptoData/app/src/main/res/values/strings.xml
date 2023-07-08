@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">CryptoData</string>
+    <string name="positive_percentage">+%1$.2f%%</string>
+    <string name="negative_percentage">%1$.2f%%</string>
     <string name="coin_price_change">%1$.2f%%</string>
     <string name="currency_format_decimal">$%1$.2f</string>
     <string name="currency_format_integer">$%1$d</string>

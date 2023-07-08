@@ -1,6 +1,5 @@
 package dev.shorthouse.cryptodata.ui.screen.detail.component
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -73,9 +72,8 @@ data class CoinDetailListItem(
 )
 
 @Composable
-@Preview(name = "Light Mode", showBackground = true)
-@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-fun CoinDetailListPreview() {
+@Preview(showBackground = true)
+private fun CoinDetailListPreview() {
     AppTheme {
         CoinDetailList(
             title = "Historic Data",

@@ -7,6 +7,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import dev.shorthouse.cryptodata.ui.theme.AppTheme
 
 @Composable
 fun LoadingIndicator() {
@@ -17,5 +19,13 @@ fun LoadingIndicator() {
         CircularProgressIndicator(
             color = MaterialTheme.colorScheme.primary
         )
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun LoadingIndicatorPreview() {
+    AppTheme {
+        LoadingIndicator()
     }
 }

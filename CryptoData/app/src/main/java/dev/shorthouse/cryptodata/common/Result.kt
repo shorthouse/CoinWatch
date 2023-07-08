@@ -1,6 +1,6 @@
 package dev.shorthouse.cryptodata.common
 
-sealed class Result<T>(val data: T? = null, val message: String? = null) {
-    class Success<T>(data: T) : Result<T>(data)
-    class Error<T> : Result<T>()
+sealed class Result<T : Any> {
+    class Success<T : Any>(val data: T) : Result<T>()
+    class Error<T : Any>(val message: String?) : Result<T>()
 }

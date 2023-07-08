@@ -12,11 +12,5 @@ data class CoinDetail(
     val allTimeLow: Price,
     val allTimeHigh: Price,
     val allTimeLowDate: String,
-    val allTimeHighDate: String,
-    val pastPrices: List<Double>,
-    val minPastPrice: Price,
-    val minPriceChangePercentage: Percentage,
-    val maxPastPrice: Price,
-    val maxPriceChangePercentage: Percentage,
-    val periodPriceChangePercentage: Percentage
+    val allTimeHighDate: String
 )

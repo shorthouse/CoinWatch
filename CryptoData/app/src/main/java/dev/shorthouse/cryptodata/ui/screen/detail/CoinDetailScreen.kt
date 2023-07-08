@@ -1,7 +1,5 @@
 package dev.shorthouse.cryptodata.ui.screen.detail
 
-import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,8 +26,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -47,68 +43,69 @@ import com.patrykandpatrick.vico.core.chart.values.AxisValuesOverrider
 import com.patrykandpatrick.vico.core.entry.entryModelOf
 import com.patrykandpatrick.vico.core.entry.entryOf
 import dev.shorthouse.cryptodata.R
+import dev.shorthouse.cryptodata.model.CoinChart
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
-import dev.shorthouse.cryptodata.ui.preview.CoinDetailPreviewProvider
+import dev.shorthouse.cryptodata.ui.component.PercentageChange
+import dev.shorthouse.cryptodata.ui.previewdata.CoinDetailUiStatePreviewProvider
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailList
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailListItem
-import dev.shorthouse.cryptodata.ui.screen.detail.component.PriceChangePercentageChip
 import dev.shorthouse.cryptodata.ui.theme.AppTheme
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
 
 @Composable
-fun DetailScreen(
+fun CoinDetailScreen(
     navController: NavController,
-    viewModel: DetailViewModel = hiltViewModel()
+    viewModel: CoinDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    DetailScreen(
+    CoinDetailScreen(
         uiState = uiState,
         onNavigateUp = { navController.navigateUp() },
-        onClickChartPeriod = { viewModel.onClickChartPeriod(it) }
+        onClickChartPeriod = { viewModel.updateChartPeriod(it) }
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(
-    uiState: DetailUiState,
+fun CoinDetailScreen(
+    uiState: CoinDetailUiState,
     onNavigateUp: () -> Unit,
-    onClickChartPeriod: (String) -> Unit,
+    onClickChartPeriod: (Duration) -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (uiState) {
-        is DetailUiState.Loading -> LoadingIndicator()
-        is DetailUiState.Error -> Text("error")
-        is DetailUiState.Success -> {
-            val coinDetail = uiState.coinDetail
-            coinDetail?.let {
-                Scaffold(
-                    topBar = {
-                        DetailTopBar(
-                            coinName = it.name,
-                            coinSymbol = it.symbol,
-                            onNavigateUp = onNavigateUp
-                        )
-                    },
-                    content = { scaffoldPadding ->
-                        DetailContent(
-                            coinDetail = it,
-                            chartPeriodDays = uiState.chartPeriodDays,
-                            onClickChartPeriod = onClickChartPeriod,
-                            modifier = Modifier.padding(scaffoldPadding)
-                        )
-                    },
-                    modifier = modifier
-                )
-            }
+        is CoinDetailUiState.Loading -> LoadingIndicator()
+        is CoinDetailUiState.Error -> Text("error")
+        is CoinDetailUiState.Success -> {
+            Scaffold(
+                topBar = {
+                    CoinDetailTopBar(
+                        coinName = uiState.coinDetail.name,
+                        coinSymbol = uiState.coinDetail.symbol,
+                        onNavigateUp = onNavigateUp
+                    )
+                },
+                content = { scaffoldPadding ->
+                    CoinDetailContent(
+                        coinDetail = uiState.coinDetail,
+                        coinChart = uiState.coinChart,
+                        chartPeriod = uiState.chartPeriod,
+                        onClickChartPeriod = onClickChartPeriod,
+                        modifier = Modifier.padding(scaffoldPadding)
+                    )
+                },
+                modifier = modifier
+            )
         }
     }
 }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun DetailTopBar(
+private fun CoinDetailTopBar(
     coinName: String,
     coinSymbol: String,
     onNavigateUp: () -> Unit,
@@ -142,14 +139,13 @@ private fun DetailTopBar(
 }
 
 @Composable
-private fun DetailContent(
+private fun CoinDetailContent(
     coinDetail: CoinDetail,
-    chartPeriodDays: String,
-    onClickChartPeriod: (String) -> Unit,
+    coinChart: CoinChart,
+    chartPeriod: Duration,
+    onClickChartPeriod: (Duration) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Log.d("HDS", "input chart period: $chartPeriodDays")
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -157,14 +153,10 @@ private fun DetailContent(
             .padding(horizontal = 16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        val greyscaleColorFilter =
-            remember { ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0F) }) }
-
         AsyncImage(
             model = coinDetail.image,
             placeholder = painterResource(R.drawable.ic_launcher_background),
             contentDescription = stringResource(R.string.cd_coin_image),
-            colorFilter = greyscaleColorFilter,
             modifier = Modifier
                 .padding(top = 8.dp)
                 .size(64.dp)
@@ -177,26 +169,28 @@ private fun DetailContent(
 
         Spacer(Modifier.height(4.dp))
 
-        PriceChangePercentageChip(
-            priceChangePercentage = coinDetail.periodPriceChangePercentage
+        PercentageChange(
+            percentage = coinChart.periodPriceChangePercentage
         )
 
         Spacer(Modifier.height(32.dp))
 
         CoinPastPricesChart(
-            coinPastPrices = coinDetail.pastPrices,
-            minPrice = coinDetail.minPastPrice.amount,
-            maxPrice = coinDetail.maxPastPrice.amount
+            coinPastPrices = coinChart.prices,
+            minPrice = coinChart.minPrice.amount,
+            maxPrice = coinChart.maxPrice.amount
         )
 
         Spacer(Modifier.height(24.dp))
 
-        val chartPeriodOptions = listOf(
-            "1",
-            "7",
-            "30",
-            "365"
-        )
+        val chartPeriodOptions = remember {
+            listOf(
+                1.days,
+                7.days,
+                30.days,
+                365.days
+            )
+        }
 
         Row {
             chartPeriodOptions.forEach { chartPeriodOption ->
@@ -204,19 +198,19 @@ private fun DetailContent(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .selectable(
-                            selected = (chartPeriodOption == chartPeriodDays),
+                            selected = (chartPeriodOption == chartPeriod),
                             onClick = { onClickChartPeriod(chartPeriodOption) },
                             role = Role.RadioButton
                         )
                 ) {
                     RadioButton(
-                        selected = (chartPeriodOption == chartPeriodDays),
+                        selected = (chartPeriodOption == chartPeriod),
                         onClick = null,
                         modifier = Modifier.padding(8.dp)
                     )
 
                     Text(
-                        text = chartPeriodOption,
+                        text = chartPeriodOption.inWholeDays.toString(),
                         style = MaterialTheme.typography.bodyMedium.copy(
                             color = MaterialTheme.colorScheme.onSurface
                         )
@@ -237,11 +231,11 @@ private fun DetailContent(
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
-                    text = coinDetail.minPastPrice.formattedAmount,
+                    text = coinChart.minPrice.formattedAmount,
                     style = MaterialTheme.typography.bodyLarge
                 )
-                PriceChangePercentageChip(
-                    priceChangePercentage = coinDetail.minPriceChangePercentage
+                PercentageChange(
+                    percentage = coinChart.minPriceChangePercentage
                 )
             }
             Column(
@@ -255,11 +249,11 @@ private fun DetailContent(
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
-                    text = coinDetail.maxPastPrice.formattedAmount,
+                    text = coinChart.maxPrice.formattedAmount,
                     style = MaterialTheme.typography.bodyLarge
                 )
-                PriceChangePercentageChip(
-                    priceChangePercentage = coinDetail.maxPriceChangePercentage
+                PercentageChange(
+                    percentage = coinChart.maxPriceChangePercentage
                 )
             }
         }
@@ -343,17 +337,13 @@ private fun CoinPastPricesChart(
 }
 
 @Composable
-@Preview(name = "Light Mode", showBackground = true)
-@Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-fun DetailScreenPreview(
-    @PreviewParameter(CoinDetailPreviewProvider::class) coinDetail: CoinDetail
+@Preview(showBackground = true)
+private fun DetailScreenPreview(
+    @PreviewParameter(CoinDetailUiStatePreviewProvider::class) uiState: CoinDetailUiState
 ) {
     AppTheme {
-        DetailScreen(
-            uiState = DetailUiState.Success(
-                coinDetail = coinDetail,
-                chartPeriodDays = "7"
-            ),
+        CoinDetailScreen(
+            uiState = uiState,
             onNavigateUp = {},
             onClickChartPeriod = {}
         )

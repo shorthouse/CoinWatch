@@ -12,25 +12,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import dev.shorthouse.cryptodata.model.CoinListItem
+import dev.shorthouse.cryptodata.model.Coin
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
+import dev.shorthouse.cryptodata.ui.previewdata.CoinListUiStatePreviewProvider
 import dev.shorthouse.cryptodata.ui.screen.Screen
 import dev.shorthouse.cryptodata.ui.screen.list.component.CoinListItem
+import dev.shorthouse.cryptodata.ui.theme.AppTheme
 
 @Composable
-fun ListScreen(
+fun CoinListScreen(
     navController: NavController,
-    viewModel: ListViewModel = hiltViewModel()
+    viewModel: CoinListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    ListScreen(
+    CoinListScreen(
         uiState = uiState,
-        onItemClick = {
-            navController.navigate(Screen.DetailScreen.route + "/${it.id}")
+        onItemClick = { coin ->
+            navController.navigate(Screen.DetailScreen.route + "/${coin.id}")
         }
 
     )
@@ -38,18 +42,18 @@ fun ListScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListScreen(
-    uiState: ListUiState,
-    onItemClick: (CoinListItem) -> Unit,
+fun CoinListScreen(
+    uiState: CoinListUiState,
+    onItemClick: (Coin) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     when (uiState) {
-        is ListUiState.Loading -> LoadingIndicator()
-        is ListUiState.Error -> Text("error")
-        is ListUiState.Success -> {
-            val coinListItems = uiState.data
+        is CoinListUiState.Loading -> LoadingIndicator()
+        is CoinListUiState.Error -> Text("error")
+        is CoinListUiState.Success -> {
+            val coinListItems = uiState.coins
 
             Scaffold(
                 topBar = {
@@ -75,7 +79,7 @@ fun ListScreen(
                                 val coinListItem = coinListItems[index]
 
                                 CoinListItem(
-                                    coinListItem = coinListItem,
+                                    coin = coinListItem,
                                     onItemClick = { onItemClick(coinListItem) }
                                 )
                             }
@@ -88,26 +92,15 @@ fun ListScreen(
     }
 }
 
-//
-// @Composable
-// @Preview(name = "Light Mode", showBackground = true)
-// @Preview(name = "Dark Mode", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-// private fun ListScreenPreview() {
-//    AppTheme {
-//        ListScreen(
-//            cryptocurrencies = listOf(
-//                CoinListItem(
-//                    id = "ethereum",
-//                    symbol = "ETH",
-//                    name = "Ethereum",
-//                    image = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
-//                    currentPrice = 1345.62,
-//                    priceChangePercentage = 0.42
-//                )
-//            ),
-//            isLoading = false,
-//            error = null,
-//            onItemClick = {}
-//        )
-//    }
-// }
+@Composable
+@Preview(showBackground = true)
+private fun ListScreenPreview(
+    @PreviewParameter(CoinListUiStatePreviewProvider::class) uiState: CoinListUiState
+) {
+    AppTheme {
+        CoinListScreen(
+            uiState = uiState,
+            onItemClick = {}
+        )
+    }
+}
