@@ -37,6 +37,7 @@ android {
     }
     buildFeatures {
         compose true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.4.6'
@@ -87,6 +88,9 @@ dependencies {
 
     // Coil
     implementation("io.coil-kt:coil-compose:2.4.0")
+
+    // Timber
+    implementation("com.jakewharton.timber:timber:5.0.1")
 
     // Testing
     testImplementation 'junit:junit:4.13.2'
