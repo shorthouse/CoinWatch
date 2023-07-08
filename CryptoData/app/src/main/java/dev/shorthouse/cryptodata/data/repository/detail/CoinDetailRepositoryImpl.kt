@@ -6,15 +6,15 @@ import dev.shorthouse.cryptodata.data.source.remote.model.CoinDetailApiModel
 import dev.shorthouse.cryptodata.di.IoDispatcher
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.model.Price
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import java.text.NumberFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import javax.inject.Inject
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 
 class CoinDetailRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,
@@ -46,11 +46,11 @@ class CoinDetailRepositoryImpl @Inject constructor(
 
         return CoinDetail(
             id = id,
-            name = name,
-            symbol = symbol.uppercase(),
-            image = image,
+            name = name.orEmpty(),
+            symbol = symbol?.uppercase().orEmpty(),
+            image = image.orEmpty(),
             currentPrice = Price(currentPrice),
-            marketCapRank = marketCapRank,
+            marketCapRank = marketCapRank?.toString().orEmpty(),
             marketCap = Price(marketCap),
             circulatingSupply = numberGroupingFormat.format(circulatingSupply),
             allTimeLow = Price(allTimeLow),
