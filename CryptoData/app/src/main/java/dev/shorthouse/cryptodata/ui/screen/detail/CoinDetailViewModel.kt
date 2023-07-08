@@ -8,23 +8,23 @@ import dev.shorthouse.cryptodata.common.Constants.PARAM_COIN_ID
 import dev.shorthouse.cryptodata.common.Result
 import dev.shorthouse.cryptodata.domain.GetCoinChartUseCase
 import dev.shorthouse.cryptodata.domain.GetCoinDetailUseCase
-import javax.inject.Inject
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.days
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(
+class CoinDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getCoinDetailUseCase: GetCoinDetailUseCase,
     private val getCoinChartUseCase: GetCoinChartUseCase
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
+    private val _uiState = MutableStateFlow<CoinDetailUiState>(CoinDetailUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
     private val chartPeriodFlow = MutableStateFlow(7.days)
@@ -51,14 +51,14 @@ class DetailViewModel @Inject constructor(
         combine(coinDetailFlow, coinChartFlow) { coinDetailResult, coinChartResult ->
             when {
                 coinDetailResult is Result.Error -> {
-                    _uiState.update { DetailUiState.Error(coinDetailResult.message) }
+                    _uiState.update { CoinDetailUiState.Error(coinDetailResult.message) }
                 }
                 coinChartResult is Result.Error -> {
-                    _uiState.update { DetailUiState.Error(coinChartResult.message) }
+                    _uiState.update { CoinDetailUiState.Error(coinChartResult.message) }
                 }
                 coinDetailResult is Result.Success && coinChartResult is Result.Success -> {
                     _uiState.update {
-                        DetailUiState.Success(
+                        CoinDetailUiState.Success(
                             coinDetail = coinDetailResult.data,
                             coinChart = coinChartResult.data,
                             chartPeriod = chartPeriodFlow.value
