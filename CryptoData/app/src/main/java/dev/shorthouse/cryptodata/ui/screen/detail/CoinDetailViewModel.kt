@@ -8,15 +8,16 @@ import dev.shorthouse.cryptodata.common.Constants.PARAM_COIN_ID
 import dev.shorthouse.cryptodata.common.Result
 import dev.shorthouse.cryptodata.domain.GetCoinChartUseCase
 import dev.shorthouse.cryptodata.domain.GetCoinDetailUseCase
+import javax.inject.Inject
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
-import javax.inject.Inject
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.days
+import timber.log.Timber
 
 @HiltViewModel
 class CoinDetailViewModel @Inject constructor(
@@ -51,9 +52,11 @@ class CoinDetailViewModel @Inject constructor(
         combine(coinDetailFlow, coinChartFlow) { coinDetailResult, coinChartResult ->
             when {
                 coinDetailResult is Result.Error -> {
+                    Timber.e("getCoinDetail error ${coinDetailResult.message}")
                     _uiState.update { CoinDetailUiState.Error(coinDetailResult.message) }
                 }
                 coinChartResult is Result.Error -> {
+                    Timber.e("getCoinChart error ${coinChartResult.message}")
                     _uiState.update { CoinDetailUiState.Error(coinChartResult.message) }
                 }
                 coinDetailResult is Result.Success && coinChartResult is Result.Success -> {

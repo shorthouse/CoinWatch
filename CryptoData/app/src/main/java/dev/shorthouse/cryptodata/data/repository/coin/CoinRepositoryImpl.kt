@@ -7,11 +7,12 @@ import dev.shorthouse.cryptodata.di.IoDispatcher
 import dev.shorthouse.cryptodata.model.Coin
 import dev.shorthouse.cryptodata.model.Percentage
 import dev.shorthouse.cryptodata.model.Price
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import javax.inject.Inject
+import timber.log.Timber
 
 class CoinRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,
@@ -26,9 +27,11 @@ class CoinRepositoryImpl @Inject constructor(
                 if (response.isSuccessful && body != null) {
                     Result.Success(body.map { it.toCoin() })
                 } else {
+                    Timber.e("getCoins unsuccessful retrofit response ${response.message()}")
                     Result.Error(message = response.message())
                 }
             } catch (e: Throwable) {
+                Timber.e("getCoins error $e")
                 Result.Error(message = e.message)
             }
         )

@@ -11,6 +11,7 @@ import dev.shorthouse.cryptodata.ui.theme.AppTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             AppTheme {
                 AppNavHost()
