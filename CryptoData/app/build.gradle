@@ -64,7 +64,6 @@ dependencies {
     implementation 'androidx.compose.material3:material3'
     implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.1'
     implementation 'androidx.compose.material:material-icons-extended:1.4.3'
-    implementation 'com.patrykandpatrick.vico:compose:1.6.5'
 
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1'
