@@ -6,6 +6,7 @@ val dark_onSurfaceVariant = Color(0xFFBDBDBD)
 
 val PositiveGreen = Color(0xFF12D18E)
 val NegativeRed = Color(0xFFF75555)
+val ZeroWhite = Color(0xFFFFFFFF)
 
 val Purple200 = Color(0xFFBB86FC)
 val Teal200 = Color(0xFF03DAC5)
