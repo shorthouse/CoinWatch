@@ -38,6 +38,6 @@ class CoinDetailUiStatePreviewProvider : PreviewParameterProvider<CoinDetailUiSt
             chartPeriod = 7.days
         ),
         CoinDetailUiState.Error("Error message"),
-        CoinDetailUiState.Loading,
+        CoinDetailUiState.Loading
     )
 }

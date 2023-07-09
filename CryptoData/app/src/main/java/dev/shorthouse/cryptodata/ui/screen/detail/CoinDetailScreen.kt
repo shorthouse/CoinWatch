@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -36,17 +37,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.patrykandpatrick.vico.compose.chart.Chart
-import com.patrykandpatrick.vico.compose.chart.line.lineChart
-import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollSpec
-import com.patrykandpatrick.vico.core.chart.values.AxisValuesOverrider
-import com.patrykandpatrick.vico.core.entry.entryModelOf
-import com.patrykandpatrick.vico.core.entry.entryOf
 import dev.shorthouse.cryptodata.R
 import dev.shorthouse.cryptodata.model.CoinChart
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
 import dev.shorthouse.cryptodata.ui.component.PercentageChange
+import dev.shorthouse.cryptodata.ui.component.PriceGraph
 import dev.shorthouse.cryptodata.ui.previewdata.CoinDetailUiStatePreviewProvider
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailList
 import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailListItem
@@ -175,13 +171,15 @@ private fun CoinDetailContent(
 
         Spacer(Modifier.height(32.dp))
 
-        CoinPastPricesChart(
-            coinPastPrices = coinChart.prices,
-            minPrice = coinChart.minPrice.amount,
-            maxPrice = coinChart.maxPrice.amount
+        PriceGraph(
+            prices = coinChart.prices,
+            priceChangePercentage = coinChart.periodPriceChangePercentage,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
         )
 
-        Spacer(Modifier.height(24.dp))
+        Spacer(Modifier.height(32.dp))
 
         val chartPeriodOptions = remember {
             listOf(
@@ -304,36 +302,6 @@ private fun CoinDetailContent(
 
         Spacer(Modifier.height(16.dp))
     }
-}
-
-@Composable
-private fun CoinPastPricesChart(
-    coinPastPrices: List<Double>,
-    minPrice: Double,
-    maxPrice: Double,
-    modifier: Modifier = Modifier
-) {
-    val chartModel = remember {
-        entryModelOf(
-            coinPastPrices.mapIndexed { index, historicalPrice ->
-                entryOf(x = index, y = historicalPrice)
-            }
-        )
-    }
-
-    Chart(
-        chart = lineChart(
-            axisValuesOverrider = AxisValuesOverrider.fixed(
-                minY = minPrice.toFloat(),
-                maxY = maxPrice.toFloat()
-            )
-        ),
-        model = chartModel,
-        chartScrollSpec = rememberChartScrollSpec(
-            isScrollEnabled = false
-        ),
-        modifier = modifier
-    )
 }
 
 @Composable

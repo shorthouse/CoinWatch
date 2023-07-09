@@ -31,7 +31,7 @@ class CoinChartRepositoryImpl @Inject constructor(
                 )
                 val body = response.body()
 
-                if (response.isSuccessful && body != null) {
+                if (response.isSuccessful && body != null && body.prices.isNotEmpty()) {
                     Result.Success(body.toCoinChart())
                 } else {
                     Timber.e("getCoinChart unsuccessful retrofit response ${response.message()}")
