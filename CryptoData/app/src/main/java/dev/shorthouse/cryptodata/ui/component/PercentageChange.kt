@@ -12,6 +12,7 @@ import dev.shorthouse.cryptodata.ui.previewdata.PercentagePreviewProvider
 import dev.shorthouse.cryptodata.ui.theme.AppTheme
 import dev.shorthouse.cryptodata.ui.theme.NegativeRed
 import dev.shorthouse.cryptodata.ui.theme.PositiveGreen
+import dev.shorthouse.cryptodata.ui.theme.ZeroWhite
 
 @Composable
 fun PercentageChange(
@@ -21,7 +22,7 @@ fun PercentageChange(
     val textColor = when {
         percentage.isPositive -> PositiveGreen
         percentage.isNegative -> NegativeRed
-        else -> White
+        else -> ZeroWhite
     }
 
     Text(
