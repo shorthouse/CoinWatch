@@ -15,10 +15,6 @@ data class Price(private val price: BigDecimal?) {
             }
     }
 
-    constructor(amount: Long) : this(amount.toDouble())
-    constructor(amount: Double?) : this(BigDecimal.valueOf(amount ?: 0.0))
-
-    val amountOld: Double = price?.toDouble() ?: 0.0
-    val amount: BigDecimal = price ?: BigDecimal.ZERO
+    private val amount: BigDecimal = price ?: BigDecimal.ZERO
     val formattedAmount: String = currencyFormat.format(amount)
 }
