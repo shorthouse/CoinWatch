@@ -11,7 +11,7 @@ data class CoinApiModel(
     @SerializedName("current_price")
     val currentPrice: BigDecimal,
     @SerializedName("price_change_percentage_24h")
-    val priceChangePercentage24h: Double,
+    val priceChangePercentage24h: BigDecimal,
     @SerializedName("market_cap_rank")
     val marketCapRank: Int
 )
