@@ -5,6 +5,7 @@ import android.provider.CalendarContract
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
@@ -12,6 +13,14 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+
+private val LightColorScheme = lightColorScheme(
+    surface = light_surface,
+    onSurface = light_onSurface,
+    onSurfaceVariant = light_onSurfaceVariant,
+    background = light_background,
+    onBackground = light_onBackground
+)
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple200,
@@ -38,7 +47,7 @@ fun AppTheme(
     }
 
     MaterialTheme(
-        colorScheme = DarkColorScheme,
+        colorScheme = if(darkTheme) DarkColorScheme else LightColorScheme,
         typography = AppTypography,
         shapes = AppShapes,
         content = content
