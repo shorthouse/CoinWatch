@@ -26,17 +26,12 @@ fun CoinDetailList(
     Column(modifier = modifier) {
         Text(
             text = title,
-            style = MaterialTheme.typography.titleSmall
+            style = MaterialTheme.typography.titleMedium
         )
 
         Spacer(Modifier.height(4.dp))
 
-        Surface(
-            shadowElevation = 0.dp,
-            tonalElevation = 0.dp,
-            color = MaterialTheme.colorScheme.surface,
-            shape = MaterialTheme.shapes.medium
-        ) {
+        Surface(shape = MaterialTheme.shapes.medium) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.padding(
@@ -48,7 +43,7 @@ fun CoinDetailList(
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
                             text = coinDetailListItem.name,
