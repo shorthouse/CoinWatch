@@ -14,14 +14,15 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -79,8 +80,6 @@ fun CoinDetailScreen(
             Scaffold(
                 topBar = {
                     CoinDetailTopBar(
-                        coinName = uiState.coinDetail.name,
-                        coinSymbol = uiState.coinDetail.symbol,
                         onNavigateUp = onNavigateUp
                     )
                 },
@@ -102,12 +101,10 @@ fun CoinDetailScreen(
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun CoinDetailTopBar(
-    coinName: String,
-    coinSymbol: String,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    CenterAlignedTopAppBar(
+    TopAppBar(
         navigationIcon = {
             IconButton(onClick = onNavigateUp) {
                 Icon(
@@ -116,20 +113,7 @@ private fun CoinDetailTopBar(
                 )
             }
         },
-        title = {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
-                    text = coinName,
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(
-                    text = coinSymbol,
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                )
-            }
-        },
+        title = {},
         modifier = modifier
     )
 }
@@ -143,120 +127,154 @@ private fun CoinDetailContent(
     modifier: Modifier = Modifier
 ) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(start = 16.dp, top = 8.dp, end = 16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        AsyncImage(
-            model = coinDetail.image,
-            placeholder = painterResource(R.drawable.ic_launcher_background),
-            contentDescription = stringResource(R.string.cd_coin_image),
-            modifier = Modifier
-                .padding(top = 8.dp)
-                .size(64.dp)
-        )
-
-        Text(
-            text = coinDetail.currentPrice.formattedAmount,
-            style = MaterialTheme.typography.headlineSmall
-        )
-
-        Spacer(Modifier.height(4.dp))
-
-        PercentageChange(
-            percentage = coinChart.periodPriceChangePercentage
-        )
-
-        Spacer(Modifier.height(32.dp))
-
-        PriceGraph(
-            prices = coinChart.prices,
-            priceChangePercentage = coinChart.periodPriceChangePercentage,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-        )
-
-        Spacer(Modifier.height(32.dp))
-
-        val chartPeriodOptions = remember {
-            listOf(
-                1.days,
-                7.days,
-                30.days,
-                365.days
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            AsyncImage(
+                model = coinDetail.image,
+                placeholder = painterResource(R.drawable.ic_launcher_background),
+                contentDescription = stringResource(R.string.cd_coin_image),
+                modifier = Modifier
+                    .size(40.dp)
             )
+            Column {
+                Text(
+                    text = coinDetail.name,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = coinDetail.symbol,
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                )
+            }
         }
 
-        Row {
-            chartPeriodOptions.forEach { chartPeriodOption ->
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .selectable(
-                            selected = (chartPeriodOption == chartPeriod),
-                            onClick = { onClickChartPeriod(chartPeriodOption) },
-                            role = Role.RadioButton
-                        )
-                ) {
-                    RadioButton(
-                        selected = (chartPeriodOption == chartPeriod),
-                        onClick = null,
-                        modifier = Modifier.padding(8.dp)
-                    )
-
+        Surface(
+            shape = MaterialTheme.shapes.medium,
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(24.dp),
+                modifier = Modifier.padding(vertical = 16.dp)
+            ) {
+                Column(modifier = Modifier.padding(start = 16.dp)) {
                     Text(
-                        text = chartPeriodOption.inWholeDays.toString(),
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
+                        text = coinDetail.currentPrice.formattedAmount,
+                        style = MaterialTheme.typography.headlineSmall
                     )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        PercentageChange(
+                            percentage = coinChart.periodPriceChangePercentage
+                        )
+                        Text(
+                            text = "Last x days",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        )
+                    }
+                }
+
+                PriceGraph(
+                    prices = coinChart.prices,
+                    priceChangePercentage = coinChart.periodPriceChangePercentage,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                )
+
+                val chartPeriodOptions = remember {
+                    listOf(
+                        1.days,
+                        7.days,
+                        30.days,
+                        365.days
+                    )
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    chartPeriodOptions.forEach { chartPeriodOption ->
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .selectable(
+                                    selected = (chartPeriodOption == chartPeriod),
+                                    onClick = { onClickChartPeriod(chartPeriodOption) },
+                                    role = Role.RadioButton
+                                )
+                        ) {
+                            RadioButton(
+                                selected = (chartPeriodOption == chartPeriod),
+                                onClick = null,
+                                modifier = Modifier.padding(8.dp)
+                            )
+
+                            Text(
+                                text = chartPeriodOption.inWholeDays.toString(),
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                            )
+                        }
+                    }
+                }
+
+                Row {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(
+                            text = "Period Low",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        Text(
+                            text = coinChart.minPrice.formattedAmount,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        PercentageChange(
+                            percentage = coinChart.minPriceChangePercentage
+                        )
+                    }
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(
+                            text = "Period High",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        Text(
+                            text = coinChart.maxPrice.formattedAmount,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        PercentageChange(
+                            percentage = coinChart.maxPriceChangePercentage
+                        )
+                    }
                 }
             }
         }
-
-        Row {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = "Period Low",
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                Text(
-                    text = coinChart.minPrice.formattedAmount,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                PercentageChange(
-                    percentage = coinChart.minPriceChangePercentage
-                )
-            }
-            Column(
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = "Period High",
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                Text(
-                    text = coinChart.maxPrice.formattedAmount,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                PercentageChange(
-                    percentage = coinChart.maxPriceChangePercentage
-                )
-            }
-        }
-
-        Spacer(Modifier.height(24.dp))
 
         CoinDetailList(
             title = stringResource(R.string.list_header_market_data),
@@ -273,10 +291,8 @@ private fun CoinDetailContent(
                     name = stringResource(R.string.list_item_circulating_supply),
                     value = coinDetail.circulatingSupply
                 )
-            )
+            ),
         )
-
-        Spacer(Modifier.height(16.dp))
 
         CoinDetailList(
             title = stringResource(R.string.list_header_historic_data),
@@ -297,10 +313,8 @@ private fun CoinDetailContent(
                     name = stringResource(R.string.list_item_ath_date),
                     value = coinDetail.allTimeHighDate
                 )
-            )
+            ),
         )
-
-        Spacer(Modifier.height(16.dp))
     }
 }
 
