@@ -69,12 +69,14 @@ fun CoinListScreen(
                         title = {
                             Text(
                                 text = stringResource(R.string.top_app_bar_title_market),
-                                style = MaterialTheme.typography.titleLarge
+                                style = MaterialTheme.typography.titleLarge.copy(
+                                    color = MaterialTheme.colorScheme.onPrimary
+                                )
                             )
                         },
                         colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.background,
-                            scrolledContainerColor = MaterialTheme.colorScheme.background
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            scrolledContainerColor = MaterialTheme.colorScheme.primary
                         ),
                         scrollBehavior = scrollBehavior,
                         modifier = Modifier.background(Color.Green)

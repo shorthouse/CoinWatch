@@ -6,6 +6,8 @@ val PositiveGreen = Color(0xFF12D18E)
 val NegativeRed = Color(0xFFF75555)
 val ZeroWhite = Color(0xFFFFFFFF)
 
+val light_primary = Color(0xFF1051DD)
+val light_onPrimary = Color(0xFFFFFFFF)
 val light_background = Color(0xFFF7F7F7)
 val light_onBackground = Color(0xFF000000)
 val light_surface = Color(0xFFFFFFFF)

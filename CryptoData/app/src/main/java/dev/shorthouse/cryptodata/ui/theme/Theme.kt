@@ -10,6 +10,8 @@ import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val LightColorScheme = lightColorScheme(
+    primary = light_primary,
+    onPrimary = light_onPrimary,
     surface = light_surface,
     onSurface = light_onSurface,
     onSurfaceVariant = light_onSurfaceVariant,
@@ -35,7 +37,7 @@ fun AppTheme(
 ) {
     DisposableEffect(darkTheme, systemUiController) {
         systemUiController.setSystemBarsColor(
-            color = if (darkTheme) DarkColorScheme.surface else LightColorScheme.background
+            color = if (darkTheme) DarkColorScheme.surface else LightColorScheme.primary
         )
 
         onDispose { }
