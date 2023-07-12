@@ -1,22 +1,30 @@
 package dev.shorthouse.cryptodata.ui.screen.list
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import dev.shorthouse.cryptodata.R
 import dev.shorthouse.cryptodata.model.Coin
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
 import dev.shorthouse.cryptodata.ui.previewdata.CoinListUiStatePreviewProvider
@@ -57,20 +65,28 @@ fun CoinListScreen(
 
             Scaffold(
                 topBar = {
-                    CenterAlignedTopAppBar(
+                    TopAppBar(
                         title = {
                             Text(
-                                text = "Crypto Data",
+                                text = stringResource(R.string.top_app_bar_title_market),
                                 style = MaterialTheme.typography.titleLarge
                             )
                         },
-                        scrollBehavior = scrollBehavior
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.background,
+                            scrolledContainerColor = MaterialTheme.colorScheme.background
+                        ),
+                        scrollBehavior = scrollBehavior,
+                        modifier = Modifier.background(Color.Green)
                     )
                 },
                 content = { scaffoldPadding ->
                     LazyColumn(
-                        contentPadding = scaffoldPadding,
-                        modifier = modifier.fillMaxSize()
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        contentPadding = PaddingValues(12.dp),
+                        modifier = modifier
+                            .fillMaxSize()
+                            .padding(scaffoldPadding)
                     ) {
                         items(
                             count = coinListItems.size,

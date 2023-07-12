@@ -12,6 +12,15 @@ class CoinListUiStatePreviewProvider : PreviewParameterProvider<CoinListUiState>
         CoinListUiState.Success(
             coins = listOf(
                 Coin(
+                    id = "bitcoin",
+                    symbol = "BTC",
+                    name = "Bitcoin",
+                    image = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
+                    currentPrice = Price(BigDecimal("30752")),
+                    priceChangePercentage24h = Percentage(BigDecimal("-1.39")),
+                    marketCapRank = 1
+                ),
+                Coin(
                     id = "ethereum",
                     symbol = "ETH",
                     name = "Ethereum",
@@ -19,6 +28,15 @@ class CoinListUiStatePreviewProvider : PreviewParameterProvider<CoinListUiState>
                     currentPrice = Price(BigDecimal("1345.62")),
                     priceChangePercentage24h = Percentage(BigDecimal("0.42")),
                     marketCapRank = 2
+                ),
+                Coin(
+                    id = "tether",
+                    symbol = "USDT",
+                    name = "Tether",
+                    image = "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
+                    currentPrice = Price(BigDecimal("1.0")),
+                    priceChangePercentage24h = Percentage(BigDecimal("0.00")),
+                    marketCapRank = 3
                 )
             )
         ),

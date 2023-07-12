@@ -7,7 +7,7 @@
     <string name="currency_format_integer">$%1$d</string>
     <string name="cd_top_bar_back">Back</string>
     <string name="cd_coin_image">Coin image</string>
-    <string name="list_header_market_data">Market Data</string>
+    <string name="card_header_details">Details</string>
     <string name="list_header_historic_data">Historic Data</string>
     <string name="list_item_market_cap_rank">Market Cap Rank</string>
     <string name="list_item_market_cap">Market Cap</string>
@@ -16,4 +16,9 @@
     <string name="list_item_ath">All Time High</string>
     <string name="list_item_atl_date">All Time Low Date</string>
     <string name="list_item_ath_date">All Time High Date</string>
+    <string name="period_high">Period High</string>
+    <string name="period_low">Period Low</string>
+    <string name="subtitle_period_low">Period Low</string>
+    <string name="subtitle_period_high">Period High</string>
+    <string name="top_app_bar_title_market">Market</string>
 </resources>
