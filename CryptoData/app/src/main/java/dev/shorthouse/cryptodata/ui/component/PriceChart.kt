@@ -95,7 +95,7 @@ fun PriceGraph(
         val fillPath = android.graphics.Path(strokePath.asAndroidPath())
             .asComposePath()
             .apply {
-                lineTo(lastX, size.height)
+                lineTo(lastX + 1000, size.height)
                 lineTo(0f, size.height)
                 close()
             }
