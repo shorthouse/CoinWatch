@@ -61,15 +61,13 @@ fun CoinListScreen(
         is CoinListUiState.Loading -> LoadingIndicator()
         is CoinListUiState.Error -> Text("error")
         is CoinListUiState.Success -> {
-            val coinListItems = uiState.coins
-
             Scaffold(
                 topBar = {
                     TopAppBar(
                         title = {
                             Text(
                                 text = stringResource(R.string.top_app_bar_title_market),
-                                style = MaterialTheme.typography.titleLarge.copy(
+                                style = MaterialTheme.typography.titleMedium.copy(
                                     color = MaterialTheme.colorScheme.onPrimary
                                 )
                             )
@@ -83,6 +81,8 @@ fun CoinListScreen(
                     )
                 },
                 content = { scaffoldPadding ->
+                    val coinListItems = uiState.coins
+
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                         contentPadding = PaddingValues(12.dp),
