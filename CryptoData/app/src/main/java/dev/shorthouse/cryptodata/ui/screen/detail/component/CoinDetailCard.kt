@@ -80,11 +80,11 @@ fun CoinDetailCard(
                         Text(
                             text = stringResource(coinDetailListItem.nameId),
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodySmall
                         )
                         Text(
                             text = coinDetailListItem.value,
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodySmall
                         )
                     }
                 }
