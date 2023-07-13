@@ -70,13 +70,14 @@ fun CoinDetailScreen(
                             IconButton(onClick = onNavigateUp) {
                                 Icon(
                                     imageVector = Icons.Rounded.ArrowBack,
-                                    contentDescription = stringResource(R.string.cd_top_bar_back)
+                                    contentDescription = stringResource(R.string.cd_top_bar_back),
+                                    tint = MaterialTheme.colorScheme.onPrimary
                                 )
                             }
                         },
                         title = {},
                         colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.background
+                            containerColor = MaterialTheme.colorScheme.primary
                         )
                     )
                 },
@@ -104,11 +105,11 @@ private fun CoinDetailContent(
     modifier: Modifier = Modifier
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
         modifier = modifier
             .fillMaxSize()
-            .padding(start = 16.dp, end = 16.dp, bottom = 24.dp)
             .verticalScroll(rememberScrollState())
+            .padding(12.dp)
     ) {
         CoinTitleCard(
             coinDetail = coinDetail

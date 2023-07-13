@@ -26,7 +26,7 @@ fun PercentageChange(
     Text(
         text = percentage.formattedAmount,
         color = textColor,
-        style = MaterialTheme.typography.labelLarge,
+        style = MaterialTheme.typography.bodyMedium,
         modifier = modifier
     )
 }

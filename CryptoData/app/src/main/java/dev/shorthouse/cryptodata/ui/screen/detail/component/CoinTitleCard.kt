@@ -12,7 +12,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -26,7 +25,8 @@ fun CoinTitleCard(
 ) {
     Surface(
         shape = MaterialTheme.shapes.medium,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -40,14 +40,13 @@ fun CoinTitleCard(
                 )
                 Text(
                     text = coinDetail.symbol,
-                    style = MaterialTheme.typography.titleSmall.copy(
+                    style = MaterialTheme.typography.bodyLarge.copy(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 )
             }
             AsyncImage(
                 model = coinDetail.image,
-                placeholder = painterResource(R.drawable.ic_launcher_background),
                 contentDescription = stringResource(R.string.cd_coin_image),
                 modifier = Modifier.size(50.dp)
             )

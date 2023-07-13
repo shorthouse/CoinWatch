@@ -50,12 +50,12 @@ fun CoinListItem(
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = coin.name,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyMedium,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = coin.symbol,
-                    style = MaterialTheme.typography.bodySmall.copy(
+                    style = MaterialTheme.typography.bodyMedium.copy(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     ),
                     overflow = TextOverflow.Ellipsis
