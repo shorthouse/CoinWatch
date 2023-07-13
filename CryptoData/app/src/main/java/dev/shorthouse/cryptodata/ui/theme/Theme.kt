@@ -37,7 +37,7 @@ fun AppTheme(
 ) {
     DisposableEffect(darkTheme, systemUiController) {
         systemUiController.setSystemBarsColor(
-            color = if (darkTheme) DarkColorScheme.surface else LightColorScheme.primary
+            color = if (darkTheme) DarkColorScheme.background else LightColorScheme.background
         )
 
         onDispose { }
