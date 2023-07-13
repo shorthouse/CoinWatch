@@ -54,8 +54,8 @@ fun CoinChartCard(
                         percentage = coinChart.periodPriceChangePercentage
                     )
                     Text(
-                        text = "Last x days",
-                        style = MaterialTheme.typography.bodyLarge.copy(
+                        text = "Last ${chartPeriod.inWholeDays} days",
+                        style = MaterialTheme.typography.bodyMedium.copy(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     )
@@ -101,50 +101,50 @@ fun CoinChartCard(
 
                         Text(
                             text = chartPeriodOption.inWholeDays.toString(),
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyMedium
                         )
                     }
                 }
             }
-
-            Row {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(
-                        text = stringResource(R.string.subtitle_period_low),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    Text(
-                        text = coinChart.minPrice.formattedAmount,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    PercentageChange(
-                        percentage = coinChart.minPriceChangePercentage
-                    )
-                }
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(
-                        text = stringResource(R.string.subtitle_period_high),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    Text(
-                        text = coinChart.maxPrice.formattedAmount,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    PercentageChange(
-                        percentage = coinChart.maxPriceChangePercentage
-                    )
-                }
-            }
+//
+//            Row {
+//                Column(
+//                    verticalArrangement = Arrangement.spacedBy(4.dp),
+//                    horizontalAlignment = Alignment.CenterHorizontally,
+//                    modifier = Modifier.weight(1f)
+//                ) {
+//                    Text(
+//                        text = stringResource(R.string.subtitle_period_low),
+//                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+//                        style = MaterialTheme.typography.bodyLarge
+//                    )
+//                    Text(
+//                        text = coinChart.minPrice.formattedAmount,
+//                        style = MaterialTheme.typography.bodyMedium
+//                    )
+//                    PercentageChange(
+//                        percentage = coinChart.minPriceChangePercentage
+//                    )
+//                }
+//                Column(
+//                    verticalArrangement = Arrangement.spacedBy(4.dp),
+//                    horizontalAlignment = Alignment.CenterHorizontally,
+//                    modifier = Modifier.weight(1f)
+//                ) {
+//                    Text(
+//                        text = stringResource(R.string.subtitle_period_high),
+//                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+//                        style = MaterialTheme.typography.bodyLarge
+//                    )
+//                    Text(
+//                        text = coinChart.maxPrice.formattedAmount,
+//                        style = MaterialTheme.typography.bodyMedium
+//                    )
+//                    PercentageChange(
+//                        percentage = coinChart.maxPriceChangePercentage
+//                    )
+//                }
+//            }
         }
     }
 }

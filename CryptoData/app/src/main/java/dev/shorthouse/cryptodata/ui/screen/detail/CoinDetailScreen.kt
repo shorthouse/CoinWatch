@@ -1,14 +1,10 @@
 package dev.shorthouse.cryptodata.ui.screen.detail
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -17,7 +13,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -87,27 +82,13 @@ fun CoinDetailScreen(
                     )
                 },
                 content = { scaffoldPadding ->
-                    Box {
-                        Surface(
-                            color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier
-                                .padding(scaffoldPadding)
-                                .fillMaxWidth()
-                                .height(50.dp),
-                            shape = MaterialTheme.shapes.medium.copy(
-                                topStart = CornerSize(0.dp),
-                                topEnd = CornerSize(0.dp)
-                            ),
-                            content = {}
-                        )
-                        CoinDetailContent(
-                            coinDetail = uiState.coinDetail,
-                            coinChart = uiState.coinChart,
-                            chartPeriod = uiState.chartPeriod,
-                            onClickChartPeriod = onClickChartPeriod,
-                            modifier = Modifier.padding(scaffoldPadding)
-                        )
-                    }
+                    CoinDetailContent(
+                        coinDetail = uiState.coinDetail,
+                        coinChart = uiState.coinChart,
+                        chartPeriod = uiState.chartPeriod,
+                        onClickChartPeriod = onClickChartPeriod,
+                        modifier = Modifier.padding(scaffoldPadding)
+                    )
                 },
                 modifier = modifier
             )
@@ -124,11 +105,11 @@ private fun CoinDetailContent(
     modifier: Modifier = Modifier
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
         modifier = modifier
             .fillMaxSize()
-            .padding(start = 16.dp, end = 16.dp, bottom = 24.dp)
             .verticalScroll(rememberScrollState())
+            .padding(12.dp)
     ) {
         CoinTitleCard(
             coinDetail = coinDetail
