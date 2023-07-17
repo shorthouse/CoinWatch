@@ -9,6 +9,7 @@ import dev.shorthouse.cryptodata.common.Result
 import dev.shorthouse.cryptodata.domain.GetCoinChartUseCase
 import dev.shorthouse.cryptodata.domain.GetCoinDetailUseCase
 import dev.shorthouse.cryptodata.model.ChartPeriod
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -16,7 +17,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class CoinDetailViewModel @Inject constructor(
