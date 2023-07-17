@@ -251,7 +251,7 @@ private fun CoinDetailContent(
                         )
                         Text(
                             text = coinChart.minPrice.formattedAmount,
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyMedium
                         )
                     }
                     Column(horizontalAlignment = Alignment.End) {
@@ -262,7 +262,7 @@ private fun CoinDetailContent(
                         )
                         Text(
                             text = coinChart.maxPrice.formattedAmount,
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyMedium
                         )
                     }
                 }
