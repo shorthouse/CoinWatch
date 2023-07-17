@@ -2,15 +2,21 @@ package dev.shorthouse.cryptodata.ui.screen.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -31,6 +37,7 @@ import dev.shorthouse.cryptodata.model.Coin
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
 import dev.shorthouse.cryptodata.ui.previewdata.CoinListUiStatePreviewProvider
 import dev.shorthouse.cryptodata.ui.screen.Screen
+import dev.shorthouse.cryptodata.ui.screen.list.component.CoinFavouriteItem
 import dev.shorthouse.cryptodata.ui.screen.list.component.CoinListItem
 import dev.shorthouse.cryptodata.ui.theme.AppTheme
 
@@ -59,8 +66,6 @@ fun CoinListScreen(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     when (uiState) {
-        is CoinListUiState.Loading -> LoadingIndicator()
-        is CoinListUiState.Error -> Text("error")
         is CoinListUiState.Success -> {
             Scaffold(
                 topBar = {
@@ -69,30 +74,65 @@ fun CoinListScreen(
                     )
                 },
                 content = { scaffoldPadding ->
-                    val coinListItems = uiState.coins
-
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        contentPadding = PaddingValues(12.dp),
-                        modifier = modifier
-                            .fillMaxSize()
-                            .padding(scaffoldPadding)
-                    ) {
-                        items(
-                            count = coinListItems.size,
-                            key = { coinListItems[it].id },
-                            itemContent = { index ->
-                                val coinListItem = coinListItems[index]
-
-                                CoinListItem(
-                                    coin = coinListItem,
-                                    onItemClick = { onItemClick(coinListItem) }
-                                )
-                            }
-                        )
-                    }
+                    CoinListContent(
+                        coins = uiState.coins,
+                        onItemClick = onItemClick,
+                        modifier = Modifier.padding(scaffoldPadding)
+                    )
                 },
                 modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+            )
+        }
+        is CoinListUiState.Loading -> LoadingIndicator()
+        is CoinListUiState.Error -> Text("error")
+    }
+}
+
+@Composable
+private fun CoinListContent(
+    coins: List<Coin>,
+    modifier: Modifier,
+    onItemClick: (Coin) -> Unit
+) {
+    Column(modifier = modifier.fillMaxSize().padding(12.dp)) {
+        Text(
+            text = "Favourites",
+            style = MaterialTheme.typography.titleMedium
+        )
+        Spacer(Modifier.height(8.dp))
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(
+                count = 3,
+                itemContent = { index ->
+                    CoinFavouriteItem(coin = coins[index])
+                }
+            )
+//            CoinFavouriteItem(coin = coins[0])
+//            CoinFavouriteItem(coin = coins[1])
+//            CoinFavouriteItem(coin = coins[2])
+        }
+
+        Text(
+            text = "Coins",
+            style = MaterialTheme.typography.titleMedium
+        )
+        Spacer(Modifier.height(8.dp))
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(
+                count = coins.size,
+                key = { coins[it].id },
+                itemContent = { index ->
+                    val coinListItem = coins[index]
+
+                    CoinListItem(
+                        coin = coinListItem,
+                        onItemClick = { onItemClick(coinListItem) }
+                    )
+                }
             )
         }
     }
