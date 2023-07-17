@@ -7,7 +7,7 @@
     <string name="currency_format_integer">$%1$d</string>
     <string name="cd_top_bar_back">Back</string>
     <string name="cd_coin_image">Coin image</string>
-    <string name="card_header_details">Details</string>
+    <string name="card_header_market_stats">Market Stats</string>
     <string name="list_header_historic_data">Historic Data</string>
     <string name="list_item_market_cap_rank">Market Cap Rank</string>
     <string name="list_item_market_cap">Market Cap</string>
@@ -33,4 +33,6 @@
     <string name="period_long_name_six_month">Past 6 months</string>
     <string name="period_long_name_year">Past year</string>
     <string name="period_long_name_max">All time</string>
+    <string name="range_title_low">Low</string>
+    <string name="range_title_high">High</string>
 </resources>
