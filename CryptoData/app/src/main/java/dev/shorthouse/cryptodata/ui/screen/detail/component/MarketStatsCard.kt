@@ -8,12 +8,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -21,10 +21,7 @@ import dev.shorthouse.cryptodata.R
 import dev.shorthouse.cryptodata.model.CoinDetail
 
 @Composable
-fun CoinDetailCard(
-    coinDetail: CoinDetail,
-    modifier: Modifier = Modifier
-) {
+fun MarketStatsCard(coinDetail: CoinDetail) {
     val coinDetailItems = remember(coinDetail) {
         listOf(
             CoinDetailListItem(
@@ -58,29 +55,28 @@ fun CoinDetailCard(
         )
     }
 
-    Column(modifier = modifier) {
-        Text(
-            text = stringResource(R.string.card_header_details),
-            style = MaterialTheme.typography.titleMedium
-        )
+    Surface(shape = MaterialTheme.shapes.medium) {
+        Column(modifier = Modifier.padding(12.dp)) {
+            Text(
+                text = stringResource(R.string.card_header_market_stats),
+                style = MaterialTheme.typography.titleMedium
+            )
 
-        Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(16.dp))
 
-        Surface(shape = MaterialTheme.shapes.medium) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(16.dp)
-            ) {
-                coinDetailItems.forEach { coinDetailListItem ->
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                coinDetailItems.forEachIndexed { coinDetailIndex, coinDetailListItem ->
+                    if (coinDetailIndex != 0) {
+                        Divider(color = MaterialTheme.colorScheme.background)
+                    }
                     Row(
-                        verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
                             text = stringResource(coinDetailListItem.nameId),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            style = MaterialTheme.typography.bodySmall
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
                             text = coinDetailListItem.value,
@@ -97,12 +93,3 @@ data class CoinDetailListItem(
     @StringRes val nameId: Int,
     val value: String
 )
-
-// @Composable
-// @Preview(showBackground = true)
-// private fun CoinDetailListPreview() {
-//    AppTheme {
-//        CoinDetailCard(
-//
-//    }
-// }

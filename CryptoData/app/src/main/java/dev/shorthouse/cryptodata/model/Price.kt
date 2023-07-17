@@ -15,6 +15,6 @@ data class Price(private val price: BigDecimal?) {
             }
     }
 
-    private val amount: BigDecimal = price ?: BigDecimal.ZERO
+    val amount: BigDecimal = price ?: BigDecimal.ZERO
     val formattedAmount: String = currencyFormat.format(amount)
 }
