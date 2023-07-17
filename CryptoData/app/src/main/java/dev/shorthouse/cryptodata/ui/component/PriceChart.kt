@@ -1,18 +1,22 @@
 package dev.shorthouse.cryptodata.ui.component
-
-import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.AnimationState
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateTo
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathMeasure
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.asAndroidPath
-import androidx.compose.ui.graphics.asComposePath
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,27 +52,27 @@ fun PriceGraph(
     }
 
     val graphFillGradientColor = remember(graphLineColor) {
-        graphLineColor.copy(alpha = 0.5f)
+        graphLineColor.copy(alpha = 0.6f)
     }
 
-    Canvas(modifier = modifier.animateContentSize()) {
+    val animatedPathProgress = remember(prices) {
+        AnimationState(0f)
+    }
+
+    Canvas(modifier = modifier) {
         val spacePerPoint = size.width / prices.size
-        var lastX = 0f
+        val height = size.height
 
         val strokePath = Path().apply {
-            val height = size.height
-
             for ((index, price) in prices.withIndex()) {
-                val leftRatio = (price - minPrice) / (maxPrice - minPrice)
                 val currentX = index * spacePerPoint
-                val currentY = height - (leftRatio * height.toBigDecimal()).toFloat()
+                val currentRatio = (price - minPrice) / (maxPrice - minPrice)
+                val currentY = height - (currentRatio * height.toBigDecimal()).toFloat()
 
-                val nextPrice = prices.getOrNull(index + 1) ?: prices.last()
-                val rightRatio = (nextPrice - minPrice) / (maxPrice - minPrice)
                 val nextX = (index + 1) * spacePerPoint
-                val nextY = height - (rightRatio * height.toBigDecimal()).toFloat()
-
-                lastX = (currentX + nextX) / 2f
+                val nextPrice = prices.getOrNull(index + 1) ?: prices.last()
+                val nextRatio = (nextPrice - minPrice) / (maxPrice - minPrice)
+                val nextY = height - (nextRatio * height.toBigDecimal()).toFloat()
 
                 if (index == 0) {
                     moveTo(currentX, currentY)
@@ -77,40 +81,79 @@ fun PriceGraph(
                 quadraticBezierTo(
                     currentX,
                     currentY,
-                    lastX,
+                    (currentX + nextX) / 2f,
                     (currentY + nextY) / 2f
                 )
             }
         }
 
-        drawPath(
-            path = strokePath,
-            color = graphLineColor,
-            style = Stroke(
-                width = 3.dp.toPx(),
-                cap = StrokeCap.Round
+        val animatedLinePath = derivedStateOf {
+            val pathMeasure = PathMeasure()
+            pathMeasure.setPath(strokePath, false)
+            val animatedLinePath = Path()
+
+            pathMeasure.getSegment(
+                0f,
+                animatedPathProgress.value * pathMeasure.length,
+                animatedLinePath
             )
+
+            animatedLinePath
+        }
+
+        drawLinePath(
+            linePath = animatedLinePath.value,
+            lineColor = graphLineColor
         )
 
-        val fillPath = android.graphics.Path(strokePath.asAndroidPath())
-            .asComposePath()
-            .apply {
-                lineTo(lastX + 1000, size.height)
+        drawFillPath(
+            fillPath = strokePath.apply {
+                lineTo(2000f, size.height)
                 lineTo(0f, size.height)
-                close()
-            }
+            },
+            fillColor = graphFillGradientColor
+        )
+    }
 
-        drawPath(
-            path = fillPath,
-            brush = Brush.verticalGradient(
-                colors = listOf(
-                    graphFillGradientColor,
-                    Color.Transparent
-                ),
-                endY = size.height
+    LaunchedEffect(prices) {
+        animatedPathProgress.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(
+                durationMillis = 1000,
+                easing = LinearEasing
             )
         )
     }
+}
+
+private fun DrawScope.drawLinePath(
+    linePath: Path,
+    lineColor: Color
+) {
+    drawPath(
+        path = linePath,
+        color = lineColor,
+        style = Stroke(
+            width = 3.dp.toPx(),
+            cap = StrokeCap.Round
+        )
+    )
+}
+
+private fun DrawScope.drawFillPath(
+    fillPath: Path,
+    fillColor: Color
+) {
+    drawPath(
+        path = fillPath,
+        brush = Brush.verticalGradient(
+            colors = listOf(
+                fillColor,
+                Color.Transparent
+            ),
+            endY = size.height
+        )
+    )
 }
 
 @Composable
