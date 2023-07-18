@@ -33,6 +33,7 @@ import java.math.RoundingMode
 fun PriceGraph(
     prices: List<BigDecimal>,
     priceChangePercentage: Percentage,
+    isLineAnimated: Boolean,
     modifier: Modifier = Modifier
 ) {
     val minPrice = remember(prices) {
