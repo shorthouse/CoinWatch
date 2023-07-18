@@ -13,7 +13,7 @@ interface CoinApi {
     suspend fun getCoins(
         @Query("vs_currency") currency: String = "usd",
         @Query("order") order: String = "market_cap_desc",
-        @Query("per_page") coinsPerPage: Int = 100,
+        @Query("per_page") coinsPerPage: Int = 30,
         @Query("page") page: Int = 1,
         @Query("sparkline") includeSparkline7dData: Boolean = true,
         @Query("price_change_percentage") priceChangePercentagePeriods: String = "24h",
