@@ -3,9 +3,7 @@ package dev.shorthouse.cryptodata.ui.screen.list.component
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -35,7 +33,7 @@ fun CoinFavouriteItem(
 ) {
     Surface(
         shape = MaterialTheme.shapes.medium,
-        modifier = modifier.size(180.dp)
+        modifier = modifier.size(width = 140.dp, height = 200.dp)
     ) {
         Column {
             Column(modifier = Modifier.padding(12.dp)) {
@@ -88,7 +86,7 @@ fun CoinFavouriteItem(
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview
 private fun CoinFavouriteItemPreview() {
     AppTheme {
         CoinFavouriteItem(
