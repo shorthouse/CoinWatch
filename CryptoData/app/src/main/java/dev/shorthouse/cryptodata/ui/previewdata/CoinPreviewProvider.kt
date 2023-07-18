@@ -15,7 +15,8 @@ class CoinPreviewProvider : PreviewParameterProvider<Coin> {
             image = "",
             currentPrice = Price(BigDecimal("26321.14")),
             priceChangePercentage24h = Percentage(BigDecimal("-1.12")),
-            marketCapRank = 1
+            marketCapRank = 1,
+            prices24h = emptyList()
         ),
         Coin(
             id = "ethereum",
@@ -24,7 +25,8 @@ class CoinPreviewProvider : PreviewParameterProvider<Coin> {
             image = "",
             currentPrice = Price(BigDecimal("1345.62")),
             priceChangePercentage24h = Percentage(BigDecimal("0.42")),
-            marketCapRank = 2
+            marketCapRank = 2,
+            prices24h = emptyList()
         ),
         Coin(
             id = "tether",
@@ -33,7 +35,8 @@ class CoinPreviewProvider : PreviewParameterProvider<Coin> {
             image = "",
             currentPrice = Price(BigDecimal("1.00")),
             priceChangePercentage24h = Percentage(BigDecimal("0.0")),
-            marketCapRank = 3
+            marketCapRank = 3,
+            prices24h = emptyList()
         )
     )
 }

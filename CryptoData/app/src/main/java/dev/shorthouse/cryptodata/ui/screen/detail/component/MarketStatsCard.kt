@@ -89,7 +89,7 @@ fun MarketStatsCard(coinDetail: CoinDetail) {
     }
 }
 
-data class CoinDetailListItem(
+private data class CoinDetailListItem(
     @StringRes val nameId: Int,
     val value: String
 )
