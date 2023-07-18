@@ -44,7 +44,7 @@ fun ChartRangeLine(
     Canvas(modifier = modifier) {
         val canvasWidth = size.width
         val canvasHeightMiddle = size.height / 2f
-        val lineWidth = 30f
+        val lineWidth = 25f
 
         drawLine(
             start = Offset(
