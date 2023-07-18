@@ -3,7 +3,6 @@ package dev.shorthouse.cryptodata.ui.screen.list
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -16,7 +15,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -34,12 +32,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.shorthouse.cryptodata.R
 import dev.shorthouse.cryptodata.model.Coin
+import dev.shorthouse.cryptodata.model.Percentage
+import dev.shorthouse.cryptodata.model.Price
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
 import dev.shorthouse.cryptodata.ui.previewdata.CoinListUiStatePreviewProvider
 import dev.shorthouse.cryptodata.ui.screen.Screen
 import dev.shorthouse.cryptodata.ui.screen.list.component.CoinFavouriteItem
 import dev.shorthouse.cryptodata.ui.screen.list.component.CoinListItem
 import dev.shorthouse.cryptodata.ui.theme.AppTheme
+import java.math.BigDecimal
 
 @Composable
 fun CoinListScreen(
@@ -104,14 +105,12 @@ private fun CoinListContent(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(
-                count = 3,
+                count = coins.size,
+                key = { coins[it].id },
                 itemContent = { index ->
                     CoinFavouriteItem(coin = coins[index])
                 }
             )
-//            CoinFavouriteItem(coin = coins[0])
-//            CoinFavouriteItem(coin = coins[1])
-//            CoinFavouriteItem(coin = coins[2])
         }
 
         Text(
@@ -164,7 +163,40 @@ private fun ListScreenPreview(
 ) {
     AppTheme {
         CoinListScreen(
-            uiState = uiState,
+            uiState = CoinListUiState.Success(
+                coins = listOf(
+                    Coin(
+                        id = "bitcoin",
+                        symbol = "BTC",
+                        name = "Bitcoin",
+                        image = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
+                        currentPrice = Price(BigDecimal("30752")),
+                        priceChangePercentage24h = Percentage(BigDecimal("-1.39")),
+                        marketCapRank = 1,
+                        prices24h = emptyList()
+                    ),
+                    Coin(
+                        id = "ethereum",
+                        symbol = "ETH",
+                        name = "Ethereum",
+                        image = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+                        currentPrice = Price(BigDecimal("1345.62")),
+                        priceChangePercentage24h = Percentage(BigDecimal("0.42")),
+                        marketCapRank = 2,
+                        prices24h = emptyList()
+                    ),
+                    Coin(
+                        id = "tether",
+                        symbol = "USDT",
+                        name = "Tether",
+                        image = "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
+                        currentPrice = Price(BigDecimal("1.0")),
+                        priceChangePercentage24h = Percentage(BigDecimal("0.00")),
+                        marketCapRank = 3,
+                        prices24h = emptyList()
+                    )
+                )
+            ),
             onItemClick = {}
         )
     }
