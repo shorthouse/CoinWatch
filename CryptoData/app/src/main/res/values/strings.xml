@@ -35,4 +35,5 @@
     <string name="period_long_name_max">All time</string>
     <string name="range_title_low">Low</string>
     <string name="range_title_high">High</string>
+    <string name="title_chart_range">Chart Range</string>
 </resources>
