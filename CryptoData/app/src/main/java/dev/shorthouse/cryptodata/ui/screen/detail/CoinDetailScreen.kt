@@ -44,7 +44,6 @@ import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.model.Percentage
 import dev.shorthouse.cryptodata.model.Price
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
-import dev.shorthouse.cryptodata.ui.component.PercentageChange
 import dev.shorthouse.cryptodata.ui.component.PercentageChangeChip
 import dev.shorthouse.cryptodata.ui.component.PriceGraph
 import dev.shorthouse.cryptodata.ui.previewdata.CoinDetailUiStatePreviewProvider
@@ -204,6 +203,7 @@ private fun CoinDetailContent(
                 PriceGraph(
                     prices = coinChart.prices,
                     priceChangePercentage = coinChart.periodPriceChangePercentage,
+                    isLineAnimated = true,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp)
@@ -272,55 +272,6 @@ private fun CoinDetailContent(
         MarketStatsCard(coinDetail)
     }
 }
-
-//        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-//            Surface(
-//                shape = MaterialTheme.shapes.medium,
-//                modifier = Modifier.weight(1f)
-//            ) {
-//                Column(
-//                    verticalArrangement = Arrangement.spacedBy(4.dp),
-//                    horizontalAlignment = Alignment.CenterHorizontally,
-//                    modifier = Modifier.padding(16.dp)
-//                ) {
-//                    Text(
-//                        text = stringResource(R.string.subtitle_period_low),
-//                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-//                        style = MaterialTheme.typography.bodyMedium
-//                    )
-//                    Text(
-//                        text = coinChart.minPrice.formattedAmount,
-//                        style = MaterialTheme.typography.bodyMedium
-//                    )
-//                    PercentageChange(
-//                        percentage = coinChart.minPriceChangePercentage
-//                    )
-//                }
-//            }
-//            Surface(
-//                shape = MaterialTheme.shapes.medium,
-//                modifier = Modifier.weight(1f)
-//            ) {
-//                Column(
-//                    verticalArrangement = Arrangement.spacedBy(4.dp),
-//                    horizontalAlignment = Alignment.CenterHorizontally,
-//                    modifier = Modifier.padding(16.dp)
-//                ) {
-//                    Text(
-//                        text = stringResource(R.string.subtitle_period_high),
-//                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-//                        style = MaterialTheme.typography.bodyMedium
-//                    )
-//                    Text(
-//                        text = coinChart.maxPrice.formattedAmount,
-//                        style = MaterialTheme.typography.bodyMedium
-//                    )
-//                    PercentageChange(
-//                        percentage = coinChart.maxPriceChangePercentage
-//                    )
-//                }
-//            }
-//        }
 
 @Composable
 @Preview(showBackground = true)
