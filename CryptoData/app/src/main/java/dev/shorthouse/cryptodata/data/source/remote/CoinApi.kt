@@ -15,7 +15,7 @@ interface CoinApi {
         @Query("order") order: String = "market_cap_desc",
         @Query("per_page") coinsPerPage: Int = 100,
         @Query("page") page: Int = 1,
-        @Query("sparkline") includeSparklineData: Boolean = false,
+        @Query("sparkline") includeSparkline7dData: Boolean = true,
         @Query("price_change_percentage") priceChangePercentagePeriods: String = "24h",
         @Query("locale") locale: String = "en",
         @Query("precision") currencyDecimalPlaces: String = "2"

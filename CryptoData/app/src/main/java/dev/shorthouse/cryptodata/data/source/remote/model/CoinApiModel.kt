@@ -10,8 +10,15 @@ data class CoinApiModel(
     val image: String,
     @SerializedName("current_price")
     val currentPrice: BigDecimal,
+    @SerializedName("market_cap_rank")
+    val marketCapRank: Int,
     @SerializedName("price_change_percentage_24h")
     val priceChangePercentage24h: BigDecimal,
-    @SerializedName("market_cap_rank")
-    val marketCapRank: Int
+    @SerializedName("sparkline_in_7d")
+    val sparkline7d: Sparkline7d
+)
+
+data class Sparkline7d(
+    @SerializedName("price")
+    val prices: List<BigDecimal>
 )

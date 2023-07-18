@@ -8,6 +8,7 @@ import dev.shorthouse.cryptodata.model.Coin
 import dev.shorthouse.cryptodata.model.Percentage
 import dev.shorthouse.cryptodata.model.Price
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.days
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -45,7 +46,8 @@ class CoinRepositoryImpl @Inject constructor(
             image = image,
             currentPrice = Price(currentPrice),
             marketCapRank = marketCapRank,
-            priceChangePercentage24h = Percentage(priceChangePercentage24h)
+            priceChangePercentage24h = Percentage(priceChangePercentage24h),
+            prices24h = sparkline7d.prices.takeLast(1.days.inWholeHours.toInt())
         )
     }
 }
