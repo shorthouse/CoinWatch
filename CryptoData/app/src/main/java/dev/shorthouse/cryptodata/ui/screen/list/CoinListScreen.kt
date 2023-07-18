@@ -7,10 +7,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
@@ -22,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -64,15 +64,15 @@ fun CoinListScreen(
     onItemClick: (Coin) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    // val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     when (uiState) {
         is CoinListUiState.Success -> {
             Scaffold(
                 topBar = {
-                    CoinListTopBar(
-                        scrollBehavior = scrollBehavior
-                    )
+//                    CoinListTopBar(
+//                        scrollBehavior = scrollBehavior
+//                    )
                 },
                 content = { scaffoldPadding ->
                     CoinListContent(
@@ -81,7 +81,7 @@ fun CoinListScreen(
                         modifier = Modifier.padding(scaffoldPadding)
                     )
                 },
-                modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                // modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
             )
         }
         is CoinListUiState.Loading -> LoadingIndicator()
@@ -97,7 +97,7 @@ private fun CoinListContent(
 ) {
     Column(modifier = modifier.fillMaxSize().padding(12.dp)) {
         Text(
-            text = "Favourites",
+            text = stringResource(R.string.header_favourites),
             style = MaterialTheme.typography.titleMedium
         )
         Spacer(Modifier.height(8.dp))
@@ -113,23 +113,43 @@ private fun CoinListContent(
             )
         }
 
+        Spacer(Modifier.height(32.dp))
+
         Text(
-            text = "Coins",
+            text = stringResource(R.string.header_coins),
             style = MaterialTheme.typography.titleMedium
         )
         Spacer(Modifier.height(8.dp))
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
+        LazyColumn {
             items(
                 count = coins.size,
                 key = { coins[it].id },
                 itemContent = { index ->
                     val coinListItem = coins[index]
 
+                    val cardShape = when (index) {
+                        0 -> MaterialTheme.shapes.medium.copy(
+                            bottomStart = CornerSize(0.dp),
+                            bottomEnd = CornerSize(0.dp)
+                        )
+                        coins.lastIndex -> MaterialTheme.shapes.medium.copy(
+                            topStart = CornerSize(0.dp),
+                            topEnd = CornerSize(0.dp)
+                        )
+                        else -> RoundedCornerShape(0.dp)
+                    }
+
+                    if (index != 0) {
+                        Divider(
+                            color = MaterialTheme.colorScheme.background,
+                            modifier = Modifier.padding(horizontal = 40.dp)
+                        )
+                    }
+
                     CoinListItem(
                         coin = coinListItem,
-                        onItemClick = { onItemClick(coinListItem) }
+                        onItemClick = { onItemClick(coinListItem) },
+                        cardShape = cardShape
                     )
                 }
             )
@@ -144,12 +164,12 @@ private fun CoinListTopBar(scrollBehavior: TopAppBarScrollBehavior) {
         title = {
             Text(
                 text = stringResource(R.string.top_app_bar_title_market),
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.colorScheme.onBackground
             )
         },
         colors = TopAppBarDefaults.largeTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            scrolledContainerColor = MaterialTheme.colorScheme.primary
+            containerColor = MaterialTheme.colorScheme.background,
+            scrolledContainerColor = MaterialTheme.colorScheme.background
         ),
         scrollBehavior = scrollBehavior,
         modifier = Modifier.background(Color.Green)
