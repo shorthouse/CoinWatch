@@ -36,4 +36,6 @@
     <string name="range_title_low">Low</string>
     <string name="range_title_high">High</string>
     <string name="title_chart_range">Chart Range</string>
+    <string name="header_favourites">Favourites</string>
+    <string name="header_coins">Coins</string>
 </resources>
