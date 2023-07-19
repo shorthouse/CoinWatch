@@ -38,4 +38,12 @@
     <string name="title_chart_range">Chart Range</string>
     <string name="header_favourites">Favourites</string>
     <string name="header_coins">Coins</string>
+    <string name="cd_coingecko">CoinGecko</string>
+    <string name="coingecko">CoinGecko</string>
+    <string name="market_up">Market is up</string>
+    <string name="market_down">Market is down</string>
+    <string name="powered_by">Powered by</string>
+    <string name="good_morning">Good morning</string>
+    <string name="good_afternoon">Good afternoon</string>
+    <string name="good_evening">Good evening</string>
 </resources>
