@@ -3,8 +3,8 @@ package dev.shorthouse.cryptodata.domain
 import dev.shorthouse.cryptodata.common.Result
 import dev.shorthouse.cryptodata.data.repository.chart.CoinChartRepository
 import dev.shorthouse.cryptodata.model.CoinChart
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 class GetCoinChartUseCase @Inject constructor(
     private val coinChartRepository: CoinChartRepository

@@ -2,8 +2,10 @@ package dev.shorthouse.cryptodata.ui.previewdata
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.shorthouse.cryptodata.model.Coin
+import dev.shorthouse.cryptodata.model.MarketStats
 import dev.shorthouse.cryptodata.model.Percentage
 import dev.shorthouse.cryptodata.model.Price
+import dev.shorthouse.cryptodata.ui.model.TimeOfDay
 import dev.shorthouse.cryptodata.ui.screen.list.CoinListUiState
 import java.math.BigDecimal
 
@@ -41,7 +43,11 @@ class CoinListUiStatePreviewProvider : PreviewParameterProvider<CoinListUiState>
                     marketCapRank = 3,
                     prices24h = emptyList()
                 )
-            )
+            ),
+            marketStats = MarketStats(
+                marketCapChangePercentage24h = Percentage(BigDecimal("-0.23"))
+            ),
+            timeOfDay = TimeOfDay.Evening
         ),
         CoinListUiState.Error("Error message"),
         CoinListUiState.Loading

@@ -34,10 +34,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import dev.shorthouse.cryptodata.R
-import dev.shorthouse.cryptodata.model.ChartPeriod
 import dev.shorthouse.cryptodata.model.CoinChart
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
+import dev.shorthouse.cryptodata.ui.model.ChartPeriod
 import dev.shorthouse.cryptodata.ui.previewdata.CoinDetailUiStatePreviewProvider
 import dev.shorthouse.cryptodata.ui.screen.detail.component.ChartCard
 import dev.shorthouse.cryptodata.ui.screen.detail.component.ChartRangeCard
@@ -162,7 +162,7 @@ private fun CoinDetailContent(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(start = 8.dp, end = 8.dp, bottom = 16.dp)
+            .padding(start = 12.dp, end = 12.dp, bottom = 12.dp)
     ) {
         ChartCard(
             coinDetail = coinDetail,
@@ -183,7 +183,7 @@ private fun CoinDetailContent(
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview
 private fun DetailScreenPreview(
     @PreviewParameter(CoinDetailUiStatePreviewProvider::class) uiState: CoinDetailUiState
 ) {

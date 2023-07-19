@@ -8,8 +8,7 @@ import dev.shorthouse.cryptodata.common.Constants.PARAM_COIN_ID
 import dev.shorthouse.cryptodata.common.Result
 import dev.shorthouse.cryptodata.domain.GetCoinChartUseCase
 import dev.shorthouse.cryptodata.domain.GetCoinDetailUseCase
-import dev.shorthouse.cryptodata.model.ChartPeriod
-import javax.inject.Inject
+import dev.shorthouse.cryptodata.ui.model.ChartPeriod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -17,6 +16,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class CoinDetailViewModel @Inject constructor(
@@ -31,7 +31,7 @@ class CoinDetailViewModel @Inject constructor(
 
     init {
         savedStateHandle.get<String>(PARAM_COIN_ID)?.let { coinId ->
-            getCoinDetail(coinId = coinId)
+            initialiseUiState(coinId = coinId)
         }
     }
 
@@ -39,7 +39,7 @@ class CoinDetailViewModel @Inject constructor(
         chartPeriodFlow.value = chartPeriod
     }
 
-    private fun getCoinDetail(coinId: String) {
+    private fun initialiseUiState(coinId: String) {
         val coinDetailFlow = getCoinDetailUseCase(coinId = coinId)
         val coinChartFlow = chartPeriodFlow.flatMapLatest { chartPeriod ->
             getCoinChartUseCase(

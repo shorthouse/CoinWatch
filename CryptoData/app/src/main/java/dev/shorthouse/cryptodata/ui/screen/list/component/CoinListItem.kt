@@ -14,7 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -28,10 +28,11 @@ import dev.shorthouse.cryptodata.ui.theme.AppTheme
 fun CoinListItem(
     coin: Coin,
     onItemClick: (Coin) -> Unit,
+    cardShape: Shape,
     modifier: Modifier = Modifier
 ) {
     Surface(
-        shape = MaterialTheme.shapes.medium,
+        shape = cardShape,
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
@@ -51,14 +52,11 @@ fun CoinListItem(
                 Text(
                     text = coin.name,
                     style = MaterialTheme.typography.bodyMedium,
-                    overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = coin.symbol,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    ),
-                    overflow = TextOverflow.Ellipsis
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
             Column(horizontalAlignment = Alignment.End) {
@@ -73,14 +71,15 @@ fun CoinListItem(
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview
 private fun CoinListItemPreview(
     @PreviewParameter(CoinPreviewProvider::class) coin: Coin
 ) {
     AppTheme {
         CoinListItem(
             coin = coin,
-            onItemClick = {}
+            onItemClick = {},
+            cardShape = MaterialTheme.shapes.medium
         )
     }
 }

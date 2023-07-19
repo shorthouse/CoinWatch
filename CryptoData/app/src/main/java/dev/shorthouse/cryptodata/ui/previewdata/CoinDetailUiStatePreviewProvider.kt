@@ -1,7 +1,7 @@
 package dev.shorthouse.cryptodata.ui.previewdata
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.shorthouse.cryptodata.model.ChartPeriod
+import dev.shorthouse.cryptodata.ui.model.ChartPeriod
 import dev.shorthouse.cryptodata.model.CoinChart
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.model.Percentage

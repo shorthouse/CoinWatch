@@ -3,6 +3,7 @@ package dev.shorthouse.cryptodata.data.source.remote
 import dev.shorthouse.cryptodata.data.source.remote.model.CoinApiModel
 import dev.shorthouse.cryptodata.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.cryptodata.data.source.remote.model.CoinDetailApiModel
+import dev.shorthouse.cryptodata.data.source.remote.model.MarketStatsApiModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -13,7 +14,7 @@ interface CoinApi {
     suspend fun getCoins(
         @Query("vs_currency") currency: String = "usd",
         @Query("order") order: String = "market_cap_desc",
-        @Query("per_page") coinsPerPage: Int = 100,
+        @Query("per_page") coinsPerPage: Int = 30,
         @Query("page") page: Int = 1,
         @Query("sparkline") includeSparkline7dData: Boolean = true,
         @Query("price_change_percentage") priceChangePercentagePeriods: String = "24h",
@@ -41,4 +42,7 @@ interface CoinApi {
         @Query("vs_currency") currency: String = "usd",
         @Query("precision") currencyDecimalPlaces: String = "2"
     ): Response<CoinChartApiModel>
+
+    @GET("global")
+    suspend fun getMarketStats(): Response<MarketStatsApiModel>
 }

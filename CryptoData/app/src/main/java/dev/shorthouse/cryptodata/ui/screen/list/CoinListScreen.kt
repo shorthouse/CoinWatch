@@ -1,28 +1,39 @@
 package dev.shorthouse.cryptodata.ui.screen.list
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.TrendingDown
+import androidx.compose.material.icons.rounded.TrendingUp
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -32,9 +43,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.shorthouse.cryptodata.R
 import dev.shorthouse.cryptodata.model.Coin
+import dev.shorthouse.cryptodata.model.MarketStats
 import dev.shorthouse.cryptodata.model.Percentage
 import dev.shorthouse.cryptodata.model.Price
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
+import dev.shorthouse.cryptodata.ui.model.TimeOfDay
 import dev.shorthouse.cryptodata.ui.previewdata.CoinListUiStatePreviewProvider
 import dev.shorthouse.cryptodata.ui.screen.Screen
 import dev.shorthouse.cryptodata.ui.screen.list.component.CoinFavouriteItem
@@ -64,13 +77,15 @@ fun CoinListScreen(
     onItemClick: (Coin) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     when (uiState) {
         is CoinListUiState.Success -> {
             Scaffold(
                 topBar = {
                     CoinListTopBar(
+                        marketStats = uiState.marketStats,
+                        timeOfDay = uiState.timeOfDay,
                         scrollBehavior = scrollBehavior
                     )
                 },
@@ -92,64 +107,150 @@ fun CoinListScreen(
 @Composable
 private fun CoinListContent(
     coins: List<Coin>,
-    modifier: Modifier,
-    onItemClick: (Coin) -> Unit
+    onItemClick: (Coin) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier.fillMaxSize().padding(12.dp)) {
-        Text(
-            text = "Favourites",
-            style = MaterialTheme.typography.titleMedium
-        )
-        Spacer(Modifier.height(8.dp))
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(
-                count = coins.size,
-                key = { coins[it].id },
-                itemContent = { index ->
-                    CoinFavouriteItem(coin = coins[index])
-                }
+    LazyColumn(
+        contentPadding = PaddingValues(12.dp),
+        modifier = modifier
+    ) {
+        item {
+            Text(
+                text = stringResource(R.string.header_favourites),
+                style = MaterialTheme.typography.titleMedium
             )
+
+            Spacer(Modifier.height(8.dp))
+
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                items(
+                    count = coins.size,
+                    key = { coins[it].id },
+                    itemContent = { index ->
+                        CoinFavouriteItem(coin = coins[index])
+                    }
+                )
+            }
+
+            Spacer(Modifier.height(24.dp))
+
+            Text(
+                text = stringResource(R.string.header_coins),
+                style = MaterialTheme.typography.titleMedium
+            )
+
+            Spacer(Modifier.height(8.dp))
         }
 
-        Text(
-            text = "Coins",
-            style = MaterialTheme.typography.titleMedium
-        )
-        Spacer(Modifier.height(8.dp))
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(
-                count = coins.size,
-                key = { coins[it].id },
-                itemContent = { index ->
-                    val coinListItem = coins[index]
+        items(
+            count = coins.size,
+            key = { coins[it].id },
+            itemContent = { index ->
+                val coinListItem = coins[index]
 
-                    CoinListItem(
-                        coin = coinListItem,
-                        onItemClick = { onItemClick(coinListItem) }
+                val cardShape = when (index) {
+                    0 -> MaterialTheme.shapes.medium.copy(
+                        bottomStart = CornerSize(0.dp),
+                        bottomEnd = CornerSize(0.dp)
                     )
+                    coins.lastIndex -> MaterialTheme.shapes.medium.copy(
+                        topStart = CornerSize(0.dp),
+                        topEnd = CornerSize(0.dp)
+                    )
+                    else -> RoundedCornerShape(0.dp)
                 }
-            )
-        }
+
+                CoinListItem(
+                    coin = coinListItem,
+                    onItemClick = { onItemClick(coinListItem) },
+                    cardShape = cardShape
+                )
+            }
+        )
     }
 }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun CoinListTopBar(scrollBehavior: TopAppBarScrollBehavior) {
-    MediumTopAppBar(
+private fun CoinListTopBar(
+    marketStats: MarketStats,
+    timeOfDay: TimeOfDay,
+    scrollBehavior: TopAppBarScrollBehavior,
+) {
+    TopAppBar(
         title = {
-            Text(
-                text = stringResource(R.string.top_app_bar_title_market),
-                color = MaterialTheme.colorScheme.onPrimary
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(end = 12.dp)
+            ) {
+                Column {
+                    Text(
+                        text = when (timeOfDay) {
+                            TimeOfDay.Morning -> stringResource(R.string.good_morning)
+                            TimeOfDay.Afternoon -> stringResource(R.string.good_afternoon)
+                            TimeOfDay.Evening -> stringResource(R.string.good_evening)
+                        },
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = if (marketStats.marketCapChangePercentage24h.isPositive) {
+                                stringResource(R.string.market_up)
+                            } else {
+                                stringResource(R.string.market_down)
+                            },
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+
+                        Spacer(Modifier.width(4.dp))
+
+                        Icon(
+                            imageVector = if (marketStats.marketCapChangePercentage24h.isPositive) {
+                                Icons.Rounded.TrendingUp
+                            } else {
+                                Icons.Rounded.TrendingDown
+                            },
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
+
+                Spacer(Modifier.weight(1f))
+
+                Column(horizontalAlignment = Alignment.End) {
+                    Text(
+                        text = stringResource(R.string.powered_by),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Image(
+                            painter = painterResource(R.drawable.coingecko_logo),
+                            contentDescription = stringResource(R.string.cd_coingecko),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
+                            modifier = Modifier.size(20.dp)
+                        )
+
+                        Spacer(Modifier.width(4.dp))
+
+                        Text(
+                            text = stringResource(R.string.coingecko),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
         },
         colors = TopAppBarDefaults.largeTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            scrolledContainerColor = MaterialTheme.colorScheme.primary
+            containerColor = MaterialTheme.colorScheme.background,
+            scrolledContainerColor = MaterialTheme.colorScheme.background
         ),
         scrollBehavior = scrollBehavior,
         modifier = Modifier.background(Color.Green)
@@ -195,7 +296,11 @@ private fun ListScreenPreview(
                         marketCapRank = 3,
                         prices24h = emptyList()
                     )
-                )
+                ),
+                marketStats = MarketStats(
+                    marketCapChangePercentage24h = Percentage(BigDecimal("-0.23"))
+                ),
+                timeOfDay = TimeOfDay.Evening
             ),
             onItemClick = {}
         )

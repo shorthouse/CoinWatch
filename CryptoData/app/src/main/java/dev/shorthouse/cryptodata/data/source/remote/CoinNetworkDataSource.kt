@@ -3,8 +3,9 @@ package dev.shorthouse.cryptodata.data.source.remote
 import dev.shorthouse.cryptodata.data.source.remote.model.CoinApiModel
 import dev.shorthouse.cryptodata.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.cryptodata.data.source.remote.model.CoinDetailApiModel
-import javax.inject.Inject
+import dev.shorthouse.cryptodata.data.source.remote.model.MarketStatsApiModel
 import retrofit2.Response
+import javax.inject.Inject
 
 class CoinNetworkDataSource @Inject constructor(
     private val coinApi: CoinApi
@@ -22,5 +23,9 @@ class CoinNetworkDataSource @Inject constructor(
         chartPeriodDays: String
     ): Response<CoinChartApiModel> {
         return coinApi.getCoinChart(coinId = coinId, periodDays = chartPeriodDays)
+    }
+
+    suspend fun getMarketStats(): Response<MarketStatsApiModel> {
+        return coinApi.getMarketStats()
     }
 }

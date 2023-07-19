@@ -1,5 +1,6 @@
 package dev.shorthouse.cryptodata.ui.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
@@ -14,10 +15,12 @@ import dev.shorthouse.cryptodata.ui.theme.AppTheme
 fun LoadingIndicator() {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
     ) {
         CircularProgressIndicator(
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }

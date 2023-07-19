@@ -27,7 +27,7 @@ fun AppNavHost(
     navController.addOnDestinationChangedListener { _, destination, _ ->
         when (destination.route) {
             Screen.ListScreen.route -> {
-                systemUiController.setSystemBarsColor(color = primary)
+                systemUiController.setSystemBarsColor(color = background)
             }
             Screen.DetailScreen.route + "/{coinId}" -> {
                 systemUiController.setSystemBarsColor(color = background)
