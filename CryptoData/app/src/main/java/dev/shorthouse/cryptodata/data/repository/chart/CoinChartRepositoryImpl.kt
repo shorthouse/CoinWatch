@@ -7,13 +7,13 @@ import dev.shorthouse.cryptodata.di.IoDispatcher
 import dev.shorthouse.cryptodata.model.CoinChart
 import dev.shorthouse.cryptodata.model.Percentage
 import dev.shorthouse.cryptodata.model.Price
-import java.math.RoundingMode
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
+import java.math.RoundingMode
+import javax.inject.Inject
 
 class CoinChartRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,

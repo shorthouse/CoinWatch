@@ -34,10 +34,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import dev.shorthouse.cryptodata.R
-import dev.shorthouse.cryptodata.model.ChartPeriod
 import dev.shorthouse.cryptodata.model.CoinChart
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
+import dev.shorthouse.cryptodata.ui.model.ChartPeriod
 import dev.shorthouse.cryptodata.ui.previewdata.CoinDetailUiStatePreviewProvider
 import dev.shorthouse.cryptodata.ui.screen.detail.component.ChartCard
 import dev.shorthouse.cryptodata.ui.screen.detail.component.ChartRangeCard

@@ -1,6 +1,6 @@
 package dev.shorthouse.cryptodata.ui.screen.detail
 
-import dev.shorthouse.cryptodata.model.ChartPeriod
+import dev.shorthouse.cryptodata.ui.model.ChartPeriod
 import dev.shorthouse.cryptodata.model.CoinChart
 import dev.shorthouse.cryptodata.model.CoinDetail
 

@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.shorthouse.cryptodata.model.ChartPeriod
+import dev.shorthouse.cryptodata.ui.model.ChartPeriod
 import dev.shorthouse.cryptodata.model.CoinChart
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.ui.component.PercentageChangeChip
