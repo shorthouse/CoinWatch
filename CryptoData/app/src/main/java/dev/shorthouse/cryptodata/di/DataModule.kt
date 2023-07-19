@@ -10,10 +10,12 @@ import dev.shorthouse.cryptodata.data.repository.coin.CoinRepository
 import dev.shorthouse.cryptodata.data.repository.coin.CoinRepositoryImpl
 import dev.shorthouse.cryptodata.data.repository.detail.CoinDetailRepository
 import dev.shorthouse.cryptodata.data.repository.detail.CoinDetailRepositoryImpl
+import dev.shorthouse.cryptodata.data.repository.marketStats.MarketStatsRepository
+import dev.shorthouse.cryptodata.data.repository.marketStats.MarketStatsRepositoryImpl
 import dev.shorthouse.cryptodata.data.source.remote.CoinApi
 import dev.shorthouse.cryptodata.data.source.remote.CoinNetworkDataSource
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -55,6 +57,18 @@ object DataModule {
         @IoDispatcher ioDispatcher: CoroutineDispatcher
     ): CoinChartRepository {
         return CoinChartRepositoryImpl(
+            coinNetworkDataSource = coinNetworkDataSource,
+            ioDispatcher = ioDispatcher
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideMarketStatsRepository(
+        coinNetworkDataSource: CoinNetworkDataSource,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher
+    ): MarketStatsRepository {
+        return MarketStatsRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
             ioDispatcher = ioDispatcher
         )

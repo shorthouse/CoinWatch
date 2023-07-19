@@ -3,6 +3,7 @@ package dev.shorthouse.cryptodata.data.source.remote
 import dev.shorthouse.cryptodata.data.source.remote.model.CoinApiModel
 import dev.shorthouse.cryptodata.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.cryptodata.data.source.remote.model.CoinDetailApiModel
+import dev.shorthouse.cryptodata.data.source.remote.model.MarketStatsApiModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -41,4 +42,7 @@ interface CoinApi {
         @Query("vs_currency") currency: String = "usd",
         @Query("precision") currencyDecimalPlaces: String = "2"
     ): Response<CoinChartApiModel>
+
+    @GET("global")
+    suspend fun getMarketStats(): Response<MarketStatsApiModel>
 }
