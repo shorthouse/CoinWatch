@@ -162,7 +162,7 @@ private fun CoinDetailContent(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(start = 8.dp, end = 8.dp, bottom = 16.dp)
+            .padding(start = 12.dp, end = 12.dp, bottom = 12.dp)
     ) {
         ChartCard(
             coinDetail = coinDetail,
@@ -183,7 +183,7 @@ private fun CoinDetailContent(
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview
 private fun DetailScreenPreview(
     @PreviewParameter(CoinDetailUiStatePreviewProvider::class) uiState: CoinDetailUiState
 ) {

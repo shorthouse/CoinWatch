@@ -108,7 +108,7 @@ fun CoinListScreen(
 private fun CoinListContent(
     coins: List<Coin>,
     onItemClick: (Coin) -> Unit,
-    modifier: Modifier,
+    modifier: Modifier = Modifier
 ) {
     LazyColumn(
         contentPadding = PaddingValues(12.dp),
