@@ -27,7 +27,6 @@ import dev.shorthouse.cryptodata.ui.theme.NegativeRed
 import dev.shorthouse.cryptodata.ui.theme.PositiveGreen
 import dev.shorthouse.cryptodata.ui.theme.ZeroWhite
 import java.math.BigDecimal
-import java.math.RoundingMode
 
 @Composable
 fun PriceGraph(
@@ -41,8 +40,7 @@ fun PriceGraph(
     }
 
     val maxPrice = remember(prices) {
-        (prices.maxOrNull() ?: BigDecimal.ZERO)
-            .setScale(0, RoundingMode.CEILING)
+        prices.maxOrNull() ?: BigDecimal.ZERO
     }
 
     val graphLineColor = remember(priceChangePercentage) {
