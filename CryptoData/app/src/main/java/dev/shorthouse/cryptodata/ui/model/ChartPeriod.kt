@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.model
+package dev.shorthouse.cryptodata.ui.model
 
 import androidx.annotation.StringRes
 import dev.shorthouse.cryptodata.R
