@@ -11,6 +11,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.StarBorder
+import androidx.compose.material.icons.rounded.StarOutline
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -137,6 +139,15 @@ private fun ChartDetailTopBar(
                     modifier = Modifier
                         .padding(end = 12.dp)
                         .size(54.dp)
+                )
+            }
+        },
+        actions = {
+            IconButton(onClick = onNavigateUp) {
+                Icon(
+                    imageVector = Icons.Rounded.StarBorder,
+                    contentDescription = stringResource(R.string.cd_top_bar_favourite),
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
         },
