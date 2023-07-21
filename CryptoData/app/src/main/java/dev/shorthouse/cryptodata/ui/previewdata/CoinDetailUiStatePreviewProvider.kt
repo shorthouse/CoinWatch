@@ -1,11 +1,11 @@
 package dev.shorthouse.cryptodata.ui.previewdata
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.shorthouse.cryptodata.ui.model.ChartPeriod
 import dev.shorthouse.cryptodata.model.CoinChart
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.model.Percentage
 import dev.shorthouse.cryptodata.model.Price
+import dev.shorthouse.cryptodata.ui.model.ChartPeriod
 import dev.shorthouse.cryptodata.ui.screen.detail.CoinDetailUiState
 import java.math.BigDecimal
 
@@ -36,7 +36,8 @@ class CoinDetailUiStatePreviewProvider : PreviewParameterProvider<CoinDetailUiSt
                 maxPriceChangePercentage = Percentage(BigDecimal("-2.27")),
                 periodPriceChangePercentage = Percentage(BigDecimal("7.06")),
             ),
-            chartPeriod = ChartPeriod.Week
+            chartPeriod = ChartPeriod.Week,
+            isCoinFavourite = true
         ),
         CoinDetailUiState.Error("Error message"),
         CoinDetailUiState.Loading
