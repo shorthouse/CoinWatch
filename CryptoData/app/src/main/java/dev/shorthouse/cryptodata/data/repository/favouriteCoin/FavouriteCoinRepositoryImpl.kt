@@ -6,8 +6,10 @@ import dev.shorthouse.cryptodata.data.source.local.model.FavouriteCoin
 import dev.shorthouse.cryptodata.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class FavouriteCoinRepositoryImpl @Inject constructor(
@@ -18,10 +20,17 @@ class FavouriteCoinRepositoryImpl @Inject constructor(
         try {
             val coins = coinLocalDataSource.getAllFavouriteCoins()
             emit(Result.Success(coins))
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             emit(Result.Error(message = e.message))
         }
     }.flowOn(ioDispatcher)
+
+    override fun isCoinFavourite(coinId: String): Flow<Result<Boolean>> {
+        return coinLocalDataSource.isCoinFavourite(coinId)
+            .map { Result.Success(it) }
+            .catch { e -> Result.Error<Boolean>(message = e.message ?: "An error occurred") }
+            .flowOn(ioDispatcher)
+    }
 
     override suspend fun insertFavouriteCoin(favouriteCoin: FavouriteCoin) {
         coinLocalDataSource.insert(favouriteCoin)
