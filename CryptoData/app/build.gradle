@@ -65,6 +65,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.1'
     implementation 'androidx.compose.material:material-icons-extended'
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.30.1"
+    implementation "com.google.accompanist:accompanist-placeholder-material:0.30.1"
 
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1'
