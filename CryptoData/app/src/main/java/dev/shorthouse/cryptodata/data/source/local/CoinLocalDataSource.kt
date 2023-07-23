@@ -4,7 +4,7 @@ import dev.shorthouse.cryptodata.data.source.local.model.FavouriteCoin
 import kotlinx.coroutines.flow.Flow
 
 class CoinLocalDataSource(private val favouriteCoinDao: FavouriteCoinDao) {
-    suspend fun getAllFavouriteCoins(): List<FavouriteCoin> {
+    fun getFavouriteCoins(): Flow<List<FavouriteCoin>> {
         return favouriteCoinDao.getFavouriteCoins()
     }
 
