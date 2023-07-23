@@ -13,7 +13,7 @@ import dev.shorthouse.cryptodata.domain.GetCoinDetailUseCase
 import dev.shorthouse.cryptodata.domain.InsertFavouriteCoinUseCase
 import dev.shorthouse.cryptodata.domain.IsCoinFavouriteUseCase
 import dev.shorthouse.cryptodata.ui.model.ChartPeriod
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -22,8 +22,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class CoinDetailViewModel @Inject constructor(
@@ -38,9 +36,10 @@ class CoinDetailViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     private val chartPeriodFlow = MutableStateFlow(ChartPeriod.Day)
+    private val coinId = savedStateHandle.get<String>(PARAM_COIN_ID)
 
     init {
-        savedStateHandle.get<String>(PARAM_COIN_ID)?.let { coinId ->
+        coinId?.let {
             initialiseUiState(coinId = coinId)
         }
     }
@@ -51,21 +50,26 @@ class CoinDetailViewModel @Inject constructor(
 
     fun toggleIsCoinFavourite() {
         viewModelScope.launch {
-            val isCoinFavouriteResult = isCoinFavouriteUseCase("ethereum").first()
+            if (coinId != null) {
+                val isCoinFavouriteResult = isCoinFavouriteUseCase(coinId).first()
 
-            if (isCoinFavouriteResult is Result.Success) {
-                val isCoinFavourite = isCoinFavouriteResult.data
+                if (isCoinFavouriteResult is Result.Success) {
+                    val isCoinFavourite = isCoinFavouriteResult.data
 
-                if (isCoinFavourite) {
-                    deleteFavouriteCoinUseCase(FavouriteCoin(id = "ethereum"))
-                } else {
-                    insertFavouriteCoinUseCase(FavouriteCoin(id = "ethereum"))
+                    if (isCoinFavourite) {
+                        deleteFavouriteCoinUseCase(
+                            FavouriteCoin(id = coinId)
+                        )
+                    } else {
+                        insertFavouriteCoinUseCase(
+                            FavouriteCoin(id = coinId)
+                        )
+                    }
                 }
             }
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private fun initialiseUiState(coinId: String) {
         val coinDetailFlow = getCoinDetailUseCase(coinId = coinId)
         val coinChartFlow = chartPeriodFlow.flatMapLatest { chartPeriod ->
@@ -83,15 +87,12 @@ class CoinDetailViewModel @Inject constructor(
         ) { coinDetailResult, coinChartResult, isCoinFavouriteResult ->
             when {
                 coinDetailResult is Result.Error -> {
-                    Timber.e("getCoinDetail error ${coinDetailResult.message}")
                     _uiState.update { CoinDetailUiState.Error(coinDetailResult.message) }
                 }
                 coinChartResult is Result.Error -> {
-                    Timber.e("getCoinChart error ${coinChartResult.message}")
                     _uiState.update { CoinDetailUiState.Error(coinChartResult.message) }
                 }
                 isCoinFavouriteResult is Result.Error -> {
-                    Timber.e("isCoinFavourite error ${isCoinFavouriteResult.message}")
                     _uiState.update { CoinDetailUiState.Error(isCoinFavouriteResult.message) }
                 }
                 coinDetailResult is Result.Success &&

@@ -1,5 +1,6 @@
 package dev.shorthouse.cryptodata.ui.screen.list
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -64,7 +65,7 @@ fun CoinListScreen(
 
     CoinListScreen(
         uiState = uiState,
-        onItemClick = { coin ->
+        onCoinClick = { coin ->
             navController.navigate(Screen.DetailScreen.route + "/${coin.id}")
         }
     )
@@ -74,7 +75,7 @@ fun CoinListScreen(
 @Composable
 fun CoinListScreen(
     uiState: CoinListUiState,
-    onItemClick: (Coin) -> Unit,
+    onCoinClick: (Coin) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -92,7 +93,8 @@ fun CoinListScreen(
                 content = { scaffoldPadding ->
                     CoinListContent(
                         coins = uiState.coins,
-                        onItemClick = onItemClick,
+                        favouriteCoins = uiState.favouriteCoins,
+                        onCoinClick = onCoinClick,
                         modifier = Modifier.padding(scaffoldPadding)
                     )
                 },
@@ -104,10 +106,12 @@ fun CoinListScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun CoinListContent(
     coins: List<Coin>,
-    onItemClick: (Coin) -> Unit,
+    favouriteCoins: List<Coin>,
+    onCoinClick: (Coin) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -122,12 +126,20 @@ private fun CoinListContent(
 
             Spacer(Modifier.height(8.dp))
 
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.animateItemPlacement()
+            ) {
                 items(
-                    count = coins.size,
-                    key = { coins[it].id },
+                    count = favouriteCoins.size,
+                    key = { favouriteCoins[it].id },
                     itemContent = { index ->
-                        CoinFavouriteItem(coin = coins[index])
+                        val favouriteCoinItem = favouriteCoins[index]
+                        
+                        CoinFavouriteItem(
+                            coin = favouriteCoinItem,
+                            onCoinClick = { onCoinClick(favouriteCoinItem) },
+                        )
                     }
                 )
             }
@@ -162,7 +174,7 @@ private fun CoinListContent(
 
                 CoinListItem(
                     coin = coinListItem,
-                    onItemClick = { onItemClick(coinListItem) },
+                    onCoinClick = { onCoinClick(coinListItem) },
                     cardShape = cardShape
                 )
             }
@@ -175,7 +187,7 @@ private fun CoinListContent(
 private fun CoinListTopBar(
     marketStats: MarketStats,
     timeOfDay: TimeOfDay,
-    scrollBehavior: TopAppBarScrollBehavior,
+    scrollBehavior: TopAppBarScrollBehavior
 ) {
     TopAppBar(
         title = {
@@ -233,7 +245,9 @@ private fun CoinListTopBar(
                         Image(
                             painter = painterResource(R.drawable.coingecko_logo),
                             contentDescription = stringResource(R.string.cd_coingecko),
-                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
+                            colorFilter = ColorFilter.tint(
+                                MaterialTheme.colorScheme.onSurfaceVariant
+                            ),
                             modifier = Modifier.size(20.dp)
                         )
 
@@ -297,12 +311,44 @@ private fun ListScreenPreview(
                         prices24h = emptyList()
                     )
                 ),
+                favouriteCoins = listOf(
+                    Coin(
+                        id = "bitcoin",
+                        symbol = "BTC",
+                        name = "Bitcoin",
+                        image = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
+                        currentPrice = Price(BigDecimal("30752")),
+                        priceChangePercentage24h = Percentage(BigDecimal("-1.39")),
+                        marketCapRank = 1,
+                        prices24h = emptyList()
+                    ),
+                    Coin(
+                        id = "ethereum",
+                        symbol = "ETH",
+                        name = "Ethereum",
+                        image = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+                        currentPrice = Price(BigDecimal("1345.62")),
+                        priceChangePercentage24h = Percentage(BigDecimal("0.42")),
+                        marketCapRank = 2,
+                        prices24h = emptyList()
+                    ),
+                    Coin(
+                        id = "tether",
+                        symbol = "USDT",
+                        name = "Tether",
+                        image = "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
+                        currentPrice = Price(BigDecimal("1.0")),
+                        priceChangePercentage24h = Percentage(BigDecimal("0.00")),
+                        marketCapRank = 3,
+                        prices24h = emptyList()
+                    )
+                ),
                 marketStats = MarketStats(
                     marketCapChangePercentage24h = Percentage(BigDecimal("-0.23"))
                 ),
                 timeOfDay = TimeOfDay.Evening
             ),
-            onItemClick = {}
+            onCoinClick = {}
         )
     }
 }

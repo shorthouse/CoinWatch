@@ -27,18 +27,19 @@ import dev.shorthouse.cryptodata.ui.theme.AppTheme
 @Composable
 fun CoinListItem(
     coin: Coin,
-    onItemClick: (Coin) -> Unit,
+    onCoinClick: (Coin) -> Unit,
     cardShape: Shape,
     modifier: Modifier = Modifier
 ) {
     Surface(
         shape = cardShape,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onCoinClick(coin) }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier
-                .clickable { onItemClick(coin) }
                 .padding(vertical = 12.dp, horizontal = 16.dp)
         ) {
             AsyncImage(
@@ -51,7 +52,7 @@ fun CoinListItem(
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = coin.name,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
                     text = coin.symbol,
@@ -78,7 +79,7 @@ private fun CoinListItemPreview(
     AppTheme {
         CoinListItem(
             coin = coin,
-            onItemClick = {},
+            onCoinClick = {},
             cardShape = MaterialTheme.shapes.medium
         )
     }
