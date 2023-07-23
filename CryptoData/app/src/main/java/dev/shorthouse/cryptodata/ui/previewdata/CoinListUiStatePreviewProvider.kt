@@ -81,7 +81,7 @@ class CoinListUiStatePreviewProvider : PreviewParameterProvider<CoinListUiState>
             ),
             timeOfDay = TimeOfDay.Evening
         ),
-        CoinListUiState.Error("Error message"),
-        CoinListUiState.Loading
+        CoinListUiState.Loading,
+        CoinListUiState.Error("Error message")
     )
 }
