@@ -39,38 +39,15 @@ class CoinDetailViewModel @Inject constructor(
     private val coinId = savedStateHandle.get<String>(PARAM_COIN_ID)
 
     init {
-        coinId?.let {
-            initialiseUiState(coinId = coinId)
+        initialiseUiState()
+    }
+
+    fun initialiseUiState() {
+        if (coinId == null) {
+            _uiState.update { CoinDetailUiState.Error("Invalid coin ID") }
+            return
         }
-    }
 
-    fun updateChartPeriod(chartPeriod: ChartPeriod) {
-        chartPeriodFlow.value = chartPeriod
-    }
-
-    fun toggleIsCoinFavourite() {
-        viewModelScope.launch {
-            if (coinId != null) {
-                val isCoinFavouriteResult = isCoinFavouriteUseCase(coinId).first()
-
-                if (isCoinFavouriteResult is Result.Success) {
-                    val isCoinFavourite = isCoinFavouriteResult.data
-
-                    if (isCoinFavourite) {
-                        deleteFavouriteCoinUseCase(
-                            FavouriteCoin(id = coinId)
-                        )
-                    } else {
-                        insertFavouriteCoinUseCase(
-                            FavouriteCoin(id = coinId)
-                        )
-                    }
-                }
-            }
-        }
-    }
-
-    private fun initialiseUiState(coinId: String) {
         val coinDetailFlow = getCoinDetailUseCase(coinId = coinId)
         val coinChartFlow = chartPeriodFlow.flatMapLatest { chartPeriod ->
             getCoinChartUseCase(
@@ -109,5 +86,31 @@ class CoinDetailViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun updateChartPeriod(chartPeriod: ChartPeriod) {
+        chartPeriodFlow.value = chartPeriod
+    }
+
+    fun toggleIsCoinFavourite() {
+        viewModelScope.launch {
+            if (coinId != null) {
+                val isCoinFavouriteResult = isCoinFavouriteUseCase(coinId).first()
+
+                if (isCoinFavouriteResult is Result.Success) {
+                    val isCoinFavourite = isCoinFavouriteResult.data
+
+                    if (isCoinFavourite) {
+                        deleteFavouriteCoinUseCase(
+                            FavouriteCoin(id = coinId)
+                        )
+                    } else {
+                        insertFavouriteCoinUseCase(
+                            FavouriteCoin(id = coinId)
+                        )
+                    }
+                }
+            }
+        }
     }
 }
