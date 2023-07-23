@@ -41,5 +41,5 @@ val AppTypography = Typography(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 15.sp
-    ),
+    )
 )
