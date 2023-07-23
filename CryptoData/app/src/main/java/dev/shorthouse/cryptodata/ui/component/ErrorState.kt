@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.cryptodata.R
@@ -43,8 +44,8 @@ fun ErrorState(
             Spacer(Modifier.height(12.dp))
 
             Text(
-                text = "An error has occurred",
-                style = MaterialTheme.typography.headlineSmall,
+                text = stringResource(R.string.error_occurred),
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
 
@@ -68,7 +69,11 @@ fun ErrorState(
                 ),
                 shape = MaterialTheme.shapes.medium
             ) {
-                Text(text = "Retry")
+                Text(
+                    text = stringResource(R.string.button_retry),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
             }
         }
     }
