@@ -47,4 +47,6 @@
     <string name="good_afternoon">Good afternoon</string>
     <string name="good_evening">Good evening</string>
     <string name="cd_top_bar_favourite">Favourite</string>
+    <string name="button_retry">Retry</string>
+    <string name="error_occurred">An error has occurred</string>
 </resources>

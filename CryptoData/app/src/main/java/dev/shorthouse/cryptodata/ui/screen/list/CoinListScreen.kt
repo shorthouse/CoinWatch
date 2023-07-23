@@ -47,6 +47,7 @@ import dev.shorthouse.cryptodata.model.Coin
 import dev.shorthouse.cryptodata.model.MarketStats
 import dev.shorthouse.cryptodata.model.Percentage
 import dev.shorthouse.cryptodata.model.Price
+import dev.shorthouse.cryptodata.ui.component.ErrorState
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
 import dev.shorthouse.cryptodata.ui.model.TimeOfDay
 import dev.shorthouse.cryptodata.ui.previewdata.CoinListUiStatePreviewProvider
@@ -67,7 +68,8 @@ fun CoinListScreen(
         uiState = uiState,
         onCoinClick = { coin ->
             navController.navigate(Screen.DetailScreen.route + "/${coin.id}")
-        }
+        },
+        onErrorRetry = { viewModel.initialiseUiState() }
     )
 }
 
@@ -76,6 +78,7 @@ fun CoinListScreen(
 fun CoinListScreen(
     uiState: CoinListUiState,
     onCoinClick: (Coin) -> Unit,
+    onErrorRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -102,7 +105,10 @@ fun CoinListScreen(
             )
         }
         is CoinListUiState.Loading -> LoadingIndicator()
-        is CoinListUiState.Error -> Text("error")
+        is CoinListUiState.Error -> ErrorState(
+            message = uiState.message,
+            onRetry = onErrorRetry
+        )
     }
 }
 
@@ -135,10 +141,10 @@ private fun CoinListContent(
                     key = { favouriteCoins[it].id },
                     itemContent = { index ->
                         val favouriteCoinItem = favouriteCoins[index]
-                        
+
                         CoinFavouriteItem(
                             coin = favouriteCoinItem,
-                            onCoinClick = { onCoinClick(favouriteCoinItem) },
+                            onCoinClick = { onCoinClick(favouriteCoinItem) }
                         )
                     }
                 )
@@ -278,7 +284,7 @@ private fun ListScreenPreview(
 ) {
     AppTheme {
         CoinListScreen(
-            uiState = CoinListUiState.Success(
+            uiState =         CoinListUiState.Success(
                 coins = listOf(
                     Coin(
                         id = "bitcoin",
@@ -348,7 +354,8 @@ private fun ListScreenPreview(
                 ),
                 timeOfDay = TimeOfDay.Evening
             ),
-            onCoinClick = {}
+            onCoinClick = {},
+            onErrorRetry = {}
         )
     }
 }

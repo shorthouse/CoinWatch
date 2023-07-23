@@ -29,7 +29,7 @@ class CoinListViewModel @Inject constructor(
         initialiseUiState()
     }
 
-    private fun initialiseUiState() {
+    fun initialiseUiState() {
         val coinsFlow = getCoinsUseCase()
         val marketStatsFlow = getMarketStatsUseCase()
         val favouriteCoinsFlow = getFavouriteCoinsUseCase()

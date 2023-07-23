@@ -36,11 +36,11 @@ class CoinChartRepositoryImpl @Inject constructor(
                     Result.Success(body.toCoinChart())
                 } else {
                     Timber.e("getCoinChart unsuccessful retrofit response ${response.message()}")
-                    Result.Error(message = response.message())
+                    Result.Error(message = "Unable to fetch coin chart")
                 }
             } catch (e: Throwable) {
-                Timber.e("getCoinChart error $e")
-                Result.Error(message = e.message)
+                Timber.e("getCoinChart error ${e.message}")
+                Result.Error(message = "Unable to fetch coin chart")
             }
         )
     }.flowOn(ioDispatcher)

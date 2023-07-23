@@ -6,12 +6,12 @@ import dev.shorthouse.cryptodata.data.source.remote.model.MarketStatsApiModel
 import dev.shorthouse.cryptodata.di.IoDispatcher
 import dev.shorthouse.cryptodata.model.MarketStats
 import dev.shorthouse.cryptodata.model.Percentage
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
-import javax.inject.Inject
 
 class MarketStatsRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,
@@ -27,11 +27,11 @@ class MarketStatsRepositoryImpl @Inject constructor(
                     Result.Success(body.toMarketStats())
                 } else {
                     Timber.e("getMarketStats unsuccessful retrofit response ${response.message()}")
-                    Result.Error(message = response.message())
+                    Result.Error(message = "Unable to fetch market status")
                 }
             } catch (e: Throwable) {
                 Timber.e("getMarketStats error $e")
-                Result.Error(message = e.message)
+                Result.Error(message = "Unable to fetch market status")
             }
         )
     }.flowOn(ioDispatcher)

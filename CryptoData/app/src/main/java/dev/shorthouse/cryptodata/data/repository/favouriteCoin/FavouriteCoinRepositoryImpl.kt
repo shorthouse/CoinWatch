@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 class FavouriteCoinRepositoryImpl @Inject constructor(
     private val coinLocalDataSource: CoinLocalDataSource,
@@ -19,9 +20,8 @@ class FavouriteCoinRepositoryImpl @Inject constructor(
         return coinLocalDataSource.getFavouriteCoins()
             .map { Result.Success(it) }
             .catch { e ->
-                Result.Error<List<FavouriteCoin>>(
-                    message = e.message ?: "An error occurred"
-                )
+                Timber.e("getFavouriteCoins error ${e.message}")
+                Result.Error<List<FavouriteCoin>>(message = "Unable to fetch favourite coins")
             }
             .flowOn(ioDispatcher)
     }
@@ -29,7 +29,10 @@ class FavouriteCoinRepositoryImpl @Inject constructor(
     override fun isCoinFavourite(coinId: String): Flow<Result<Boolean>> {
         return coinLocalDataSource.isCoinFavourite(coinId)
             .map { Result.Success(it) }
-            .catch { e -> Result.Error<Boolean>(message = e.message ?: "An error occurred") }
+            .catch { e ->
+                Timber.e("isCoinFavourite error ${e.message}")
+                Result.Error<Boolean>(message = "Unable to fetch coin favourite status")
+            }
             .flowOn(ioDispatcher)
     }
 

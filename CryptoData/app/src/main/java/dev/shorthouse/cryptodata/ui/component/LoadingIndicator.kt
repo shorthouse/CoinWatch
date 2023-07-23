@@ -12,10 +12,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import dev.shorthouse.cryptodata.ui.theme.AppTheme
 
 @Composable
-fun LoadingIndicator() {
+fun LoadingIndicator(modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
