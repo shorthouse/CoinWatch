@@ -19,7 +19,7 @@ interface CoinApi {
         @Query("sparkline") includeSparkline7dData: Boolean = true,
         @Query("price_change_percentage") priceChangePercentagePeriods: String = "24h",
         @Query("locale") locale: String = "en",
-        @Query("precision") currencyDecimalPlaces: String = "2"
+        @Query("precision") currencyDecimalPlaces: String = "18"
     ): Response<List<CoinApiModel>>
 
     @GET("coins/markets")
@@ -32,15 +32,15 @@ interface CoinApi {
         @Query("sparkline") includeSparklineData: Boolean = false,
         @Query("price_change_percentage") priceChangePercentagePeriods: String = "24h",
         @Query("locale") locale: String = "en",
-        @Query("precision") currencyDecimalPlaces: String = "2"
+        @Query("precision") currencyDecimalPlaces: String = "18"
     ): Response<List<CoinDetailApiModel>>
 
     @GET("coins/{coinId}/market_chart")
     suspend fun getCoinChart(
         @Path("coinId") coinId: String,
-        @Query("days") periodDays: String = "7",
+        @Query("days") periodDays: String = "1",
         @Query("vs_currency") currency: String = "usd",
-        @Query("precision") currencyDecimalPlaces: String = "2"
+        @Query("precision") currencyDecimalPlaces: String = "18"
     ): Response<CoinChartApiModel>
 
     @GET("global")
