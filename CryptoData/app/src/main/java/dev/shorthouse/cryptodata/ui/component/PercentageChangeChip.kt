@@ -24,7 +24,7 @@ fun PercentageChangeChip(
     val backgroundColor = when {
         percentage.isPositive -> PositiveGreen
         percentage.isNegative -> NegativeRed
-        else -> Color.Black
+        else -> MaterialTheme.colorScheme.background
     }
 
     Surface(

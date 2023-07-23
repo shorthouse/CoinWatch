@@ -19,7 +19,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DataModule {
+object NetworkDataModule {
     @Provides
     @Singleton
     fun provideCoinNetworkDataSource(coinApi: CoinApi): CoinNetworkDataSource {
