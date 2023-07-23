@@ -71,7 +71,7 @@ fun CoinDetailScreen(
     onNavigateUp: () -> Unit,
     onClickFavouriteCoin: () -> Unit,
     onClickChartPeriod: (ChartPeriod) -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
@@ -116,7 +116,7 @@ private fun ChartDetailTopBar(
     onNavigateUp: () -> Unit,
     onClickFavouriteCoin: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     LargeTopAppBar(
         navigationIcon = {
@@ -213,7 +213,7 @@ private fun DetailScreenPreview(
 ) {
     AppTheme {
         CoinDetailScreen(
-            uiState =         CoinDetailUiState.Success(
+            uiState = CoinDetailUiState.Success(
                 CoinDetail(
                     id = "ethereum",
                     name = "Ethereum",
@@ -236,7 +236,7 @@ private fun DetailScreenPreview(
                     minPriceChangePercentage = Percentage(BigDecimal("15.11")),
                     maxPrice = Price(BigDecimal("1922.83")),
                     maxPriceChangePercentage = Percentage(BigDecimal("-2.27")),
-                    periodPriceChangePercentage = Percentage(BigDecimal("7.06")),
+                    periodPriceChangePercentage = Percentage(BigDecimal("7.06"))
                 ),
                 chartPeriod = ChartPeriod.Week,
                 isCoinFavourite = false
