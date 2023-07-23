@@ -1,7 +1,8 @@
 package dev.shorthouse.cryptodata.ui.screen.detail.component
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -9,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import dev.shorthouse.cryptodata.model.Price
 import dev.shorthouse.cryptodata.ui.theme.AppTheme
 import dev.shorthouse.cryptodata.ui.theme.NegativeRed
@@ -26,6 +28,7 @@ fun ChartRangeLine(
     val maxMinDiff = maxPrice.amount - minPrice.amount
 
     val currentPriceRatio = when {
+        (currentMinDiff.compareTo(maxMinDiff) == 0) -> 0.5f
         (currentMinDiff.compareTo(BigDecimal.ZERO) == 0) -> 0f
         (maxMinDiff.compareTo(BigDecimal.ZERO) == 0) -> 1f
         else -> currentMinDiff / maxMinDiff
@@ -91,14 +94,16 @@ fun ChartRangeLine(
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview
 private fun PriceMinMaxLinePreview() {
     AppTheme {
         ChartRangeLine(
-            currentPrice = Price(BigDecimal("100.0")),
-            minPrice = Price(BigDecimal("80.0")),
-            maxPrice = Price(BigDecimal("100.0")),
-            modifier = Modifier.fillMaxSize()
+            currentPrice = Price(BigDecimal("90.0")),
+            minPrice = Price(BigDecimal("90.0")),
+            maxPrice = Price(BigDecimal("90.0")),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
         )
     }
 }
