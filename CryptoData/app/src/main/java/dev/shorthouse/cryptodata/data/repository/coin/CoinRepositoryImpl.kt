@@ -7,13 +7,13 @@ import dev.shorthouse.cryptodata.di.IoDispatcher
 import dev.shorthouse.cryptodata.model.Coin
 import dev.shorthouse.cryptodata.model.Percentage
 import dev.shorthouse.cryptodata.model.Price
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.days
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.days
 
 class CoinRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,
@@ -29,11 +29,11 @@ class CoinRepositoryImpl @Inject constructor(
                     Result.Success(body.map { it.toCoin() })
                 } else {
                     Timber.e("getCoins unsuccessful retrofit response ${response.message()}")
-                    Result.Error(message = response.message())
+                    Result.Error(message = "Unable to fetch coins list")
                 }
             } catch (e: Throwable) {
-                Timber.e("getCoins error $e")
-                Result.Error(message = e.message)
+                Timber.e("getCoins error ${e.message}")
+                Result.Error(message = "Unable to fetch coins list")
             }
         )
     }.flowOn(ioDispatcher)

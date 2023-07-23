@@ -6,16 +6,16 @@ import dev.shorthouse.cryptodata.data.source.remote.model.CoinDetailApiModel
 import dev.shorthouse.cryptodata.di.IoDispatcher
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.model.Price
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import timber.log.Timber
 import java.text.NumberFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import timber.log.Timber
 
 class CoinDetailRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,
@@ -31,11 +31,11 @@ class CoinDetailRepositoryImpl @Inject constructor(
                     Result.Success(body.first().toCoinDetail())
                 } else {
                     Timber.e("getCoinDetail unsuccessful retrofit response ${response.message()}")
-                    Result.Error(message = response.message())
+                    Result.Error(message = "Unable to fetch coin details")
                 }
             } catch (e: Throwable) {
-                Timber.e("getCoinDetail exception $e")
-                Result.Error(message = e.message)
+                Timber.e("getCoinDetail exception ${e.message}")
+                Result.Error(message = "Unable to fetch coin details")
             }
         )
     }.flowOn(ioDispatcher)
