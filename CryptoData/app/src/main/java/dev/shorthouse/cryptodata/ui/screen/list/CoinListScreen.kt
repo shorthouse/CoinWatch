@@ -47,6 +47,7 @@ import dev.shorthouse.cryptodata.model.Coin
 import dev.shorthouse.cryptodata.model.MarketStats
 import dev.shorthouse.cryptodata.model.Percentage
 import dev.shorthouse.cryptodata.model.Price
+import dev.shorthouse.cryptodata.ui.component.ErrorState
 import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
 import dev.shorthouse.cryptodata.ui.model.TimeOfDay
 import dev.shorthouse.cryptodata.ui.previewdata.CoinListUiStatePreviewProvider
@@ -80,30 +81,38 @@ fun CoinListScreen(
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
-    when (uiState) {
-        is CoinListUiState.Success -> {
-            Scaffold(
-                topBar = {
-                    CoinListTopBar(
-                        marketStats = uiState.marketStats,
-                        timeOfDay = uiState.timeOfDay,
-                        scrollBehavior = scrollBehavior
-                    )
-                },
-                content = { scaffoldPadding ->
-                    CoinListContent(
-                        coins = uiState.coins,
-                        favouriteCoins = uiState.favouriteCoins,
-                        onCoinClick = onCoinClick,
-                        modifier = Modifier.padding(scaffoldPadding)
-                    )
-                },
-                modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-            )
-        }
-        is CoinListUiState.Loading -> LoadingIndicator()
-        is CoinListUiState.Error -> Text("error")
-    }
+    ErrorState(
+        message = "get coins issue",
+        onRetry = { /* TODO */ }
+    )
+
+//    when (uiState) {
+//        is CoinListUiState.Success -> {
+//            Scaffold(
+//                topBar = {
+//                    CoinListTopBar(
+//                        marketStats = uiState.marketStats,
+//                        timeOfDay = uiState.timeOfDay,
+//                        scrollBehavior = scrollBehavior
+//                    )
+//                },
+//                content = { scaffoldPadding ->
+//                    CoinListContent(
+//                        coins = uiState.coins,
+//                        favouriteCoins = uiState.favouriteCoins,
+//                        onCoinClick = onCoinClick,
+//                        modifier = Modifier.padding(scaffoldPadding)
+//                    )
+//                },
+//                modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+//            )
+//        }
+//        is CoinListUiState.Loading -> LoadingIndicator()
+//        is CoinListUiState.Error -> ErrorState(
+//            message = uiState.message,
+//            onRetry = { /* TODO */ }
+//        )
+//    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -135,7 +144,7 @@ private fun CoinListContent(
                     key = { favouriteCoins[it].id },
                     itemContent = { index ->
                         val favouriteCoinItem = favouriteCoins[index]
-                        
+
                         CoinFavouriteItem(
                             coin = favouriteCoinItem,
                             onCoinClick = { onCoinClick(favouriteCoinItem) },
@@ -278,76 +287,7 @@ private fun ListScreenPreview(
 ) {
     AppTheme {
         CoinListScreen(
-            uiState = CoinListUiState.Success(
-                coins = listOf(
-                    Coin(
-                        id = "bitcoin",
-                        symbol = "BTC",
-                        name = "Bitcoin",
-                        image = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
-                        currentPrice = Price(BigDecimal("30752")),
-                        priceChangePercentage24h = Percentage(BigDecimal("-1.39")),
-                        marketCapRank = 1,
-                        prices24h = emptyList()
-                    ),
-                    Coin(
-                        id = "ethereum",
-                        symbol = "ETH",
-                        name = "Ethereum",
-                        image = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
-                        currentPrice = Price(BigDecimal("1345.62")),
-                        priceChangePercentage24h = Percentage(BigDecimal("0.42")),
-                        marketCapRank = 2,
-                        prices24h = emptyList()
-                    ),
-                    Coin(
-                        id = "tether",
-                        symbol = "USDT",
-                        name = "Tether",
-                        image = "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
-                        currentPrice = Price(BigDecimal("1.0")),
-                        priceChangePercentage24h = Percentage(BigDecimal("0.00")),
-                        marketCapRank = 3,
-                        prices24h = emptyList()
-                    )
-                ),
-                favouriteCoins = listOf(
-                    Coin(
-                        id = "bitcoin",
-                        symbol = "BTC",
-                        name = "Bitcoin",
-                        image = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
-                        currentPrice = Price(BigDecimal("30752")),
-                        priceChangePercentage24h = Percentage(BigDecimal("-1.39")),
-                        marketCapRank = 1,
-                        prices24h = emptyList()
-                    ),
-                    Coin(
-                        id = "ethereum",
-                        symbol = "ETH",
-                        name = "Ethereum",
-                        image = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
-                        currentPrice = Price(BigDecimal("1345.62")),
-                        priceChangePercentage24h = Percentage(BigDecimal("0.42")),
-                        marketCapRank = 2,
-                        prices24h = emptyList()
-                    ),
-                    Coin(
-                        id = "tether",
-                        symbol = "USDT",
-                        name = "Tether",
-                        image = "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
-                        currentPrice = Price(BigDecimal("1.0")),
-                        priceChangePercentage24h = Percentage(BigDecimal("0.00")),
-                        marketCapRank = 3,
-                        prices24h = emptyList()
-                    )
-                ),
-                marketStats = MarketStats(
-                    marketCapChangePercentage24h = Percentage(BigDecimal("-0.23"))
-                ),
-                timeOfDay = TimeOfDay.Evening
-            ),
+            uiState = CoinListUiState.Error("error"),
             onCoinClick = {}
         )
     }
