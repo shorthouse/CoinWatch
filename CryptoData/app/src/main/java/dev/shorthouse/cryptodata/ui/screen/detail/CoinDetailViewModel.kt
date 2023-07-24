@@ -43,6 +43,8 @@ class CoinDetailViewModel @Inject constructor(
     }
 
     fun initialiseUiState() {
+        _uiState.update { CoinDetailUiState.Loading }
+
         if (coinId == null) {
             _uiState.update { CoinDetailUiState.Error("Invalid coin ID") }
             return

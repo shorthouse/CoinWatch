@@ -30,6 +30,8 @@ class CoinListViewModel @Inject constructor(
     }
 
     fun initialiseUiState() {
+        _uiState.update { CoinListUiState.Loading }
+
         val coinsFlow = getCoinsUseCase()
         val marketStatsFlow = getMarketStatsUseCase()
         val favouriteCoinsFlow = getFavouriteCoinsUseCase()
