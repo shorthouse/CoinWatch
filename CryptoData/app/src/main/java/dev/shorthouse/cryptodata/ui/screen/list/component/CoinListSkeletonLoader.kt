@@ -1,8 +1,6 @@
 package dev.shorthouse.cryptodata.ui.screen.list.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,11 +16,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.cryptodata.R
+import dev.shorthouse.cryptodata.ui.component.SkeletonSurface
 import dev.shorthouse.cryptodata.ui.theme.AppTheme
 
 @Composable
@@ -34,15 +32,9 @@ fun CoinListSkeletonLoader(
             SkeletonTopAppBar()
         },
         content = { scaffoldPadding ->
-            Column(
-                modifier = modifier
-                    .padding(scaffoldPadding)
-                    .padding(start = 12.dp, top = 12.dp, end = 12.dp)
-            ) {
-                SkeletonFavouriteCoins()
-
-                SkeletonCoins()
-            }
+            SkeletonContent(
+                modifier = Modifier.padding(scaffoldPadding)
+            )
         },
         modifier = modifier
     )
@@ -66,57 +58,51 @@ private fun SkeletonTopAppBar(
             }
         },
         colors = TopAppBarDefaults.largeTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background,
-            scrolledContainerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background
         ),
         modifier = modifier
     )
 }
 
 @Composable
-private fun SkeletonFavouriteCoins(
-    modifier: Modifier = Modifier
+private fun SkeletonContent(
+    modifier: Modifier
 ) {
-    CoinListTitle(
-        text = stringResource(R.string.header_favourites)
-    )
-
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.padding(bottom = 24.dp)
+    Column(
+        modifier = modifier.padding(start = 12.dp, top = 12.dp, end = 12.dp)
     ) {
-        repeat(4) {
-            Box(
-                modifier = modifier
-                    .size(width = 140.dp, height = 200.dp)
-                    .clip(MaterialTheme.shapes.medium)
-                    .background(MaterialTheme.colorScheme.surface)
-            )
+        CoinListTitle(
+            text = stringResource(R.string.header_favourites)
+        )
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.padding(bottom = 24.dp)
+        ) {
+            repeat(4) {
+                SkeletonSurface(
+                    modifier = Modifier
+                        .size(width = 140.dp, height = 200.dp)
+                )
+            }
         }
+
+        CoinListTitle(
+            text = stringResource(R.string.header_coins)
+        )
+
+        SkeletonSurface(
+            shape = MaterialTheme.shapes.medium.copy(
+                bottomStart = CornerSize(0.dp),
+                bottomEnd = CornerSize(0.dp)
+            ),
+            modifier = Modifier.fillMaxSize()
+        )
     }
 }
 
 @Composable
-private fun SkeletonCoins() {
-    CoinListTitle(
-        text = stringResource(R.string.header_coins)
-    )
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .clip(
-                MaterialTheme.shapes.medium.copy(
-                    bottomStart = CornerSize(0.dp),
-                    bottomEnd = CornerSize(0.dp)
-                )
-            )
-            .background(MaterialTheme.colorScheme.surface)
-    )
-}
-
 @Preview
-@Composable
 fun CoinListSkeletonLoaderPreview() {
     AppTheme {
         CoinListSkeletonLoader()
