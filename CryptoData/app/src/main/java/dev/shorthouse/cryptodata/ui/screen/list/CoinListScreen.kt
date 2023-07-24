@@ -1,14 +1,10 @@
 package dev.shorthouse.cryptodata.ui.screen.list
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -31,10 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -48,12 +41,14 @@ import dev.shorthouse.cryptodata.model.MarketStats
 import dev.shorthouse.cryptodata.model.Percentage
 import dev.shorthouse.cryptodata.model.Price
 import dev.shorthouse.cryptodata.ui.component.ErrorState
-import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
 import dev.shorthouse.cryptodata.ui.model.TimeOfDay
 import dev.shorthouse.cryptodata.ui.previewdata.CoinListUiStatePreviewProvider
 import dev.shorthouse.cryptodata.ui.screen.Screen
 import dev.shorthouse.cryptodata.ui.screen.list.component.CoinFavouriteItem
+import dev.shorthouse.cryptodata.ui.screen.list.component.CoinGeckoAttribution
 import dev.shorthouse.cryptodata.ui.screen.list.component.CoinListItem
+import dev.shorthouse.cryptodata.ui.screen.list.component.CoinListSkeletonLoader
+import dev.shorthouse.cryptodata.ui.screen.list.component.CoinListTitle
 import dev.shorthouse.cryptodata.ui.theme.AppTheme
 import java.math.BigDecimal
 
@@ -104,7 +99,9 @@ fun CoinListScreen(
                 modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
             )
         }
-        is CoinListUiState.Loading -> LoadingIndicator()
+        is CoinListUiState.Loading -> {
+            CoinListSkeletonLoader()
+        }
         is CoinListUiState.Error -> ErrorState(
             message = uiState.message,
             onRetry = onErrorRetry
@@ -112,7 +109,6 @@ fun CoinListScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun CoinListContent(
     coins: List<Coin>,
@@ -125,16 +121,13 @@ private fun CoinListContent(
         modifier = modifier
     ) {
         item {
-            Text(
-                text = stringResource(R.string.header_favourites),
-                style = MaterialTheme.typography.titleMedium
+            CoinListTitle(
+                text = stringResource(R.string.header_favourites)
             )
-
-            Spacer(Modifier.height(8.dp))
 
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.animateItemPlacement()
+                modifier = Modifier.padding(bottom = 24.dp)
             ) {
                 items(
                     count = favouriteCoins.size,
@@ -150,14 +143,9 @@ private fun CoinListContent(
                 )
             }
 
-            Spacer(Modifier.height(24.dp))
-
-            Text(
-                text = stringResource(R.string.header_coins),
-                style = MaterialTheme.typography.titleMedium
+            CoinListTitle(
+                text = stringResource(R.string.header_coins)
             )
-
-            Spacer(Modifier.height(8.dp))
         }
 
         items(
@@ -193,7 +181,8 @@ private fun CoinListContent(
 private fun CoinListTopBar(
     marketStats: MarketStats,
     timeOfDay: TimeOfDay,
-    scrollBehavior: TopAppBarScrollBehavior
+    scrollBehavior: TopAppBarScrollBehavior,
+    modifier: Modifier = Modifier
 ) {
     TopAppBar(
         title = {
@@ -240,32 +229,7 @@ private fun CoinListTopBar(
 
                 Spacer(Modifier.weight(1f))
 
-                Column(horizontalAlignment = Alignment.End) {
-                    Text(
-                        text = stringResource(R.string.powered_by),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Image(
-                            painter = painterResource(R.drawable.coingecko_logo),
-                            contentDescription = stringResource(R.string.cd_coingecko),
-                            colorFilter = ColorFilter.tint(
-                                MaterialTheme.colorScheme.onSurfaceVariant
-                            ),
-                            modifier = Modifier.size(20.dp)
-                        )
-
-                        Spacer(Modifier.width(4.dp))
-
-                        Text(
-                            text = stringResource(R.string.coingecko),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
+                CoinGeckoAttribution()
             }
         },
         colors = TopAppBarDefaults.largeTopAppBarColors(
@@ -273,7 +237,7 @@ private fun CoinListTopBar(
             scrolledContainerColor = MaterialTheme.colorScheme.background
         ),
         scrollBehavior = scrollBehavior,
-        modifier = Modifier.background(Color.Green)
+        modifier = modifier
     )
 }
 
@@ -284,7 +248,7 @@ private fun ListScreenPreview(
 ) {
     AppTheme {
         CoinListScreen(
-            uiState =         CoinListUiState.Success(
+            uiState = CoinListUiState.Success(
                 coins = listOf(
                     Coin(
                         id = "bitcoin",
