@@ -22,9 +22,13 @@ import dev.shorthouse.cryptodata.model.CoinDetail
 @Composable
 fun ChartRangeCard(
     coinDetail: CoinDetail,
-    coinChart: CoinChart
+    coinChart: CoinChart,
+    modifier: Modifier = Modifier
 ) {
-    Surface(shape = MaterialTheme.shapes.medium) {
+    Surface(
+        shape = MaterialTheme.shapes.medium,
+        modifier = modifier
+    ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(
                 text = stringResource(R.string.title_chart_range),
