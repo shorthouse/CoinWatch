@@ -76,7 +76,7 @@ fun CoinListScreen(
     onErrorRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     when (uiState) {
         is CoinListUiState.Success -> {
