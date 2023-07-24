@@ -90,7 +90,7 @@ fun PriceGraph(
             animatedPathProgress.animateTo(
                 targetValue = 1f,
                 animationSpec = tween(
-                    durationMillis = 1000,
+                    durationMillis = 2000,
                     easing = LinearEasing
                 )
             )
@@ -214,7 +214,9 @@ private fun PriceChartPreview() {
             ),
             priceChangePercentage = Percentage(BigDecimal("0.42")),
             isGraphAnimated = true,
-            modifier = Modifier.fillMaxWidth().height(250.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(250.dp)
         )
     }
 }
