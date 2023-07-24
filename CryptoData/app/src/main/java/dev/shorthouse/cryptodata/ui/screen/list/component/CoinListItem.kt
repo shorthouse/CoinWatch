@@ -19,9 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.material.placeholder
-import com.google.accompanist.placeholder.material.shimmer
 import dev.shorthouse.cryptodata.model.Coin
 import dev.shorthouse.cryptodata.ui.component.PercentageChange
 import dev.shorthouse.cryptodata.ui.previewdata.CoinPreviewProvider
@@ -51,13 +48,6 @@ fun CoinListItem(
                 alignment = Alignment.Center,
                 modifier = Modifier
                     .size(32.dp)
-                    .placeholder(
-                        visible = true,
-                        highlight = PlaceholderHighlight.shimmer(
-                            highlightColor = MaterialTheme.colorScheme.surfaceVariant,
-                            backgroundColor = MaterialTheme.colorScheme.surface
-                        )
-                    )
             )
             Spacer(Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
