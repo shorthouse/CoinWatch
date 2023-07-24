@@ -38,17 +38,14 @@ import coil.compose.AsyncImage
 import dev.shorthouse.cryptodata.R
 import dev.shorthouse.cryptodata.model.CoinChart
 import dev.shorthouse.cryptodata.model.CoinDetail
-import dev.shorthouse.cryptodata.model.Percentage
-import dev.shorthouse.cryptodata.model.Price
 import dev.shorthouse.cryptodata.ui.component.ErrorState
-import dev.shorthouse.cryptodata.ui.component.LoadingIndicator
 import dev.shorthouse.cryptodata.ui.model.ChartPeriod
 import dev.shorthouse.cryptodata.ui.previewdata.CoinDetailUiStatePreviewProvider
 import dev.shorthouse.cryptodata.ui.screen.detail.component.ChartCard
 import dev.shorthouse.cryptodata.ui.screen.detail.component.ChartRangeCard
+import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailSkeletonLoader
 import dev.shorthouse.cryptodata.ui.screen.detail.component.MarketStatsCard
 import dev.shorthouse.cryptodata.ui.theme.AppTheme
-import java.math.BigDecimal
 
 @Composable
 fun CoinDetailScreen(
@@ -104,7 +101,9 @@ fun CoinDetailScreen(
                 modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
             )
         }
-        is CoinDetailUiState.Loading -> LoadingIndicator()
+        is CoinDetailUiState.Loading -> {
+            CoinDetailSkeletonLoader()
+        }
         is CoinDetailUiState.Error -> {
             ErrorState(
                 message = uiState.message,

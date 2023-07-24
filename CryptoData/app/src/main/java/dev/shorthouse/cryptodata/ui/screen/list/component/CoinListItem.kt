@@ -46,7 +46,8 @@ fun CoinListItem(
                 model = coin.image,
                 contentDescription = null,
                 alignment = Alignment.Center,
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier
+                    .size(32.dp)
             )
             Spacer(Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
