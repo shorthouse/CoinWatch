@@ -27,9 +27,13 @@ fun ChartCard(
     coinDetail: CoinDetail,
     coinChart: CoinChart,
     chartPeriod: ChartPeriod,
-    onClickChartPeriod: (ChartPeriod) -> Unit
+    onClickChartPeriod: (ChartPeriod) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Surface(shape = MaterialTheme.shapes.medium) {
+    Surface(
+        shape = MaterialTheme.shapes.medium,
+        modifier = modifier
+    ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(32.dp),
             modifier = Modifier.padding(vertical = 12.dp)
