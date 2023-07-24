@@ -16,11 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.shorthouse.cryptodata.ui.model.ChartPeriod
 import dev.shorthouse.cryptodata.model.CoinChart
 import dev.shorthouse.cryptodata.model.CoinDetail
 import dev.shorthouse.cryptodata.ui.component.PercentageChangeChip
 import dev.shorthouse.cryptodata.ui.component.PriceGraph
+import dev.shorthouse.cryptodata.ui.model.ChartPeriod
 
 @Composable
 fun ChartCard(
@@ -60,7 +60,7 @@ fun ChartCard(
             PriceGraph(
                 prices = coinChart.prices,
                 priceChangePercentage = coinChart.periodPriceChangePercentage,
-                isLineAnimated = true,
+                isGraphAnimated = true,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)

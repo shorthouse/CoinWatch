@@ -81,7 +81,7 @@ fun CoinFavouriteItem(
             PriceGraph(
                 prices = coin.prices24h,
                 priceChangePercentage = coin.priceChangePercentage24h,
-                isLineAnimated = false,
+                isGraphAnimated = false,
                 modifier = Modifier
                     .fillMaxSize()
             )
