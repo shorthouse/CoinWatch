@@ -8,6 +8,7 @@ import dev.shorthouse.cryptodata.model.CoinChart
 import dev.shorthouse.cryptodata.model.Percentage
 import dev.shorthouse.cryptodata.model.Price
 import java.math.BigDecimal
+import java.math.RoundingMode
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -51,17 +52,17 @@ class CoinChartRepositoryImpl @Inject constructor(
 
         val minPrice = prices.min()
         val minPriceChangePercentage = currentPrice.minus(minPrice)
-            .divide(minPrice)
+            .divide(minPrice, RoundingMode.HALF_EVEN)
             .multiply(BigDecimal("100"))
 
         val maxPrice = prices.max()
         val maxPriceChangePercentage = currentPrice.minus(maxPrice)
-            .divide(maxPrice)
+            .divide(maxPrice, RoundingMode.HALF_EVEN)
             .multiply(BigDecimal("100"))
 
         val oldestPastPrice = prices.first()
         val periodPriceChangePercentage = currentPrice.minus(oldestPastPrice)
-            .divide(oldestPastPrice)
+            .divide(oldestPastPrice, RoundingMode.HALF_EVEN)
             .multiply(BigDecimal("100"))
 
         return CoinChart(
