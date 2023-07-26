@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.ui.theme
+package dev.shorthouse.coinwatch.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes

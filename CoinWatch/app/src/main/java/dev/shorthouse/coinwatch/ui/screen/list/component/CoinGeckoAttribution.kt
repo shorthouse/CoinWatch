@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.ui.screen.list.component
+package dev.shorthouse.coinwatch.ui.screen.list.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.shorthouse.cryptodata.R
+import dev.shorthouse.coinwatch.R
 
 @Composable
 fun CoinGeckoAttribution(

@@ -1,13 +1,13 @@
-package dev.shorthouse.cryptodata.ui.screen.list
+package dev.shorthouse.coinwatch.ui.screen.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.shorthouse.cryptodata.common.Result
-import dev.shorthouse.cryptodata.domain.GetCoinsUseCase
-import dev.shorthouse.cryptodata.domain.GetFavouriteCoinsUseCase
-import dev.shorthouse.cryptodata.domain.GetMarketStatsUseCase
-import dev.shorthouse.cryptodata.ui.model.TimeOfDay
+import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
+import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
+import dev.shorthouse.coinwatch.domain.GetMarketStatsUseCase
+import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import java.time.LocalDateTime
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow

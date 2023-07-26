@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.ui.screen.detail.component
+package dev.shorthouse.coinwatch.ui.screen.detail.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,9 +23,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.shorthouse.cryptodata.R
-import dev.shorthouse.cryptodata.ui.component.SkeletonSurface
-import dev.shorthouse.cryptodata.ui.theme.AppTheme
+import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.ui.component.SkeletonSurface
+import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun CoinDetailSkeletonLoader(

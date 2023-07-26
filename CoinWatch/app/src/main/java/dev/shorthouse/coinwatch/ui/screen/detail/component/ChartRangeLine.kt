@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.ui.screen.detail.component
+package dev.shorthouse.coinwatch.ui.screen.detail.component
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,10 +11,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.shorthouse.cryptodata.model.Price
-import dev.shorthouse.cryptodata.ui.theme.AppTheme
-import dev.shorthouse.cryptodata.ui.theme.NegativeRed
-import dev.shorthouse.cryptodata.ui.theme.PositiveGreen
+import dev.shorthouse.coinwatch.model.Price
+import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import dev.shorthouse.coinwatch.ui.theme.NegativeRed
+import dev.shorthouse.coinwatch.ui.theme.PositiveGreen
 import java.math.BigDecimal
 
 @Composable

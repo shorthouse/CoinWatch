@@ -1,10 +1,11 @@
-package dev.shorthouse.cryptodata.ui.screen.list
+package dev.shorthouse.coinwatch.ui.screen.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -30,27 +31,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import dev.shorthouse.cryptodata.R
-import dev.shorthouse.cryptodata.model.Coin
-import dev.shorthouse.cryptodata.model.MarketStats
-import dev.shorthouse.cryptodata.model.Percentage
-import dev.shorthouse.cryptodata.model.Price
-import dev.shorthouse.cryptodata.ui.component.ErrorState
-import dev.shorthouse.cryptodata.ui.model.TimeOfDay
-import dev.shorthouse.cryptodata.ui.previewdata.CoinListUiStatePreviewProvider
-import dev.shorthouse.cryptodata.ui.screen.Screen
-import dev.shorthouse.cryptodata.ui.screen.list.component.CoinFavouriteItem
-import dev.shorthouse.cryptodata.ui.screen.list.component.CoinGeckoAttribution
-import dev.shorthouse.cryptodata.ui.screen.list.component.CoinListItem
-import dev.shorthouse.cryptodata.ui.screen.list.component.CoinListSkeletonLoader
-import dev.shorthouse.cryptodata.ui.screen.list.component.CoinListTitle
-import dev.shorthouse.cryptodata.ui.theme.AppTheme
-import java.math.BigDecimal
+import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.model.Coin
+import dev.shorthouse.coinwatch.model.MarketStats
+import dev.shorthouse.coinwatch.ui.component.ErrorState
+import dev.shorthouse.coinwatch.ui.model.TimeOfDay
+import dev.shorthouse.coinwatch.ui.screen.Screen
+import dev.shorthouse.coinwatch.ui.screen.list.component.CoinFavouriteItem
+import dev.shorthouse.coinwatch.ui.screen.list.component.CoinGeckoAttribution
+import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListItem
+import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListSkeletonLoader
+import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListTitle
+import dev.shorthouse.coinwatch.ui.screen.list.component.FavouriteCoinEmptyState
+import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun CoinListScreen(
@@ -125,23 +122,26 @@ private fun CoinListContent(
                 text = stringResource(R.string.header_favourites)
             )
 
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(bottom = 24.dp)
-            ) {
-                items(
-                    count = favouriteCoins.size,
-                    key = { favouriteCoins[it].id },
-                    itemContent = { index ->
-                        val favouriteCoinItem = favouriteCoins[index]
+            if (favouriteCoins.isEmpty()) {
+                FavouriteCoinEmptyState()
+            } else {
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    items(
+                        count = favouriteCoins.size,
+                        key = { favouriteCoins[it].id },
+                        itemContent = { index ->
+                            val favouriteCoinItem = favouriteCoins[index]
 
-                        CoinFavouriteItem(
-                            coin = favouriteCoinItem,
-                            onCoinClick = { onCoinClick(favouriteCoinItem) }
-                        )
-                    }
-                )
+                            CoinFavouriteItem(
+                                coin = favouriteCoinItem,
+                                onCoinClick = { onCoinClick(favouriteCoinItem) }
+                            )
+                        }
+                    )
+                }
             }
+
+            Spacer(Modifier.height(24.dp))
 
             CoinListTitle(
                 text = stringResource(R.string.header_coins)
@@ -244,80 +244,11 @@ private fun CoinListTopBar(
 @Composable
 @Preview(showBackground = true)
 private fun ListScreenPreview(
-    @PreviewParameter(CoinListUiStatePreviewProvider::class) uiState: CoinListUiState
+    //@PreviewParameter(CoinListUiStatePreviewProvider::class) uiState: CoinListUiState
 ) {
     AppTheme {
         CoinListScreen(
-            uiState = CoinListUiState.Success(
-                coins = listOf(
-                    Coin(
-                        id = "bitcoin",
-                        symbol = "BTC",
-                        name = "Bitcoin",
-                        image = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
-                        currentPrice = Price(BigDecimal("30752")),
-                        priceChangePercentage24h = Percentage(BigDecimal("-1.39")),
-                        marketCapRank = 1,
-                        prices24h = emptyList()
-                    ),
-                    Coin(
-                        id = "ethereum",
-                        symbol = "ETH",
-                        name = "Ethereum",
-                        image = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
-                        currentPrice = Price(BigDecimal("1345.62")),
-                        priceChangePercentage24h = Percentage(BigDecimal("0.42")),
-                        marketCapRank = 2,
-                        prices24h = emptyList()
-                    ),
-                    Coin(
-                        id = "tether",
-                        symbol = "USDT",
-                        name = "Tether",
-                        image = "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
-                        currentPrice = Price(BigDecimal("1.0")),
-                        priceChangePercentage24h = Percentage(BigDecimal("0.00")),
-                        marketCapRank = 3,
-                        prices24h = emptyList()
-                    )
-                ),
-                favouriteCoins = listOf(
-                    Coin(
-                        id = "bitcoin",
-                        symbol = "BTC",
-                        name = "Bitcoin",
-                        image = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
-                        currentPrice = Price(BigDecimal("30752")),
-                        priceChangePercentage24h = Percentage(BigDecimal("-1.39")),
-                        marketCapRank = 1,
-                        prices24h = emptyList()
-                    ),
-                    Coin(
-                        id = "ethereum",
-                        symbol = "ETH",
-                        name = "Ethereum",
-                        image = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
-                        currentPrice = Price(BigDecimal("1345.62")),
-                        priceChangePercentage24h = Percentage(BigDecimal("0.42")),
-                        marketCapRank = 2,
-                        prices24h = emptyList()
-                    ),
-                    Coin(
-                        id = "tether",
-                        symbol = "USDT",
-                        name = "Tether",
-                        image = "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
-                        currentPrice = Price(BigDecimal("1.0")),
-                        priceChangePercentage24h = Percentage(BigDecimal("0.00")),
-                        marketCapRank = 3,
-                        prices24h = emptyList()
-                    )
-                ),
-                marketStats = MarketStats(
-                    marketCapChangePercentage24h = Percentage(BigDecimal("-0.23"))
-                ),
-                timeOfDay = TimeOfDay.Evening
-            ),
+            uiState = CoinListUiState.Loading,
             onCoinClick = {},
             onErrorRetry = {}
         )

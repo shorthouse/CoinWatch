@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.ui.screen
+package dev.shorthouse.coinwatch.ui.screen
 
 sealed class Screen(val route: String) {
     object ListScreen : Screen("list_screen")

@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.ui.theme
+package dev.shorthouse.coinwatch.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

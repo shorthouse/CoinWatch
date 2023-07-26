@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.ui.screen.list.component
+package dev.shorthouse.coinwatch.ui.screen.list.component
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height

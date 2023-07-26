@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.ui.screen.list.component
+package dev.shorthouse.coinwatch.ui.screen.list.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -19,10 +19,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import dev.shorthouse.cryptodata.model.Coin
-import dev.shorthouse.cryptodata.ui.component.PercentageChange
-import dev.shorthouse.cryptodata.ui.previewdata.CoinPreviewProvider
-import dev.shorthouse.cryptodata.ui.theme.AppTheme
+import dev.shorthouse.coinwatch.model.Coin
+import dev.shorthouse.coinwatch.ui.component.PercentageChange
+import dev.shorthouse.coinwatch.ui.previewdata.CoinPreviewProvider
+import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun CoinListItem(

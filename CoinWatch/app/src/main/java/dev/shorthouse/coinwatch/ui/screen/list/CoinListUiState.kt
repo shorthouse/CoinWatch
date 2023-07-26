@@ -1,8 +1,8 @@
-package dev.shorthouse.cryptodata.ui.screen.list
+package dev.shorthouse.coinwatch.ui.screen.list
 
-import dev.shorthouse.cryptodata.model.Coin
-import dev.shorthouse.cryptodata.model.MarketStats
-import dev.shorthouse.cryptodata.ui.model.TimeOfDay
+import dev.shorthouse.coinwatch.model.Coin
+import dev.shorthouse.coinwatch.model.MarketStats
+import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 
 sealed interface CoinListUiState {
     object Loading : CoinListUiState
