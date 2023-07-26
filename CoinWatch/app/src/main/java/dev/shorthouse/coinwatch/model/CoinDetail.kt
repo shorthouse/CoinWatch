@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.model
+package dev.shorthouse.coinwatch.model
 
 data class CoinDetail(
     val id: String,
