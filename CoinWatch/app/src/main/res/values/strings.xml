@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CryptoData</string>
+    <string name="app_name">CoinWatch</string>
     <string name="positive_percentage">+%1$.2f%%</string>
     <string name="negative_percentage">%1$.2f%%</string>
     <string name="coin_price_change">%1$.2f%%</string>
@@ -49,4 +49,7 @@
     <string name="cd_top_bar_favourite">Favourite</string>
     <string name="button_retry">Retry</string>
     <string name="error_occurred">An error has occurred</string>
+    <string name="empty_state_favourite_coins_title">No favourite coins</string>
+    <string name="empty_state_favourite_coins_subtitle_start">Tap the</string>
+    <string name="empty_state_favourite_coins_subtitle_end">to favourite a coin</string>
 </resources>
