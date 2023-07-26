@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.ui.model
+package dev.shorthouse.coinwatch.ui.model
 
 enum class TimeOfDay {
     Morning,

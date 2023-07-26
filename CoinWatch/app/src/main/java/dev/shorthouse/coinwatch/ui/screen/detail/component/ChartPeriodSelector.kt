@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.ui.screen.detail.component
+package dev.shorthouse.coinwatch.ui.screen.detail.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,8 +20,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.shorthouse.cryptodata.ui.model.ChartPeriod
-import dev.shorthouse.cryptodata.ui.theme.AppTheme
+import dev.shorthouse.coinwatch.ui.model.ChartPeriod
+import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun ChartPeriodSelector(

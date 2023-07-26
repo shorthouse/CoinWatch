@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.ui.screen.detail.component
+package dev.shorthouse.coinwatch.ui.screen.detail.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,11 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.shorthouse.cryptodata.model.CoinChart
-import dev.shorthouse.cryptodata.model.CoinDetail
-import dev.shorthouse.cryptodata.ui.component.PercentageChangeChip
-import dev.shorthouse.cryptodata.ui.component.PriceGraph
-import dev.shorthouse.cryptodata.ui.model.ChartPeriod
+import dev.shorthouse.coinwatch.model.CoinChart
+import dev.shorthouse.coinwatch.model.CoinDetail
+import dev.shorthouse.coinwatch.ui.component.PercentageChangeChip
+import dev.shorthouse.coinwatch.ui.component.PriceGraph
+import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 
 @Composable
 fun ChartCard(

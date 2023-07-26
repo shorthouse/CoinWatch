@@ -1,9 +1,9 @@
-package dev.shorthouse.cryptodata.ui.previewdata
+package dev.shorthouse.coinwatch.ui.previewdata
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.shorthouse.cryptodata.model.Coin
-import dev.shorthouse.cryptodata.model.Percentage
-import dev.shorthouse.cryptodata.model.Price
+import dev.shorthouse.coinwatch.model.Coin
+import dev.shorthouse.coinwatch.model.Percentage
+import dev.shorthouse.coinwatch.model.Price
 import java.math.BigDecimal
 
 class CoinPreviewProvider : PreviewParameterProvider<Coin> {

@@ -1,8 +1,8 @@
-package dev.shorthouse.cryptodata.ui.screen.detail
+package dev.shorthouse.coinwatch.ui.screen.detail
 
-import dev.shorthouse.cryptodata.model.CoinChart
-import dev.shorthouse.cryptodata.model.CoinDetail
-import dev.shorthouse.cryptodata.ui.model.ChartPeriod
+import dev.shorthouse.coinwatch.model.CoinChart
+import dev.shorthouse.coinwatch.model.CoinDetail
+import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 
 sealed interface CoinDetailUiState {
     object Loading : CoinDetailUiState

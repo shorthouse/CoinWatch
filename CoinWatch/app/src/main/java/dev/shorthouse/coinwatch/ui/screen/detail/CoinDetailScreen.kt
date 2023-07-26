@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.ui.screen.detail
+package dev.shorthouse.coinwatch.ui.screen.detail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,17 +35,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import dev.shorthouse.cryptodata.R
-import dev.shorthouse.cryptodata.model.CoinChart
-import dev.shorthouse.cryptodata.model.CoinDetail
-import dev.shorthouse.cryptodata.ui.component.ErrorState
-import dev.shorthouse.cryptodata.ui.model.ChartPeriod
-import dev.shorthouse.cryptodata.ui.previewdata.CoinDetailUiStatePreviewProvider
-import dev.shorthouse.cryptodata.ui.screen.detail.component.ChartCard
-import dev.shorthouse.cryptodata.ui.screen.detail.component.ChartRangeCard
-import dev.shorthouse.cryptodata.ui.screen.detail.component.CoinDetailSkeletonLoader
-import dev.shorthouse.cryptodata.ui.screen.detail.component.MarketStatsCard
-import dev.shorthouse.cryptodata.ui.theme.AppTheme
+import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.model.CoinChart
+import dev.shorthouse.coinwatch.model.CoinDetail
+import dev.shorthouse.coinwatch.ui.component.ErrorState
+import dev.shorthouse.coinwatch.ui.model.ChartPeriod
+import dev.shorthouse.coinwatch.ui.previewdata.CoinDetailUiStatePreviewProvider
+import dev.shorthouse.coinwatch.ui.screen.detail.component.ChartCard
+import dev.shorthouse.coinwatch.ui.screen.detail.component.ChartRangeCard
+import dev.shorthouse.coinwatch.ui.screen.detail.component.CoinDetailSkeletonLoader
+import dev.shorthouse.coinwatch.ui.screen.detail.component.MarketStatsCard
+import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun CoinDetailScreen(
