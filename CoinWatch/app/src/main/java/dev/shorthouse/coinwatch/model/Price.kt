@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.model
+package dev.shorthouse.coinwatch.model
 
 import java.math.BigDecimal
 import java.text.NumberFormat

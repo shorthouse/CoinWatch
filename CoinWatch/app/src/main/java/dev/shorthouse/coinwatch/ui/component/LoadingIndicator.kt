@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.ui.component
+package dev.shorthouse.coinwatch.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import dev.shorthouse.cryptodata.ui.theme.AppTheme
+import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun LoadingIndicator(modifier: Modifier = Modifier) {

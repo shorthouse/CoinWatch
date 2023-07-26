@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.ui.component
+package dev.shorthouse.coinwatch.ui.component
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -6,11 +6,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import dev.shorthouse.cryptodata.model.Percentage
-import dev.shorthouse.cryptodata.ui.previewdata.PercentagePreviewProvider
-import dev.shorthouse.cryptodata.ui.theme.AppTheme
-import dev.shorthouse.cryptodata.ui.theme.NegativeRed
-import dev.shorthouse.cryptodata.ui.theme.PositiveGreen
+import dev.shorthouse.coinwatch.model.Percentage
+import dev.shorthouse.coinwatch.ui.previewdata.PercentagePreviewProvider
+import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import dev.shorthouse.coinwatch.ui.theme.NegativeRed
+import dev.shorthouse.coinwatch.ui.theme.PositiveGreen
 
 @Composable
 fun PercentageChange(

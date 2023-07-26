@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.ui.component
+package dev.shorthouse.coinwatch.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,8 +19,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.shorthouse.cryptodata.R
-import dev.shorthouse.cryptodata.ui.theme.AppTheme
+import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun ErrorState(

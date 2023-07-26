@@ -1,7 +1,7 @@
-package dev.shorthouse.cryptodata.ui.model
+package dev.shorthouse.coinwatch.ui.model
 
 import androidx.annotation.StringRes
-import dev.shorthouse.cryptodata.R
+import dev.shorthouse.coinwatch.R
 
 enum class ChartPeriod(
     @StringRes val shortNameId: Int,

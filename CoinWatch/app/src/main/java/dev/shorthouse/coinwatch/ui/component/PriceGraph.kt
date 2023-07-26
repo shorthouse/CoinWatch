@@ -1,4 +1,4 @@
-package dev.shorthouse.cryptodata.ui.component
+package dev.shorthouse.coinwatch.ui.component
 
 import androidx.compose.animation.core.AnimationState
 import androidx.compose.animation.core.LinearEasing
@@ -20,11 +20,11 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.shorthouse.cryptodata.model.Percentage
-import dev.shorthouse.cryptodata.ui.theme.AppTheme
-import dev.shorthouse.cryptodata.ui.theme.NegativeRed
-import dev.shorthouse.cryptodata.ui.theme.PositiveGreen
-import dev.shorthouse.cryptodata.ui.theme.ZeroWhite
+import dev.shorthouse.coinwatch.model.Percentage
+import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import dev.shorthouse.coinwatch.ui.theme.NegativeRed
+import dev.shorthouse.coinwatch.ui.theme.PositiveGreen
+import dev.shorthouse.coinwatch.ui.theme.ZeroWhite
 import java.math.BigDecimal
 
 @Composable
