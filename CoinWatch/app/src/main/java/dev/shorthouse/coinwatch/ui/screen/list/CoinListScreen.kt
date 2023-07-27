@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -40,12 +41,12 @@ import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.MarketStats
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
+import dev.shorthouse.coinwatch.ui.previewdata.CoinListUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.Screen
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinFavouriteItem
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinGeckoAttribution
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListItem
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListSkeletonLoader
-import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListTitle
 import dev.shorthouse.coinwatch.ui.screen.list.component.FavouriteCoinEmptyState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
@@ -107,76 +108,6 @@ fun CoinListScreen(
 }
 
 @Composable
-private fun CoinListContent(
-    coins: List<Coin>,
-    favouriteCoins: List<Coin>,
-    onCoinClick: (Coin) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    LazyColumn(
-        contentPadding = PaddingValues(12.dp),
-        modifier = modifier
-    ) {
-        item {
-            CoinListTitle(
-                text = stringResource(R.string.header_favourites)
-            )
-
-            if (favouriteCoins.isEmpty()) {
-                FavouriteCoinEmptyState()
-            } else {
-                LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    items(
-                        count = favouriteCoins.size,
-                        key = { favouriteCoins[it].id },
-                        itemContent = { index ->
-                            val favouriteCoinItem = favouriteCoins[index]
-
-                            CoinFavouriteItem(
-                                coin = favouriteCoinItem,
-                                onCoinClick = { onCoinClick(favouriteCoinItem) }
-                            )
-                        }
-                    )
-                }
-            }
-
-            Spacer(Modifier.height(24.dp))
-
-            CoinListTitle(
-                text = stringResource(R.string.header_coins)
-            )
-        }
-
-        items(
-            count = coins.size,
-            key = { coins[it].id },
-            itemContent = { index ->
-                val coinListItem = coins[index]
-
-                val cardShape = when (index) {
-                    0 -> MaterialTheme.shapes.medium.copy(
-                        bottomStart = CornerSize(0.dp),
-                        bottomEnd = CornerSize(0.dp)
-                    )
-                    coins.lastIndex -> MaterialTheme.shapes.medium.copy(
-                        topStart = CornerSize(0.dp),
-                        topEnd = CornerSize(0.dp)
-                    )
-                    else -> RoundedCornerShape(0.dp)
-                }
-
-                CoinListItem(
-                    coin = coinListItem,
-                    onCoinClick = { onCoinClick(coinListItem) },
-                    cardShape = cardShape
-                )
-            }
-        )
-    }
-}
-
-@Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun CoinListTopBar(
     marketStats: MarketStats,
@@ -220,8 +151,8 @@ private fun CoinListTopBar(
                             } else {
                                 Icons.Rounded.TrendingDown
                             },
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
                             contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.size(20.dp)
                         )
                     }
@@ -242,13 +173,87 @@ private fun CoinListTopBar(
 }
 
 @Composable
+private fun CoinListContent(
+    coins: List<Coin>,
+    favouriteCoins: List<Coin>,
+    onCoinClick: (Coin) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        contentPadding = PaddingValues(12.dp),
+        modifier = modifier
+    ) {
+        item {
+            Text(
+                text = stringResource(R.string.header_favourites),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            if (favouriteCoins.isEmpty()) {
+                FavouriteCoinEmptyState()
+            } else {
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    items(
+                        count = favouriteCoins.size,
+                        key = { favouriteCoins[it].id },
+                        itemContent = { index ->
+                            val favouriteCoinItem = favouriteCoins[index]
+
+                            CoinFavouriteItem(
+                                coin = favouriteCoinItem,
+                                onCoinClick = { onCoinClick(favouriteCoinItem) }
+                            )
+                        }
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(24.dp))
+
+            Text(
+                text = stringResource(R.string.header_coins),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+
+        items(
+            count = coins.size,
+            key = { coins[it].id },
+            itemContent = { index ->
+                val coinListItem = coins[index]
+
+                val cardShape = when (index) {
+                    0 -> MaterialTheme.shapes.medium.copy(
+                        bottomStart = CornerSize(0.dp),
+                        bottomEnd = CornerSize(0.dp)
+                    )
+                    coins.lastIndex -> MaterialTheme.shapes.medium.copy(
+                        topStart = CornerSize(0.dp),
+                        topEnd = CornerSize(0.dp)
+                    )
+                    else -> RoundedCornerShape(0.dp)
+                }
+
+                CoinListItem(
+                    coin = coinListItem,
+                    onCoinClick = { onCoinClick(coinListItem) },
+                    cardShape = cardShape
+                )
+            }
+        )
+    }
+}
+
+@Composable
 @Preview(showBackground = true)
 private fun ListScreenPreview(
-    //@PreviewParameter(CoinListUiStatePreviewProvider::class) uiState: CoinListUiState
+    @PreviewParameter(CoinListUiStatePreviewProvider::class) uiState: CoinListUiState
 ) {
     AppTheme {
         CoinListScreen(
-            uiState = CoinListUiState.Loading,
+            uiState = uiState,
             onCoinClick = {},
             onErrorRetry = {}
         )

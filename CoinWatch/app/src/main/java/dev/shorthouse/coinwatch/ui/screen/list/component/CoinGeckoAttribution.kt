@@ -14,8 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun CoinGeckoAttribution(
@@ -49,5 +51,13 @@ fun CoinGeckoAttribution(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
+    }
+}
+
+@Composable
+@Preview
+private fun CoinGeckoAttributionPreview() {
+    AppTheme {
+        CoinGeckoAttribution()
     }
 }
