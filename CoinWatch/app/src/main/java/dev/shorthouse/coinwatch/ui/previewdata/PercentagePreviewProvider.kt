@@ -8,6 +8,6 @@ class PercentagePreviewProvider : PreviewParameterProvider<Percentage> {
     override val values = sequenceOf(
         Percentage(BigDecimal("0.42")),
         Percentage(BigDecimal("-0.57")),
-        Percentage(BigDecimal("0.0"))
+        Percentage(BigDecimal("0.00"))
     )
 }
