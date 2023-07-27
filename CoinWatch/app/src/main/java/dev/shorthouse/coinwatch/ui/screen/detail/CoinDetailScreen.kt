@@ -5,8 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -19,6 +22,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -39,12 +43,14 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.CoinDetail
 import dev.shorthouse.coinwatch.ui.component.ErrorState
+import dev.shorthouse.coinwatch.ui.component.PriceGraph
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import dev.shorthouse.coinwatch.ui.previewdata.CoinDetailUiStatePreviewProvider
-import dev.shorthouse.coinwatch.ui.screen.detail.component.ChartCard
-import dev.shorthouse.coinwatch.ui.screen.detail.component.ChartRangeCard
+import dev.shorthouse.coinwatch.ui.screen.detail.component.ChartPeriodSelector
+import dev.shorthouse.coinwatch.ui.screen.detail.component.ChartRangeLine
 import dev.shorthouse.coinwatch.ui.screen.detail.component.CoinDetailSkeletonLoader
 import dev.shorthouse.coinwatch.ui.screen.detail.component.MarketStatsCard
+import dev.shorthouse.coinwatch.ui.screen.detail.component.PercentageChangeChip
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
@@ -137,9 +143,8 @@ private fun ChartDetailTopBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column {
-                    Text(
-                        text = coinName
-                    )
+                    Text(text = coinName)
+
                     Text(
                         text = coinSymbol,
                         style = MaterialTheme.typography.bodyLarge,
@@ -195,17 +200,103 @@ private fun CoinDetailContent(
             .verticalScroll(rememberScrollState())
             .padding(start = 12.dp, end = 12.dp, bottom = 12.dp)
     ) {
-        ChartCard(
-            coinDetail = coinDetail,
-            coinChart = coinChart,
-            chartPeriod = chartPeriod,
-            onClickChartPeriod = onClickChartPeriod
-        )
+        Surface(shape = MaterialTheme.shapes.medium) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(32.dp),
+                modifier = Modifier.padding(vertical = 12.dp)
+            ) {
+                Column(modifier = Modifier.padding(horizontal = 12.dp)) {
+                    Text(
+                        text = coinDetail.currentPrice.formattedAmount,
+                        style = MaterialTheme.typography.headlineSmall
+                    )
 
-        ChartRangeCard(
-            coinDetail = coinDetail,
-            coinChart = coinChart
-        )
+                    Spacer(Modifier.height(4.dp))
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        PercentageChangeChip(
+                            percentage = coinChart.periodPriceChangePercentage
+                        )
+
+                        Spacer(Modifier.width(8.dp))
+
+                        Text(
+                            text = stringResource(chartPeriod.longNameId),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+
+                PriceGraph(
+                    prices = coinChart.prices,
+                    priceChangePercentage = coinChart.periodPriceChangePercentage,
+                    isGraphAnimated = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                )
+
+                ChartPeriodSelector(
+                    selectedChartPeriod = chartPeriod,
+                    onChartPeriodSelected = onClickChartPeriod,
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+            }
+        }
+
+        Surface(shape = MaterialTheme.shapes.medium) {
+            Column(modifier = Modifier.padding(12.dp)) {
+                Text(
+                    text = stringResource(R.string.title_chart_range),
+                    style = MaterialTheme.typography.titleMedium
+                )
+
+                Spacer(Modifier.height(16.dp))
+
+                ChartRangeLine(
+                    currentPrice = coinDetail.currentPrice,
+                    minPrice = coinChart.minPrice,
+                    maxPrice = coinChart.maxPrice,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(20.dp)
+                        .padding(horizontal = 4.dp)
+                )
+
+                Spacer(Modifier.height(4.dp))
+
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(horizontalAlignment = Alignment.Start) {
+                        Text(
+                            text = stringResource(R.string.range_title_low),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+
+                        Text(
+                            text = coinChart.minPrice.formattedAmount,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                    Column(horizontalAlignment = Alignment.End) {
+                        Text(
+                            text = stringResource(R.string.range_title_high),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+
+                        Text(
+                            text = coinChart.maxPrice.formattedAmount,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
+            }
+        }
 
         MarketStatsCard(
             coinDetail = coinDetail
@@ -221,8 +312,8 @@ private fun DetailScreenPreview(
     AppTheme {
         CoinDetailScreen(
             uiState = uiState,
-            onNavigateUp = {},
-            onClickFavouriteCoin = {},
+            onNavigateUp = { },
+            onClickFavouriteCoin = { },
             onClickChartPeriod = {},
             onErrorRetry = {}
         )

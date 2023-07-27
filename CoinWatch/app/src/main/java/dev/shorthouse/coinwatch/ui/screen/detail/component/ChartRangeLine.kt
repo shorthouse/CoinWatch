@@ -27,11 +27,13 @@ fun ChartRangeLine(
     val currentMinDiff = currentPrice.amount - minPrice.amount
     val maxMinDiff = maxPrice.amount - minPrice.amount
 
-    val currentPriceRatio = when {
-        (currentMinDiff.compareTo(maxMinDiff) == 0) -> 0.5f
-        (currentMinDiff.compareTo(BigDecimal.ZERO) == 0) -> 0f
-        (maxMinDiff.compareTo(BigDecimal.ZERO) == 0) -> 1f
-        else -> currentMinDiff / maxMinDiff
+    val currentPriceRatio = remember {
+        when {
+            (currentMinDiff.compareTo(maxMinDiff) == 0) -> 0.5f
+            (currentMinDiff.compareTo(BigDecimal.ZERO) == 0) -> 0f
+            (maxMinDiff.compareTo(BigDecimal.ZERO) == 0) -> 1f
+            else -> (currentMinDiff / maxMinDiff).toFloat()
+        }
     }
 
     val positiveGreen = remember {
@@ -55,7 +57,7 @@ fun ChartRangeLine(
                 y = canvasHeightMiddle
             ),
             end = Offset(
-                x = canvasWidth * currentPriceRatio.toFloat(),
+                x = canvasWidth * currentPriceRatio,
                 y = canvasHeightMiddle
             ),
             color = positiveGreen,
@@ -65,7 +67,7 @@ fun ChartRangeLine(
 
         drawLine(
             start = Offset(
-                x = canvasWidth * currentPriceRatio.toFloat(),
+                x = canvasWidth * currentPriceRatio,
                 y = canvasHeightMiddle
             ),
             end = Offset(
@@ -79,11 +81,11 @@ fun ChartRangeLine(
 
         drawLine(
             start = Offset(
-                x = canvasWidth * currentPriceRatio.toFloat(),
+                x = canvasWidth * currentPriceRatio,
                 y = canvasHeightMiddle - (lineWidth / 2f)
             ),
             end = Offset(
-                x = canvasWidth * currentPriceRatio.toFloat(),
+                x = canvasWidth * currentPriceRatio,
                 y = canvasHeightMiddle + (lineWidth / 2f)
             ),
             color = dividerColor,
@@ -98,9 +100,9 @@ fun ChartRangeLine(
 private fun PriceMinMaxLinePreview() {
     AppTheme {
         ChartRangeLine(
-            currentPrice = Price(BigDecimal("90.0")),
-            minPrice = Price(BigDecimal("90.0")),
-            maxPrice = Price(BigDecimal("90.0")),
+            currentPrice = Price(BigDecimal("80.0")),
+            minPrice = Price(BigDecimal("70.0")),
+            maxPrice = Price(BigDecimal("100.0")),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
