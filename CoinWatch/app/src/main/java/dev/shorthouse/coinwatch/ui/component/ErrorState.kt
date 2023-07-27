@@ -63,11 +63,11 @@ fun ErrorState(
 
             Button(
                 onClick = onRetry,
+                shape = MaterialTheme.shapes.medium,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                     contentColor = MaterialTheme.colorScheme.onSurface
-                ),
-                shape = MaterialTheme.shapes.medium
+                )
             ) {
                 Text(
                     text = stringResource(R.string.button_retry),

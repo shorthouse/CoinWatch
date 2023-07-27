@@ -17,9 +17,9 @@ data class Percentage(private val amount: BigDecimal) {
     val isPositive: Boolean = amount.signum() > 0
     val isNegative: Boolean = amount.signum() < 0
 
-    val formattedAmount: String = if (amount.signum() >= 0) {
-        "+" + percentageFormat.format(amount.scaleByPowerOfTen(-2))
+    val formattedAmount: String = if (isNegative) {
+        percentageFormat.format(amount.divide(BigDecimal("100")))
     } else {
-        percentageFormat.format(amount.scaleByPowerOfTen(-2))
+        "+" + percentageFormat.format(amount.divide(BigDecimal("100")))
     }
 }
