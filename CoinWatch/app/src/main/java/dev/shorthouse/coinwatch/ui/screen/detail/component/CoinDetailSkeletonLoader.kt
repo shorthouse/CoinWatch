@@ -77,12 +77,11 @@ private fun SkeletonTopAppBar(
 
 @Composable
 private fun SkeletonContent(
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = modifier
-            .padding(start = 12.dp, end = 12.dp)
+        modifier = modifier.padding(start = 12.dp, end = 12.dp)
     ) {
         SkeletonSurface(
             modifier = Modifier
@@ -122,7 +121,7 @@ private fun SkeletonContent(
 
 @Preview
 @Composable
-fun CoinDetailSkeletonLoaderPreview() {
+private fun CoinDetailSkeletonLoaderPreview() {
     AppTheme {
         CoinDetailSkeletonLoader()
     }
