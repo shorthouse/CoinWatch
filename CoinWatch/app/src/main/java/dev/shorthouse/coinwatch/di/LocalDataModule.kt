@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dev.shorthouse.coinwatch.common.Constants.COIN_DATABASE_NAME
 import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepository
 import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepositoryImpl
 import dev.shorthouse.coinwatch.data.source.local.CoinDatabase
@@ -18,6 +19,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object LocalDataModule {
+
     @Provides
     @Singleton
     fun provideFavouriteCoinRepository(
@@ -48,7 +50,7 @@ object LocalDataModule {
         return Room.databaseBuilder(
             context.applicationContext,
             CoinDatabase::class.java,
-            "Coin.db"
+            COIN_DATABASE_NAME
         ).build()
     }
 }

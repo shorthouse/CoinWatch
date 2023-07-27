@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.component
+package dev.shorthouse.coinwatch.ui.screen.detail.component
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -33,8 +33,8 @@ fun PercentageChangeChip(
     ) {
         Text(
             text = percentage.formattedAmount,
-            color = Color.White,
             style = MaterialTheme.typography.bodyMedium,
+            color = Color.White,
             modifier = modifier.padding(horizontal = 7.dp)
         )
     }

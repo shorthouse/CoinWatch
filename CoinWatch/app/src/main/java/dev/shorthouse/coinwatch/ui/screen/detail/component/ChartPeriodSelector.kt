@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
@@ -53,14 +54,14 @@ fun ChartPeriodSelector(
                         .clickable(
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() },
-                            onClick = { onChartPeriodSelected(chartPeriod) }
+                            onClick = { onChartPeriodSelected(chartPeriod) },
+                            role = Role.RadioButton
                         )
                 ) {
                     Text(
                         text = stringResource(chartPeriod.shortNameId),
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(vertical = 8.dp)
-
                     )
                 }
             }
@@ -75,7 +76,7 @@ private fun SegmentedButtonPreview() {
         var selectedChartPeriod by remember { mutableStateOf(ChartPeriod.Week) }
 
         ChartPeriodSelector(
-            selectedChartPeriod = ChartPeriod.Day,
+            selectedChartPeriod = selectedChartPeriod,
             onChartPeriodSelected = { selectedChartPeriod = it }
         )
     }

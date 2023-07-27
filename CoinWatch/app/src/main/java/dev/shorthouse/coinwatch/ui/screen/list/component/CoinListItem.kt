@@ -33,39 +33,42 @@ fun CoinListItem(
 ) {
     Surface(
         shape = cardShape,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable { onCoinClick(coin) }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .padding(vertical = 12.dp, horizontal = 16.dp)
+            modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp)
         ) {
             AsyncImage(
                 model = coin.image,
                 contentDescription = null,
                 alignment = Alignment.Center,
-                modifier = Modifier
-                    .size(32.dp)
+                modifier = Modifier.size(32.dp)
             )
+
             Spacer(Modifier.width(16.dp))
+
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = coin.name,
                     style = MaterialTheme.typography.bodyMedium
                 )
+
                 Text(
                     text = coin.symbol,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
+
             Column(horizontalAlignment = Alignment.End) {
                 Text(
                     coin.currentPrice.formattedAmount,
                     style = MaterialTheme.typography.bodyMedium
                 )
+
                 PercentageChange(percentage = coin.priceChangePercentage24h)
             }
         }

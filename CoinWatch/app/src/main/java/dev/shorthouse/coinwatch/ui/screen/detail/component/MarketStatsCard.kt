@@ -16,12 +16,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.CoinDetail
+import dev.shorthouse.coinwatch.model.Price
+import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import java.math.BigDecimal
 
 @Composable
-fun MarketStatsCard(coinDetail: CoinDetail) {
+fun MarketStatsCard(
+    coinDetail: CoinDetail,
+    modifier: Modifier = Modifier
+) {
     val coinDetailItems = remember(coinDetail) {
         listOf(
             CoinDetailListItem(
@@ -55,7 +62,10 @@ fun MarketStatsCard(coinDetail: CoinDetail) {
         )
     }
 
-    Surface(shape = MaterialTheme.shapes.medium) {
+    Surface(
+        shape = MaterialTheme.shapes.medium,
+        modifier = modifier
+    ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(
                 text = stringResource(R.string.card_header_market_stats),
@@ -69,6 +79,7 @@ fun MarketStatsCard(coinDetail: CoinDetail) {
                     if (coinDetailIndex != 0) {
                         Divider(color = MaterialTheme.colorScheme.background)
                     }
+
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier.fillMaxWidth()
@@ -78,9 +89,11 @@ fun MarketStatsCard(coinDetail: CoinDetail) {
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
+
                         Text(
                             text = coinDetailListItem.value,
-                            style = MaterialTheme.typography.bodySmall
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 }
@@ -93,3 +106,26 @@ private data class CoinDetailListItem(
     @StringRes val nameId: Int,
     val value: String
 )
+
+@Preview
+@Composable
+private fun MarketStatsCardPreview() {
+    AppTheme {
+        MarketStatsCard(
+            coinDetail = CoinDetail(
+                id = "ethereum",
+                name = "Ethereum",
+                symbol = "ETH",
+                image = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+                currentPrice = Price(BigDecimal("1879.14")),
+                marketCapRank = "2",
+                marketCap = Price(BigDecimal("225722901094")),
+                circulatingSupply = "120,186,525",
+                allTimeLow = Price(BigDecimal("0.43")),
+                allTimeHigh = Price(BigDecimal("4878.26")),
+                allTimeLowDate = "20 Oct 2015",
+                allTimeHighDate = "10 Nov 2021"
+            ),
+        )
+    }
+}

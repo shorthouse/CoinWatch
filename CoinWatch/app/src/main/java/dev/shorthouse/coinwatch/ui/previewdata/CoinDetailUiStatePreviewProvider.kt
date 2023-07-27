@@ -39,7 +39,7 @@ class CoinDetailUiStatePreviewProvider : PreviewParameterProvider<CoinDetailUiSt
             chartPeriod = ChartPeriod.Week,
             isCoinFavourite = true
         ),
-        CoinDetailUiState.Error("Error message"),
-        CoinDetailUiState.Loading
+        CoinDetailUiState.Loading,
+        CoinDetailUiState.Error("No internet connection"),
     )
 }

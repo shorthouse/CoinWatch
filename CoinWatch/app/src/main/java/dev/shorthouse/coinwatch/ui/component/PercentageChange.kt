@@ -25,14 +25,14 @@ fun PercentageChange(
 
     Text(
         text = percentage.formattedAmount,
-        color = textColor,
         style = MaterialTheme.typography.bodySmall,
+        color = textColor,
         modifier = modifier
     )
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview
 private fun PercentageChangePreview(
     @PreviewParameter(PercentagePreviewProvider::class) percentage: Percentage
 ) {

@@ -8,13 +8,14 @@ import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetMarketStatsUseCase
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
-import java.time.LocalDateTime
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
+import timber.log.Timber
+import java.time.LocalDateTime
+import javax.inject.Inject
 
 @HiltViewModel
 class CoinListViewModel @Inject constructor(
@@ -63,6 +64,8 @@ class CoinListViewModel @Inject constructor(
                     val favouriteCoins = coins.filter { coin ->
                         coin.id in favouriteCoinIds
                     }
+
+                    Timber.d("yosh ${coins.take(5)}")
 
                     _uiState.update {
                         CoinListUiState.Success(

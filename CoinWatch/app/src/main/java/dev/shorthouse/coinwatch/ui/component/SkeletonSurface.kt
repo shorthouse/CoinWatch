@@ -36,7 +36,8 @@ fun SkeletonSurface(
 }
 
 private fun Modifier.shimmerFadeEffect(): Modifier = composed {
-    val transition = rememberInfiniteTransition()
+    val transition = rememberInfiniteTransition(label = "infiniteTransition")
+
     val translationAnim by transition.animateColor(
         initialValue = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
         targetValue = MaterialTheme.colorScheme.surface,
@@ -46,7 +47,8 @@ private fun Modifier.shimmerFadeEffect(): Modifier = composed {
                 easing = LinearEasing
             ),
             repeatMode = RepeatMode.Reverse
-        )
+        ),
+        label = "colorAnimation"
     )
 
     background(

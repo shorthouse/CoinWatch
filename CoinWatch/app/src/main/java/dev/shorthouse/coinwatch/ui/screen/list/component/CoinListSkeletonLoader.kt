@@ -3,14 +3,17 @@ package dev.shorthouse.coinwatch.ui.screen.list.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -66,29 +69,31 @@ private fun SkeletonTopAppBar(
 
 @Composable
 private fun SkeletonContent(
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.padding(start = 12.dp, top = 12.dp, end = 12.dp)
     ) {
-        CoinListTitle(
-            text = stringResource(R.string.header_favourites)
+        Text(
+            text = stringResource(R.string.header_favourites),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(bottom = 24.dp)
-        ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             repeat(4) {
                 SkeletonSurface(
-                    modifier = Modifier
-                        .size(width = 140.dp, height = 200.dp)
+                    modifier = Modifier.size(width = 140.dp, height = 200.dp)
                 )
             }
         }
 
-        CoinListTitle(
-            text = stringResource(R.string.header_coins)
+        Spacer(Modifier.height(24.dp))
+
+        Text(
+            text = stringResource(R.string.header_coins),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(bottom = 8.dp)
         )
 
         SkeletonSurface(
