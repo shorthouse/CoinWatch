@@ -6,16 +6,16 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailApiModel
 import dev.shorthouse.coinwatch.di.IoDispatcher
 import dev.shorthouse.coinwatch.model.CoinDetail
 import dev.shorthouse.coinwatch.model.Price
-import java.text.NumberFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Locale
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
+import java.text.NumberFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
+import javax.inject.Inject
 
 class CoinDetailRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,

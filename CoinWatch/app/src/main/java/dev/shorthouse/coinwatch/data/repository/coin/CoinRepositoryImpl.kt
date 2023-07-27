@@ -7,13 +7,13 @@ import dev.shorthouse.coinwatch.di.IoDispatcher
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.days
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.days
 
 class CoinRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,

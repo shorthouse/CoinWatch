@@ -7,9 +7,7 @@ import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
 import retrofit2.Response
 import javax.inject.Inject
 
-class CoinNetworkDataSource @Inject constructor(
-    private val coinApi: CoinApi
-) {
+class CoinNetworkDataSource @Inject constructor(private val coinApi: CoinApi) {
     suspend fun getCoins(): Response<List<CoinApiModel>> {
         return coinApi.getCoins()
     }

@@ -7,14 +7,14 @@ import dev.shorthouse.coinwatch.di.IoDispatcher
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
-import java.math.BigDecimal
-import java.math.RoundingMode
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
+import java.math.BigDecimal
+import java.math.RoundingMode
+import javax.inject.Inject
 
 class CoinChartRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,

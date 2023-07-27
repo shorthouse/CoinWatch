@@ -3,8 +3,8 @@ package dev.shorthouse.coinwatch.domain
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.repository.coin.CoinRepository
 import dev.shorthouse.coinwatch.model.Coin
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 class GetCoinsUseCase @Inject constructor(
     private val coinRepository: CoinRepository

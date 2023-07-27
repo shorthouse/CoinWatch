@@ -20,14 +20,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkDataModule {
-    @Provides
-    @Singleton
-    fun provideCoinNetworkDataSource(coinApi: CoinApi): CoinNetworkDataSource {
-        return CoinNetworkDataSource(coinApi = coinApi)
-    }
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideCoinRepository(
         coinNetworkDataSource: CoinNetworkDataSource,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
@@ -38,8 +33,8 @@ object NetworkDataModule {
         )
     }
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideCoinDetailRepository(
         coinNetworkDataSource: CoinNetworkDataSource,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
@@ -50,8 +45,8 @@ object NetworkDataModule {
         )
     }
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideCoinChartRepository(
         coinNetworkDataSource: CoinNetworkDataSource,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
@@ -62,8 +57,8 @@ object NetworkDataModule {
         )
     }
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideMarketStatsRepository(
         coinNetworkDataSource: CoinNetworkDataSource,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
@@ -72,5 +67,11 @@ object NetworkDataModule {
             coinNetworkDataSource = coinNetworkDataSource,
             ioDispatcher = ioDispatcher
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideCoinNetworkDataSource(coinApi: CoinApi): CoinNetworkDataSource {
+        return CoinNetworkDataSource(coinApi = coinApi)
     }
 }
