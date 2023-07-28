@@ -90,7 +90,7 @@ fun PriceGraph(
             animatedPathProgress.animateTo(
                 targetValue = 1f,
                 animationSpec = tween(
-                    durationMillis = 2000,
+                    durationMillis = 1000,
                     easing = LinearEasing
                 )
             )
