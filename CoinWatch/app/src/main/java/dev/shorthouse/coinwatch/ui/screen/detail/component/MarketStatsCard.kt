@@ -4,9 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -67,13 +65,6 @@ fun MarketStatsCard(
         modifier = modifier
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
-            Text(
-                text = stringResource(R.string.card_header_market_stats),
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            Spacer(Modifier.height(16.dp))
-
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 coinDetailItems.forEachIndexed { coinDetailIndex, coinDetailListItem ->
                     if (coinDetailIndex != 0) {
@@ -125,7 +116,7 @@ private fun MarketStatsCardPreview() {
                 allTimeHigh = Price(BigDecimal("4878.26")),
                 allTimeLowDate = "20 Oct 2015",
                 allTimeHighDate = "10 Nov 2021"
-            ),
+            )
         )
     }
 }

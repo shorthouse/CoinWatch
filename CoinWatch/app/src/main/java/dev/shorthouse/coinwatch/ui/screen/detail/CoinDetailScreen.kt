@@ -194,7 +194,6 @@ private fun CoinDetailContent(
     modifier: Modifier = Modifier
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
@@ -245,15 +244,15 @@ private fun CoinDetailContent(
             }
         }
 
+        Spacer(Modifier.height(24.dp))
+
+        Text(
+            text = stringResource(R.string.title_chart_range),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
         Surface(shape = MaterialTheme.shapes.medium) {
             Column(modifier = Modifier.padding(12.dp)) {
-                Text(
-                    text = stringResource(R.string.title_chart_range),
-                    style = MaterialTheme.typography.titleMedium
-                )
-
-                Spacer(Modifier.height(16.dp))
-
                 ChartRangeLine(
                     currentPrice = coinDetail.currentPrice,
                     minPrice = coinChart.minPrice,
@@ -297,6 +296,14 @@ private fun CoinDetailContent(
                 }
             }
         }
+
+        Spacer(Modifier.height(24.dp))
+
+        Text(
+            text = stringResource(R.string.card_header_market_stats),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
 
         MarketStatsCard(
             coinDetail = coinDetail
