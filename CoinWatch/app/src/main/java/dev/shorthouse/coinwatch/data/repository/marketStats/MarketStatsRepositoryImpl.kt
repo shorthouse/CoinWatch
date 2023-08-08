@@ -6,12 +6,12 @@ import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
 import dev.shorthouse.coinwatch.di.IoDispatcher
 import dev.shorthouse.coinwatch.model.MarketStats
 import dev.shorthouse.coinwatch.model.Percentage
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
-import javax.inject.Inject
 
 class MarketStatsRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,
