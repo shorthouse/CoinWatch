@@ -6,11 +6,11 @@ data class CoinDetail(
     val symbol: String,
     val image: String,
     val currentPrice: Price,
-    val marketCapRank: String,
     val marketCap: Price,
+    val marketCapRank: String,
+    val volume24h: String,
     val circulatingSupply: String,
-    val allTimeLow: Price,
     val allTimeHigh: Price,
-    val allTimeLowDate: String,
-    val allTimeHighDate: String
+    val allTimeHighDate: String,
+    val listedDate: String
 )

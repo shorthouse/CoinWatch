@@ -16,12 +16,12 @@ class CoinListUiStatePreviewProvider : PreviewParameterProvider<CoinListUiState>
             coins = coins,
             favouriteCoins = coins,
             marketStats = MarketStats(
-                marketCapChangePercentage24h = Percentage(BigDecimal("-0.23"))
+                marketCapChangePercentage24h = Percentage(BigDecimal("-0.23")),
             ),
-            timeOfDay = TimeOfDay.Evening
+            timeOfDay = TimeOfDay.Evening,
         ),
         CoinListUiState.Loading,
-        CoinListUiState.Error("No internet connection")
+        CoinListUiState.Error("No internet connection"),
     )
 }
 
@@ -32,7 +32,6 @@ private object CoinListPreviewData {
             symbol = "BTC",
             name = "Bitcoin",
             image = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
-            marketCapRank = 1,
             currentPrice = Price(BigDecimal("29446.336548759988")),
             priceChangePercentage24h = Percentage(BigDecimal("0.76833")),
             prices24h = listOf(
@@ -59,15 +58,14 @@ private object CoinListPreviewData {
                 BigDecimal("29390.15178296929"),
                 BigDecimal("29428.222505493162"),
                 BigDecimal("29475.12359313808"),
-                BigDecimal("29471.20179209623")
-            )
+                BigDecimal("29471.20179209623"),
+            ),
         ),
         Coin(
             id = "ethereum",
             symbol = "ETH",
             name = "Ethereum",
             image = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
-            marketCapRank = 2,
             currentPrice = Price(BigDecimal("1875.473083380222")),
             priceChangePercentage24h = Percentage(BigDecimal("-1.11008")),
             prices24h = listOf(
@@ -94,15 +92,14 @@ private object CoinListPreviewData {
                 BigDecimal("1854.8824120105778"),
                 BigDecimal("1853.3272421902477"),
                 BigDecimal("1857.8290158859397"),
-                BigDecimal("1859.4549720388395")
-            )
+                BigDecimal("1859.4549720388395"),
+            ),
         ),
         Coin(
             id = "tether",
             symbol = "USDT",
             name = "Tether",
             image = "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
-            marketCapRank = 3,
             currentPrice = Price(BigDecimal("1.00")),
             priceChangePercentage24h = Percentage(BigDecimal("0.00")),
             prices24h = listOf(
@@ -129,15 +126,14 @@ private object CoinListPreviewData {
                 BigDecimal("1.00"),
                 BigDecimal("1.00"),
                 BigDecimal("1.00"),
-                BigDecimal("1.00")
-            )
+                BigDecimal("1.00"),
+            ),
         ),
         Coin(
             id = "ripple",
             symbol = "XRP",
             name = "XRP",
             image = "https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1605778731",
-            marketCapRank = 4,
             currentPrice = Price(BigDecimal("0.7142802333064954")),
             priceChangePercentage24h = Percentage(BigDecimal("1.77031")),
             prices24h = listOf(
@@ -164,15 +160,14 @@ private object CoinListPreviewData {
                 BigDecimal("0.7123303286388961"),
                 BigDecimal("0.7156576118999355"),
                 BigDecimal("0.7192302623965658"),
-                BigDecimal("0.7186324625859829")
-            )
+                BigDecimal("0.7186324625859829"),
+            ),
         ),
         Coin(
             id = "binancecoin",
             symbol = "BNB",
             name = "BNB",
             image = "https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1644979850",
-            marketCapRank = 5,
             currentPrice = Price(BigDecimal("242.13321783678734")),
             priceChangePercentage24h = Percentage(BigDecimal("1.84955")),
             prices24h = listOf(
@@ -199,8 +194,8 @@ private object CoinListPreviewData {
                 BigDecimal("239.67490966723844"),
                 BigDecimal("240.13674947839255"),
                 BigDecimal("240.41687032176682"),
-                BigDecimal("241.82729323371586")
-            )
-        )
+                BigDecimal("241.82729323371586"),
+            ),
+        ),
     )
 }

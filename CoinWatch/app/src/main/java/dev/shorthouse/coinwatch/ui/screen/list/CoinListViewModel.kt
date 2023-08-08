@@ -7,15 +7,17 @@ import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetMarketStatsUseCase
+import dev.shorthouse.coinwatch.model.MarketStats
+import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
+import java.math.BigDecimal
+import java.time.LocalDateTime
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
-import timber.log.Timber
-import java.time.LocalDateTime
-import javax.inject.Inject
 
 @HiltViewModel
 class CoinListViewModel @Inject constructor(
@@ -34,26 +36,26 @@ class CoinListViewModel @Inject constructor(
         _uiState.update { CoinListUiState.Loading }
 
         val coinsFlow = getCoinsUseCase()
-        val marketStatsFlow = getMarketStatsUseCase()
+        // val marketStatsFlow = getMarketStatsUseCase()
         val favouriteCoinsFlow = getFavouriteCoinsUseCase()
 
         combine(
             coinsFlow,
-            marketStatsFlow,
+            // marketStatsFlow,
             favouriteCoinsFlow
-        ) { coinsResult, marketStatsResult, favouriteCoinsResult ->
+        ) { coinsResult, favouriteCoinsResult ->
             when {
                 coinsResult is Result.Error -> {
                     _uiState.update { CoinListUiState.Error(coinsResult.message) }
                 }
-                marketStatsResult is Result.Error -> {
-                    _uiState.update { CoinListUiState.Error(marketStatsResult.message) }
-                }
+//                marketStatsResult is Result.Error -> {
+//                    _uiState.update { CoinListUiState.Error(marketStatsResult.message) }
+//                }
                 favouriteCoinsResult is Result.Error -> {
                     _uiState.update { CoinListUiState.Error(favouriteCoinsResult.message) }
                 }
                 coinsResult is Result.Success &&
-                    marketStatsResult is Result.Success &&
+//                    marketStatsResult is Result.Success &&
                     favouriteCoinsResult is Result.Success -> {
                     val favouriteCoinIds = favouriteCoinsResult.data.map { favouriteCoin ->
                         favouriteCoin.id
@@ -65,13 +67,15 @@ class CoinListViewModel @Inject constructor(
                         coin.id in favouriteCoinIds
                     }
 
-                    Timber.d("yosh ${coins.take(5)}")
-
                     _uiState.update {
                         CoinListUiState.Success(
                             coins = coins,
                             favouriteCoins = favouriteCoins,
-                            marketStats = marketStatsResult.data,
+                            marketStats = MarketStats(
+                                marketCapChangePercentage24h = Percentage(
+                                    BigDecimal.ONE
+                                )
+                            ),
                             timeOfDay = calculateTimeOfDay()
                         )
                     }
