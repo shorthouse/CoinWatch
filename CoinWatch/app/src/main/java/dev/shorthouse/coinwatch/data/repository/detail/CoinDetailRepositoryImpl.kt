@@ -6,16 +6,18 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailApiModel
 import dev.shorthouse.coinwatch.di.IoDispatcher
 import dev.shorthouse.coinwatch.model.CoinDetail
 import dev.shorthouse.coinwatch.model.Price
+import java.math.BigDecimal
+import java.text.NumberFormat
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
-import java.text.NumberFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Locale
-import javax.inject.Inject
 
 class CoinDetailRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,
@@ -28,7 +30,7 @@ class CoinDetailRepositoryImpl @Inject constructor(
                 val body = response.body()
 
                 if (response.isSuccessful && body != null) {
-                    Result.Success(body.first().toCoinDetail())
+                    Result.Success(body.toCoinDetail())
                 } else {
                     Timber.e("getCoinDetail unsuccessful retrofit response ${response.message()}")
                     Result.Error(message = "Unable to fetch coin details")
@@ -47,28 +49,31 @@ class CoinDetailRepositoryImpl @Inject constructor(
 
         val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.US)
 
+        val coinDetail = coinDetailData.coinDetail
         return CoinDetail(
-            id = id,
-            name = name.orEmpty(),
-            symbol = symbol?.uppercase().orEmpty(),
-            image = image.orEmpty(),
-            currentPrice = Price(currentPrice),
-            marketCapRank = marketCapRank?.toString().orEmpty(),
-            marketCap = Price(marketCap),
-            circulatingSupply = numberGroupingFormat.format(circulatingSupply),
-            allTimeLow = Price(allTimeLow),
-            allTimeHigh = Price(allTimeHigh),
-            allTimeLowDate = dateFormatter.format(
-                LocalDateTime.parse(
-                    allTimeLowDate,
-                    DateTimeFormatter.ISO_DATE_TIME
-                )
+            id = coinDetail.id,
+            name = coinDetail.name.orEmpty(),
+            symbol = coinDetail.symbol?.uppercase().orEmpty(),
+            image = coinDetail.iconUrl.orEmpty(),
+            currentPrice = Price(BigDecimal(coinDetail.currentPrice)),
+            marketCap = Price(BigDecimal(coinDetail.marketCap)),
+            marketCapRank = coinDetail.marketCapRank.orEmpty(),
+            volume24h = numberGroupingFormat.format(
+                coinDetail.volume24h?.toDouble() ?: 0.0
             ),
+            circulatingSupply = numberGroupingFormat.format(
+                coinDetail.supply?.circulatingSupply?.toDouble() ?: 0.0
+            ),
+            allTimeHigh = Price(BigDecimal(coinDetail.allTimeHigh?.price)),
             allTimeHighDate = dateFormatter.format(
-                LocalDateTime.parse(
-                    allTimeHighDate,
-                    DateTimeFormatter.ISO_DATE_TIME
-                )
+                Instant.ofEpochSecond(
+                    coinDetail.allTimeHigh?.timestamp ?: 0
+                ).atZone(ZoneId.systemDefault())
+            ),
+            listedDate = dateFormatter.format(
+                Instant.ofEpochSecond(
+                    coinDetail.listedAt ?: 0
+                ).atZone(ZoneId.systemDefault())
             )
         )
     }

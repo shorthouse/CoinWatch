@@ -5,5 +5,5 @@ import dev.shorthouse.coinwatch.model.CoinChart
 import kotlinx.coroutines.flow.Flow
 
 interface CoinChartRepository {
-    fun getCoinChart(coinId: String, chartPeriodDays: String): Flow<Result<CoinChart>>
+    fun getCoinChart(coinId: String, chartPeriod: String): Flow<Result<CoinChart>>
 }
