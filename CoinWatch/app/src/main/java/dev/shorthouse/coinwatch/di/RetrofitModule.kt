@@ -4,8 +4,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.shorthouse.coinwatch.BuildConfig
 import dev.shorthouse.coinwatch.common.Constants
 import dev.shorthouse.coinwatch.data.source.remote.CoinApi
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -35,11 +37,21 @@ object RetrofitModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
+        val apiKeyInterceptor = Interceptor { chain ->
+            val newRequest = chain.request()
+                .newBuilder()
+                .header("x-access-token", BuildConfig.API_KEY)
+                .build()
+
+            chain.proceed(newRequest)
+        }
+
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             setLevel(HttpLoggingInterceptor.Level.BODY)
         }
 
         return OkHttpClient.Builder()
+            .addInterceptor(apiKeyInterceptor)
             .addInterceptor(loggingInterceptor)
             .build()
     }
