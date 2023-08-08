@@ -13,7 +13,6 @@ class CoinPreviewProvider : PreviewParameterProvider<Coin> {
             symbol = "BTC",
             name = "Bitcoin",
             image = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
-            marketCapRank = 1,
             currentPrice = Price(BigDecimal("29446.336548759988")),
             priceChangePercentage24h = Percentage(BigDecimal("0.76833")),
             prices24h = listOf(
@@ -40,15 +39,14 @@ class CoinPreviewProvider : PreviewParameterProvider<Coin> {
                 BigDecimal("29390.15178296929"),
                 BigDecimal("29428.222505493162"),
                 BigDecimal("29475.12359313808"),
-                BigDecimal("29471.20179209623")
-            )
+                BigDecimal("29471.20179209623"),
+            ),
         ),
         Coin(
             id = "ethereum",
             symbol = "ETH",
             name = "Ethereum",
             image = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
-            marketCapRank = 2,
             currentPrice = Price(BigDecimal("1875.473083380222")),
             priceChangePercentage24h = Percentage(BigDecimal("-1.11008")),
             prices24h = listOf(
@@ -75,15 +73,14 @@ class CoinPreviewProvider : PreviewParameterProvider<Coin> {
                 BigDecimal("1854.8824120105778"),
                 BigDecimal("1853.3272421902477"),
                 BigDecimal("1857.8290158859397"),
-                BigDecimal("1859.4549720388395")
-            )
+                BigDecimal("1859.4549720388395"),
+            ),
         ),
         Coin(
             id = "tether",
             symbol = "USDT",
             name = "Tether",
             image = "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
-            marketCapRank = 3,
             currentPrice = Price(BigDecimal("1.00")),
             priceChangePercentage24h = Percentage(BigDecimal("0.00")),
             prices24h = listOf(
@@ -110,8 +107,8 @@ class CoinPreviewProvider : PreviewParameterProvider<Coin> {
                 BigDecimal("1.00"),
                 BigDecimal("1.00"),
                 BigDecimal("1.00"),
-                BigDecimal("1.00")
-            )
-        )
+                BigDecimal("1.00"),
+            ),
+        ),
     )
 }

@@ -31,6 +31,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -39,6 +40,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.CoinDetail
@@ -155,11 +158,14 @@ private fun ChartDetailTopBar(
                 Spacer(Modifier.weight(1f))
 
                 AsyncImage(
-                    model = coinImage,
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .decoderFactory(SvgDecoder.Factory())
+                        .data(coinImage)
+                        .build(),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(end = 12.dp)
-                        .size(54.dp)
+                        .size(44.dp)
                 )
             }
         },

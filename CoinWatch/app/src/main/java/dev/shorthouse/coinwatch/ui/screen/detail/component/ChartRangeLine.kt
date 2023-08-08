@@ -24,10 +24,15 @@ fun ChartRangeLine(
     maxPrice: Price,
     modifier: Modifier = Modifier
 ) {
-    val currentMinDiff = currentPrice.amount - minPrice.amount
-    val maxMinDiff = maxPrice.amount - minPrice.amount
+    val currentMinDiff = remember(currentPrice, minPrice) {
+        currentPrice.amount - minPrice.amount
+    }
 
-    val currentPriceRatio = remember {
+    val maxMinDiff = remember(maxPrice, minPrice) {
+        maxPrice.amount - minPrice.amount
+    }
+
+    val currentPriceRatio = remember(currentMinDiff, maxMinDiff) {
         when {
             (currentMinDiff.compareTo(maxMinDiff) == 0) -> 0.5f
             (currentMinDiff.compareTo(BigDecimal.ZERO) == 0) -> 0f
