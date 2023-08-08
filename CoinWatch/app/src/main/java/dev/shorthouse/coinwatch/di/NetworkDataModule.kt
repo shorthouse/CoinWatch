@@ -25,11 +25,11 @@ object NetworkDataModule {
     @Singleton
     fun provideCoinRepository(
         coinNetworkDataSource: CoinNetworkDataSource,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): CoinRepository {
         return CoinRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
-            ioDispatcher = ioDispatcher
+            ioDispatcher = ioDispatcher,
         )
     }
 
@@ -37,11 +37,11 @@ object NetworkDataModule {
     @Singleton
     fun provideCoinDetailRepository(
         coinNetworkDataSource: CoinNetworkDataSource,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): CoinDetailRepository {
         return CoinDetailRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
-            ioDispatcher = ioDispatcher
+            ioDispatcher = ioDispatcher,
         )
     }
 
@@ -49,11 +49,11 @@ object NetworkDataModule {
     @Singleton
     fun provideCoinChartRepository(
         coinNetworkDataSource: CoinNetworkDataSource,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): CoinChartRepository {
         return CoinChartRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
-            ioDispatcher = ioDispatcher
+            ioDispatcher = ioDispatcher,
         )
     }
 
@@ -61,11 +61,11 @@ object NetworkDataModule {
     @Singleton
     fun provideMarketStatsRepository(
         coinNetworkDataSource: CoinNetworkDataSource,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): MarketStatsRepository {
         return MarketStatsRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
-            ioDispatcher = ioDispatcher
+            ioDispatcher = ioDispatcher,
         )
     }
 

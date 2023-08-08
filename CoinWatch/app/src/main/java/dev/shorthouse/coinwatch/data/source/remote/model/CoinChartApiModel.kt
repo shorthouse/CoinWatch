@@ -1,7 +1,18 @@
 package dev.shorthouse.coinwatch.data.source.remote.model
 
-import java.math.BigDecimal
+import com.google.gson.annotations.SerializedName
 
 data class CoinChartApiModel(
-    val prices: List<List<BigDecimal>>
+    @SerializedName("data")
+    val coinChartData: CoinChartData
+)
+
+data class CoinChartData(
+    @SerializedName("change")
+    val pricePercentageChange: String,
+    val history: List<History>
+)
+
+data class History(
+    val price: String?
 )

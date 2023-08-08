@@ -7,8 +7,7 @@ data class Coin(
     val name: String,
     val symbol: String,
     val image: String,
-    val marketCapRank: Int,
     val currentPrice: Price,
     val priceChangePercentage24h: Percentage,
-    val prices24h: List<BigDecimal>
+    val prices24h: List<BigDecimal>,
 )
