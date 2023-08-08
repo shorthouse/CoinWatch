@@ -30,7 +30,6 @@
     <string name="period_long_name_day">Past day</string>
     <string name="period_long_name_week">Past week</string>
     <string name="period_long_name_month">Past month</string>
-    <string name="period_long_name_six_month">Past 6 months</string>
     <string name="period_long_name_year">Past year</string>
     <string name="period_long_name_max">All time</string>
     <string name="range_title_low">Low</string>
@@ -52,4 +51,13 @@
     <string name="empty_state_favourite_coins_title">No favourite coins</string>
     <string name="empty_state_favourite_coins_subtitle_start">Tap the</string>
     <string name="empty_state_favourite_coins_subtitle_end">to favourite a coin</string>
+    <string name="list_item_volume_24h">Volume 24h</string>
+    <string name="list_item_max_supply">Max Supply</string>
+    <string name="list_item_listed_date">Listed Date</string>
+    <string name="period_short_name_hour">1H</string>
+    <string name="period_long_name_hour">Past hour</string>
+    <string name="period_short_name_three_month">3M</string>
+    <string name="period_long_name_three_month">Past 3 months</string>
+    <string name="period_short_name_five_year">5Y</string>
+    <string name="period_long_name_five_year">Past 5 years</string>
 </resources>
