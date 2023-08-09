@@ -5,23 +5,23 @@ import java.math.BigDecimal
 
 data class CoinsApiModel(
     @SerializedName("data")
-    val coinsData: CoinsData,
+    val coinsData: CoinsData
 )
 
 data class CoinsData(
-    val coins: List<Coin>,
+    val coins: List<Coinx>?
 )
 
-data class Coin(
+data class Coinx(
     @SerializedName("uuid")
     val id: String,
-    val symbol: String,
-    val name: String,
-    val iconUrl: String,
+    val symbol: String?,
+    val name: String?,
+    val iconUrl: String?,
     @SerializedName("price")
-    val currentPrice: String,
+    val currentPrice: String?,
     @SerializedName("change")
-    val priceChangePercentage24h: String,
+    val priceChangePercentage24h: String?,
     @SerializedName("sparkline")
-    val sparkline24h: List<BigDecimal>,
+    val sparkline24h: List<BigDecimal>?
 )

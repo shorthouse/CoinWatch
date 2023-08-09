@@ -4,13 +4,13 @@ import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSource
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.di.IoDispatcher
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
-import javax.inject.Inject
 
 class FavouriteCoinRepositoryImpl @Inject constructor(
     private val coinLocalDataSource: CoinLocalDataSource,
@@ -21,7 +21,7 @@ class FavouriteCoinRepositoryImpl @Inject constructor(
             .map { Result.Success(it) }
             .catch { e ->
                 Timber.e("getFavouriteCoins error ${e.message}")
-                Result.Error<List<FavouriteCoin>>(message = "Unable to fetch favourite coins")
+                Result.Error<List<FavouriteCoin>>("Unable to fetch favourite coins")
             }
             .flowOn(ioDispatcher)
     }
@@ -31,7 +31,7 @@ class FavouriteCoinRepositoryImpl @Inject constructor(
             .map { Result.Success(it) }
             .catch { e ->
                 Timber.e("isCoinFavourite error ${e.message}")
-                Result.Error<Boolean>(message = "Unable to fetch coin favourite status")
+                Result.Error<Boolean>("Unable to fetch coin favourite status")
             }
             .flowOn(ioDispatcher)
     }
