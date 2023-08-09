@@ -27,24 +27,24 @@ class CoinRepositoryImpl @Inject constructor(
         if (response.isSuccessful && body != null) {
             emit(Result.Success(body.toCoins()))
         } else {
-            Timber.e(message = "getCoins unsuccessful retrofit response ${response.message()}")
-            emit(Result.Error(message = "Unable to fetch coins list"))
+            Timber.e("getCoins unsuccessful retrofit response ${response.message()}")
+            emit(Result.Error("Unable to fetch coins list"))
         }
     }.catch { e ->
-        Timber.e(message = "getCoins error ${e.message}")
-        emit(Result.Error(message = "Unable to fetch coins list"))
+        Timber.e("getCoins error ${e.message}")
+        emit(Result.Error("Unable to fetch coins list"))
     }.flowOn(ioDispatcher)
 
     private fun CoinsApiModel.toCoins(): List<Coin> {
-        return coinsData.coins.map {
+        return coinsData.coins.orEmpty().map {
             Coin(
                 id = it.id,
-                name = it.name,
-                symbol = it.symbol.uppercase(),
-                image = it.iconUrl,
+                name = it.name.orEmpty(),
+                symbol = it.symbol?.uppercase().orEmpty(),
+                image = it.iconUrl.orEmpty(),
                 currentPrice = Price(BigDecimal(it.currentPrice)),
                 priceChangePercentage24h = Percentage(BigDecimal(it.priceChangePercentage24h)),
-                prices24h = it.sparkline24h
+                prices24h = it.sparkline24h.orEmpty()
             )
         }
     }

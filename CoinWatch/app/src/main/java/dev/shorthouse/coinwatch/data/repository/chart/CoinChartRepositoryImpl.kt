@@ -31,15 +31,16 @@ class CoinChartRepositoryImpl @Inject constructor(
             emit(Result.Success(body.toCoinChart()))
         } else {
             Timber.e("getCoinChart unsuccessful retrofit response ${response.message()}")
-            emit(Result.Error(message = "Unable to fetch coin chart"))
+            emit(Result.Error("Unable to fetch coin chart"))
         }
     }.catch { e ->
         Timber.e("getCoinChart error ${e.message}")
-        emit(Result.Error(message = "Unable to fetch coin chart"))
+        emit(Result.Error("Unable to fetch coin chart"))
     }.flowOn(ioDispatcher)
 
     private fun CoinChartApiModel.toCoinChart(): CoinChart {
         val prices = coinChartData.history
+            .orEmpty()
             .mapNotNull { it.price?.toBigDecimal() }
             .reversed()
 
