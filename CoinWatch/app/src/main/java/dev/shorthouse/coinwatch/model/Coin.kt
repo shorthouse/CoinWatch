@@ -9,5 +9,5 @@ data class Coin(
     val image: String,
     val currentPrice: Price,
     val priceChangePercentage24h: Percentage,
-    val prices24h: List<BigDecimal>,
+    val prices24h: List<BigDecimal>
 )

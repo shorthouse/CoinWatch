@@ -39,8 +39,8 @@ class CoinPreviewProvider : PreviewParameterProvider<Coin> {
                 BigDecimal("29390.15178296929"),
                 BigDecimal("29428.222505493162"),
                 BigDecimal("29475.12359313808"),
-                BigDecimal("29471.20179209623"),
-            ),
+                BigDecimal("29471.20179209623")
+            )
         ),
         Coin(
             id = "ethereum",
@@ -73,8 +73,8 @@ class CoinPreviewProvider : PreviewParameterProvider<Coin> {
                 BigDecimal("1854.8824120105778"),
                 BigDecimal("1853.3272421902477"),
                 BigDecimal("1857.8290158859397"),
-                BigDecimal("1859.4549720388395"),
-            ),
+                BigDecimal("1859.4549720388395")
+            )
         ),
         Coin(
             id = "tether",
@@ -107,8 +107,8 @@ class CoinPreviewProvider : PreviewParameterProvider<Coin> {
                 BigDecimal("1.00"),
                 BigDecimal("1.00"),
                 BigDecimal("1.00"),
-                BigDecimal("1.00"),
-            ),
-        ),
+                BigDecimal("1.00")
+            )
+        )
     )
 }

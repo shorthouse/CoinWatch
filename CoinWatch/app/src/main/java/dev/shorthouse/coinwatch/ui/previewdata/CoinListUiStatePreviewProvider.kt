@@ -16,12 +16,12 @@ class CoinListUiStatePreviewProvider : PreviewParameterProvider<CoinListUiState>
             coins = coins,
             favouriteCoins = coins,
             marketStats = MarketStats(
-                marketCapChangePercentage24h = Percentage(BigDecimal("-0.23")),
+                marketCapChangePercentage24h = Percentage(BigDecimal("-0.23"))
             ),
-            timeOfDay = TimeOfDay.Evening,
+            timeOfDay = TimeOfDay.Evening
         ),
         CoinListUiState.Loading,
-        CoinListUiState.Error("No internet connection"),
+        CoinListUiState.Error("No internet connection")
     )
 }
 
@@ -58,8 +58,8 @@ private object CoinListPreviewData {
                 BigDecimal("29390.15178296929"),
                 BigDecimal("29428.222505493162"),
                 BigDecimal("29475.12359313808"),
-                BigDecimal("29471.20179209623"),
-            ),
+                BigDecimal("29471.20179209623")
+            )
         ),
         Coin(
             id = "ethereum",
@@ -92,8 +92,8 @@ private object CoinListPreviewData {
                 BigDecimal("1854.8824120105778"),
                 BigDecimal("1853.3272421902477"),
                 BigDecimal("1857.8290158859397"),
-                BigDecimal("1859.4549720388395"),
-            ),
+                BigDecimal("1859.4549720388395")
+            )
         ),
         Coin(
             id = "tether",
@@ -126,8 +126,8 @@ private object CoinListPreviewData {
                 BigDecimal("1.00"),
                 BigDecimal("1.00"),
                 BigDecimal("1.00"),
-                BigDecimal("1.00"),
-            ),
+                BigDecimal("1.00")
+            )
         ),
         Coin(
             id = "ripple",
@@ -160,8 +160,8 @@ private object CoinListPreviewData {
                 BigDecimal("0.7123303286388961"),
                 BigDecimal("0.7156576118999355"),
                 BigDecimal("0.7192302623965658"),
-                BigDecimal("0.7186324625859829"),
-            ),
+                BigDecimal("0.7186324625859829")
+            )
         ),
         Coin(
             id = "binancecoin",
@@ -194,8 +194,8 @@ private object CoinListPreviewData {
                 BigDecimal("239.67490966723844"),
                 BigDecimal("240.13674947839255"),
                 BigDecimal("240.41687032176682"),
-                BigDecimal("241.82729323371586"),
-            ),
-        ),
+                BigDecimal("241.82729323371586")
+            )
+        )
     )
 }
