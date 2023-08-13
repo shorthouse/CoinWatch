@@ -105,9 +105,9 @@ fun ChartRangeLine(
 private fun PriceMinMaxLinePreview() {
     AppTheme {
         ChartRangeLine(
-            currentPrice = Price(BigDecimal("80.0")),
-            minPrice = Price(BigDecimal("70.0")),
-            maxPrice = Price(BigDecimal("100.0")),
+            currentPrice = Price("80.0"),
+            minPrice = Price("70.0"),
+            maxPrice = Price("100.0"),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)

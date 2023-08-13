@@ -1,23 +1,16 @@
 package dev.shorthouse.coinwatch.ui.screen.list
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.TrendingDown
-import androidx.compose.material.icons.rounded.TrendingUp
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -38,7 +31,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.Coin
-import dev.shorthouse.coinwatch.model.MarketStats
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.previewdata.CoinListUiStatePreviewProvider
@@ -81,7 +73,6 @@ fun CoinListScreen(
             Scaffold(
                 topBar = {
                     CoinListTopBar(
-                        marketStats = uiState.marketStats,
                         timeOfDay = uiState.timeOfDay,
                         scrollBehavior = scrollBehavior
                     )
@@ -110,7 +101,6 @@ fun CoinListScreen(
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun CoinListTopBar(
-    marketStats: MarketStats,
     timeOfDay: TimeOfDay,
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
@@ -121,42 +111,15 @@ private fun CoinListTopBar(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(end = 12.dp)
             ) {
-                Column {
-                    Text(
-                        text = when (timeOfDay) {
-                            TimeOfDay.Morning -> stringResource(R.string.good_morning)
-                            TimeOfDay.Afternoon -> stringResource(R.string.good_afternoon)
-                            TimeOfDay.Evening -> stringResource(R.string.good_evening)
-                        },
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = if (marketStats.marketCapChangePercentage24h.isPositive) {
-                                stringResource(R.string.market_up)
-                            } else {
-                                stringResource(R.string.market_down)
-                            },
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-
-                        Spacer(Modifier.width(4.dp))
-
-                        Icon(
-                            imageVector = if (marketStats.marketCapChangePercentage24h.isPositive) {
-                                Icons.Rounded.TrendingUp
-                            } else {
-                                Icons.Rounded.TrendingDown
-                            },
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
-                }
+                Text(
+                    text = when (timeOfDay) {
+                        TimeOfDay.Morning -> stringResource(R.string.good_morning)
+                        TimeOfDay.Afternoon -> stringResource(R.string.good_afternoon)
+                        TimeOfDay.Evening -> stringResource(R.string.good_evening)
+                    },
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
 
                 Spacer(Modifier.weight(1f))
 
