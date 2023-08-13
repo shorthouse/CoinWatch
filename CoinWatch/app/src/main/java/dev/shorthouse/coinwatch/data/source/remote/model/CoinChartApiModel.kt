@@ -10,9 +10,11 @@ data class CoinChartApiModel(
 data class CoinChartData(
     @SerializedName("change")
     val pricePercentageChange: String?,
-    val history: List<History>?
+    @SerializedName("history")
+    val pastPrices: List<PastPrice?>?
 )
 
-data class History(
-    val price: String?
+data class PastPrice(
+    @SerializedName("price")
+    val amount: String?
 )

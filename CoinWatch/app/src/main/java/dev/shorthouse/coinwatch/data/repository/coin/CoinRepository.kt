@@ -5,5 +5,5 @@ import dev.shorthouse.coinwatch.model.Coin
 import kotlinx.coroutines.flow.Flow
 
 interface CoinRepository {
-    fun getCoins(): Flow<Result<List<Coin>>>
+    fun getCoins(currencyUUID: String = "yhjMzLPhuIDl"): Flow<Result<List<Coin>>>
 }

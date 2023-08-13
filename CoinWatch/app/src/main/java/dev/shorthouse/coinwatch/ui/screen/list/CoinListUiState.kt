@@ -1,7 +1,6 @@
 package dev.shorthouse.coinwatch.ui.screen.list
 
 import dev.shorthouse.coinwatch.model.Coin
-import dev.shorthouse.coinwatch.model.MarketStats
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 
 sealed interface CoinListUiState {
@@ -9,7 +8,6 @@ sealed interface CoinListUiState {
     data class Success(
         val coins: List<Coin>,
         val favouriteCoins: List<Coin>,
-        val marketStats: MarketStats,
         val timeOfDay: TimeOfDay
     ) : CoinListUiState
     data class Error(val message: String?) : CoinListUiState

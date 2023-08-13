@@ -20,7 +20,6 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.CoinDetail
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
-import java.math.BigDecimal
 
 @Composable
 fun MarketStatsCard(
@@ -107,16 +106,17 @@ private fun MarketStatsCardPreview() {
                 id = "ethereum",
                 name = "Ethereum",
                 symbol = "ETH",
-                image = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
-                currentPrice = Price(BigDecimal("1879.14")),
-                marketCap = Price(BigDecimal("225722901094")),
+                imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
+                currentPrice = Price("1879.14"),
+                marketCap = Price("225722901094"),
                 marketCapRank = "2",
                 volume24h = "6,627,669,115",
                 circulatingSupply = "120,186,525",
-                allTimeHigh = Price(BigDecimal("4878.26")),
+                allTimeHigh = Price("4878.26"),
                 allTimeHighDate = "10 Nov 2021",
                 listedDate = "7 Aug 2015"
             )
+
         )
     }
 }

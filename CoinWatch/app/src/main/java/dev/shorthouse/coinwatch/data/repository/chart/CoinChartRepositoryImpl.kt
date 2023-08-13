@@ -1,13 +1,15 @@
 package dev.shorthouse.coinwatch.data.repository.chart
 
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.common.maxOrZero
+import dev.shorthouse.coinwatch.common.minOrZero
+import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrNull
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.di.IoDispatcher
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
-import java.math.BigDecimal
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -25,6 +27,7 @@ class CoinChartRepositoryImpl @Inject constructor(
             coinId = coinId,
             chartPeriod = chartPeriod
         )
+
         val body = response.body()
 
         if (response.isSuccessful && body != null) {
@@ -39,21 +42,21 @@ class CoinChartRepositoryImpl @Inject constructor(
     }.flowOn(ioDispatcher)
 
     private fun CoinChartApiModel.toCoinChart(): CoinChart {
-        val prices = coinChartData.history
+        val prices = coinChartData.pastPrices
             .orEmpty()
-            .mapNotNull { it.price?.toBigDecimal() }
+            .mapNotNull { pastPrice ->
+                pastPrice?.amount.toSanitisedBigDecimalOrNull()
+            }
             .reversed()
 
-        val minPrice = prices.min()
-        val maxPrice = prices.max()
-
-        val periodPriceChangePercentage = BigDecimal(coinChartData.pricePercentageChange)
+        val minPrice = prices.minOrZero()
+        val maxPrice = prices.maxOrZero()
 
         return CoinChart(
             prices = prices,
-            minPrice = Price(minPrice),
-            maxPrice = Price(maxPrice),
-            periodPriceChangePercentage = Percentage(periodPriceChangePercentage)
+            minPrice = Price(minPrice.toString()),
+            maxPrice = Price(maxPrice.toString()),
+            periodPriceChangePercentage = Percentage(coinChartData.pricePercentageChange)
         )
     }
 }

@@ -1,10 +1,11 @@
 package dev.shorthouse.coinwatch.model
 
+import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrZero
 import java.math.BigDecimal
 import java.text.NumberFormat
 import java.util.Locale
 
-data class Percentage(private val amount: BigDecimal) {
+data class Percentage(private val percentage: String?) {
     companion object {
         private val percentageFormat: NumberFormat =
             NumberFormat.getPercentInstance(Locale.US).apply {
@@ -14,7 +15,10 @@ data class Percentage(private val amount: BigDecimal) {
             }
     }
 
+    val amount: BigDecimal = percentage.toSanitisedBigDecimalOrZero()
+
     val isPositive: Boolean = amount.signum() > 0
+
     val isNegative: Boolean = amount.signum() < 0
 
     val formattedAmount: String = if (isNegative) {

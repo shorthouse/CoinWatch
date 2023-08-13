@@ -37,10 +37,18 @@ class FavouriteCoinRepositoryImpl @Inject constructor(
     }
 
     override suspend fun insertFavouriteCoin(favouriteCoin: FavouriteCoin) {
-        coinLocalDataSource.insert(favouriteCoin)
+        try {
+            coinLocalDataSource.insert(favouriteCoin)
+        } catch (e: Exception) {
+            Timber.e("insertFavouriteCoin error ${e.message}")
+        }
     }
 
     override suspend fun deleteFavouriteCoin(favouriteCoin: FavouriteCoin) {
-        coinLocalDataSource.delete(favouriteCoin)
+        try {
+            coinLocalDataSource.delete(favouriteCoin)
+        } catch (e: Exception) {
+            Timber.e("deleteFavouriteCoin error ${e.message}")
+        }
     }
 }
