@@ -7,7 +7,6 @@ import dev.shorthouse.coinwatch.di.IoDispatcher
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
-import java.math.BigDecimal
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -20,8 +19,8 @@ class CoinRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : CoinRepository {
-    override fun getCoins(): Flow<Result<List<Coin>>> = flow {
-        val response = coinNetworkDataSource.getCoins()
+    override fun getCoins(currencyUUID: String): Flow<Result<List<Coin>>> = flow {
+        val response = coinNetworkDataSource.getCoins(currencyUUID = currencyUUID)
         val body = response.body()
 
         if (response.isSuccessful && body != null) {
@@ -36,16 +35,20 @@ class CoinRepositoryImpl @Inject constructor(
     }.flowOn(ioDispatcher)
 
     private fun CoinsApiModel.toCoins(): List<Coin> {
-        return coinsData.coins.orEmpty().map {
-            Coin(
-                id = it.id,
-                name = it.name.orEmpty(),
-                symbol = it.symbol?.uppercase().orEmpty(),
-                image = it.iconUrl.orEmpty(),
-                currentPrice = Price(BigDecimal(it.currentPrice)),
-                priceChangePercentage24h = Percentage(BigDecimal(it.priceChangePercentage24h)),
-                prices24h = it.sparkline24h.orEmpty()
-            )
-        }
+        return coinsData.coins
+            .orEmpty()
+            .filterNotNull()
+            .filter { it.id != null }
+            .map { coinApiModel ->
+                Coin(
+                    id = coinApiModel.id!!,
+                    name = coinApiModel.name.orEmpty(),
+                    symbol = coinApiModel.symbol.orEmpty(),
+                    imageUrl = coinApiModel.iconUrl.orEmpty(),
+                    currentPrice = Price(coinApiModel.currentPrice),
+                    priceChangePercentage24h = Percentage(coinApiModel.priceChangePercentage24h),
+                    prices24h = coinApiModel.sparkline24h.orEmpty()
+                )
+            }
     }
 }
