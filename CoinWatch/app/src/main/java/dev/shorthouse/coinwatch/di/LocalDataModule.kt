@@ -13,8 +13,8 @@ import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepos
 import dev.shorthouse.coinwatch.data.source.local.CoinDatabase
 import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSource
 import dev.shorthouse.coinwatch.data.source.local.FavouriteCoinDao
-import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
+import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
 @InstallIn(SingletonComponent::class)
