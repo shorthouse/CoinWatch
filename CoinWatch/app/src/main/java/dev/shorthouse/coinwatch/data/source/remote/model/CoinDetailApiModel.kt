@@ -14,7 +14,7 @@ data class CoinDetailData(
 
 data class CoinDetail(
     @SerializedName("uuid")
-    val id: String,
+    val id: String?,
     val name: String?,
     val symbol: String?,
     val iconUrl: String?,

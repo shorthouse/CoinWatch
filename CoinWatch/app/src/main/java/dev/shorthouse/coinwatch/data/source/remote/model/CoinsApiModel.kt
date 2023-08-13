@@ -9,12 +9,12 @@ data class CoinsApiModel(
 )
 
 data class CoinsData(
-    val coins: List<Coinx>?
+    val coins: List<Coin?>?
 )
 
-data class Coinx(
+data class Coin(
     @SerializedName("uuid")
-    val id: String,
+    val id: String?,
     val symbol: String?,
     val name: String?,
     val iconUrl: String?,
