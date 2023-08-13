@@ -47,7 +47,7 @@ fun CoinListItem(
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .decoderFactory(SvgDecoder.Factory())
-                    .data(coin.image)
+                    .data(coin.imageUrl)
                     .build(),
                 modifier = Modifier.size(32.dp),
                 contentDescription = null

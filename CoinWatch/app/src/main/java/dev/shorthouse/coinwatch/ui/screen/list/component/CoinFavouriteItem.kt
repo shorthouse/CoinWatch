@@ -42,7 +42,7 @@ fun CoinFavouriteItem(
             Column(modifier = Modifier.padding(12.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     AsyncImage(
-                        model = coin.image,
+                        model = coin.imageUrl,
                         contentDescription = null,
                         alignment = Alignment.Center,
                         modifier = Modifier.size(32.dp)

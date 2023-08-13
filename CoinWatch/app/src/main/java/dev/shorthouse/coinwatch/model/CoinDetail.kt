@@ -4,7 +4,7 @@ data class CoinDetail(
     val id: String,
     val name: String,
     val symbol: String,
-    val image: String,
+    val imageUrl: String,
     val currentPrice: Price,
     val marketCap: Price,
     val marketCapRank: String,

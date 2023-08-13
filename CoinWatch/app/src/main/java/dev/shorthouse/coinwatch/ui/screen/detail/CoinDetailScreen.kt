@@ -91,7 +91,7 @@ fun CoinDetailScreen(
                     ChartDetailTopBar(
                         coinName = uiState.coinDetail.name,
                         coinSymbol = uiState.coinDetail.symbol,
-                        coinImage = uiState.coinDetail.image,
+                        coinImage = uiState.coinDetail.imageUrl,
                         isCoinFavourite = uiState.isCoinFavourite,
                         onNavigateUp = onNavigateUp,
                         onClickFavouriteCoin = onClickFavouriteCoin,
