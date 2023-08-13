@@ -10,5 +10,5 @@ data class MarketStatsApiModel(
 
 data class GlobalMarketData(
     @SerializedName("market_cap_change_percentage_24h_usd")
-    val marketCapChangePercentage24h: BigDecimal,
+    val marketCapChangePercentage24h: BigDecimal
 )

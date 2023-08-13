@@ -2,7 +2,6 @@ package dev.shorthouse.coinwatch.ui.previewdata
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.shorthouse.coinwatch.model.Coin
-import dev.shorthouse.coinwatch.model.MarketStats
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
@@ -15,9 +14,6 @@ class CoinListUiStatePreviewProvider : PreviewParameterProvider<CoinListUiState>
         CoinListUiState.Success(
             coins = coins,
             favouriteCoins = coins,
-            marketStats = MarketStats(
-                marketCapChangePercentage24h = Percentage(BigDecimal("-0.23"))
-            ),
             timeOfDay = TimeOfDay.Evening
         ),
         CoinListUiState.Loading,
@@ -31,10 +27,9 @@ private object CoinListPreviewData {
             id = "bitcoin",
             symbol = "BTC",
             name = "Bitcoin",
-            image = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
-            marketCapRank = 1,
-            currentPrice = Price(BigDecimal("29446.336548759988")),
-            priceChangePercentage24h = Percentage(BigDecimal("0.76833")),
+            imageUrl = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
+            currentPrice = Price("29446.336548759988"),
+            priceChangePercentage24h = Percentage("0.76833"),
             prices24h = listOf(
                 BigDecimal("29245.370873051394"),
                 BigDecimal("29205.501195094886"),
@@ -66,10 +61,9 @@ private object CoinListPreviewData {
             id = "ethereum",
             symbol = "ETH",
             name = "Ethereum",
-            image = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
-            marketCapRank = 2,
-            currentPrice = Price(BigDecimal("1875.473083380222")),
-            priceChangePercentage24h = Percentage(BigDecimal("-1.11008")),
+            imageUrl = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+            currentPrice = Price("1875.473083380222"),
+            priceChangePercentage24h = Percentage("-1.11008"),
             prices24h = listOf(
                 BigDecimal("1879.89804628163"),
                 BigDecimal("1877.1265051203513"),
@@ -101,10 +95,9 @@ private object CoinListPreviewData {
             id = "tether",
             symbol = "USDT",
             name = "Tether",
-            image = "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
-            marketCapRank = 3,
-            currentPrice = Price(BigDecimal("1.00")),
-            priceChangePercentage24h = Percentage(BigDecimal("0.00")),
+            imageUrl = "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
+            currentPrice = Price("1.00"),
+            priceChangePercentage24h = Percentage("0.00"),
             prices24h = listOf(
                 BigDecimal("1.00"),
                 BigDecimal("1.00"),
@@ -136,10 +129,9 @@ private object CoinListPreviewData {
             id = "ripple",
             symbol = "XRP",
             name = "XRP",
-            image = "https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1605778731",
-            marketCapRank = 4,
-            currentPrice = Price(BigDecimal("0.7142802333064954")),
-            priceChangePercentage24h = Percentage(BigDecimal("1.77031")),
+            imageUrl = "https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1605778731",
+            currentPrice = Price("0.7142802333064954"),
+            priceChangePercentage24h = Percentage("1.77031"),
             prices24h = listOf(
                 BigDecimal("0.7078633715412483"),
                 BigDecimal("0.703154172261876"),
@@ -171,10 +163,9 @@ private object CoinListPreviewData {
             id = "binancecoin",
             symbol = "BNB",
             name = "BNB",
-            image = "https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1644979850",
-            marketCapRank = 5,
-            currentPrice = Price(BigDecimal("242.13321783678734")),
-            priceChangePercentage24h = Percentage(BigDecimal("1.84955")),
+            imageUrl = "https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1644979850",
+            currentPrice = Price("242.13321783678734"),
+            priceChangePercentage24h = Percentage("1.84955"),
             prices24h = listOf(
                 BigDecimal("238.07237986085968"),
                 BigDecimal("237.59065248042927"),

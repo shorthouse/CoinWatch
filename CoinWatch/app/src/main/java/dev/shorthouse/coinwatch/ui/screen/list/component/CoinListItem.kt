@@ -15,10 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.ui.component.PercentageChange
 import dev.shorthouse.coinwatch.ui.previewdata.CoinPreviewProvider
@@ -42,10 +45,12 @@ fun CoinListItem(
             modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp)
         ) {
             AsyncImage(
-                model = coin.image,
-                contentDescription = null,
-                alignment = Alignment.Center,
-                modifier = Modifier.size(32.dp)
+                model = ImageRequest.Builder(LocalContext.current)
+                    .decoderFactory(SvgDecoder.Factory())
+                    .data(coin.imageUrl)
+                    .build(),
+                modifier = Modifier.size(32.dp),
+                contentDescription = null
             )
 
             Spacer(Modifier.width(16.dp))

@@ -38,6 +38,10 @@ fun MarketStatsCard(
                 value = coinDetail.marketCap.formattedAmount
             ),
             CoinDetailListItem(
+                nameId = R.string.list_item_volume_24h,
+                value = coinDetail.volume24h
+            ),
+            CoinDetailListItem(
                 nameId = R.string.list_item_circulating_supply,
                 value = coinDetail.circulatingSupply
             ),
@@ -50,12 +54,8 @@ fun MarketStatsCard(
                 value = coinDetail.allTimeHighDate
             ),
             CoinDetailListItem(
-                nameId = R.string.list_item_atl,
-                value = coinDetail.allTimeLow.formattedAmount
-            ),
-            CoinDetailListItem(
-                nameId = R.string.list_item_atl_date,
-                value = coinDetail.allTimeLowDate
+                nameId = R.string.list_item_listed_date,
+                value = coinDetail.listedDate
             )
         )
     }
@@ -107,15 +107,15 @@ private fun MarketStatsCardPreview() {
                 id = "ethereum",
                 name = "Ethereum",
                 symbol = "ETH",
-                image = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+                image = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
                 currentPrice = Price(BigDecimal("1879.14")),
-                marketCapRank = "2",
                 marketCap = Price(BigDecimal("225722901094")),
+                marketCapRank = "2",
+                volume24h = "6,627,669,115",
                 circulatingSupply = "120,186,525",
-                allTimeLow = Price(BigDecimal("0.43")),
                 allTimeHigh = Price(BigDecimal("4878.26")),
-                allTimeLowDate = "20 Oct 2015",
-                allTimeHighDate = "10 Nov 2021"
+                allTimeHighDate = "10 Nov 2021",
+                listedDate = "7 Aug 2015"
             )
         )
     }

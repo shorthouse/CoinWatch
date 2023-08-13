@@ -3,7 +3,7 @@
 
 The app is built using the latest [Android architecture components](https://developer.android.com/topic/architecture/recommendations) - resulting in a scalable, modularised and testable app.
 
-# 🛠 Architecture 
+# Built With 🛠 
 - Kotlin
 - Jetpack Compose
 - Retrofit
@@ -18,7 +18,20 @@ The app is built using the latest [Android architecture components](https://deve
 - Material Design 3
 - Static code analysis using Ktlint
 
-# 🧬 Testing 
+# Architecture 🧱
+The design of CoinWatch follows a few key principles:
+1. Unidirectional Data Flow (UDF) - state flows in one direction, events that modify the data flow in the opposite direction
+2. Single Source of Truth (SSOT) - the SSOT is the owner of data, and only the SSOT can modify or mutate it
+3. Drive UI from immutable data models - app data is contained within persistent data models and drives UI components
+4. Separation of Concerns - classes are kept as lean as possible to aid modularity
+
+A high-level overview of the app's architecture is displayed below.
+   
+<p align="center">
+<img src="https://github.com/shorthouse/CoinWatch/assets/73708076/9b0b7c36-5f09-4a82-8ee2-d4f549102fa5" width="550">
+</p>
+
+# Testing 🧬 
 To facilitate testing of the app, CoinWatch uses the following:
  - JUnit
  - Espresso
@@ -26,19 +39,19 @@ To facilitate testing of the app, CoinWatch uses the following:
  - MockK
  - Compose testing library
 
-# 🤝 Contribution 
+# Contribution 🤝
 Contributions to the project are welcome and encouraged! To get started, please check out the contributing guidelines.
 
-# 📥 Contact 
+# Contact 📥
 Do you have ideas to improve the app or a query for the developer?
 
 Please get in touch via email - shorthouse20@gmail.com
 
-# ⭐ Acknowledgements
+# Acknowledgements ⭐
  - [CoinRanking API](https://developers.coinranking.com/api) for providing coin data
  - [unDraw](https://undraw.co/illustrations) for providing empty state images
 
-# 🔖 License
+# License 🔖
 ```
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
