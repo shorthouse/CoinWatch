@@ -11,9 +11,9 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsData
 import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
 import dev.shorthouse.coinwatch.data.source.remote.model.Supply
-import java.math.BigDecimal
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
+import java.math.BigDecimal
 
 class FakeCoinApi : CoinApi {
     override suspend fun getCoins(
