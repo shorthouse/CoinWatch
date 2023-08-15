@@ -1,13 +1,13 @@
 package dev.shorthouse.coinwatch.model
 
 import com.google.common.truth.Truth.assertThat
-import java.math.BigDecimal
 import org.junit.Test
+import java.math.BigDecimal
 
 class PercentageTest {
 
     @Test
-    fun `positive valid input has expected signage function outputs`() {
+    fun `When positive input should have expected signage function outputs`() {
         // Arrange
         val positivePercentage = "1.0"
 
@@ -20,7 +20,7 @@ class PercentageTest {
     }
 
     @Test
-    fun `negative valid input has expected signage function outputs`() {
+    fun `When negative input should have expected signage function outputs`() {
         // Arrange
         val negativePercentage = "-1.0"
 
@@ -33,7 +33,7 @@ class PercentageTest {
     }
 
     @Test
-    fun `zero valid input has expected signage function outputs`() {
+    fun `When zero input should have expected signage function outputs`() {
         // Arrange
         val zeroPercentage = "0.0"
 
@@ -46,7 +46,7 @@ class PercentageTest {
     }
 
     @Test
-    fun `null input creates zero percentage`() {
+    fun `When null input should create zero percentage`() {
         // Arrange
         val nullPercentage: String? = null
 
@@ -59,7 +59,7 @@ class PercentageTest {
     }
 
     @Test
-    fun `empty input creates zero percentage`() {
+    fun `When empty input should create zero percentage`() {
         // Arrange
         val emptyPercentage = ""
 
@@ -72,7 +72,7 @@ class PercentageTest {
     }
 
     @Test
-    fun `invalid input creates zero percentage`() {
+    fun `When invalid input should create zero percentage`() {
         // Arrange
         val invalidPercentage = "1.x"
 
@@ -85,7 +85,7 @@ class PercentageTest {
     }
 
     @Test
-    fun `valid input creates expected percentage`() {
+    fun `When valid input should create expected percentage`() {
         // Arrange
         val validPercentage = "1.23"
 
@@ -98,7 +98,7 @@ class PercentageTest {
     }
 
     @Test
-    fun `valid many decimal places input creates expected decimal places percentage`() {
+    fun `When valid many decimal places input should create expected decimal places percentage`() {
         // Arrange
         val validPercentage = "1.23456789"
 
@@ -111,7 +111,7 @@ class PercentageTest {
     }
 
     @Test
-    fun `valid no decimal places input creates expected decimal places price`() {
+    fun `When valid no decimal places input should create expected decimal places percentage`() {
         // Arrange
         val validPercentage = "1"
 
@@ -124,7 +124,7 @@ class PercentageTest {
     }
 
     @Test
-    fun `valid one decimal place input creates expected decimal places percentage`() {
+    fun `When valid one decimal place input should create expected decimal places percentage`() {
         // Arrange
         val validPercentage = "1.2"
 
@@ -137,7 +137,7 @@ class PercentageTest {
     }
 
     @Test
-    fun `valid negative input creates expected percentage`() {
+    fun `When valid negative input should create expected percentage`() {
         // Arrange
         val validPercentage = "-1.23467"
 
@@ -150,7 +150,7 @@ class PercentageTest {
     }
 
     @Test
-    fun `valid large percentage input creates expected comma formatted price`() {
+    fun `When valid large input should create expected comma formatted percentage`() {
         // Arrange
         val validPercentage = "123456789.123456789"
 
@@ -163,7 +163,7 @@ class PercentageTest {
     }
 
     @Test
-    fun `valid large percentage with commas input is parsed correctly`() {
+    fun `When valid large input with commas input should be parsed correctly`() {
         // Arrange
         val validPercentage = "123,456,789.12"
 
@@ -176,7 +176,7 @@ class PercentageTest {
     }
 
     @Test
-    fun `valid large percentage with commas and no decimal places is parsed correctly`() {
+    fun `When valid large input with commas and no decimal places should be parsed correctly`() {
         // Arrange
         val validPercentage = "123,456,789"
 
@@ -189,8 +189,8 @@ class PercentageTest {
     }
 
     @Test
-    fun `valid massive percentage in parsed correctly`() {
-        val massivePercentage = "23525782458793458793578905437890054935783245892347580934275093247952349785734290857938245798234578934" // ktlint-disable max-line-length
+    fun `When valid massive input should be parsed correctly`() {
+        val massivePercentage = "23525782458793458793578905437890054935783245892347580934275093247952349785734290857938245798234578934"
 
         // Act
         val percentage = Percentage(massivePercentage)
@@ -198,16 +198,16 @@ class PercentageTest {
         // Assert
         assertThat(percentage.amount).isEqualTo(
             BigDecimal(
-                "23525782458793458793578905437890054935783245892347580934275093247952349785734290857938245798234578934" // ktlint-disable max-line-length
+                "23525782458793458793578905437890054935783245892347580934275093247952349785734290857938245798234578934"
             )
         )
         assertThat(percentage.formattedAmount).isEqualTo(
-            "+23,525,782,458,793,458,793,578,905,437,890,054,935,783,245,892,347,580,934,275,093,247,952,349,785,734,290,857,938,245,798,234,578,934.00%" // ktlint-disable max-line-length
+            "+23,525,782,458,793,458,793,578,905,437,890,054,935,783,245,892,347,580,934,275,093,247,952,349,785,734,290,857,938,245,798,234,578,934.00%"
         )
     }
 
     @Test
-    fun `valid percentage input with whitespace and commas is parsed correctly`() {
+    fun `When valid input with whitespace and commas should be parsed correctly`() {
         // Arrange
         val validPercentage = "        97,123,456.21     "
 

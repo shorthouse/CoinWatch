@@ -1,12 +1,12 @@
 package dev.shorthouse.coinwatch.common
 
 import com.google.common.truth.Truth.assertThat
-import java.math.BigDecimal
 import org.junit.Test
+import java.math.BigDecimal
 
 class ExtensionsTest {
     @Test
-    fun `toBigDecimalOrZero with valid number string returns number`() {
+    fun `When toBigDecimalOrZero called with valid string number should return valid number`() {
         // Arrange
         val input = "123.456"
         val expectedResult = BigDecimal("123.456")
@@ -19,7 +19,7 @@ class ExtensionsTest {
     }
 
     @Test
-    fun `toBigDecimalOrZero with null returns zero`() {
+    fun `When toBigDecimalOrZero called with null string should return zero`() {
         // Arrange
         val input: String? = null
         val expectedResult = BigDecimal.ZERO
@@ -32,7 +32,7 @@ class ExtensionsTest {
     }
 
     @Test
-    fun `toBigDecimalOrZero with invalid number string returns zero`() {
+    fun `When toBigDecimalOrZero called with invalid string number should return zero`() {
         // Arrange
         val input = "abc"
         val expectedResult = BigDecimal.ZERO
@@ -45,7 +45,7 @@ class ExtensionsTest {
     }
 
     @Test
-    fun `toBigDecimalOrNull with valid number string returns number`() {
+    fun `When toBigDecimalOrNull called with valid number string should return valid number`() {
         // Arrange
         val input = "123.456"
         val expectedResult = BigDecimal("123.456")
@@ -58,7 +58,7 @@ class ExtensionsTest {
     }
 
     @Test
-    fun `toBigDecimalOrNull with null returns null`() {
+    fun `When toBigDecimalOrNull called with null string should return zero`() {
         // Arrange
         val input: String? = null
 
@@ -70,7 +70,7 @@ class ExtensionsTest {
     }
 
     @Test
-    fun `toBigDecimalOrNull with invalid number string returns null`() {
+    fun `When toBigDecimalOrNull called with invalid number string should return zero`() {
         // Arrange
         val input = "abc"
 
@@ -82,7 +82,7 @@ class ExtensionsTest {
     }
 
     @Test
-    fun `minOrZero with non empty list returns minimum value`() {
+    fun `When minOrZero called with non-empty list should return minimum value in list`() {
         // Arrange
         val numbers = listOf(
             BigDecimal("5.25"),
@@ -99,7 +99,7 @@ class ExtensionsTest {
     }
 
     @Test
-    fun `minOrZero with empty list returns zero`() {
+    fun `When minOrZero called with empty list should return zero`() {
         // Arrange
         val input = emptyList<BigDecimal>()
         val expectedResult = BigDecimal.ZERO
@@ -112,7 +112,7 @@ class ExtensionsTest {
     }
 
     @Test
-    fun `maxOrZero with non empty list returns maximum value`() {
+    fun `When maxOrZero called with non-empty list should return maximum value in list`() {
         // Arrange
         val numbers = listOf(
             BigDecimal("5.25"),
@@ -129,7 +129,7 @@ class ExtensionsTest {
     }
 
     @Test
-    fun `maxOrZero with empty list returns zero`() {
+    fun `When maxOrZero called with empty list should return zero`() {
         // Arrange
         val input = emptyList<BigDecimal>()
         val expectedResult = BigDecimal.ZERO
@@ -142,7 +142,7 @@ class ExtensionsTest {
     }
 
     @Test
-    fun `toDoubleOrZero with valid number string returns number`() {
+    fun `When toDoubleOrZero called with valid string number should return valid number`() {
         // Arrange
         val input = "123.456"
         val expectedResult = 123.456
@@ -155,9 +155,22 @@ class ExtensionsTest {
     }
 
     @Test
-    fun `toDoubleOrZero with null returns zero`() {
+    fun `When toDoubleOrZero called with null string should return zero`() {
         // Arrange
         val input: String? = null
+        val expectedResult = 0.0
+
+        // Act
+        val result = input.toDoubleOrZero()
+
+        // Assert
+        assertThat(result).isEqualTo(expectedResult)
+    }
+
+    @Test
+    fun `When toDoubleOrZero called with invalid string number should return zero`() {
+        // Arrange
+        val input = "abc"
         val expectedResult = 0.0
 
         // Act

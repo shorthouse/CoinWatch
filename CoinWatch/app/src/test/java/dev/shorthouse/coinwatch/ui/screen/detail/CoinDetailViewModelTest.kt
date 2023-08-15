@@ -78,7 +78,7 @@ class CoinDetailViewModelTest {
     }
 
     @Test
-    fun `uiState initialises with loading state`() = runTest {
+    fun `When ViewModel is initialised should have loading UI state`() = runTest {
         // Arrange
         val expectedUiState = CoinDetailUiState.Loading
 
@@ -89,7 +89,7 @@ class CoinDetailViewModelTest {
     }
 
     @Test
-    fun `uiState error when coin detail returns error result`() = runTest {
+    fun `When coin detail returns error should have error UI state`() = runTest {
         // Arrange
         val coinChart = mockkClass(CoinChart::class)
         val errorMessage = "Coin detail error"
@@ -107,7 +107,7 @@ class CoinDetailViewModelTest {
     }
 
     @Test
-    fun `uiState error when coin chart returns error result`() = runTest {
+    fun `When coin chart returns error should have error UI state`() = runTest {
         // Arrange
         val errorMessage = "Coin chart error"
         val coinDetail = mockkClass(CoinDetail::class)
@@ -125,7 +125,7 @@ class CoinDetailViewModelTest {
     }
 
     @Test
-    fun `uiState error when coin favourite returns error result`() = runTest {
+    fun `When is coin favourite returns error should have error UI state`() = runTest {
         // Arrange
         val errorMessage = "Coin favourite error"
         val coinDetail = mockkClass(CoinDetail::class)
@@ -144,7 +144,7 @@ class CoinDetailViewModelTest {
     }
 
     @Test
-    fun `uiState success when all use cases return success`() = runTest {
+    fun `When all use cases return success should have success UI state`() = runTest {
         // Arrange
         val coinDetail = mockkClass(CoinDetail::class)
         val coinChart = mockkClass(CoinChart::class)
@@ -169,7 +169,7 @@ class CoinDetailViewModelTest {
     }
 
     @Test
-    fun `uiState chart period updates when calling updateChartPeriod`() = runTest {
+    fun `When updating chart period UI state should update with new chart period value`() = runTest {
         // Arrange
         val coinDetail = mockkClass(CoinDetail::class)
         val coinChart = mockkClass(CoinChart::class)
@@ -195,7 +195,7 @@ class CoinDetailViewModelTest {
     }
 
     @Test
-    fun `toggleIsCoinFavourite success with unfavourited coin, should favourite coin`() = runTest {
+    fun `When toggle coin favourite returns success with un-favourited coin should favourite coin`() = runTest {
         // Arrange
         val coinId = "Qwsogvtv82FCd"
         every { isCoinFavouriteUseCase(coinId = coinId) } returns flowOf(Result.Success(false))
@@ -215,7 +215,7 @@ class CoinDetailViewModelTest {
     }
 
     @Test
-    fun `toggleIsCoinFavourite success with favourited coin, should unfavourite coin`() = runTest {
+    fun `When toggle coin favourite returns success with favourited coin should un-favourite coin`() = runTest {
         // Arrange
         val coinId = "Qwsogvtv82FCd"
         every { isCoinFavouriteUseCase(coinId = coinId) } returns flowOf(Result.Success(true))
@@ -235,7 +235,7 @@ class CoinDetailViewModelTest {
     }
 
     @Test
-    fun `toggleIsCoinFavourite failure, should not favourite or unfavourite coin`() = runTest {
+    fun `When toggle coin favourite returns error should not attempt to favourite or un-favourite coin`() = runTest {
         // Arrange
         every { isCoinFavouriteUseCase(any()) } returns flowOf(Result.Error("Error"))
         coEvery { insertFavouriteCoinUseCase(any()) } just Runs

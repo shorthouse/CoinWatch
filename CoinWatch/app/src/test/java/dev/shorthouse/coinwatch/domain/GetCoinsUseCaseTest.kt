@@ -7,6 +7,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -28,7 +29,7 @@ class GetCoinsUseCaseTest {
     }
 
     @Test
-    fun `when getCoinsUseCase invoked then getCoins is called`() {
+    fun `When use case invoked should get coins`() = runTest {
         // Arrange
         every { coinRepository.getCoins() } returns flowOf(Result.Success(emptyList()))
 

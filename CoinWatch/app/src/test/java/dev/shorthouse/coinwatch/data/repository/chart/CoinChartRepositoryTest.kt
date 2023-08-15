@@ -9,12 +9,12 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
-import java.math.BigDecimal
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.math.BigDecimal
 
 class CoinChartRepositoryTest {
 
@@ -35,7 +35,7 @@ class CoinChartRepositoryTest {
     }
 
     @Test
-    fun `getCoinChart success returns success result`() = runTest {
+    fun `When coin chart data is valid should return success`() = runTest {
         // Arrange
         val coinId = "Qwsogvtv82FCd"
         val chartPeriod = "1d"
@@ -66,7 +66,7 @@ class CoinChartRepositoryTest {
     }
 
     @Test
-    fun `getCoinChart null values populates default values and returns success result`() = runTest {
+    fun `When coin chart data has null values should populate these with default values and return success`() = runTest {
         // Arrange
         val coinId = "nullValues"
         val chartPeriod = "1d"
@@ -94,7 +94,7 @@ class CoinChartRepositoryTest {
     }
 
     @Test
-    fun `getCoinChart null price values filters invalid values returns success result`() = runTest {
+    fun `When coin chart has null prices should ignore these prices and return success`() = runTest {
         // Arrange
         val coinId = "nullPrices"
         val chartPeriod = "1d"
@@ -116,7 +116,7 @@ class CoinChartRepositoryTest {
     }
 
     @Test
-    fun `getCoinChart error returns error result`() = runTest {
+    fun `When coin chart returns error should return error`() = runTest {
         // Arrange
         val coinId = "Qwditjgs82FCd"
         val chartPeriod = "1d"

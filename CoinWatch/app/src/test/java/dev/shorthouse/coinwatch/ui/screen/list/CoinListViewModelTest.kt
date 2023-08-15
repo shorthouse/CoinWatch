@@ -14,15 +14,16 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.unmockkAll
-import java.time.LocalDateTime
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.time.LocalDateTime
 
 class CoinListViewModelTest {
+
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
@@ -51,7 +52,7 @@ class CoinListViewModelTest {
     }
 
     @Test
-    fun `uiState initialises with loading state`() = runTest {
+    fun `When ViewModel is initialised should have loading UI state`() = runTest {
         // Arrange
         val expectedUiState = CoinListUiState.Loading
 
@@ -62,7 +63,7 @@ class CoinListViewModelTest {
     }
 
     @Test
-    fun `uiState error when coins returns error result`() = runTest {
+    fun `When coins returns error should have error UI state`() = runTest {
         // Arrange
         val errorMessage = "Coins error"
         val expectedUiState = CoinListUiState.Error(errorMessage)
@@ -78,7 +79,7 @@ class CoinListViewModelTest {
     }
 
     @Test
-    fun `uiState error when favourite coins returns error result`() = runTest {
+    fun `When favourite coins returns error should have error UI state`() = runTest {
         // Arrange
         val errorMessage = "Favourite coins error"
         val expectedUiState = CoinListUiState.Error(errorMessage)
@@ -94,7 +95,7 @@ class CoinListViewModelTest {
     }
 
     @Test
-    fun `uiState success when coins and favourite coins return success result`() = runTest {
+    fun `When favourite coins and coins return success should have success UI state`() = runTest {
         // Arrange
         val coins = listOf(
             Coin(
@@ -158,7 +159,7 @@ class CoinListViewModelTest {
     }
 
     @Test
-    fun `calculateTimeOfDay with morning hour, should return morning`() = runTest {
+    fun `When calculating time of day with morning hour, should return morning enum value`() = runTest {
         // Arrange
         val lowerBoundHour = 0
         val upperBoundHour = 11
@@ -174,7 +175,7 @@ class CoinListViewModelTest {
     }
 
     @Test
-    fun `calculateTimeOfDay with afternoon hour, should return afternoon`() = runTest {
+    fun `When calculating time of day with afternoon hour, should return afternoon enum value`() = runTest {
         // Arrange
         val lowerBoundHour = 12
         val upperBoundHour = 17
@@ -190,7 +191,7 @@ class CoinListViewModelTest {
     }
 
     @Test
-    fun `calculateTimeOfDay with evening hour, should return evening`() = runTest {
+    fun `When calculating time of day with evening hour, should return evening enum value`() = runTest {
         // Arrange
         val lowerBoundHour = 18
         val upperBoundHour = 23

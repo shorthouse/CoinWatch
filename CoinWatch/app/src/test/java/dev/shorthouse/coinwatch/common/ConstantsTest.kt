@@ -5,7 +5,7 @@ import org.junit.Test
 
 class ConstantsTest {
     @Test
-    fun `BASE_URL is expected value`() {
+    fun `BASE_URL should be expected value`() {
         // Arrange
         val expectedBaseUrl = "https://api.coinranking.com/v2/"
 
@@ -17,7 +17,7 @@ class ConstantsTest {
     }
 
     @Test
-    fun `PARAM_COIN_ID is expected value`() {
+    fun `PARAM_COIN_ID should be expected value`() {
         // Arrange
         val expectedParamCoinId = "coinId"
 
@@ -29,7 +29,7 @@ class ConstantsTest {
     }
 
     @Test
-    fun `COIN_DATABASE_NAME is expected value`() {
+    fun `COIN_DATABASE_NAME should be expected value`() {
         // Arrange
         val expectedCoinDatabaseName = "Coin.db"
 

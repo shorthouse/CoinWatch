@@ -31,7 +31,7 @@ class DeleteFavouriteCoinUseCaseTest {
     }
 
     @Test
-    fun `when deleteFavouriteCoinUseCase invoked then deleteFavouriteCoin is called`() = runTest {
+    fun `When use case invoked should delete coin`() = runTest {
         // Arrange
         val favouriteCoin = mockkClass(FavouriteCoin::class)
 

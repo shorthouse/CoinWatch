@@ -9,12 +9,12 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
-import java.math.BigDecimal
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.math.BigDecimal
 
 class CoinRepositoryTest {
 
@@ -35,7 +35,7 @@ class CoinRepositoryTest {
     }
 
     @Test
-    fun `getCoins success returns success result`() = runTest {
+    fun `When coins data is valid should return success`() = runTest {
         // Arrange
         val expectedResult = Result.Success(
             listOf(
@@ -68,7 +68,7 @@ class CoinRepositoryTest {
     }
 
     @Test
-    fun `getCoins null values, populates with default values and returns success`() = runTest {
+    fun `When coins data has null values should populate these with default values and return success`() = runTest {
         // Arrange
         val expectedResult = Result.Success(
             listOf(
@@ -95,7 +95,7 @@ class CoinRepositoryTest {
     }
 
     @Test
-    fun `getCoins null coins list returns empty list success result`() = runTest {
+    fun `When coins data is null should return empty list`() = runTest {
         // Arrange
         val expectedResult = Result.Success(
             emptyList<Coin>()
@@ -112,7 +112,7 @@ class CoinRepositoryTest {
     }
 
     @Test
-    fun `getCoins coin with null id excluded from list returns success result`() = runTest {
+    fun `When coins data has null id coin should filter this out from the list and return success`() = runTest {
         // Arrange
         val expectedResult = Result.Success(
             listOf(
@@ -145,7 +145,7 @@ class CoinRepositoryTest {
     }
 
     @Test
-    fun `getCoins error returns error result`() = runTest {
+    fun `When coins returns error should return error`() = runTest {
         // Arrange
         val expectedResult = Result.Error<CoinsApiModel>(
             message = "Unable to fetch coins list"
@@ -162,7 +162,7 @@ class CoinRepositoryTest {
     }
 
     @Test
-    fun `getCoins null retrofit body returns error result`() = runTest {
+    fun `When coins returns null retrofit body should return error`() = runTest {
         // Arrange
         val expectedResult = Result.Error<CoinsApiModel>(
             message = "Unable to fetch coins list"
@@ -179,7 +179,7 @@ class CoinRepositoryTest {
     }
 
     @Test
-    fun `getCoins thrown exception returns error result`() = runTest {
+    fun `When coins throws exception should return error`() = runTest {
         // Arrange
         val expectedResult = Result.Error<CoinsApiModel>(
             message = "Unable to fetch coins list"

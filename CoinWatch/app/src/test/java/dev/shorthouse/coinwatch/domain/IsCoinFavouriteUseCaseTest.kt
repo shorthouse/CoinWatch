@@ -29,7 +29,7 @@ class IsCoinFavouriteUseCaseTest {
     }
 
     @Test
-    fun `when getCoinsUseCase invoked then getCoins is called`() = runTest {
+    fun `When use case invoked should return if coin is favourite`() = runTest {
         // Arrange
         val coinId = "Qwsogvtv82FCd"
 
