@@ -2,7 +2,6 @@ package dev.shorthouse.coinwatch.ui.screen.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,7 +18,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -36,7 +34,6 @@ import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.previewdata.CoinListUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.Screen
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinFavouriteItem
-import dev.shorthouse.coinwatch.ui.screen.list.component.CoinGeckoAttribution
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListItem
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListSkeletonLoader
 import dev.shorthouse.coinwatch.ui.screen.list.component.FavouriteCoinEmptyState
@@ -107,24 +104,15 @@ private fun CoinListTopBar(
 ) {
     TopAppBar(
         title = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(end = 12.dp)
-            ) {
-                Text(
-                    text = when (timeOfDay) {
-                        TimeOfDay.Morning -> stringResource(R.string.good_morning)
-                        TimeOfDay.Afternoon -> stringResource(R.string.good_afternoon)
-                        TimeOfDay.Evening -> stringResource(R.string.good_evening)
-                    },
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-
-                Spacer(Modifier.weight(1f))
-
-                CoinGeckoAttribution()
-            }
+            Text(
+                text = when (timeOfDay) {
+                    TimeOfDay.Morning -> stringResource(R.string.good_morning)
+                    TimeOfDay.Afternoon -> stringResource(R.string.good_afternoon)
+                    TimeOfDay.Evening -> stringResource(R.string.good_evening)
+                },
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground
+            )
         },
         colors = TopAppBarDefaults.largeTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
