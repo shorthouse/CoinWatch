@@ -27,7 +27,7 @@ The design of CoinWatch follows a few key principles:
 A high-level overview of the app's architecture is displayed below.
 
 <p align="center">
-   <img src="https://github.com/shorthouse/CoinWatch/assets/73708076/59ce8d60-34b3-4213-ae34-9b7341ef616f" width="550">
+   <img src="https://github.com/shorthouse/CoinWatch/assets/73708076/d931301f-80da-4cb7-9824-bdf1d4cdfaa3" width="550">
 </p>
 
 # Testing 🧬 
