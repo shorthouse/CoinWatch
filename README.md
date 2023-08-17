@@ -39,7 +39,7 @@ To facilitate testing of the app, CoinWatch uses the following:
  - Compose testing library
 
 # Contribution 🤝
-Contributions to the project are welcome and encouraged! To get started, please check out the contributing guidelines.
+Contributions to the project are welcome and encouraged! To get started, please check out the [contributing guidelines](https://github.com/shorthouse/CoinWatch/blob/contributing-guidelines/CoinWatch/app/CONTRIBUTING.md).
 
 # Contact 📥
 Do you have ideas to improve the app or a query for the developer?
