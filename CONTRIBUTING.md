@@ -1,5 +1,5 @@
 # Contributing
-Contributions are welcomed and encouraged - you can contribute by forking this project and submitting a pull request, which will then be reviewed.
+Contributions are welcome and encouraged - you can contribute by forking this project and submitting a pull request, which will then be reviewed.
 
 Please open a PR against the latest development branch and ensure the PR has an accurate description.
 
