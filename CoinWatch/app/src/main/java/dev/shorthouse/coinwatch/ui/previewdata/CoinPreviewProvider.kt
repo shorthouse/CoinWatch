@@ -12,7 +12,7 @@ class CoinPreviewProvider : PreviewParameterProvider<Coin> {
             id = "bitcoin",
             symbol = "BTC",
             name = "Bitcoin",
-            imageUrl = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
+            imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
             currentPrice = Price("29446.336548759988"),
             priceChangePercentage24h = Percentage("0.76833"),
             prices24h = listOf(
@@ -46,7 +46,7 @@ class CoinPreviewProvider : PreviewParameterProvider<Coin> {
             id = "ethereum",
             symbol = "ETH",
             name = "Ethereum",
-            imageUrl = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+            imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
             currentPrice = Price("1875.473083380222"),
             priceChangePercentage24h = Percentage("-1.11008"),
             prices24h = listOf(
@@ -80,7 +80,7 @@ class CoinPreviewProvider : PreviewParameterProvider<Coin> {
             id = "tether",
             symbol = "USDT",
             name = "Tether",
-            imageUrl = "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
+            imageUrl = "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg",
             currentPrice = Price("1.00"),
             priceChangePercentage24h = Percentage("0.00"),
             prices24h = listOf(
