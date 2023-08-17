@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -204,6 +205,7 @@ private fun CoinDetailContent(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(start = 12.dp, end = 12.dp, bottom = 12.dp)
+            .testTag("coin_detail_content")
     ) {
         Surface(shape = MaterialTheme.shapes.medium) {
             Column(

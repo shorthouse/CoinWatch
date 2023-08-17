@@ -27,7 +27,7 @@ private object CoinListPreviewData {
             id = "bitcoin",
             symbol = "BTC",
             name = "Bitcoin",
-            imageUrl = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
+            imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
             currentPrice = Price("29446.336548759988"),
             priceChangePercentage24h = Percentage("0.76833"),
             prices24h = listOf(
@@ -61,7 +61,7 @@ private object CoinListPreviewData {
             id = "ethereum",
             symbol = "ETH",
             name = "Ethereum",
-            imageUrl = "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+            imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
             currentPrice = Price("1875.473083380222"),
             priceChangePercentage24h = Percentage("-1.11008"),
             prices24h = listOf(
@@ -95,7 +95,7 @@ private object CoinListPreviewData {
             id = "tether",
             symbol = "USDT",
             name = "Tether",
-            imageUrl = "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
+            imageUrl = "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg",
             currentPrice = Price("1.00"),
             priceChangePercentage24h = Percentage("0.00"),
             prices24h = listOf(
@@ -129,7 +129,7 @@ private object CoinListPreviewData {
             id = "ripple",
             symbol = "XRP",
             name = "XRP",
-            imageUrl = "https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1605778731",
+            imageUrl = "https://cdn.coinranking.com/B1oPuTyfX/xrp.svg",
             currentPrice = Price("0.7142802333064954"),
             priceChangePercentage24h = Percentage("1.77031"),
             prices24h = listOf(
@@ -163,7 +163,7 @@ private object CoinListPreviewData {
             id = "binancecoin",
             symbol = "BNB",
             name = "BNB",
-            imageUrl = "https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1644979850",
+            imageUrl = "https://cdn.coinranking.com/B1N19L_dZ/bnb.svg",
             currentPrice = Price("242.13321783678734"),
             priceChangePercentage24h = Percentage("1.84955"),
             prices24h = listOf(
