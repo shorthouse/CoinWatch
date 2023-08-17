@@ -23,12 +23,11 @@ The design of CoinWatch follows a few key principles:
 1. Unidirectional Data Flow (UDF) - state flows in one direction, events that modify the data flow in the opposite direction
 2. Single Source of Truth (SSOT) - the SSOT is the owner of data, and only the SSOT can modify or mutate it
 3. Drive UI from immutable data models - app data is contained within persistent data models and drives UI components
-4. Separation of Concerns - classes are kept as lean as possible to aid modularity
 
 A high-level overview of the app's architecture is displayed below.
-   
+
 <p align="center">
-<img src="https://github.com/shorthouse/CoinWatch/assets/73708076/9b0b7c36-5f09-4a82-8ee2-d4f549102fa5" width="550">
+   <img src="https://github.com/shorthouse/CoinWatch/assets/73708076/59ce8d60-34b3-4213-ae34-9b7341ef616f" width="550">
 </p>
 
 # Testing 🧬 
