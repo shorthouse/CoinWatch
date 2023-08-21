@@ -17,9 +17,9 @@ import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.screen.list.CoinListScreen
 import dev.shorthouse.coinwatch.ui.screen.list.CoinListUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import java.math.BigDecimal
 import org.junit.Rule
 import org.junit.Test
-import java.math.BigDecimal
 
 class CoinListScreenTest {
 
@@ -186,7 +186,7 @@ class CoinListScreenTest {
                         BigDecimal("1.00"),
                         BigDecimal("1.00")
                     )
-                ),
+                )
             ),
             timeOfDay = TimeOfDay.Morning
         )
@@ -223,6 +223,30 @@ class CoinListScreenTest {
             onNodeWithText("+0.00%").assertIsDisplayed()
             onNodeWithTag(testTag = "priceGraph USDT", useUnmergedTree = true).assertIsDisplayed()
             onNodeWithText("Tether").assertHasClickAction()
+        }
+    }
+
+    @Test
+    fun when_uiStateSuccess_coinsEmpty_should_showEmptyState() {
+        val uiStateSuccess = CoinListUiState.Success(
+            coins = emptyList(),
+            favouriteCoins = emptyList(),
+            timeOfDay = TimeOfDay.Morning
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                CoinListScreen(
+                    uiState = uiStateSuccess,
+                    onCoinClick = {},
+                    onErrorRetry = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("No coins").assertIsDisplayed()
+            onNodeWithText("Please try again later").assertIsDisplayed()
         }
     }
 
@@ -271,7 +295,7 @@ class CoinListScreenTest {
                         BigDecimal("1.00"),
                         BigDecimal("1.00")
                     )
-                ),
+                )
             ),
             favouriteCoins = emptyList(),
             timeOfDay = TimeOfDay.Morning
@@ -328,7 +352,7 @@ class CoinListScreenTest {
                         BigDecimal("29475.12359313808"),
                         BigDecimal("29471.20179209623")
                     )
-                ),
+                )
             ),
             favouriteCoins = emptyList(),
             timeOfDay = TimeOfDay.Morning
@@ -371,7 +395,7 @@ class CoinListScreenTest {
                         BigDecimal("29475.12359313808"),
                         BigDecimal("29471.20179209623")
                     )
-                ),
+                )
             ),
             timeOfDay = TimeOfDay.Morning
         )
