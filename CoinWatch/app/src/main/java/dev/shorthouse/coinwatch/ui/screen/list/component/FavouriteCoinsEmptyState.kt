@@ -25,7 +25,7 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun FavouriteCoinEmptyState(
+fun FavouriteCoinsEmptyState(
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -50,14 +50,14 @@ fun FavouriteCoinEmptyState(
             Text(
                 text = stringResource(R.string.empty_state_favourite_coins_title),
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = stringResource(R.string.empty_state_favourite_coins_subtitle_start),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
                 Icon(
@@ -81,8 +81,8 @@ fun FavouriteCoinEmptyState(
 
 @Preview
 @Composable
-private fun FavouriteCoinEmptyStatePreview() {
+private fun FavouriteCoinsEmptyStatePreview() {
     AppTheme {
-        FavouriteCoinEmptyState()
+        FavouriteCoinsEmptyState()
     }
 }
