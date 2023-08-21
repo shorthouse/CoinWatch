@@ -47,8 +47,8 @@ Do you have ideas to improve the app or a query for the developer?
 Please get in touch via email - shorthouse20@gmail.com
 
 # ⭐ Acknowledgements 
- - [CoinRanking API](https://developers.coinranking.com/api) for providing coin data
- - [unDraw](https://undraw.co/illustrations) for providing empty state images
+ - Coin data provied by [CoinRanking API](https://developers.coinranking.com/api)
+ - Empty state images provided by [unDraw](https://undraw.co/illustrations)
 
 # 🔖 License 
 ```
