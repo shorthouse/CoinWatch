@@ -2,6 +2,7 @@ package dev.shorthouse.coinwatch.model
 
 import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrZero
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -17,9 +18,9 @@ data class Percentage(private val percentage: String?) {
 
     val amount: BigDecimal = percentage.toSanitisedBigDecimalOrZero()
 
-    val isPositive: Boolean = amount.signum() > 0
-
-    val isNegative: Boolean = amount.signum() < 0
+    private val roundedAmount: BigDecimal = amount.setScale(2, RoundingMode.HALF_EVEN)
+    val isPositive: Boolean = roundedAmount.signum() > 0
+    val isNegative: Boolean = roundedAmount.signum() < 0
 
     val formattedAmount: String = if (isNegative) {
         percentageFormat.format(amount.divide(BigDecimal("100")))

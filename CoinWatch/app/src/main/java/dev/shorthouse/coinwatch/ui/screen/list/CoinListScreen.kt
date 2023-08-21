@@ -36,7 +36,8 @@ import dev.shorthouse.coinwatch.ui.screen.Screen
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinFavouriteItem
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListItem
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListSkeletonLoader
-import dev.shorthouse.coinwatch.ui.screen.list.component.FavouriteCoinEmptyState
+import dev.shorthouse.coinwatch.ui.screen.list.component.CoinsEmptyState
+import dev.shorthouse.coinwatch.ui.screen.list.component.FavouriteCoinsEmptyState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
@@ -142,7 +143,7 @@ private fun CoinListContent(
             )
 
             if (favouriteCoins.isEmpty()) {
-                FavouriteCoinEmptyState()
+                FavouriteCoinsEmptyState()
             } else {
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     items(
@@ -169,31 +170,37 @@ private fun CoinListContent(
             )
         }
 
-        items(
-            count = coins.size,
-            key = { coins[it].id },
-            itemContent = { index ->
-                val coinListItem = coins[index]
-
-                val cardShape = when (index) {
-                    0 -> MaterialTheme.shapes.medium.copy(
-                        bottomStart = CornerSize(0.dp),
-                        bottomEnd = CornerSize(0.dp)
-                    )
-                    coins.lastIndex -> MaterialTheme.shapes.medium.copy(
-                        topStart = CornerSize(0.dp),
-                        topEnd = CornerSize(0.dp)
-                    )
-                    else -> RoundedCornerShape(0.dp)
-                }
-
-                CoinListItem(
-                    coin = coinListItem,
-                    onCoinClick = { onCoinClick(coinListItem) },
-                    cardShape = cardShape
-                )
+        if (coins.isEmpty()) {
+            item {
+                CoinsEmptyState()
             }
-        )
+        } else {
+            items(
+                count = coins.size,
+                key = { coins[it].id },
+                itemContent = { index ->
+                    val coinListItem = coins[index]
+
+                    val cardShape = when (index) {
+                        0 -> MaterialTheme.shapes.medium.copy(
+                            bottomStart = CornerSize(0.dp),
+                            bottomEnd = CornerSize(0.dp)
+                        )
+                        coins.lastIndex -> MaterialTheme.shapes.medium.copy(
+                            topStart = CornerSize(0.dp),
+                            topEnd = CornerSize(0.dp)
+                        )
+                        else -> RoundedCornerShape(0.dp)
+                    }
+
+                    CoinListItem(
+                        coin = coinListItem,
+                        onCoinClick = { onCoinClick(coinListItem) },
+                        cardShape = cardShape
+                    )
+                }
+            )
+        }
     }
 }
 

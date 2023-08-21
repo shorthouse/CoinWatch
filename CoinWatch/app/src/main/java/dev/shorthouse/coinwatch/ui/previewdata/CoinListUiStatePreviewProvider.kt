@@ -16,6 +16,11 @@ class CoinListUiStatePreviewProvider : PreviewParameterProvider<CoinListUiState>
             favouriteCoins = coins,
             timeOfDay = TimeOfDay.Evening
         ),
+        CoinListUiState.Success(
+            coins = emptyList(),
+            favouriteCoins = emptyList(),
+            timeOfDay = TimeOfDay.Morning
+        ),
         CoinListUiState.Loading,
         CoinListUiState.Error("No internet connection")
     )
