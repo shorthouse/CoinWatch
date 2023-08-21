@@ -49,6 +49,8 @@
     <string name="empty_state_favourite_coins_title">No favourite coins</string>
     <string name="empty_state_favourite_coins_subtitle_start">Tap the</string>
     <string name="empty_state_favourite_coins_subtitle_end">to favourite a coin</string>
+    <string name="empty_state_coins_title">No coins</string>
+    <string name="empty_state_coins_subtitle">Please try again later</string>
     <string name="list_item_volume_24h">Volume 24h</string>
     <string name="list_item_max_supply">Max Supply</string>
     <string name="list_item_listed_date">Listed Date</string>
