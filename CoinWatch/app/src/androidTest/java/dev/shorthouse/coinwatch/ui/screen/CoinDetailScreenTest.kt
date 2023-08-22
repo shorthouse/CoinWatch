@@ -18,9 +18,9 @@ import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import dev.shorthouse.coinwatch.ui.screen.detail.CoinDetailScreen
 import dev.shorthouse.coinwatch.ui.screen.detail.CoinDetailUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import java.math.BigDecimal
 import org.junit.Rule
 import org.junit.Test
-import java.math.BigDecimal
 
 class CoinDetailScreenTest {
 
@@ -123,7 +123,7 @@ class CoinDetailScreenTest {
                     BigDecimal("1750.94"),
                     BigDecimal("1748.44"),
                     BigDecimal("1743.98"),
-                    BigDecimal("1740.25"),
+                    BigDecimal("1740.25")
                 ),
                 minPrice = Price("1632.46"),
                 maxPrice = Price("1922.83"),
@@ -216,7 +216,7 @@ class CoinDetailScreenTest {
                     BigDecimal("1750.94"),
                     BigDecimal("1748.44"),
                     BigDecimal("1743.98"),
-                    BigDecimal("1740.25"),
+                    BigDecimal("1740.25")
                 ),
                 minPrice = Price("1632.46"),
                 maxPrice = Price("1922.83"),
@@ -271,7 +271,7 @@ class CoinDetailScreenTest {
                     BigDecimal("1750.94"),
                     BigDecimal("1748.44"),
                     BigDecimal("1743.98"),
-                    BigDecimal("1740.25"),
+                    BigDecimal("1740.25")
                 ),
                 minPrice = Price("1632.46"),
                 maxPrice = Price("1922.83"),
@@ -302,15 +302,9 @@ class CoinDetailScreenTest {
 
     @Test
     fun when_chartPeriodsClicked_should_callOnClickChartPeriod() {
-        val onClickChartPeriodMap = mutableMapOf(
-            ChartPeriod.Hour to false,
-            ChartPeriod.Day to false,
-            ChartPeriod.Week to false,
-            ChartPeriod.Month to false,
-            ChartPeriod.ThreeMonth to false,
-            ChartPeriod.Year to false,
-            ChartPeriod.FiveYear to false,
-        )
+        val onClickChartPeriodMap = ChartPeriod.values()
+            .associateWith { false }
+            .toMutableMap()
 
         val uiStateSuccess = CoinDetailUiState.Success(
             CoinDetail(
@@ -334,7 +328,7 @@ class CoinDetailScreenTest {
                     BigDecimal("1750.94"),
                     BigDecimal("1748.44"),
                     BigDecimal("1743.98"),
-                    BigDecimal("1740.25"),
+                    BigDecimal("1740.25")
                 ),
                 minPrice = Price("1632.46"),
                 maxPrice = Price("1922.83"),
