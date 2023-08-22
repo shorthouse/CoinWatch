@@ -6,9 +6,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.printToLog
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
@@ -207,7 +205,6 @@ class CoinListScreenTest {
             onNodeWithText("$29,446.34").assertIsDisplayed()
             onNodeWithText("+0.77%").assertIsDisplayed()
             onNodeWithTag(testTag = "priceGraph BTC", useUnmergedTree = true).assertIsDisplayed()
-            onRoot().printToLog("TAG")
             onNodeWithText("Bitcoin").assertHasClickAction()
 
             onNodeWithText("Ethereum").assertIsDisplayed()
@@ -316,7 +313,6 @@ class CoinListScreenTest {
             onNodeWithText("BTC").assertIsDisplayed()
             onNodeWithText("$29,446.34").assertIsDisplayed()
             onNodeWithText("+0.77%").assertIsDisplayed()
-            onRoot().printToLog("TAG")
             onNodeWithText("Bitcoin").assertHasClickAction()
 
             onNodeWithText("Ethereum").assertIsDisplayed()
