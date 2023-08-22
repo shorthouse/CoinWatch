@@ -24,10 +24,10 @@ The design of CoinWatch follows a few key principles:
 2. Single Source of Truth (SSOT) - The SSOT is the owner of data, and only the SSOT can modify or mutate it.
 3. Drive UI from immutable data models - App data is contained within persistent data models and drives UI components.
 
-A high-level overview of the app's architecture is displayed below.
+A high-level overview of the app's architecture is displayed below. The architecture follows [Google's official architecture guidance](https://developer.android.com/topic/architecture).
 
 <p align="center">
-   <img src="https://github.com/shorthouse/CoinWatch/assets/73708076/d931301f-80da-4cb7-9824-bdf1d4cdfaa3" width="550">
+   <img src="https://github.com/shorthouse/CoinWatch/assets/73708076/d931301f-80da-4cb7-9824-bdf1d4cdfaa3" width="750">
 </p>
 
 # 🧬 Testing 
