@@ -20,9 +20,9 @@ The app is built using the latest [Android architecture components](https://deve
 
 # 🧱 Architecture 
 The design of CoinWatch follows a few key principles:
-1. Unidirectional Data Flow (UDF) - state flows in one direction, events that modify the data flow in the opposite direction
-2. Single Source of Truth (SSOT) - the SSOT is the owner of data, and only the SSOT can modify or mutate it
-3. Drive UI from immutable data models - app data is contained within persistent data models and drives UI components
+1. Unidirectional Data Flow (UDF) - State flows in one direction, and events that modify the data flow in the opposite direction.
+2. Single Source of Truth (SSOT) - The SSOT is the owner of data, and only the SSOT can modify or mutate it.
+3. Drive UI from immutable data models - App data is contained within persistent data models and drives UI components.
 
 A high-level overview of the app's architecture is displayed below.
 
@@ -33,13 +33,12 @@ A high-level overview of the app's architecture is displayed below.
 # 🧬 Testing 
 To facilitate testing of the app, CoinWatch uses the following:
  - JUnit
- - Espresso
  - Truth
  - MockK
- - Compose testing library
+ - Jetpack Compose testing library
 
 # 🤝 Contribution 
-Contributions to the project are welcome and encouraged! To get started, please check out the [contributing guidelines](https://github.com/shorthouse/CoinWatch/blob/contributing-guidelines/CONTRIBUTING.md).
+Contributions to the project are welcome and highly encouraged! To get started, please check out the [contributing guidelines](https://github.com/shorthouse/CoinWatch/blob/main/CONTRIBUTING.md).
 
 # 📥 Contact 
 Do you have ideas to improve the app or a query for the developer?
