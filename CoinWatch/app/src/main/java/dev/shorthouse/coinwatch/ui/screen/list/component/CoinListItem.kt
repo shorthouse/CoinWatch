@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -34,6 +35,13 @@ fun CoinListItem(
     cardShape: Shape,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+
+    val imageBuilder = remember(context) {
+        ImageRequest.Builder(context = context)
+            .decoderFactory(factory = SvgDecoder.Factory())
+    }
+
     Surface(
         shape = cardShape,
         modifier = modifier
@@ -45,8 +53,7 @@ fun CoinListItem(
             modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp)
         ) {
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .decoderFactory(SvgDecoder.Factory())
+                model = imageBuilder
                     .data(coin.imageUrl)
                     .build(),
                 modifier = Modifier.size(32.dp),

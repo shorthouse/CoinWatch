@@ -13,14 +13,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.ui.component.PercentageChange
 import dev.shorthouse.coinwatch.ui.component.PriceGraph
@@ -33,6 +37,13 @@ fun CoinFavouriteItem(
     onCoinClick: (Coin) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+
+    val imageBuilder = remember(context) {
+        ImageRequest.Builder(context = context)
+            .decoderFactory(factory = SvgDecoder.Factory())
+    }
+
     Surface(
         shape = MaterialTheme.shapes.medium,
         modifier = modifier
@@ -43,7 +54,9 @@ fun CoinFavouriteItem(
             Column(modifier = Modifier.padding(12.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     AsyncImage(
-                        model = coin.imageUrl,
+                        model = imageBuilder
+                            .data(coin.imageUrl)
+                            .build(),
                         contentDescription = null,
                         alignment = Alignment.Center,
                         modifier = Modifier.size(32.dp)
@@ -74,7 +87,7 @@ fun CoinFavouriteItem(
                 Text(
                     text = coin.currentPrice.formattedAmount,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
                 PercentageChange(percentage = coin.priceChangePercentage24h)

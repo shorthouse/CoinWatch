@@ -28,6 +28,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -135,6 +136,13 @@ private fun ChartDetailTopBar(
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+
+    val imageBuilder = remember(context) {
+        ImageRequest.Builder(context = context)
+            .decoderFactory(factory = SvgDecoder.Factory())
+    }
+
     LargeTopAppBar(
         navigationIcon = {
             IconButton(onClick = onNavigateUp) {
@@ -159,8 +167,7 @@ private fun ChartDetailTopBar(
                 Spacer(Modifier.weight(1f))
 
                 AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .decoderFactory(SvgDecoder.Factory())
+                    model = imageBuilder
                         .data(coinImage)
                         .build(),
                     contentDescription = null,
@@ -259,6 +266,7 @@ private fun CoinDetailContent(
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(bottom = 8.dp)
         )
+
         Surface(shape = MaterialTheme.shapes.medium) {
             Column(modifier = Modifier.padding(12.dp)) {
                 ChartRangeLine(

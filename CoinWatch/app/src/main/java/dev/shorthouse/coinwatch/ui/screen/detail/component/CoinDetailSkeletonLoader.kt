@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.ui.screen.detail.component
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -79,28 +79,34 @@ private fun SkeletonTopAppBar(
 private fun SkeletonContent(
     modifier: Modifier = Modifier
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = modifier.padding(start = 12.dp, end = 12.dp)
-    ) {
+    Column(modifier = modifier.padding(start = 12.dp, end = 12.dp)) {
         SkeletonSurface(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(390.dp)
+                .height(392.dp)
+        )
+
+        Spacer(Modifier.height(24.dp))
+
+        Text(
+            text = stringResource(R.string.title_chart_range),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(bottom = 8.dp)
         )
 
         SkeletonSurface(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(134.dp)
-        ) {
-            Column(modifier = Modifier.padding(12.dp)) {
-                Text(
-                    text = stringResource(R.string.title_chart_range),
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
-        }
+                .height(91.dp)
+        )
+
+        Spacer(Modifier.height(24.dp))
+
+        Text(
+            text = stringResource(R.string.card_header_market_stats),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
 
         SkeletonSurface(
             shape = MaterialTheme.shapes.medium.copy(
@@ -108,14 +114,7 @@ private fun SkeletonContent(
                 bottomEnd = CornerSize(0.dp)
             ),
             modifier = Modifier.fillMaxSize()
-        ) {
-            Column(modifier = Modifier.padding(12.dp)) {
-                Text(
-                    text = stringResource(R.string.card_header_market_stats),
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
-        }
+        )
     }
 }
 
