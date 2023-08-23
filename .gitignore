@@ -29,8 +29,10 @@ proguard/
 
 # Android Studio Navigation editor temp files
 .navigation/
-
-# Android Studio captures folder
+.externalNativeBuild/
+.cxx/
+*.apk
+output.json
 captures/
 
 # Intellij
@@ -41,15 +43,23 @@ captures/
 .idea/dictionaries
 .idea/libraries
 app/.idea/
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
 
 # Mac
 *.DS_Store
 
 # Keystore files
 *.jks
+*.keystore
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
+
+# Android Profiling
+*.hprof
