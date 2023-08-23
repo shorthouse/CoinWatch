@@ -1,5 +1,7 @@
 # CoinWatch
-**CoinWatch** is a cryptocurrency app that displays data about current coin prices and market details.
+![CoinWatch Promo Image](https://github.com/shorthouse/CoinWatch/assets/73708076/2cdd2f0e-dd24-4612-be42-a9340cc5921f)
+
+**CoinWatch** is a cryptocurrency app providing real-time coin prices, price histories, and market insights.
 
 The app is built using the latest [Android architecture components](https://developer.android.com/topic/architecture/recommendations) - resulting in a scalable, modularised and testable app.
 
@@ -32,10 +34,11 @@ A high-level overview of the app's architecture is displayed below. The architec
 
 # 🧬 Testing 
 To facilitate testing of the app, CoinWatch uses the following:
- - JUnit
- - Truth
- - MockK
- - Jetpack Compose testing library
+ - JUnit for local tests
+ - Jetpack Compose testing APIs for instrumented tests
+ - Truth for assertions
+ - MockK for mocks
+
 
 # 🤝 Contribution 
 Contributions to the project are welcome and highly encouraged! To get started, please check out the [contributing guidelines](https://github.com/shorthouse/CoinWatch/blob/main/CONTRIBUTING.md).
@@ -46,7 +49,7 @@ Do you have ideas to improve the app or a query for the developer?
 Please get in touch via email - shorthouse20@gmail.com
 
 # ⭐ Acknowledgements 
- - Coin data provied by [CoinRanking API](https://developers.coinranking.com/api)
+ - Coin data provided by [CoinRanking API](https://developers.coinranking.com/api)
  - Empty state images provided by [unDraw](https://undraw.co/illustrations)
 
 # 🔖 License 
