@@ -1,5 +1,7 @@
 # CoinWatch
-**CoinWatch** is a cryptocurrency app that displays data about current coin prices and market details.
+![CoinWatch Promo Image](https://github.com/shorthouse/CoinWatch/assets/73708076/2cdd2f0e-dd24-4612-be42-a9340cc5921f)
+
+**CoinWatch** is a cryptocurrency app providing real-time coin prices, price histories, and market insights.
 
 The app is built using the latest [Android architecture components](https://developer.android.com/topic/architecture/recommendations) - resulting in a scalable, modularised and testable app.
 
