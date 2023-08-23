@@ -34,10 +34,11 @@ A high-level overview of the app's architecture is displayed below. The architec
 
 # 🧬 Testing 
 To facilitate testing of the app, CoinWatch uses the following:
- - JUnit
- - Truth
- - MockK
- - Jetpack Compose testing library
+ - JUnit for local tests
+ - Jetpack Compose testing library for instrumented tests
+ - Truth for assertions
+ - MockK for mocks
+
 
 # 🤝 Contribution 
 Contributions to the project are welcome and highly encouraged! To get started, please check out the [contributing guidelines](https://github.com/shorthouse/CoinWatch/blob/main/CONTRIBUTING.md).
