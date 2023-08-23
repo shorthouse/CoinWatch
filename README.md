@@ -35,7 +35,7 @@ A high-level overview of the app's architecture is displayed below. The architec
 # 🧬 Testing 
 To facilitate testing of the app, CoinWatch uses the following:
  - JUnit for local tests
- - Jetpack Compose testing library for instrumented tests
+ - Jetpack Compose testing APIs for instrumented tests
  - Truth for assertions
  - MockK for mocks
 
