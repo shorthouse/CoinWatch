@@ -33,7 +33,7 @@ jobs:
         run: chmod +x ./CoinWatch/gradlew
   
       - name: Build with Gradle
-        run: ../../CoinWatch/gradlew build
+        run: ./CoinWatch/gradlew build
       
       - name: Run unit tests
-        run: ../../CoinWatch/gradlew testDebugUnitTest
+        run: ./CoinWatch/gradlew testDebugUnitTest
