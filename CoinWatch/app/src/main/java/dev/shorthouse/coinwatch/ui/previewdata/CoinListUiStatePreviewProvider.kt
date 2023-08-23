@@ -198,6 +198,40 @@ private object CoinListPreviewData {
                 BigDecimal("240.41687032176682"),
                 BigDecimal("241.82729323371586")
             )
+        ),
+        Coin(
+            id = "Polkadot",
+            symbol = "DOT",
+            name = "Polkadot",
+            imageUrl = "https://cdn.coinranking.com/V3NSSybv-/polkadot-dot.svg",
+            currentPrice = Price("4.422860504529326"),
+            priceChangePercentage24h = Percentage("-0.44"),
+            prices24h = listOf(
+                BigDecimal("4.4335207642244985"),
+                BigDecimal("4.419218533934902"),
+                BigDecimal("4.408466485673207"),
+                BigDecimal("4.4294324727491805"),
+                BigDecimal("4.413899208406151"),
+                BigDecimal("4.401393755728434"),
+                BigDecimal("4.396723632911107"),
+                BigDecimal("4.377061345398131"),
+                BigDecimal("4.3560039819830845"),
+                BigDecimal("4.3399040314183175"),
+                BigDecimal("4.353164049533105"),
+                BigDecimal("4.350395484668915"),
+                BigDecimal("4.33731487488839"),
+                BigDecimal("4.351328494851948"),
+                BigDecimal("4.411811911359132"),
+                BigDecimal("4.430526467556776"),
+                BigDecimal("4.42281998566154"),
+                BigDecimal("4.426950307081649"),
+                BigDecimal("4.414644575485274"),
+                BigDecimal("4.4112137336313175"),
+                BigDecimal("4.399984935305785"),
+                BigDecimal("4.413983474703376"),
+                BigDecimal("4.424187893749479"),
+                BigDecimal("4.421437665534955")
+            )
         )
     )
 
@@ -303,6 +337,6 @@ private object CoinListPreviewData {
                 BigDecimal("0.7192302623965658"),
                 BigDecimal("0.7186324625859829")
             )
-        ),
+        )
     )
 }

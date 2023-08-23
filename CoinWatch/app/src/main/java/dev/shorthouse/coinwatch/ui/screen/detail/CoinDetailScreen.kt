@@ -35,6 +35,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -153,18 +154,24 @@ private fun ChartDetailTopBar(
             }
         },
         title = {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Column {
-                    Text(text = coinName)
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = coinName,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
 
                     Text(
                         text = coinSymbol,
                         style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
-
-                Spacer(Modifier.weight(1f))
 
                 AsyncImage(
                     model = imageBuilder
@@ -172,7 +179,7 @@ private fun ChartDetailTopBar(
                         .build(),
                     contentDescription = null,
                     modifier = Modifier
-                        .padding(end = 12.dp)
+                        .padding(horizontal = 12.dp)
                         .size(44.dp)
                 )
             }

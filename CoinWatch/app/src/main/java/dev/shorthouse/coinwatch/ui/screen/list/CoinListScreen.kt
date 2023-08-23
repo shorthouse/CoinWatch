@@ -10,7 +10,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -117,6 +122,22 @@ private fun CoinListTopBar(
                 modifier = Modifier.offset(x = (-4).dp)
             )
         },
+        actions = {
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(
+                    imageVector = Icons.Rounded.Search,
+                    contentDescription = stringResource(R.string.cd_top_bar_search),
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
+            }
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(
+                    imageVector = Icons.Rounded.MoreVert,
+                    contentDescription = stringResource(R.string.cd_top_bar_more),
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
+            }
+        },
         colors = TopAppBarDefaults.largeTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
             scrolledContainerColor = MaterialTheme.colorScheme.background
@@ -134,20 +155,24 @@ private fun CoinListContent(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(12.dp),
+        contentPadding = PaddingValues(start = 12.dp, top = 12.dp, bottom = 12.dp),
         modifier = modifier
     ) {
         item {
             Text(
                 text = stringResource(R.string.header_favourites),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(bottom = 8.dp)
+                style = MaterialTheme.typography.titleMedium
             )
+
+            Spacer(Modifier.height(8.dp))
 
             if (favouriteCoins.isEmpty()) {
                 FavouriteCoinsEmptyState()
             } else {
-                LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    contentPadding = PaddingValues(end = 12.dp)
+                ) {
                     items(
                         count = favouriteCoins.size,
                         key = { favouriteCoins[it].id },
@@ -167,9 +192,10 @@ private fun CoinListContent(
 
             Text(
                 text = stringResource(R.string.header_coins),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(bottom = 8.dp)
+                style = MaterialTheme.typography.titleMedium
             )
+
+            Spacer(Modifier.height(8.dp))
         }
 
         if (coins.isEmpty()) {
@@ -198,7 +224,8 @@ private fun CoinListContent(
                     CoinListItem(
                         coin = coinListItem,
                         onCoinClick = { onCoinClick(coinListItem) },
-                        cardShape = cardShape
+                        cardShape = cardShape,
+                        modifier = Modifier.padding(end = 12.dp)
                     )
                 }
             )
