@@ -342,8 +342,8 @@ private fun DetailScreenPreview(
     AppTheme {
         CoinDetailScreen(
             uiState = uiState,
-            onNavigateUp = { },
-            onClickFavouriteCoin = { },
+            onNavigateUp = {},
+            onClickFavouriteCoin = {},
             onClickChartPeriod = {},
             onErrorRetry = {}
         )
