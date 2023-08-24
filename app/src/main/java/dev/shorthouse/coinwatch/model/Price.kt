@@ -14,9 +14,21 @@ data class Price(private val price: String?) {
                 minimumFractionDigits = 2
                 maximumFractionDigits = 2
             }
+
+        private val currencyFormatSmallPrice: NumberFormat =
+            NumberFormat.getCurrencyInstance(Locale.US).apply {
+                currency = Currency.getInstance("USD")
+                minimumFractionDigits = 6
+                maximumFractionDigits = 6
+            }
     }
 
     val amount: BigDecimal = price.toSanitisedBigDecimalOrZero()
 
-    val formattedAmount: String = currencyFormat.format(amount)
+    val formattedAmount: String =
+        if (amount < BigDecimal("1.00") && amount > BigDecimal("-1.00")) {
+            currencyFormatSmallPrice.format(amount)
+        } else {
+            currencyFormat.format(amount)
+        }
 }
