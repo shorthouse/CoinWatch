@@ -3,6 +3,8 @@
 # CoinWatch
 ![Android CI Workflow Badge](https://github.com/shorthouse/CoinWatch/actions/workflows/android.yml/badge.svg)
 [![ktlint](https://img.shields.io/badge/ktlint%20code--style-%E2%9D%A4-FF4081)](https://pinterest.github.io/ktlint/)
+[![GitHub shorthouse](https://img.shields.io/badge/GitHub-shorthouse-2596BE?logo=github)](https://github.com/shorthouse)
+![License Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-ea6676?link=https%3A%2F%2Fwww.apache.org%2Flicenses%2FLICENSE-2.0)
 
 **CoinWatch** is a cryptocurrency app providing real-time coin prices, price histories, and market insights.
 
