@@ -4,6 +4,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
+import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal
 
 class CoinPreviewProvider : PreviewParameterProvider<Coin> {
@@ -15,7 +16,7 @@ class CoinPreviewProvider : PreviewParameterProvider<Coin> {
             imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
             currentPrice = Price("29446.336548759988"),
             priceChangePercentage24h = Percentage("0.76833"),
-            prices24h = listOf(
+            prices24h = persistentListOf(
                 BigDecimal("29245.370873051394"),
                 BigDecimal("29205.501195094886"),
                 BigDecimal("29210.97710800848"),
@@ -49,7 +50,7 @@ class CoinPreviewProvider : PreviewParameterProvider<Coin> {
             imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
             currentPrice = Price("1875.473083380222"),
             priceChangePercentage24h = Percentage("-1.11008"),
-            prices24h = listOf(
+            prices24h = persistentListOf(
                 BigDecimal("1879.89804628163"),
                 BigDecimal("1877.1265051203513"),
                 BigDecimal("1874.813847463032"),
@@ -83,7 +84,7 @@ class CoinPreviewProvider : PreviewParameterProvider<Coin> {
             imageUrl = "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg",
             currentPrice = Price("1.00"),
             priceChangePercentage24h = Percentage("0.00"),
-            prices24h = listOf(
+            prices24h = persistentListOf(
                 BigDecimal("1.00"),
                 BigDecimal("1.00"),
                 BigDecimal("1.00"),

@@ -19,6 +19,7 @@ import dev.shorthouse.coinwatch.ui.screen.detail.CoinDetailScreen
 import dev.shorthouse.coinwatch.ui.screen.detail.CoinDetailUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import java.math.BigDecimal
+import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
 import org.junit.Test
 
@@ -117,7 +118,7 @@ class CoinDetailScreenTest {
                 listedDate = "7 Aug 2015"
             ),
             CoinChart(
-                prices = listOf(
+                prices = persistentListOf(
                     BigDecimal("1755.19"),
                     BigDecimal("1749.71"),
                     BigDecimal("1750.94"),
@@ -210,7 +211,7 @@ class CoinDetailScreenTest {
                 listedDate = "7 Aug 2015"
             ),
             CoinChart(
-                prices = listOf(
+                prices = persistentListOf(
                     BigDecimal("1755.19"),
                     BigDecimal("1749.71"),
                     BigDecimal("1750.94"),
@@ -265,7 +266,7 @@ class CoinDetailScreenTest {
                 listedDate = "7 Aug 2015"
             ),
             CoinChart(
-                prices = listOf(
+                prices = persistentListOf(
                     BigDecimal("1755.19"),
                     BigDecimal("1749.71"),
                     BigDecimal("1750.94"),
@@ -322,7 +323,7 @@ class CoinDetailScreenTest {
                 listedDate = "7 Aug 2015"
             ),
             CoinChart(
-                prices = listOf(
+                prices = persistentListOf(
                     BigDecimal("1755.19"),
                     BigDecimal("1749.71"),
                     BigDecimal("1750.94"),

@@ -11,6 +11,7 @@ import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import javax.inject.Inject
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -53,7 +54,7 @@ class CoinChartRepositoryImpl @Inject constructor(
         val maxPrice = prices.maxOrZero()
 
         return CoinChart(
-            prices = prices,
+            prices = prices.toPersistentList(),
             minPrice = Price(minPrice.toString()),
             maxPrice = Price(maxPrice.toString()),
             periodPriceChangePercentage = Percentage(coinChartData.pricePercentageChange)

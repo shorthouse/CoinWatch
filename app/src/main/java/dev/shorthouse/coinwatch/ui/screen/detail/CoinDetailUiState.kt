@@ -10,7 +10,7 @@ sealed interface CoinDetailUiState {
         val coinDetail: CoinDetail,
         val coinChart: CoinChart,
         val chartPeriod: ChartPeriod,
-        val isCoinFavourite: Boolean,
+        val isCoinFavourite: Boolean
     ) : CoinDetailUiState
     data class Error(val message: String?) : CoinDetailUiState
 }

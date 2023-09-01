@@ -8,6 +8,7 @@ import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import javax.inject.Inject
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -47,7 +48,7 @@ class CoinRepositoryImpl @Inject constructor(
                     imageUrl = coinApiModel.iconUrl.orEmpty(),
                     currentPrice = Price(coinApiModel.currentPrice),
                     priceChangePercentage24h = Percentage(coinApiModel.priceChangePercentage24h),
-                    prices24h = coinApiModel.sparkline24h.orEmpty()
+                    prices24h = coinApiModel.sparkline24h.orEmpty().toPersistentList()
                 )
             }
     }
