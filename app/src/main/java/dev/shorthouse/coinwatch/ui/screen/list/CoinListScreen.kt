@@ -40,6 +40,7 @@ import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListSkeletonLoader
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinsEmptyState
 import dev.shorthouse.coinwatch.ui.screen.list.component.FavouriteCoinsEmptyState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun CoinListScreen(
@@ -128,8 +129,8 @@ private fun CoinListTopBar(
 
 @Composable
 private fun CoinListContent(
-    coins: List<Coin>,
-    favouriteCoins: List<Coin>,
+    coins: ImmutableList<Coin>,
+    favouriteCoins: ImmutableList<Coin>,
     onCoinClick: (Coin) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -146,7 +147,9 @@ private fun CoinListContent(
             Spacer(Modifier.height(8.dp))
 
             if (favouriteCoins.isEmpty()) {
-                FavouriteCoinsEmptyState()
+                FavouriteCoinsEmptyState(
+                    modifier = Modifier.padding(end = 12.dp)
+                )
             } else {
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(12.dp),

@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.model
 
 import java.math.BigDecimal
+import kotlinx.collections.immutable.ImmutableList
 
 data class Coin(
     val id: String,
@@ -9,5 +10,5 @@ data class Coin(
     val imageUrl: String,
     val currentPrice: Price,
     val priceChangePercentage24h: Percentage,
-    val prices24h: List<BigDecimal>
+    val prices24h: ImmutableList<BigDecimal>
 )

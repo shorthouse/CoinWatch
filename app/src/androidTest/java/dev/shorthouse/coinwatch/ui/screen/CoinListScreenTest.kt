@@ -15,6 +15,7 @@ import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.screen.list.CoinListScreen
 import dev.shorthouse.coinwatch.ui.screen.list.CoinListUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal
 import org.junit.Rule
 import org.junit.Test
@@ -91,8 +92,8 @@ class CoinListScreenTest {
     @Test
     fun when_uiStateSuccess_should_showExpectedContent() {
         val uiStateSuccess = CoinListUiState.Success(
-            coins = emptyList(),
-            favouriteCoins = emptyList(),
+            coins = persistentListOf(),
+            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Morning
         )
 
@@ -115,8 +116,8 @@ class CoinListScreenTest {
     @Test
     fun when_uiStateSuccess_favouriteCoinsEmpty_should_showEmptyState() {
         val uiStateSuccess = CoinListUiState.Success(
-            coins = emptyList(),
-            favouriteCoins = emptyList(),
+            coins = persistentListOf(),
+            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Morning
         )
 
@@ -141,8 +142,8 @@ class CoinListScreenTest {
     @Test
     fun when_uiStateSuccess_favouriteCoinsList_should_showExpectedContent() {
         val uiStateSuccess = CoinListUiState.Success(
-            coins = emptyList(),
-            favouriteCoins = listOf(
+            coins = persistentListOf(),
+            favouriteCoins = persistentListOf(
                 Coin(
                     id = "bitcoin",
                     symbol = "BTC",
@@ -150,7 +151,7 @@ class CoinListScreenTest {
                     imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                     currentPrice = Price("29446.336548759988"),
                     priceChangePercentage24h = Percentage("0.76833"),
-                    prices24h = listOf(
+                    prices24h = persistentListOf(
                         BigDecimal("29390.15178296929"),
                         BigDecimal("29428.222505493162"),
                         BigDecimal("29475.12359313808"),
@@ -164,7 +165,7 @@ class CoinListScreenTest {
                     imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
                     currentPrice = Price("1875.473083380222"),
                     priceChangePercentage24h = Percentage("-1.11008"),
-                    prices24h = listOf(
+                    prices24h = persistentListOf(
                         BigDecimal("1854.8824120105778"),
                         BigDecimal("1853.3272421902477"),
                         BigDecimal("1857.8290158859397"),
@@ -178,7 +179,7 @@ class CoinListScreenTest {
                     imageUrl = "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg",
                     currentPrice = Price("1.00"),
                     priceChangePercentage24h = Percentage("0.00"),
-                    prices24h = listOf(
+                    prices24h = persistentListOf(
                         BigDecimal("1.00"),
                         BigDecimal("1.00"),
                         BigDecimal("1.00"),
@@ -226,8 +227,8 @@ class CoinListScreenTest {
     @Test
     fun when_uiStateSuccess_coinsEmpty_should_showEmptyState() {
         val uiStateSuccess = CoinListUiState.Success(
-            coins = emptyList(),
-            favouriteCoins = emptyList(),
+            coins = persistentListOf(),
+            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Morning
         )
 
@@ -250,7 +251,7 @@ class CoinListScreenTest {
     @Test
     fun when_uiStateSuccess_coinsList_should_showExpectedContent() {
         val uiStateSuccess = CoinListUiState.Success(
-            coins = listOf(
+            coins = persistentListOf(
                 Coin(
                     id = "bitcoin",
                     symbol = "BTC",
@@ -258,7 +259,7 @@ class CoinListScreenTest {
                     imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                     currentPrice = Price("29446.336548759988"),
                     priceChangePercentage24h = Percentage("0.76833"),
-                    prices24h = listOf(
+                    prices24h = persistentListOf(
                         BigDecimal("29390.15178296929"),
                         BigDecimal("29428.222505493162"),
                         BigDecimal("29475.12359313808"),
@@ -272,7 +273,7 @@ class CoinListScreenTest {
                     imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
                     currentPrice = Price("1875.473083380222"),
                     priceChangePercentage24h = Percentage("-1.11008"),
-                    prices24h = listOf(
+                    prices24h = persistentListOf(
                         BigDecimal("1854.8824120105778"),
                         BigDecimal("1853.3272421902477"),
                         BigDecimal("1857.8290158859397"),
@@ -286,7 +287,7 @@ class CoinListScreenTest {
                     imageUrl = "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg",
                     currentPrice = Price("1.00"),
                     priceChangePercentage24h = Percentage("0.00"),
-                    prices24h = listOf(
+                    prices24h = persistentListOf(
                         BigDecimal("1.00"),
                         BigDecimal("1.00"),
                         BigDecimal("1.00"),
@@ -294,7 +295,7 @@ class CoinListScreenTest {
                     )
                 )
             ),
-            favouriteCoins = emptyList(),
+            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Morning
         )
 
@@ -334,7 +335,7 @@ class CoinListScreenTest {
         var onCoinClickCalled = false
 
         val uiStateSuccess = CoinListUiState.Success(
-            coins = listOf(
+            coins = persistentListOf(
                 Coin(
                     id = "bitcoin",
                     symbol = "BTC",
@@ -342,7 +343,7 @@ class CoinListScreenTest {
                     imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                     currentPrice = Price("29446.336548759988"),
                     priceChangePercentage24h = Percentage("0.76833"),
-                    prices24h = listOf(
+                    prices24h = persistentListOf(
                         BigDecimal("29390.15178296929"),
                         BigDecimal("29428.222505493162"),
                         BigDecimal("29475.12359313808"),
@@ -350,7 +351,7 @@ class CoinListScreenTest {
                     )
                 )
             ),
-            favouriteCoins = emptyList(),
+            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Morning
         )
 
@@ -376,8 +377,8 @@ class CoinListScreenTest {
         var onCoinClickCalled = false
 
         val uiStateSuccess = CoinListUiState.Success(
-            coins = emptyList(),
-            favouriteCoins = listOf(
+            coins = persistentListOf(),
+            favouriteCoins = persistentListOf(
                 Coin(
                     id = "bitcoin",
                     symbol = "BTC",
@@ -385,7 +386,7 @@ class CoinListScreenTest {
                     imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                     currentPrice = Price("29446.336548759988"),
                     priceChangePercentage24h = Percentage("0.76833"),
-                    prices24h = listOf(
+                    prices24h = persistentListOf(
                         BigDecimal("29390.15178296929"),
                         BigDecimal("29428.222505493162"),
                         BigDecimal("29475.12359313808"),
@@ -416,8 +417,8 @@ class CoinListScreenTest {
     @Test
     fun when_timeOfDayMorning_should_showMorningGreeting() {
         val uiStateSuccess = CoinListUiState.Success(
-            coins = emptyList(),
-            favouriteCoins = emptyList(),
+            coins = persistentListOf(),
+            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Morning
         )
 
@@ -439,8 +440,8 @@ class CoinListScreenTest {
     @Test
     fun when_timeOfDayAfternoon_should_showAfternoonGreeting() {
         val uiStateSuccess = CoinListUiState.Success(
-            coins = emptyList(),
-            favouriteCoins = emptyList(),
+            coins = persistentListOf(),
+            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Afternoon
         )
 
@@ -462,8 +463,8 @@ class CoinListScreenTest {
     @Test
     fun when_timeOfDayEvening_should_showEveningGreeting() {
         val uiStateSuccess = CoinListUiState.Success(
-            coins = emptyList(),
-            favouriteCoins = emptyList(),
+            coins = persistentListOf(),
+            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Evening
         )
 

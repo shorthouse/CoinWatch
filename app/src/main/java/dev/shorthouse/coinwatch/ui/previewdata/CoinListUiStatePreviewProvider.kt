@@ -9,6 +9,7 @@ import dev.shorthouse.coinwatch.ui.previewdata.CoinListPreviewData.coins
 import dev.shorthouse.coinwatch.ui.previewdata.CoinListPreviewData.favouriteCoins
 import dev.shorthouse.coinwatch.ui.screen.list.CoinListUiState
 import java.math.BigDecimal
+import kotlinx.collections.immutable.persistentListOf
 
 class CoinListUiStatePreviewProvider : PreviewParameterProvider<CoinListUiState> {
     override val values = sequenceOf(
@@ -18,8 +19,8 @@ class CoinListUiStatePreviewProvider : PreviewParameterProvider<CoinListUiState>
             timeOfDay = TimeOfDay.Evening
         ),
         CoinListUiState.Success(
-            coins = emptyList(),
-            favouriteCoins = emptyList(),
+            coins = persistentListOf(),
+            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Morning
         ),
         CoinListUiState.Loading,
@@ -28,7 +29,7 @@ class CoinListUiStatePreviewProvider : PreviewParameterProvider<CoinListUiState>
 }
 
 private object CoinListPreviewData {
-    val coins = listOf(
+    val coins = persistentListOf(
         Coin(
             id = "bitcoin",
             symbol = "BTC",
@@ -36,7 +37,7 @@ private object CoinListPreviewData {
             imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
             currentPrice = Price("29446.336548759988"),
             priceChangePercentage24h = Percentage("0.76833"),
-            prices24h = listOf(
+            prices24h = persistentListOf(
                 BigDecimal("29245.370873051394"),
                 BigDecimal("29205.501195094886"),
                 BigDecimal("29210.97710800848"),
@@ -70,7 +71,7 @@ private object CoinListPreviewData {
             imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
             currentPrice = Price("1875.473083380222"),
             priceChangePercentage24h = Percentage("-1.11008"),
-            prices24h = listOf(
+            prices24h = persistentListOf(
                 BigDecimal("1879.89804628163"),
                 BigDecimal("1877.1265051203513"),
                 BigDecimal("1874.813847463032"),
@@ -104,7 +105,7 @@ private object CoinListPreviewData {
             imageUrl = "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg",
             currentPrice = Price("1.00"),
             priceChangePercentage24h = Percentage("0.00"),
-            prices24h = listOf(
+            prices24h = persistentListOf(
                 BigDecimal("1.00"),
                 BigDecimal("1.00"),
                 BigDecimal("1.00"),
@@ -138,7 +139,7 @@ private object CoinListPreviewData {
             imageUrl = "https://cdn.coinranking.com/B1oPuTyfX/xrp.svg",
             currentPrice = Price("0.7142802333064954"),
             priceChangePercentage24h = Percentage("1.77031"),
-            prices24h = listOf(
+            prices24h = persistentListOf(
                 BigDecimal("0.7078633715412483"),
                 BigDecimal("0.703154172261876"),
                 BigDecimal("0.6994823867542781"),
@@ -172,7 +173,7 @@ private object CoinListPreviewData {
             imageUrl = "https://cdn.coinranking.com/B1N19L_dZ/bnb.svg",
             currentPrice = Price("242.13321783678734"),
             priceChangePercentage24h = Percentage("1.84955"),
-            prices24h = listOf(
+            prices24h = persistentListOf(
                 BigDecimal("238.07237986085968"),
                 BigDecimal("237.59065248042927"),
                 BigDecimal("237.62300826740525"),
@@ -206,7 +207,7 @@ private object CoinListPreviewData {
             imageUrl = "https://cdn.coinranking.com/V3NSSybv-/polkadot-dot.svg",
             currentPrice = Price("4.422860504529326"),
             priceChangePercentage24h = Percentage("-0.44"),
-            prices24h = listOf(
+            prices24h = persistentListOf(
                 BigDecimal("4.4335207642244985"),
                 BigDecimal("4.419218533934902"),
                 BigDecimal("4.408466485673207"),
@@ -235,7 +236,7 @@ private object CoinListPreviewData {
         )
     )
 
-    val favouriteCoins = listOf(
+    val favouriteCoins = persistentListOf(
         Coin(
             id = "bitcoin",
             symbol = "BTC",
@@ -243,7 +244,7 @@ private object CoinListPreviewData {
             imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
             currentPrice = Price("29446.336548759988"),
             priceChangePercentage24h = Percentage("0.76833"),
-            prices24h = listOf(
+            prices24h = persistentListOf(
                 BigDecimal("29245.370873051394"),
                 BigDecimal("29205.501195094886"),
                 BigDecimal("29210.97710800848"),
@@ -277,7 +278,7 @@ private object CoinListPreviewData {
             imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
             currentPrice = Price("1875.473083380222"),
             priceChangePercentage24h = Percentage("-1.11008"),
-            prices24h = listOf(
+            prices24h = persistentListOf(
                 BigDecimal("1879.89804628163"),
                 BigDecimal("1877.1265051203513"),
                 BigDecimal("1874.813847463032"),
@@ -311,7 +312,7 @@ private object CoinListPreviewData {
             imageUrl = "https://cdn.coinranking.com/M-pwilaq-/polygon-matic-logo.svg",
             currentPrice = Price("0.5396174533730119"),
             priceChangePercentage24h = Percentage("1.77031"),
-            prices24h = listOf(
+            prices24h = persistentListOf(
                 BigDecimal("0.7078633715412483"),
                 BigDecimal("0.703154172261876"),
                 BigDecimal("0.6994823867542781"),
