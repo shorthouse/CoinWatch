@@ -14,6 +14,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.unmockkAll
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -97,7 +98,7 @@ class CoinListViewModelTest {
     @Test
     fun `When favourite coins and coins return success should have success UI state`() = runTest {
         // Arrange
-        val coins = listOf(
+        val coins = persistentListOf(
             Coin(
                 id = "bitcoin",
                 name = "Bitcoin",
@@ -105,7 +106,7 @@ class CoinListViewModelTest {
                 imageUrl = "",
                 currentPrice = Price("200.0"),
                 priceChangePercentage24h = Percentage("1.0"),
-                prices24h = emptyList()
+                prices24h = persistentListOf()
             ),
             Coin(
                 id = "ethereum",
@@ -114,7 +115,7 @@ class CoinListViewModelTest {
                 imageUrl = "",
                 currentPrice = Price("100.0"),
                 priceChangePercentage24h = Percentage("2.0"),
-                prices24h = emptyList()
+                prices24h = persistentListOf()
             )
         )
 
@@ -124,7 +125,7 @@ class CoinListViewModelTest {
             )
         )
 
-        val expectedFavouriteCoins = listOf(
+        val expectedFavouriteCoins = persistentListOf(
             Coin(
                 id = "ethereum",
                 name = "Ethereum",
@@ -132,7 +133,7 @@ class CoinListViewModelTest {
                 imageUrl = "",
                 currentPrice = Price("100.0"),
                 priceChangePercentage24h = Percentage("2.0"),
-                prices24h = emptyList()
+                prices24h = persistentListOf()
             )
         )
 

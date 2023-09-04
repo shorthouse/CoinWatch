@@ -9,6 +9,8 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
+import kotlinx.collections.immutable.immutableListOf
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -42,7 +44,7 @@ class CoinChartRepositoryTest {
 
         val expectedResult = Result.Success(
             CoinChart(
-                prices = listOf(
+                prices = persistentListOf(
                     BigDecimal("27000.44"),
                     BigDecimal("25000.89"),
                     BigDecimal("30000.47"),

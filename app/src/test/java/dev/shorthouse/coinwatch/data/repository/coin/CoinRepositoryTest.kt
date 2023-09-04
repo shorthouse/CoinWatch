@@ -9,6 +9,7 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -46,7 +47,7 @@ class CoinRepositoryTest {
                     imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                     currentPrice = Price("29490.954785191607"),
                     priceChangePercentage24h = Percentage("-0.96"),
-                    prices24h = listOf(
+                    prices24h = persistentListOf(
                         BigDecimal("29790.15810429195"),
                         BigDecimal("29782.07714670252"),
                         BigDecimal("29436.47984833588"),
@@ -79,7 +80,7 @@ class CoinRepositoryTest {
                     imageUrl = "",
                     currentPrice = Price(null),
                     priceChangePercentage24h = Percentage(null),
-                    prices24h = emptyList()
+                    prices24h = persistentListOf()
                 )
             )
         )
@@ -123,7 +124,7 @@ class CoinRepositoryTest {
                     imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
                     currentPrice = Price("1845.7097788177032"),
                     priceChangePercentage24h = Percentage("0.42"),
-                    prices24h = listOf(
+                    prices24h = persistentListOf(
                         BigDecimal("1857.0635686120618"),
                         BigDecimal("1852.7243420201132"),
                         BigDecimal("1850.8054635160697"),
