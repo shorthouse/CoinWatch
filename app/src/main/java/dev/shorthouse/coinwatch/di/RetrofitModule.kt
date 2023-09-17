@@ -7,12 +7,12 @@ import dagger.hilt.components.SingletonComponent
 import dev.shorthouse.coinwatch.BuildConfig
 import dev.shorthouse.coinwatch.common.Constants
 import dev.shorthouse.coinwatch.data.source.remote.CoinApi
+import javax.inject.Singleton
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -46,8 +46,12 @@ object RetrofitModule {
             chain.proceed(newRequest)
         }
 
-        val loggingInterceptor = HttpLoggingInterceptor().apply {
-            setLevel(HttpLoggingInterceptor.Level.BODY)
+        val loggingInterceptor = HttpLoggingInterceptor()
+
+        if (BuildConfig.DEBUG) {
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        } else {
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE)
         }
 
         return OkHttpClient.Builder()
