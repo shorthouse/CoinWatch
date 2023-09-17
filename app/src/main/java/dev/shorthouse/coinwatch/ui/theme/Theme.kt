@@ -7,7 +7,7 @@ import androidx.compose.runtime.DisposableEffect
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
-private val DarkColorScheme = darkColorScheme(
+private val darkColorScheme = darkColorScheme(
     background = dark_background,
     onBackground = dark_onBackground,
     surface = dark_surface,
@@ -22,14 +22,14 @@ fun AppTheme(
 ) {
     DisposableEffect(systemUiController) {
         systemUiController.setSystemBarsColor(
-            color = DarkColorScheme.background
+            color = darkColorScheme.background
         )
 
         onDispose {}
     }
 
     MaterialTheme(
-        colorScheme = DarkColorScheme,
+        colorScheme = darkColorScheme,
         shapes = AppShapes,
         typography = AppTypography,
         content = content
