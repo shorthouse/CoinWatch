@@ -39,6 +39,7 @@ android {
         }
         debug {
             debuggable true
+            applicationIdSuffix ".debug"
         }
     }
     kotlin {
