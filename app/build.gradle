@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.dagger.hilt.android'
+    id 'kotlin-kapt'
     id 'com.google.devtools.ksp'
 }
 
@@ -54,7 +55,7 @@ android {
         buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.5.3'
+        kotlinCompilerExtensionVersion '1.4.6'
     }
     packagingOptions {
         resources {
@@ -94,8 +95,8 @@ dependencies {
 
     // Hilt
     implementation 'com.google.dagger:hilt-android:2.45'
-    ksp 'com.google.dagger:hilt-android-compiler:2.45'
-    ksp 'androidx.hilt:hilt-compiler:1.0.0'
+    kapt 'com.google.dagger:hilt-android-compiler:2.45'
+    kapt 'androidx.hilt:hilt-compiler:1.0.0'
     implementation 'androidx.hilt:hilt-navigation-compose:1.1.0-alpha01'
 
     // Retrofit
@@ -132,4 +133,8 @@ dependencies {
 
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+}
+
+kapt {
+    correctErrorTypes true
 }
