@@ -9,9 +9,7 @@ By downloading, installing, or using the App, you consent to our collection and 
 Any collected personal information will not be used or shared with anyone except as described in this Privacy Policy.
 
 ## Personal information collected
-The App does not collect or store personal data. 
-
-If you installed this application from Google Play, please be aware that Google Play may collect some personal data. For details, please refer to the [Google Play Services Privacy Policy](https://policies.google.com/privacy).
+The App does not collect or store any personal information about you. The limited information that is made available to the developer by the Play Store system is used only to ensure proper operation of the app, and is never transferred from the developer to any third parties for any reason. For details, please refer to the [Google Privacy Policy](https://policies.google.com/privacy).
 
 ## Personal information shared with third parties
 We do not share any personal information with third parties.
