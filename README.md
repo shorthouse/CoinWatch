@@ -55,7 +55,7 @@ Contributions to the project are welcome and highly encouraged! To get started, 
 # 📥 Contact 
 Do you have ideas to improve the app or a query for the developer?
 
-Please get in touch via email - shorthouse20@gmail.com
+Please get in touch via email - shorthousedev@gmail.com
 
 # ⭐ Acknowledgements 
  - Coin data provided by [CoinRanking API](https://developers.coinranking.com/api)
