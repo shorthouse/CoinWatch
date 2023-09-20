@@ -15,18 +15,25 @@ data class CoinDetailData(
 data class CoinDetail(
     @SerializedName("uuid")
     val id: String?,
+    @SerializedName("name")
     val name: String?,
+    @SerializedName("symbol")
     val symbol: String?,
+    @SerializedName("iconUrl")
     val iconUrl: String?,
     @SerializedName("price")
     val currentPrice: String?,
+    @SerializedName("marketCap")
     val marketCap: String?,
     @SerializedName("rank")
     val marketCapRank: String?,
     @SerializedName("24hVolume")
     val volume24h: String?,
+    @SerializedName("supply")
     val supply: Supply?,
+    @SerializedName("allTimeHigh")
     val allTimeHigh: AllTimeHigh?,
+    @SerializedName("listedAt")
     val listedAt: Long?
 )
 
@@ -36,6 +43,8 @@ data class Supply(
 )
 
 data class AllTimeHigh(
+    @SerializedName("price")
     val price: String?,
+    @SerializedName("timestamp")
     val timestamp: Long?
 )

@@ -15,8 +15,8 @@ import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.screen.list.CoinListScreen
 import dev.shorthouse.coinwatch.ui.screen.list.CoinListUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
-import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal
+import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
 import org.junit.Test
 
