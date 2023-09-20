@@ -9,14 +9,18 @@ data class CoinsApiModel(
 )
 
 data class CoinsData(
+    @SerializedName("coins")
     val coins: List<Coin?>?
 )
 
 data class Coin(
     @SerializedName("uuid")
     val id: String?,
+    @SerializedName("symbol")
     val symbol: String?,
+    @SerializedName("name")
     val name: String?,
+    @SerializedName("iconUrl")
     val iconUrl: String?,
     @SerializedName("price")
     val currentPrice: String?,
