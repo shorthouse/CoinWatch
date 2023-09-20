@@ -48,7 +48,9 @@ class CoinRepositoryImpl @Inject constructor(
                     imageUrl = coinApiModel.iconUrl.orEmpty(),
                     currentPrice = Price(coinApiModel.currentPrice),
                     priceChangePercentage24h = Percentage(coinApiModel.priceChangePercentage24h),
-                    prices24h = coinApiModel.sparkline24h.orEmpty().toPersistentList()
+                    prices24h = coinApiModel.sparkline24h?.filterNotNull()
+                        .orEmpty()
+                        .toPersistentList()
                 )
             }
     }
