@@ -30,6 +30,10 @@ android {
         buildConfigField('String', 'API_KEY', apikeyProperties['API_KEY'])
     }
     buildTypes {
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+        }
         release {
             debuggable false
             minifyEnabled true
@@ -37,10 +41,7 @@ android {
             proguardFiles getDefaultProguardFile(
                     'proguard-android-optimize.txt'),
                     'proguard-rules.pro'
-        }
-        debug {
-            debuggable true
-            applicationIdSuffix ".debug"
+            signingConfig signingConfigs.debug
         }
     }
     kotlin {
