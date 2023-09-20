@@ -101,7 +101,7 @@ private object CoinListPreviewData {
         Coin(
             id = "tether",
             symbol = "USDT",
-            name = "Tether",
+            name = "Tether USD",
             imageUrl = "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg",
             currentPrice = Price("1.00"),
             priceChangePercentage24h = Percentage("0.00"),
@@ -130,40 +130,6 @@ private object CoinListPreviewData {
                 BigDecimal("1.00"),
                 BigDecimal("1.00"),
                 BigDecimal("1.00")
-            )
-        ),
-        Coin(
-            id = "ripple",
-            symbol = "XRP",
-            name = "XRP",
-            imageUrl = "https://cdn.coinranking.com/B1oPuTyfX/xrp.svg",
-            currentPrice = Price("0.7142802333064954"),
-            priceChangePercentage24h = Percentage("1.77031"),
-            prices24h = persistentListOf(
-                BigDecimal("0.7078633715412483"),
-                BigDecimal("0.703154172261876"),
-                BigDecimal("0.6994823867542781"),
-                BigDecimal("0.7014706603483004"),
-                BigDecimal("0.69879109571246"),
-                BigDecimal("0.6966649080752425"),
-                BigDecimal("0.6975200860526335"),
-                BigDecimal("0.7011758683759688"),
-                BigDecimal("0.7021223773179766"),
-                BigDecimal("0.7023799603937112"),
-                BigDecimal("0.7044909385003845"),
-                BigDecimal("0.7017835251269512"),
-                BigDecimal("0.6995375362059472"),
-                BigDecimal("0.7143777711709876"),
-                BigDecimal("0.7125634338075278"),
-                BigDecimal("0.727321981146483"),
-                BigDecimal("0.7198675986002214"),
-                BigDecimal("0.7175166290060175"),
-                BigDecimal("0.7158774882632872"),
-                BigDecimal("0.7091036220562065"),
-                BigDecimal("0.7123303286388961"),
-                BigDecimal("0.7156576118999355"),
-                BigDecimal("0.7192302623965658"),
-                BigDecimal("0.7186324625859829")
             )
         ),
         Coin(
@@ -198,6 +164,40 @@ private object CoinListPreviewData {
                 BigDecimal("240.13674947839255"),
                 BigDecimal("240.41687032176682"),
                 BigDecimal("241.82729323371586")
+            )
+        ),
+        Coin(
+            id = "ripple",
+            symbol = "XRP",
+            name = "XRP",
+            imageUrl = "https://cdn.coinranking.com/B1oPuTyfX/xrp.svg",
+            currentPrice = Price("0.7142802333064954"),
+            priceChangePercentage24h = Percentage("1.77031"),
+            prices24h = persistentListOf(
+                BigDecimal("0.7078633715412483"),
+                BigDecimal("0.703154172261876"),
+                BigDecimal("0.6994823867542781"),
+                BigDecimal("0.7014706603483004"),
+                BigDecimal("0.69879109571246"),
+                BigDecimal("0.6966649080752425"),
+                BigDecimal("0.6975200860526335"),
+                BigDecimal("0.7011758683759688"),
+                BigDecimal("0.7021223773179766"),
+                BigDecimal("0.7023799603937112"),
+                BigDecimal("0.7044909385003845"),
+                BigDecimal("0.7017835251269512"),
+                BigDecimal("0.6995375362059472"),
+                BigDecimal("0.7143777711709876"),
+                BigDecimal("0.7125634338075278"),
+                BigDecimal("0.727321981146483"),
+                BigDecimal("0.7198675986002214"),
+                BigDecimal("0.7175166290060175"),
+                BigDecimal("0.7158774882632872"),
+                BigDecimal("0.7091036220562065"),
+                BigDecimal("0.7123303286388961"),
+                BigDecimal("0.7156576118999355"),
+                BigDecimal("0.7192302623965658"),
+                BigDecimal("0.7186324625859829")
             )
         ),
         Coin(
