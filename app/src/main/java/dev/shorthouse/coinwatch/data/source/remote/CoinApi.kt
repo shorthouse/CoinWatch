@@ -2,6 +2,7 @@ package dev.shorthouse.coinwatch.data.source.remote
 
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import retrofit2.Response
 import retrofit2.http.GET
@@ -30,4 +31,10 @@ interface CoinApi {
         @Query("referenceCurrencyUuid") currencyUUID: String = "yhjMzLPhuIDl",
         @Query("timePeriod") chartPeriod: String = "24h"
     ): Response<CoinChartApiModel>
+
+    @GET("search-suggestions")
+    suspend fun getCoinSearchResults(
+        @Query("query") searchQuery: String = "",
+        @Query("referenceCurrencyUuid") currencyUUID: String = "yhjMzLPhuIDl"
+    ): Response<CoinSearchResultsApiModel>
 }
