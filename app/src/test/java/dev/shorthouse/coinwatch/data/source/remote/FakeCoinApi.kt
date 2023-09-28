@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.data.source.remote
 
 import dev.shorthouse.coinwatch.data.source.remote.model.AllTimeHigh
-import dev.shorthouse.coinwatch.data.source.remote.model.Coin
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartData
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetail
@@ -11,9 +11,9 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsData
 import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
 import dev.shorthouse.coinwatch.data.source.remote.model.Supply
+import java.math.BigDecimal
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
-import java.math.BigDecimal
 
 class FakeCoinApi : CoinApi {
     override suspend fun getCoins(
@@ -29,7 +29,7 @@ class FakeCoinApi : CoinApi {
                     CoinsApiModel(
                         coinsData = CoinsData(
                             coins = listOf(
-                                Coin(
+                                CoinApiModel(
                                     id = "Qwsogvtv82FCd",
                                     symbol = "BTC",
                                     name = "Bitcoin",
@@ -54,7 +54,7 @@ class FakeCoinApi : CoinApi {
                     CoinsApiModel(
                         coinsData = CoinsData(
                             coins = listOf(
-                                Coin(
+                                CoinApiModel(
                                     id = "Qwsogvtv82FCd",
                                     symbol = null,
                                     name = null,
@@ -87,7 +87,7 @@ class FakeCoinApi : CoinApi {
                     CoinsApiModel(
                         coinsData = CoinsData(
                             coins = listOf(
-                                Coin(
+                                CoinApiModel(
                                     id = null,
                                     symbol = "BTC",
                                     name = "Bitcoin",
@@ -102,7 +102,7 @@ class FakeCoinApi : CoinApi {
                                         BigDecimal("29482.564008512305")
                                     )
                                 ),
-                                Coin(
+                                CoinApiModel(
                                     id = "razxDUgYGNAdQ",
                                     symbol = "ETH",
                                     name = "Ethereum",
