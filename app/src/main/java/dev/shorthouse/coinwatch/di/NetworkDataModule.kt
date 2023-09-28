@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.shorthouse.coinwatch.data.mapper.CoinMapper
 import dev.shorthouse.coinwatch.data.repository.chart.CoinChartRepository
 import dev.shorthouse.coinwatch.data.repository.chart.CoinChartRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.coin.CoinRepository
@@ -23,11 +24,13 @@ object NetworkDataModule {
     @Singleton
     fun provideCoinRepository(
         coinNetworkDataSource: CoinNetworkDataSourceImpl,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
+        coinMapper: CoinMapper
     ): CoinRepository {
         return CoinRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
-            ioDispatcher = ioDispatcher
+            ioDispatcher = ioDispatcher,
+            coinMapper = coinMapper
         )
     }
 

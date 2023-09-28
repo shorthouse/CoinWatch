@@ -3,19 +3,20 @@ package dev.shorthouse.coinwatch.data.repository.coin
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.mapper.CoinMapper
 import dev.shorthouse.coinwatch.data.source.remote.FakeCoinApi
 import dev.shorthouse.coinwatch.data.source.remote.FakeCoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
+import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.math.BigDecimal
 
 class CoinRepositoryTest {
 
@@ -31,7 +32,8 @@ class CoinRepositoryTest {
             coinNetworkDataSource = FakeCoinNetworkDataSource(
                 coinApi = FakeCoinApi()
             ),
-            ioDispatcher = mainDispatcherRule.testDispatcher
+            ioDispatcher = mainDispatcherRule.testDispatcher,
+            coinMapper = CoinMapper()
         )
     }
 
