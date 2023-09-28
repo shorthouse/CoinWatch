@@ -2,6 +2,7 @@ package dev.shorthouse.coinwatch.data.source.remote
 
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import javax.inject.Inject
 import retrofit2.Response
@@ -21,5 +22,11 @@ class CoinNetworkDataSourceImpl @Inject constructor(private val coinApi: CoinApi
         chartPeriod: String
     ): Response<CoinChartApiModel> {
         return coinApi.getCoinChart(coinId = coinId, chartPeriod = chartPeriod)
+    }
+
+    override suspend fun getCoinSearchResults(
+        searchQuery: String
+    ): Response<CoinSearchResultsApiModel> {
+        return coinApi.getCoinSearchResults(searchQuery = searchQuery)
     }
 }
