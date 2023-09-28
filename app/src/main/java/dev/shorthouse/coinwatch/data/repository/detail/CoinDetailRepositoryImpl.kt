@@ -48,6 +48,24 @@ class CoinDetailRepositoryImpl @Inject constructor(
 
         val coinDetail = coinDetailData.coinDetail
 
+        val allTimeHighDate = if (coinDetail.allTimeHigh?.timestamp != null) {
+            dateFormatter.format(
+                Instant.ofEpochSecond(coinDetail.allTimeHigh.timestamp)
+                    .atZone(ZoneId.systemDefault())
+            )
+        } else {
+            ""
+        }
+
+        val listedDate = if (coinDetail.listedAt != null) {
+            dateFormatter.format(
+                Instant.ofEpochSecond(coinDetail.listedAt)
+                    .atZone(ZoneId.systemDefault())
+            )
+        } else {
+            ""
+        }
+
         return CoinDetail(
             id = coinDetail.id.orEmpty(),
             name = coinDetail.name.orEmpty(),
@@ -57,20 +75,14 @@ class CoinDetailRepositoryImpl @Inject constructor(
             marketCap = Price(coinDetail.marketCap),
             marketCapRank = coinDetail.marketCapRank.orEmpty(),
             volume24h = numberGroupingFormat.format(
-                coinDetail.volume24h?.toDoubleOrZero()
+                coinDetail.volume24h.toDoubleOrZero()
             ),
             circulatingSupply = numberGroupingFormat.format(
-                coinDetail.supply?.circulatingSupply?.toDoubleOrZero()
+                coinDetail.supply?.circulatingSupply.toDoubleOrZero()
             ),
             allTimeHigh = Price(coinDetail.allTimeHigh?.price),
-            allTimeHighDate = dateFormatter.format(
-                Instant.ofEpochSecond(coinDetail.allTimeHigh?.timestamp ?: 0L)
-                    .atZone(ZoneId.systemDefault())
-            ),
-            listedDate = dateFormatter.format(
-                Instant.ofEpochSecond(coinDetail.listedAt ?: 0L)
-                    .atZone(ZoneId.systemDefault())
-            )
+            allTimeHighDate = allTimeHighDate,
+            listedDate = listedDate
         )
     }
 }

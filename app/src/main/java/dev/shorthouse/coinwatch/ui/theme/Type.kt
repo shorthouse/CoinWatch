@@ -27,9 +27,14 @@ val AppTypography = Typography(
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp
     ),
-    bodyLarge = TextStyle(
+    titleSmall = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,
+        fontSize = 16.sp
+    ),
+    bodyLarge = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
     bodyMedium = TextStyle(
