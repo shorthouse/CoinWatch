@@ -1,8 +1,6 @@
 package dev.shorthouse.coinwatch.data.repository.chart
 
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.common.maxOrZero
-import dev.shorthouse.coinwatch.common.minOrZero
 import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrNull
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
@@ -50,13 +48,22 @@ class CoinChartRepositoryImpl @Inject constructor(
             }
             .reversed()
 
-        val minPrice = prices.minOrZero()
-        val maxPrice = prices.maxOrZero()
+        val minPrice = if (prices.isNotEmpty()) {
+            prices.minOrNull().toString()
+        } else {
+            null
+        }
+
+        val maxPrice = if (prices.isNotEmpty()) {
+            prices.maxOrNull().toString()
+        } else {
+            null
+        }
 
         return CoinChart(
             prices = prices.toPersistentList(),
-            minPrice = Price(minPrice.toString()),
-            maxPrice = Price(maxPrice.toString()),
+            minPrice = Price(minPrice),
+            maxPrice = Price(maxPrice),
             periodPriceChangePercentage = Percentage(coinChartData.pricePercentageChange)
         )
     }

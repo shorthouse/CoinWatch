@@ -26,9 +26,15 @@ data class Price(private val price: String?) {
     val amount: BigDecimal = price.toSanitisedBigDecimalOrZero()
 
     val formattedAmount: String =
-        if (amount < BigDecimal("1.00") && amount > BigDecimal("-1.00")) {
-            currencyFormatSmallPrice.format(amount)
-        } else {
-            currencyFormat.format(amount)
+        when {
+            price == null -> {
+                "$ --"
+            }
+            amount > BigDecimal("-1.00") && amount < BigDecimal("1.00") -> {
+                currencyFormatSmallPrice.format(amount)
+            }
+            else -> {
+                currencyFormat.format(amount)
+            }
         }
 }
