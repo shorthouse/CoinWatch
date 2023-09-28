@@ -39,4 +39,11 @@
     <string name="empty_state_coins_subtitle">Please try again later</string>
     <string name="button_retry">Retry</string>
     <string name="error_occurred">An error has occurred</string>
+    <string name="cd_clear_search">Clear search</string>
+    <string name="cd_top_app_bar_search">Search</string>
+    <string name="search_coins_hint">Search coins</string>
+    <string name="empty_state_search_title">No coins found</string>
+    <string name="empty_state_search_subtitle">Try adjusting your search</string>
+    <string name="empty_chart_message">No chart data available</string>
+    <string name="empty_chart_range_message">No chart range data available</string>
 </resources>
