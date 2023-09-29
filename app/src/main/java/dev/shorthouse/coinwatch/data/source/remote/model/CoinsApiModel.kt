@@ -21,7 +21,7 @@ data class CoinApiModel(
     @SerializedName("name")
     val name: String?,
     @SerializedName("iconUrl")
-    val iconUrl: String?,
+    val imageUrl: String?,
     @SerializedName("price")
     val currentPrice: String?,
     @SerializedName("change")
