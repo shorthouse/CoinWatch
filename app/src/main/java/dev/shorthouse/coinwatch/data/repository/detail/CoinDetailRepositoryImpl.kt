@@ -1,17 +1,10 @@
 package dev.shorthouse.coinwatch.data.repository.detail
 
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.common.toDoubleOrZero
+import dev.shorthouse.coinwatch.data.mapper.CoinDetailMapper
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSourceImpl
-import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailApiModel
 import dev.shorthouse.coinwatch.di.IoDispatcher
 import dev.shorthouse.coinwatch.model.CoinDetail
-import dev.shorthouse.coinwatch.model.Price
-import java.text.NumberFormat
-import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -22,14 +15,16 @@ import timber.log.Timber
 
 class CoinDetailRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSourceImpl,
+    private val coinDetailMapper: CoinDetailMapper,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : CoinDetailRepository {
     override fun getCoinDetail(coinId: String): Flow<Result<CoinDetail>> = flow {
         val response = coinNetworkDataSource.getCoinDetail(coinId = coinId)
         val body = response.body()
 
-        if (response.isSuccessful && body != null) {
-            emit(Result.Success(body.toCoinDetail()))
+        if (response.isSuccessful && body?.coinDetailDataHolder?.coinDetailData != null) {
+            val coinDetail = coinDetailMapper.mapApiModelToModel(body)
+            emit(Result.Success(coinDetail))
         } else {
             Timber.e("getCoinDetail unsuccessful retrofit response ${response.message()}")
             emit(Result.Error("Unable to fetch coin details"))
@@ -38,51 +33,4 @@ class CoinDetailRepositoryImpl @Inject constructor(
         Timber.e("getCoinDetail exception ${e.message}")
         emit(Result.Error("Unable to fetch coin details"))
     }.flowOn(ioDispatcher)
-
-    private fun CoinDetailApiModel.toCoinDetail(): CoinDetail {
-        val numberGroupingFormat = NumberFormat.getNumberInstance(Locale.US).apply {
-            isGroupingUsed = true
-        }
-
-        val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.US)
-
-        val coinDetail = coinDetailData.coinDetail
-
-        val allTimeHighDate = if (coinDetail.allTimeHigh?.timestamp != null) {
-            dateFormatter.format(
-                Instant.ofEpochSecond(coinDetail.allTimeHigh.timestamp)
-                    .atZone(ZoneId.systemDefault())
-            )
-        } else {
-            ""
-        }
-
-        val listedDate = if (coinDetail.listedAt != null) {
-            dateFormatter.format(
-                Instant.ofEpochSecond(coinDetail.listedAt)
-                    .atZone(ZoneId.systemDefault())
-            )
-        } else {
-            ""
-        }
-
-        return CoinDetail(
-            id = coinDetail.id.orEmpty(),
-            name = coinDetail.name.orEmpty(),
-            symbol = coinDetail.symbol.orEmpty(),
-            imageUrl = coinDetail.iconUrl.orEmpty(),
-            currentPrice = Price(coinDetail.currentPrice),
-            marketCap = Price(coinDetail.marketCap),
-            marketCapRank = coinDetail.marketCapRank.orEmpty(),
-            volume24h = numberGroupingFormat.format(
-                coinDetail.volume24h.toDoubleOrZero()
-            ),
-            circulatingSupply = numberGroupingFormat.format(
-                coinDetail.supply?.circulatingSupply.toDoubleOrZero()
-            ),
-            allTimeHigh = Price(coinDetail.allTimeHigh?.price),
-            allTimeHighDate = allTimeHighDate,
-            listedDate = listedDate
-        )
-    }
 }
