@@ -245,11 +245,13 @@ private fun CoinDetailContent(
 
                         Spacer(Modifier.width(8.dp))
 
-                        Text(
-                            text = stringResource(chartPeriod.longNameId),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                        if (coinChart.prices.isNotEmpty()) {
+                            Text(
+                                text = stringResource(chartPeriod.longNameId),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
                     }
                 }
 
@@ -356,7 +358,7 @@ private fun CoinDetailContent(
 
 @Composable
 @Preview
-private fun DetailScreenPreview(
+private fun CoinDetailScreenPreview(
     @PreviewParameter(CoinDetailUiStatePreviewProvider::class) uiState: CoinDetailUiState
 ) {
     AppTheme {
