@@ -30,10 +30,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.Coin
+import dev.shorthouse.coinwatch.navigation.Screen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.previewdata.CoinListUiStatePreviewProvider
-import dev.shorthouse.coinwatch.ui.screen.Screen
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinFavouriteItem
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListItem
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListSkeletonLoader
@@ -41,6 +41,7 @@ import dev.shorthouse.coinwatch.ui.screen.list.component.CoinsEmptyState
 import dev.shorthouse.coinwatch.ui.screen.list.component.FavouriteCoinsEmptyState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
+import okhttp3.internal.immutableListOf
 
 @Composable
 fun CoinListScreen(
@@ -52,7 +53,7 @@ fun CoinListScreen(
     CoinListScreen(
         uiState = uiState,
         onCoinClick = { coin ->
-            navController.navigate(Screen.DetailScreen.route + "/${coin.id}")
+            navController.navigate(Screen.CoinDetail.route + "/${coin.id}")
         },
         onErrorRetry = { viewModel.initialiseUiState() }
     )
@@ -91,10 +92,12 @@ fun CoinListScreen(
         is CoinListUiState.Loading -> {
             CoinListSkeletonLoader()
         }
-        is CoinListUiState.Error -> ErrorState(
-            message = uiState.message,
-            onRetry = onErrorRetry
-        )
+        is CoinListUiState.Error -> {
+            ErrorState(
+                message = uiState.message,
+                onRetry = onErrorRetry
+            )
+        }
     }
 }
 
@@ -217,7 +220,7 @@ private fun CoinListContent(
 
 @Composable
 @Preview(showBackground = true)
-private fun ListScreenPreview(
+private fun CoinListScreenPreview(
     @PreviewParameter(CoinListUiStatePreviewProvider::class) uiState: CoinListUiState
 ) {
     AppTheme {

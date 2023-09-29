@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.ui.screen.list.component
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -25,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
+import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.ui.component.PercentageChange
 import dev.shorthouse.coinwatch.ui.component.PriceGraph
@@ -51,7 +54,7 @@ fun CoinFavouriteItem(
             .clickable { onCoinClick(coin) }
     ) {
         Column {
-            Column(modifier = Modifier.padding(12.dp)) {
+            Column(modifier = Modifier.padding(start = 12.dp, top = 12.dp, end = 12.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     AsyncImage(
                         model = imageBuilder
@@ -87,20 +90,37 @@ fun CoinFavouriteItem(
                 Text(
                     text = coin.currentPrice.formattedAmount,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
 
                 PercentageChange(percentage = coin.priceChangePercentage24h)
             }
 
-            PriceGraph(
-                prices = coin.prices24h,
-                priceChangePercentage = coin.priceChangePercentage24h,
-                isGraphAnimated = false,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .testTag("priceGraph ${coin.symbol}")
-            )
+            if (coin.prices24h.isNotEmpty()) {
+                Spacer(Modifier.height(12.dp))
+
+                PriceGraph(
+                    prices = coin.prices24h,
+                    priceChangePercentage = coin.priceChangePercentage24h,
+                    isGraphAnimated = false,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .testTag("priceGraph ${coin.symbol}")
+                )
+            } else {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        text = stringResource(R.string.empty_chart_message_short),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
         }
     }
 }
