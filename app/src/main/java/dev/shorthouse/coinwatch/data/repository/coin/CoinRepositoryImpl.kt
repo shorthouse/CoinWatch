@@ -15,15 +15,16 @@ import timber.log.Timber
 
 class CoinRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val coinMapper: CoinMapper
+    private val coinMapper: CoinMapper,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : CoinRepository {
     override fun getCoins(currencyUUID: String): Flow<Result<List<Coin>>> = flow {
         val response = coinNetworkDataSource.getCoins(currencyUUID = currencyUUID)
         val body = response.body()
 
-        if (response.isSuccessful && body != null && body.coinsData != null) {
-            emit(Result.Success(coinMapper.mapApiModelToModel(body)))
+        if (response.isSuccessful && body?.coinsData != null) {
+            val coins = coinMapper.mapApiModelToModel(body)
+            emit(Result.Success(coins))
         } else {
             Timber.e("getCoins unsuccessful retrofit response ${response.message()}")
             emit(Result.Error("Unable to fetch coins list"))
