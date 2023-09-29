@@ -4,9 +4,9 @@ import dev.shorthouse.coinwatch.data.source.remote.model.AllTimeHigh
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartData
-import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetail
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailData
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailDataHolder
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsData
 import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
@@ -33,7 +33,7 @@ class FakeCoinApi : CoinApi {
                                     id = "Qwsogvtv82FCd",
                                     symbol = "BTC",
                                     name = "Bitcoin",
-                                    iconUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+                                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                                     currentPrice = "29490.954785191607",
                                     priceChangePercentage24h = "-0.96",
                                     sparkline24h = listOf(
@@ -58,7 +58,7 @@ class FakeCoinApi : CoinApi {
                                     id = "Qwsogvtv82FCd",
                                     symbol = null,
                                     name = null,
-                                    iconUrl = null,
+                                    imageUrl = null,
                                     currentPrice = null,
                                     priceChangePercentage24h = null,
                                     sparkline24h = null
@@ -91,7 +91,7 @@ class FakeCoinApi : CoinApi {
                                     id = null,
                                     symbol = "BTC",
                                     name = "Bitcoin",
-                                    iconUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+                                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                                     currentPrice = "29490.954785191607",
                                     priceChangePercentage24h = "-0.96",
                                     sparkline24h = listOf(
@@ -106,7 +106,7 @@ class FakeCoinApi : CoinApi {
                                     id = "razxDUgYGNAdQ",
                                     symbol = "ETH",
                                     name = "Ethereum",
-                                    iconUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
+                                    imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
                                     currentPrice = "1845.7097788177032",
                                     priceChangePercentage24h = "0.42",
                                     sparkline24h = listOf(
@@ -206,11 +206,11 @@ class FakeCoinApi : CoinApi {
     ): Response<CoinDetailApiModel> {
         when (coinId) {
             "Qwsogvtv82FCd" -> {
-                val coinDetail = CoinDetail(
+                val coinDetail = CoinDetailData(
                     id = "Qwsogvtv82FCd",
                     name = "Bitcoin",
                     symbol = "BTC",
-                    iconUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                     currentPrice = "29488.266719247607",
                     marketCap = "573638201316",
                     marketCapRank = "1",
@@ -227,8 +227,8 @@ class FakeCoinApi : CoinApi {
 
                 return Response.success(
                     CoinDetailApiModel(
-                        coinDetailData = CoinDetailData(
-                            coinDetail = coinDetail
+                        coinDetailDataHolder = CoinDetailDataHolder(
+                            coinDetailData = coinDetail
                         )
                     )
                 )
