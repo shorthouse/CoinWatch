@@ -8,10 +8,10 @@ import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
-import kotlinx.collections.immutable.toImmutableList
 import java.time.LocalTime
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.minutes
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
