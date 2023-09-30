@@ -8,8 +8,11 @@ import retrofit2.Response
 
 class CoinNetworkDataSourceImpl @Inject constructor(private val coinApi: CoinApi) :
     CoinNetworkDataSource {
-    override suspend fun getCoins(currencyUUID: String): Response<CoinsApiModel> {
-        return coinApi.getCoins(currencyUUID = currencyUUID)
+    override suspend fun getCoins(
+        currencyUUID: String,
+        coinIds: List<String>
+    ): Response<CoinsApiModel> {
+        return coinApi.getCoins(currencyUUID = currencyUUID, coinIds = coinIds)
     }
 
     override suspend fun getCoinDetail(coinId: String): Response<CoinDetailApiModel> {

@@ -18,8 +18,14 @@ class CoinRepositoryImpl @Inject constructor(
     private val coinMapper: CoinMapper,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : CoinRepository {
-    override fun getCoins(currencyUUID: String): Flow<Result<List<Coin>>> = flow {
-        val response = coinNetworkDataSource.getCoins(currencyUUID = currencyUUID)
+    override fun getCoins(
+        currencyUUID: String,
+        coinIds: List<String>
+    ): Flow<Result<List<Coin>>> = flow {
+        val response = coinNetworkDataSource.getCoins(
+            currencyUUID = currencyUUID,
+            coinIds = coinIds
+        )
         val body = response.body()
 
         if (response.isSuccessful && body?.coinsData != null) {
