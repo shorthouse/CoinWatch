@@ -39,4 +39,7 @@
     <string name="empty_state_coins_subtitle">Please try again later</string>
     <string name="button_retry">Retry</string>
     <string name="error_occurred">An error has occurred</string>
+    <string name="empty_chart_message">No chart data available</string>
+    <string name="empty_chart_range_message">No chart range data available</string>
+    <string name="empty_chart_message_short">No chart data</string>
 </resources>

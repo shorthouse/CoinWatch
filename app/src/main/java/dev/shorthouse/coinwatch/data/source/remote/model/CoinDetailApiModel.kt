@@ -4,15 +4,15 @@ import com.google.gson.annotations.SerializedName
 
 data class CoinDetailApiModel(
     @SerializedName("data")
-    val coinDetailData: CoinDetailData
+    val coinDetailDataHolder: CoinDetailDataHolder?
+)
+
+data class CoinDetailDataHolder(
+    @SerializedName("coin")
+    val coinDetailData: CoinDetailData?
 )
 
 data class CoinDetailData(
-    @SerializedName("coin")
-    val coinDetail: CoinDetail
-)
-
-data class CoinDetail(
     @SerializedName("uuid")
     val id: String?,
     @SerializedName("name")
@@ -20,7 +20,7 @@ data class CoinDetail(
     @SerializedName("symbol")
     val symbol: String?,
     @SerializedName("iconUrl")
-    val iconUrl: String?,
+    val imageUrl: String?,
     @SerializedName("price")
     val currentPrice: String?,
     @SerializedName("marketCap")

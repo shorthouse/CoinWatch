@@ -8,8 +8,8 @@ import retrofit2.Response
 class FakeCoinNetworkDataSource(
     private val coinApi: CoinApi
 ) : CoinNetworkDataSource {
-    override suspend fun getCoins(currencyUUID: String): Response<CoinsApiModel> {
-        return coinApi.getCoins(currencyUUID = currencyUUID)
+    override suspend fun getCoins(coinIds: List<String>): Response<CoinsApiModel> {
+        return coinApi.getCoins(coinIds = coinIds)
     }
 
     override suspend fun getCoinDetail(coinId: String): Response<CoinDetailApiModel> {

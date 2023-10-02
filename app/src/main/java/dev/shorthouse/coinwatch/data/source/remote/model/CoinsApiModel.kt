@@ -5,15 +5,15 @@ import java.math.BigDecimal
 
 data class CoinsApiModel(
     @SerializedName("data")
-    val coinsData: CoinsData
+    val coinsData: CoinsData?
 )
 
 data class CoinsData(
     @SerializedName("coins")
-    val coins: List<Coin?>?
+    val coins: List<CoinApiModel?>?
 )
 
-data class Coin(
+data class CoinApiModel(
     @SerializedName("uuid")
     val id: String?,
     @SerializedName("symbol")
@@ -21,7 +21,7 @@ data class Coin(
     @SerializedName("name")
     val name: String?,
     @SerializedName("iconUrl")
-    val iconUrl: String?,
+    val imageUrl: String?,
     @SerializedName("price")
     val currentPrice: String?,
     @SerializedName("change")

@@ -3,7 +3,6 @@ package dev.shorthouse.coinwatch.ui.screen.list
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.model.Coin
@@ -14,6 +13,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.unmockkAll
+import java.time.LocalDateTime
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -21,7 +21,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.time.LocalDateTime
 
 class CoinListViewModelTest {
 
@@ -119,9 +118,15 @@ class CoinListViewModelTest {
             )
         )
 
-        val returnedFavouriteCoins = listOf(
-            FavouriteCoin(
-                id = "ethereum"
+        val returnedFavouriteCoins = persistentListOf(
+            Coin(
+                id = "ethereum",
+                name = "Ethereum",
+                symbol = "ETH",
+                imageUrl = "",
+                currentPrice = Price("100.0"),
+                priceChangePercentage24h = Percentage("2.0"),
+                prices24h = persistentListOf()
             )
         )
 
@@ -160,50 +165,53 @@ class CoinListViewModelTest {
     }
 
     @Test
-    fun `When calculating time of day with morning hour, should return morning enum value`() = runTest {
-        // Arrange
-        val lowerBoundHour = 0
-        val upperBoundHour = 11
-        val expectedTimeOfDay = TimeOfDay.Morning
+    fun `When calculating time of day with morning hour, should return morning enum value`() =
+        runTest {
+            // Arrange
+            val lowerBoundHour = 0
+            val upperBoundHour = 11
+            val expectedTimeOfDay = TimeOfDay.Morning
 
-        // Act
-        val lowerBoundHourTimeOfDay = viewModel.calculateTimeOfDay(lowerBoundHour)
-        val upperBoundHourTimeOfDay = viewModel.calculateTimeOfDay(upperBoundHour)
+            // Act
+            val lowerBoundHourTimeOfDay = viewModel.calculateTimeOfDay(lowerBoundHour)
+            val upperBoundHourTimeOfDay = viewModel.calculateTimeOfDay(upperBoundHour)
 
-        // Assert
-        assertThat(lowerBoundHourTimeOfDay).isEqualTo(expectedTimeOfDay)
-        assertThat(upperBoundHourTimeOfDay).isEqualTo(expectedTimeOfDay)
-    }
-
-    @Test
-    fun `When calculating time of day with afternoon hour, should return afternoon enum value`() = runTest {
-        // Arrange
-        val lowerBoundHour = 12
-        val upperBoundHour = 17
-        val expectedTimeOfDay = TimeOfDay.Afternoon
-
-        // Act
-        val lowerBoundHourTimeOfDay = viewModel.calculateTimeOfDay(lowerBoundHour)
-        val upperBoundHourTimeOfDay = viewModel.calculateTimeOfDay(upperBoundHour)
-
-        // Assert
-        assertThat(lowerBoundHourTimeOfDay).isEqualTo(expectedTimeOfDay)
-        assertThat(upperBoundHourTimeOfDay).isEqualTo(expectedTimeOfDay)
-    }
+            // Assert
+            assertThat(lowerBoundHourTimeOfDay).isEqualTo(expectedTimeOfDay)
+            assertThat(upperBoundHourTimeOfDay).isEqualTo(expectedTimeOfDay)
+        }
 
     @Test
-    fun `When calculating time of day with evening hour, should return evening enum value`() = runTest {
-        // Arrange
-        val lowerBoundHour = 18
-        val upperBoundHour = 23
-        val expectedTimeOfDay = TimeOfDay.Evening
+    fun `When calculating time of day with afternoon hour, should return afternoon enum value`() =
+        runTest {
+            // Arrange
+            val lowerBoundHour = 12
+            val upperBoundHour = 17
+            val expectedTimeOfDay = TimeOfDay.Afternoon
 
-        // Act
-        val lowerBoundHourTimeOfDay = viewModel.calculateTimeOfDay(lowerBoundHour)
-        val upperBoundHourTimeOfDay = viewModel.calculateTimeOfDay(upperBoundHour)
+            // Act
+            val lowerBoundHourTimeOfDay = viewModel.calculateTimeOfDay(lowerBoundHour)
+            val upperBoundHourTimeOfDay = viewModel.calculateTimeOfDay(upperBoundHour)
 
-        // Assert
-        assertThat(lowerBoundHourTimeOfDay).isEqualTo(expectedTimeOfDay)
-        assertThat(upperBoundHourTimeOfDay).isEqualTo(expectedTimeOfDay)
-    }
+            // Assert
+            assertThat(lowerBoundHourTimeOfDay).isEqualTo(expectedTimeOfDay)
+            assertThat(upperBoundHourTimeOfDay).isEqualTo(expectedTimeOfDay)
+        }
+
+    @Test
+    fun `When calculating time of day with evening hour, should return evening enum value`() =
+        runTest {
+            // Arrange
+            val lowerBoundHour = 18
+            val upperBoundHour = 23
+            val expectedTimeOfDay = TimeOfDay.Evening
+
+            // Act
+            val lowerBoundHourTimeOfDay = viewModel.calculateTimeOfDay(lowerBoundHour)
+            val upperBoundHourTimeOfDay = viewModel.calculateTimeOfDay(upperBoundHour)
+
+            // Assert
+            assertThat(lowerBoundHourTimeOfDay).isEqualTo(expectedTimeOfDay)
+            assertThat(upperBoundHourTimeOfDay).isEqualTo(expectedTimeOfDay)
+        }
 }

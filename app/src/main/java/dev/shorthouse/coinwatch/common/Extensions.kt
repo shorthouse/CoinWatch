@@ -4,14 +4,14 @@ import java.math.BigDecimal
 
 fun String?.toSanitisedBigDecimalOrZero(): BigDecimal {
     return try {
-        if (this == null) {
-            BigDecimal.ZERO
-        } else {
+        if (this != null) {
             val sanitisedString = this
                 .filterNot { it == ',' }
                 .trim()
 
             BigDecimal(sanitisedString)
+        } else {
+            BigDecimal.ZERO
         }
     } catch (e: NumberFormatException) {
         BigDecimal.ZERO
@@ -20,14 +20,14 @@ fun String?.toSanitisedBigDecimalOrZero(): BigDecimal {
 
 fun String?.toSanitisedBigDecimalOrNull(): BigDecimal? {
     return try {
-        if (this == null) {
-            null
-        } else {
+        if (this != null) {
             val sanitisedString = this
                 .filterNot { it == ',' }
                 .trim()
 
             BigDecimal(sanitisedString)
+        } else {
+            null
         }
     } catch (e: NumberFormatException) {
         null
@@ -40,8 +40,4 @@ fun List<BigDecimal>.minOrZero(): BigDecimal {
 
 fun List<BigDecimal>.maxOrZero(): BigDecimal {
     return this.maxOrNull() ?: BigDecimal.ZERO
-}
-
-fun String?.toDoubleOrZero(): Double {
-    return this?.toDoubleOrNull() ?: 0.0
 }

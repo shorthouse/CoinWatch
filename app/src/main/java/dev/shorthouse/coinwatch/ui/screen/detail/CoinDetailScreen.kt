@@ -35,6 +35,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -55,6 +56,8 @@ import dev.shorthouse.coinwatch.ui.previewdata.CoinDetailUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.detail.component.ChartPeriodSelector
 import dev.shorthouse.coinwatch.ui.screen.detail.component.ChartRangeLine
 import dev.shorthouse.coinwatch.ui.screen.detail.component.CoinDetailSkeletonLoader
+import dev.shorthouse.coinwatch.ui.screen.detail.component.EmptyChartMessage
+import dev.shorthouse.coinwatch.ui.screen.detail.component.EmptyChartRangeMessage
 import dev.shorthouse.coinwatch.ui.screen.detail.component.MarketStatsCard
 import dev.shorthouse.coinwatch.ui.screen.detail.component.PercentageChangeChip
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
@@ -166,7 +169,8 @@ private fun ChartDetailTopBar(
 
                     Text(
                         text = coinSymbol,
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -241,28 +245,38 @@ private fun CoinDetailContent(
 
                         Spacer(Modifier.width(8.dp))
 
-                        Text(
-                            text = stringResource(chartPeriod.longNameId),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                        if (coinChart.prices.isNotEmpty()) {
+                            Text(
+                                text = stringResource(chartPeriod.longNameId),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
                     }
                 }
 
-                PriceGraph(
-                    prices = coinChart.prices,
-                    priceChangePercentage = coinChart.periodPriceChangePercentage,
-                    isGraphAnimated = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                )
+                if (coinChart.prices.isNotEmpty()) {
+                    PriceGraph(
+                        prices = coinChart.prices,
+                        priceChangePercentage = coinChart.periodPriceChangePercentage,
+                        isGraphAnimated = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                    )
 
-                ChartPeriodSelector(
-                    selectedChartPeriod = chartPeriod,
-                    onChartPeriodSelected = onClickChartPeriod,
-                    modifier = Modifier.padding(horizontal = 12.dp)
-                )
+                    ChartPeriodSelector(
+                        selectedChartPeriod = chartPeriod,
+                        onChartPeriodSelected = onClickChartPeriod,
+                        modifier = Modifier.padding(horizontal = 12.dp)
+                    )
+                } else {
+                    EmptyChartMessage(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(278.dp)
+                    )
+                }
             }
         }
 
@@ -275,48 +289,56 @@ private fun CoinDetailContent(
         )
 
         Surface(shape = MaterialTheme.shapes.medium) {
-            Column(modifier = Modifier.padding(12.dp)) {
-                ChartRangeLine(
-                    currentPrice = coinDetail.currentPrice,
-                    minPrice = coinChart.minPrice,
-                    maxPrice = coinChart.maxPrice,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(20.dp)
-                        .padding(horizontal = 4.dp)
-                )
+            if (coinChart.prices.isNotEmpty()) {
+                Column(modifier = Modifier.padding(12.dp)) {
+                    ChartRangeLine(
+                        currentPrice = coinDetail.currentPrice,
+                        minPrice = coinChart.minPrice,
+                        maxPrice = coinChart.maxPrice,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(20.dp)
+                            .padding(horizontal = 4.dp)
+                    )
 
-                Spacer(Modifier.height(4.dp))
+                    Spacer(Modifier.height(4.dp))
 
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column(horizontalAlignment = Alignment.Start) {
-                        Text(
-                            text = stringResource(R.string.range_title_low),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(horizontalAlignment = Alignment.Start) {
+                            Text(
+                                text = stringResource(R.string.range_title_low),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
 
-                        Text(
-                            text = coinChart.minPrice.formattedAmount,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-                    Column(horizontalAlignment = Alignment.End) {
-                        Text(
-                            text = stringResource(R.string.range_title_high),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                            Text(
+                                text = coinChart.minPrice.formattedAmount,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
+                        Column(horizontalAlignment = Alignment.End) {
+                            Text(
+                                text = stringResource(R.string.range_title_high),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
 
-                        Text(
-                            text = coinChart.maxPrice.formattedAmount,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
+                            Text(
+                                text = coinChart.maxPrice.formattedAmount,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
                     }
                 }
+            } else {
+                EmptyChartRangeMessage(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(91.dp)
+                )
             }
         }
 
@@ -336,7 +358,7 @@ private fun CoinDetailContent(
 
 @Composable
 @Preview
-private fun DetailScreenPreview(
+private fun CoinDetailScreenPreview(
     @PreviewParameter(CoinDetailUiStatePreviewProvider::class) uiState: CoinDetailUiState
 ) {
     AppTheme {

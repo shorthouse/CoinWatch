@@ -49,7 +49,7 @@ fun FavouriteCoinsEmptyState(
 
             Text(
                 text = stringResource(R.string.empty_state_favourite_coins_title),
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface
             )
 

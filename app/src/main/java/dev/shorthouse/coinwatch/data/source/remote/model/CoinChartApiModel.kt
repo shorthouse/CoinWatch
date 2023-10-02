@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CoinChartApiModel(
     @SerializedName("data")
-    val coinChartData: CoinChartData
+    val coinChartData: CoinChartData?
 )
 
 data class CoinChartData(

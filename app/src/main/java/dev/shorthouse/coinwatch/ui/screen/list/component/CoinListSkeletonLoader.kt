@@ -60,7 +60,7 @@ private fun SkeletonContent(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.padding(start = 12.dp, top = 12.dp, end = 12.dp)
+        modifier = modifier.padding(start = 12.dp, top = 12.dp)
     ) {
         Text(
             text = stringResource(R.string.header_favourites),
@@ -89,7 +89,9 @@ private fun SkeletonContent(
                 bottomStart = CornerSize(0.dp),
                 bottomEnd = CornerSize(0.dp)
             ),
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(end = 12.dp)
         )
     }
 }

@@ -1,13 +1,13 @@
 package dev.shorthouse.coinwatch.model
 
 import com.google.common.truth.Truth.assertThat
-import org.junit.Test
 import java.math.BigDecimal
+import org.junit.Test
 
 class PriceTest {
 
     @Test
-    fun `When null input should create zero price`() {
+    fun `When null input should create empty price`() {
         // Arrange
         val nullPrice: String? = null
 
@@ -16,7 +16,7 @@ class PriceTest {
 
         // Assert
         assertThat(price.amount).isEqualTo(BigDecimal.ZERO)
-        assertThat(price.formattedAmount).isEqualTo("$0.000000")
+        assertThat(price.formattedAmount).isEqualTo("$ --")
     }
 
     @Test
@@ -199,11 +199,11 @@ class PriceTest {
         // Assert
         assertThat(price.amount).isEqualTo(
             BigDecimal(
-                "23525782458793458793578905437890054935783245892347580934275093247952349785734290857938245798234578934",
-            ),
+                "23525782458793458793578905437890054935783245892347580934275093247952349785734290857938245798234578934"
+            )
         )
         assertThat(price.formattedAmount).isEqualTo(
-            "$23,525,782,458,793,458,793,578,905,437,890,054,935,783,245,892,347,580,934,275,093,247,952,349,785,734,290,857,938,245,798,234,578,934.00",
+            "$23,525,782,458,793,458,793,578,905,437,890,054,935,783,245,892,347,580,934,275,093,247,952,349,785,734,290,857,938,245,798,234,578,934.00"
         )
     }
 
