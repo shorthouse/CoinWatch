@@ -69,7 +69,7 @@ private fun SkeletonContent(
         )
 
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            repeat(4) {
+            repeat(12) {
                 SkeletonSurface(
                     modifier = Modifier.size(width = 140.dp, height = 200.dp)
                 )

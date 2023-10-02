@@ -7,7 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun EmptyChartMessage(modifier: Modifier = Modifier) {
@@ -20,5 +22,13 @@ fun EmptyChartMessage(modifier: Modifier = Modifier) {
             color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.titleSmall
         )
+    }
+}
+
+@Composable
+@Preview
+fun EmptyChartMessagePreview() {
+    AppTheme {
+        EmptyChartMessage()
     }
 }
