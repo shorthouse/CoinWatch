@@ -18,13 +18,14 @@ import retrofit2.Response
 class FakeCoinApi : CoinApi {
     override suspend fun getCoins(
         currencyUUID: String,
+        coinIds: List<String>,
         timePeriod: String,
         orderBy: String,
         orderDirection: String,
         limit: String
     ): Response<CoinsApiModel> {
-        return when (currencyUUID) {
-            "USD" -> {
+        return when (coinIds.first()) {
+            "Qwsogvtv82FCd" -> {
                 Response.success(
                     CoinsApiModel(
                         coinsData = CoinsData(
@@ -49,6 +50,7 @@ class FakeCoinApi : CoinApi {
                     )
                 )
             }
+
             "nullValues" -> {
                 Response.success(
                     CoinsApiModel(
@@ -68,6 +70,7 @@ class FakeCoinApi : CoinApi {
                     )
                 )
             }
+
             "nullCoins" -> {
                 Response.success(
                     CoinsApiModel(
@@ -77,11 +80,13 @@ class FakeCoinApi : CoinApi {
                     )
                 )
             }
+
             "nullBody" -> {
                 Response.success(
                     null
                 )
             }
+
             "nullIds" -> {
                 Response.success(
                     CoinsApiModel(
@@ -122,9 +127,11 @@ class FakeCoinApi : CoinApi {
                     )
                 )
             }
+
             "exception" -> {
                 throw IllegalArgumentException("Test exception")
             }
+
             else -> {
                 Response.error(
                     404,
@@ -158,6 +165,7 @@ class FakeCoinApi : CoinApi {
                     )
                 )
             }
+
             "nullValues" -> {
                 val coinChartData = CoinChartData(
                     pricePercentageChange = null,
@@ -170,6 +178,7 @@ class FakeCoinApi : CoinApi {
                     )
                 )
             }
+
             "nullPrices" -> {
                 val coinChartData = CoinChartData(
                     pricePercentageChange = null,
@@ -188,9 +197,11 @@ class FakeCoinApi : CoinApi {
                     )
                 )
             }
+
             "nullBody" -> {
                 return Response.success(null)
             }
+
             else -> {
                 return Response.error(
                     404,
@@ -233,6 +244,7 @@ class FakeCoinApi : CoinApi {
                     )
                 )
             }
+
             else -> {
                 return Response.error(
                     404,

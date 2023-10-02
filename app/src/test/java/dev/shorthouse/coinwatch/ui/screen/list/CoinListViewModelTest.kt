@@ -3,9 +3,8 @@ package dev.shorthouse.coinwatch.ui.screen.list
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
-import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCaseOld
+import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
@@ -35,7 +34,7 @@ class CoinListViewModelTest {
     private lateinit var getCoinsUseCase: GetCoinsUseCase
 
     @RelaxedMockK
-    private lateinit var getFavouriteCoinsUseCase: GetFavouriteCoinsUseCaseOld
+    private lateinit var getFavouriteCoinsUseCase: GetFavouriteCoinsUseCase
 
     @Before
     fun setup() {
@@ -119,9 +118,15 @@ class CoinListViewModelTest {
             )
         )
 
-        val returnedFavouriteCoins = listOf(
-            FavouriteCoin(
-                id = "ethereum"
+        val returnedFavouriteCoins = persistentListOf(
+            Coin(
+                id = "ethereum",
+                name = "Ethereum",
+                symbol = "ETH",
+                imageUrl = "",
+                currentPrice = Price("100.0"),
+                priceChangePercentage24h = Percentage("2.0"),
+                prices24h = persistentListOf()
             )
         )
 
