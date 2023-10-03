@@ -41,7 +41,6 @@ import dev.shorthouse.coinwatch.ui.screen.list.component.CoinsEmptyState
 import dev.shorthouse.coinwatch.ui.screen.list.component.FavouriteCoinsEmptyState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
-import okhttp3.internal.immutableListOf
 
 @Composable
 fun CoinListScreen(
@@ -89,9 +88,11 @@ fun CoinListScreen(
                 modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
             )
         }
+
         is CoinListUiState.Loading -> {
             CoinListSkeletonLoader()
         }
+
         is CoinListUiState.Error -> {
             ErrorState(
                 message = uiState.message,
@@ -199,10 +200,12 @@ private fun CoinListContent(
                             bottomStart = CornerSize(0.dp),
                             bottomEnd = CornerSize(0.dp)
                         )
+
                         coins.lastIndex -> MaterialTheme.shapes.medium.copy(
                             topStart = CornerSize(0.dp),
                             topEnd = CornerSize(0.dp)
                         )
+
                         else -> RoundedCornerShape(0.dp)
                     }
 
