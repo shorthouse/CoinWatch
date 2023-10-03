@@ -3,7 +3,9 @@ package dev.shorthouse.coinwatch.ui.screen.list.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
@@ -20,13 +22,8 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun CoinsEmptyState(
-    modifier: Modifier = Modifier
-) {
-    Surface(
-        shape = MaterialTheme.shapes.medium,
-        modifier = modifier.fillMaxSize()
-    ) {
+fun CoinsEmptyState(modifier: Modifier = Modifier) {
+    Surface(modifier = modifier.fillMaxSize()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -35,10 +32,10 @@ fun CoinsEmptyState(
             Image(
                 painter = painterResource(R.drawable.empty_state_coins),
                 contentDescription = null,
-                modifier = Modifier
-                    .size(180.dp)
-                    .padding(bottom = 16.dp)
+                modifier = Modifier.size(180.dp)
             )
+
+            Spacer(Modifier.height(16.dp))
 
             Text(
                 text = stringResource(R.string.empty_state_coins_title),
