@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.screen.detail.component
+package dev.shorthouse.coinwatch.ui.component
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
