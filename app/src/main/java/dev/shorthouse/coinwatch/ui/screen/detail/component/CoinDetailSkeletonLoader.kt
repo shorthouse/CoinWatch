@@ -28,17 +28,13 @@ import dev.shorthouse.coinwatch.ui.component.SkeletonSurface
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun CoinDetailSkeletonLoader(
-    modifier: Modifier = Modifier
-) {
+fun CoinDetailSkeletonLoader(modifier: Modifier = Modifier) {
     Scaffold(
         topBar = {
             SkeletonTopAppBar()
         },
         content = { scaffoldPadding ->
-            SkeletonContent(
-                modifier = Modifier.padding(scaffoldPadding)
-            )
+            SkeletonContent(modifier = Modifier.padding(scaffoldPadding))
         },
         modifier = modifier
     )
@@ -46,9 +42,7 @@ fun CoinDetailSkeletonLoader(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SkeletonTopAppBar(
-    modifier: Modifier = Modifier
-) {
+private fun SkeletonTopAppBar(modifier: Modifier = Modifier) {
     LargeTopAppBar(
         navigationIcon = {
             IconButton(onClick = {}) {
@@ -76,10 +70,8 @@ private fun SkeletonTopAppBar(
 }
 
 @Composable
-private fun SkeletonContent(
-    modifier: Modifier = Modifier
-) {
-    Column(modifier = modifier.padding(start = 12.dp, end = 12.dp)) {
+private fun SkeletonContent(modifier: Modifier = Modifier) {
+    Column(modifier = modifier.padding(horizontal = 12.dp)) {
         SkeletonSurface(
             modifier = Modifier
                 .fillMaxWidth()
@@ -90,9 +82,10 @@ private fun SkeletonContent(
 
         Text(
             text = stringResource(R.string.title_chart_range),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(bottom = 8.dp)
+            style = MaterialTheme.typography.titleMedium
         )
+
+        Spacer(Modifier.height(8.dp))
 
         SkeletonSurface(
             modifier = Modifier
@@ -104,9 +97,10 @@ private fun SkeletonContent(
 
         Text(
             text = stringResource(R.string.card_header_market_stats),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(bottom = 8.dp)
+            style = MaterialTheme.typography.titleMedium
         )
+
+        Spacer(Modifier.height(8.dp))
 
         SkeletonSurface(
             shape = MaterialTheme.shapes.medium.copy(
