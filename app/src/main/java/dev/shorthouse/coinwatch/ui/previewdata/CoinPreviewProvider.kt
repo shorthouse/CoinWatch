@@ -4,8 +4,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
-import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal
+import kotlinx.collections.immutable.persistentListOf
 
 class CoinPreviewProvider : PreviewParameterProvider<Coin> {
     override val values = sequenceOf(

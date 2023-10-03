@@ -13,6 +13,7 @@ interface CoinApi {
     @GET("coins")
     suspend fun getCoins(
         @Query("referenceCurrencyUuid") currencyUUID: String = "yhjMzLPhuIDl",
+        @Query("uuids[]") coinIds: List<String> = emptyList(),
         @Query("timePeriod") timePeriod: String = "24h",
         @Query("orderBy") orderBy: String = "marketCap",
         @Query("orderDirection") orderDirection: String = "desc",

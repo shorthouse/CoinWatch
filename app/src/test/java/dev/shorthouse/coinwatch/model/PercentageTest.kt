@@ -1,8 +1,8 @@
 package dev.shorthouse.coinwatch.model
 
 import com.google.common.truth.Truth.assertThat
-import org.junit.Test
 import java.math.BigDecimal
+import org.junit.Test
 
 class PercentageTest {
 
@@ -46,7 +46,7 @@ class PercentageTest {
     }
 
     @Test
-    fun `When null input should create zero percentage`() {
+    fun `When null input should create empty percentage`() {
         // Arrange
         val nullPercentage: String? = null
 
@@ -55,7 +55,7 @@ class PercentageTest {
 
         // Assert
         assertThat(percentage.amount).isEqualTo(BigDecimal.ZERO)
-        assertThat(percentage.formattedAmount).isEqualTo("+0.00%")
+        assertThat(percentage.formattedAmount).isEqualTo("-- %")
     }
 
     @Test

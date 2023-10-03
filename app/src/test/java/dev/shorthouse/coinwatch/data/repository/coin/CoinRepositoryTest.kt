@@ -3,19 +3,20 @@ package dev.shorthouse.coinwatch.data.repository.coin
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.mapper.CoinMapper
 import dev.shorthouse.coinwatch.data.source.remote.FakeCoinApi
 import dev.shorthouse.coinwatch.data.source.remote.FakeCoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
+import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.math.BigDecimal
 
 class CoinRepositoryTest {
 
@@ -31,7 +32,8 @@ class CoinRepositoryTest {
             coinNetworkDataSource = FakeCoinNetworkDataSource(
                 coinApi = FakeCoinApi()
             ),
-            ioDispatcher = mainDispatcherRule.testDispatcher
+            ioDispatcher = mainDispatcherRule.testDispatcher,
+            coinMapper = CoinMapper()
         )
     }
 
@@ -60,7 +62,7 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getCoins(
-            currencyUUID = "USD"
+            coinIds = listOf("Qwsogvtv82FCd")
         ).first()
 
         // Assert
@@ -69,31 +71,32 @@ class CoinRepositoryTest {
     }
 
     @Test
-    fun `When coins data has null values should populate these with default values and return success`() = runTest {
-        // Arrange
-        val expectedResult = Result.Success(
-            listOf(
-                Coin(
-                    id = "Qwsogvtv82FCd",
-                    symbol = "",
-                    name = "",
-                    imageUrl = "",
-                    currentPrice = Price(null),
-                    priceChangePercentage24h = Percentage(null),
-                    prices24h = persistentListOf()
+    fun `When coins data has null values should populate these with default values and return success`() =
+        runTest {
+            // Arrange
+            val expectedResult = Result.Success(
+                listOf(
+                    Coin(
+                        id = "Qwsogvtv82FCd",
+                        symbol = "",
+                        name = "",
+                        imageUrl = "",
+                        currentPrice = Price(null),
+                        priceChangePercentage24h = Percentage(null),
+                        prices24h = persistentListOf()
+                    )
                 )
             )
-        )
 
-        // Act
-        val result = coinRepository.getCoins(
-            currencyUUID = "nullValues"
-        ).first()
+            // Act
+            val result = coinRepository.getCoins(
+                coinIds = listOf("nullValues")
+            ).first()
 
-        // Assert
-        assertThat(result).isInstanceOf(Result.Success::class.java)
-        assertThat((result as Result.Success).data).isEqualTo(expectedResult.data)
-    }
+            // Assert
+            assertThat(result).isInstanceOf(Result.Success::class.java)
+            assertThat((result as Result.Success).data).isEqualTo(expectedResult.data)
+        }
 
     @Test
     fun `When coins data is null should return empty list`() = runTest {
@@ -104,7 +107,7 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getCoins(
-            currencyUUID = "nullCoins"
+            coinIds = listOf("nullCoins")
         ).first()
 
         // Assert
@@ -113,37 +116,38 @@ class CoinRepositoryTest {
     }
 
     @Test
-    fun `When coins data has null id coin should filter this out from the list and return success`() = runTest {
-        // Arrange
-        val expectedResult = Result.Success(
-            listOf(
-                Coin(
-                    id = "razxDUgYGNAdQ",
-                    name = "Ethereum",
-                    symbol = "ETH",
-                    imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
-                    currentPrice = Price("1845.7097788177032"),
-                    priceChangePercentage24h = Percentage("0.42"),
-                    prices24h = persistentListOf(
-                        BigDecimal("1857.0635686120618"),
-                        BigDecimal("1852.7243420201132"),
-                        BigDecimal("1850.8054635160697"),
-                        BigDecimal("1848.197142458803"),
-                        BigDecimal("1847.2140162508354")
+    fun `When coins data has null id coin should filter this out from the list and return success`() =
+        runTest {
+            // Arrange
+            val expectedResult = Result.Success(
+                listOf(
+                    Coin(
+                        id = "razxDUgYGNAdQ",
+                        name = "Ethereum",
+                        symbol = "ETH",
+                        imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
+                        currentPrice = Price("1845.7097788177032"),
+                        priceChangePercentage24h = Percentage("0.42"),
+                        prices24h = persistentListOf(
+                            BigDecimal("1857.0635686120618"),
+                            BigDecimal("1852.7243420201132"),
+                            BigDecimal("1850.8054635160697"),
+                            BigDecimal("1848.197142458803"),
+                            BigDecimal("1847.2140162508354")
+                        )
                     )
                 )
             )
-        )
 
-        // Act
-        val result = coinRepository.getCoins(
-            currencyUUID = "nullIds"
-        ).first()
+            // Act
+            val result = coinRepository.getCoins(
+                coinIds = listOf("nullIds")
+            ).first()
 
-        // Assert
-        assertThat(result).isInstanceOf(Result.Success::class.java)
-        assertThat((result as Result.Success).data).isEqualTo(expectedResult.data)
-    }
+            // Assert
+            assertThat(result).isInstanceOf(Result.Success::class.java)
+            assertThat((result as Result.Success).data).isEqualTo(expectedResult.data)
+        }
 
     @Test
     fun `When coins returns error should return error`() = runTest {
@@ -154,7 +158,7 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getCoins(
-            currencyUUID = ""
+            coinIds = listOf("")
         ).first()
 
         // Assert
@@ -171,7 +175,7 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getCoins(
-            currencyUUID = "nullBody"
+            coinIds = listOf("nullBody")
         ).first()
 
         // Assert
@@ -188,7 +192,7 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getCoins(
-            currencyUUID = "exception"
+            coinIds = listOf("exception")
         ).first()
 
         // Assert

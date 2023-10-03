@@ -7,7 +7,7 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import retrofit2.Response
 
 interface CoinNetworkDataSource {
-    suspend fun getCoins(currencyUUID: String = "yhjMzLPhuIDl"): Response<CoinsApiModel>
+    suspend fun getCoins(coinIds: List<String>): Response<CoinsApiModel>
 
     suspend fun getCoinDetail(coinId: String): Response<CoinDetailApiModel>
 

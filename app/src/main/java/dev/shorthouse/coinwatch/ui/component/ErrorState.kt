@@ -71,7 +71,7 @@ fun ErrorState(
             ) {
                 Text(
                     text = stringResource(R.string.button_retry),
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }

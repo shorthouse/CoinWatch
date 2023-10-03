@@ -14,17 +14,17 @@ import dev.shorthouse.coinwatch.ui.screen.search.CoinSearchScreen
 fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = Screen.ListScreen.route
+    startDestination: String = Screen.CoinList.route
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination,
         modifier = modifier
     ) {
-        composable(route = Screen.ListScreen.route) {
+        composable(route = Screen.CoinList.route) {
             CoinListScreen(navController = navController)
         }
-        composable(route = Screen.DetailScreen.route + "/{coinId}") {
+        composable(route = Screen.CoinDetail.route + "/{coinId}") {
             CoinDetailScreen(navController = navController)
         }
         composable(route = Screen.CoinSearch.route) {

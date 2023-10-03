@@ -25,9 +25,7 @@ import dev.shorthouse.coinwatch.ui.component.SkeletonSurface
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun CoinListSkeletonLoader(
-    modifier: Modifier = Modifier
-) {
+fun CoinListSkeletonLoader(modifier: Modifier = Modifier) {
     Scaffold(
         topBar = {
             SkeletonTopAppBar()
@@ -60,16 +58,17 @@ private fun SkeletonContent(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.padding(start = 12.dp, top = 12.dp, end = 12.dp)
+        modifier = modifier.padding(start = 12.dp, top = 12.dp)
     ) {
         Text(
             text = stringResource(R.string.header_favourites),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(bottom = 8.dp)
+            style = MaterialTheme.typography.titleMedium
         )
 
+        Spacer(Modifier.height(8.dp))
+
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            repeat(4) {
+            repeat(12) {
                 SkeletonSurface(
                     modifier = Modifier.size(width = 140.dp, height = 200.dp)
                 )
@@ -80,16 +79,19 @@ private fun SkeletonContent(
 
         Text(
             text = stringResource(R.string.header_coins),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(bottom = 8.dp)
+            style = MaterialTheme.typography.titleMedium
         )
+
+        Spacer(Modifier.height(8.dp))
 
         SkeletonSurface(
             shape = MaterialTheme.shapes.medium.copy(
                 bottomStart = CornerSize(0.dp),
                 bottomEnd = CornerSize(0.dp)
             ),
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(end = 12.dp)
         )
     }
 }

@@ -1,39 +1,40 @@
 package dev.shorthouse.coinwatch.data.source.remote
 
 import dev.shorthouse.coinwatch.data.source.remote.model.AllTimeHigh
-import dev.shorthouse.coinwatch.data.source.remote.model.Coin
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartData
-import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetail
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailData
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailDataHolder
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsData
 import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
 import dev.shorthouse.coinwatch.data.source.remote.model.Supply
+import java.math.BigDecimal
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
-import java.math.BigDecimal
 
 class FakeCoinApi : CoinApi {
     override suspend fun getCoins(
         currencyUUID: String,
+        coinIds: List<String>,
         timePeriod: String,
         orderBy: String,
         orderDirection: String,
         limit: String
     ): Response<CoinsApiModel> {
-        return when (currencyUUID) {
-            "USD" -> {
+        return when (coinIds.first()) {
+            "Qwsogvtv82FCd" -> {
                 Response.success(
                     CoinsApiModel(
                         coinsData = CoinsData(
                             coins = listOf(
-                                Coin(
+                                CoinApiModel(
                                     id = "Qwsogvtv82FCd",
                                     symbol = "BTC",
                                     name = "Bitcoin",
-                                    iconUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+                                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                                     currentPrice = "29490.954785191607",
                                     priceChangePercentage24h = "-0.96",
                                     sparkline24h = listOf(
@@ -49,16 +50,17 @@ class FakeCoinApi : CoinApi {
                     )
                 )
             }
+
             "nullValues" -> {
                 Response.success(
                     CoinsApiModel(
                         coinsData = CoinsData(
                             coins = listOf(
-                                Coin(
+                                CoinApiModel(
                                     id = "Qwsogvtv82FCd",
                                     symbol = null,
                                     name = null,
-                                    iconUrl = null,
+                                    imageUrl = null,
                                     currentPrice = null,
                                     priceChangePercentage24h = null,
                                     sparkline24h = null
@@ -68,6 +70,7 @@ class FakeCoinApi : CoinApi {
                     )
                 )
             }
+
             "nullCoins" -> {
                 Response.success(
                     CoinsApiModel(
@@ -77,21 +80,23 @@ class FakeCoinApi : CoinApi {
                     )
                 )
             }
+
             "nullBody" -> {
                 Response.success(
                     null
                 )
             }
+
             "nullIds" -> {
                 Response.success(
                     CoinsApiModel(
                         coinsData = CoinsData(
                             coins = listOf(
-                                Coin(
+                                CoinApiModel(
                                     id = null,
                                     symbol = "BTC",
                                     name = "Bitcoin",
-                                    iconUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+                                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                                     currentPrice = "29490.954785191607",
                                     priceChangePercentage24h = "-0.96",
                                     sparkline24h = listOf(
@@ -102,11 +107,11 @@ class FakeCoinApi : CoinApi {
                                         BigDecimal("29482.564008512305")
                                     )
                                 ),
-                                Coin(
+                                CoinApiModel(
                                     id = "razxDUgYGNAdQ",
                                     symbol = "ETH",
                                     name = "Ethereum",
-                                    iconUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
+                                    imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
                                     currentPrice = "1845.7097788177032",
                                     priceChangePercentage24h = "0.42",
                                     sparkline24h = listOf(
@@ -122,9 +127,11 @@ class FakeCoinApi : CoinApi {
                     )
                 )
             }
+
             "exception" -> {
                 throw IllegalArgumentException("Test exception")
             }
+
             else -> {
                 Response.error(
                     404,
@@ -158,6 +165,7 @@ class FakeCoinApi : CoinApi {
                     )
                 )
             }
+
             "nullValues" -> {
                 val coinChartData = CoinChartData(
                     pricePercentageChange = null,
@@ -170,6 +178,7 @@ class FakeCoinApi : CoinApi {
                     )
                 )
             }
+
             "nullPrices" -> {
                 val coinChartData = CoinChartData(
                     pricePercentageChange = null,
@@ -188,9 +197,11 @@ class FakeCoinApi : CoinApi {
                     )
                 )
             }
+
             "nullBody" -> {
                 return Response.success(null)
             }
+
             else -> {
                 return Response.error(
                     404,
@@ -206,11 +217,11 @@ class FakeCoinApi : CoinApi {
     ): Response<CoinDetailApiModel> {
         when (coinId) {
             "Qwsogvtv82FCd" -> {
-                val coinDetail = CoinDetail(
+                val coinDetail = CoinDetailData(
                     id = "Qwsogvtv82FCd",
                     name = "Bitcoin",
                     symbol = "BTC",
-                    iconUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                     currentPrice = "29488.266719247607",
                     marketCap = "573638201316",
                     marketCapRank = "1",
@@ -227,12 +238,13 @@ class FakeCoinApi : CoinApi {
 
                 return Response.success(
                     CoinDetailApiModel(
-                        coinDetailData = CoinDetailData(
-                            coinDetail = coinDetail
+                        coinDetailDataHolder = CoinDetailDataHolder(
+                            coinDetailData = coinDetail
                         )
                     )
                 )
             }
+
             else -> {
                 return Response.error(
                     404,

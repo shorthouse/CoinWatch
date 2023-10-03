@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,9 +26,7 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun FavouriteCoinsEmptyState(
-    modifier: Modifier = Modifier
-) {
+fun FavouriteCoinsEmptyState(modifier: Modifier = Modifier) {
     Surface(
         shape = MaterialTheme.shapes.medium,
         modifier = modifier
@@ -42,15 +41,14 @@ fun FavouriteCoinsEmptyState(
             Image(
                 painter = painterResource(R.drawable.empty_state_favourite_coins),
                 contentDescription = null,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(bottom = 16.dp)
+                modifier = Modifier.weight(1f)
             )
+
+            Spacer(Modifier.height(16.dp))
 
             Text(
                 text = stringResource(R.string.empty_state_favourite_coins_title),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface
+                style = MaterialTheme.typography.titleSmall
             )
 
             Row(verticalAlignment = Alignment.CenterVertically) {

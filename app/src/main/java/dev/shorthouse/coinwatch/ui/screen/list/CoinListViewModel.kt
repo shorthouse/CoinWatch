@@ -8,10 +8,10 @@ import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
-import kotlinx.collections.immutable.toImmutableList
 import java.time.LocalTime
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.minutes
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -51,25 +51,21 @@ class CoinListViewModel @Inject constructor(
                 coinsResult is Result.Error -> {
                     _uiState.update { CoinListUiState.Error(coinsResult.message) }
                 }
+
                 favouriteCoinsResult is Result.Error -> {
                     _uiState.update { CoinListUiState.Error(favouriteCoinsResult.message) }
                 }
+
                 coinsResult is Result.Success && favouriteCoinsResult is Result.Success -> {
-                    val coins = coinsResult.data
-
-                    val favouriteCoinIds = favouriteCoinsResult.data.map { favouriteCoin ->
-                        favouriteCoin.id
-                    }
-
-                    val favouriteCoins = coins.filter { coin ->
-                        coin.id in favouriteCoinIds
-                    }
+                    val coins = coinsResult.data.toImmutableList()
+                    val favouriteCoins = favouriteCoinsResult.data.toImmutableList()
+                    val timeOfDay = calculateTimeOfDay(currentHour)
 
                     _uiState.update {
                         CoinListUiState.Success(
-                            coins = coins.toImmutableList(),
-                            favouriteCoins = favouriteCoins.toImmutableList(),
-                            timeOfDay = calculateTimeOfDay(currentHour)
+                            coins = coins,
+                            favouriteCoins = favouriteCoins,
+                            timeOfDay = timeOfDay
                         )
                     }
                 }

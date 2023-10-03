@@ -48,7 +48,7 @@ private fun Modifier.shimmerFadeEffect(): Modifier = composed {
             ),
             repeatMode = RepeatMode.Reverse
         ),
-        label = "colorAnimation"
+        label = "shimmerAnimation"
     )
 
     background(

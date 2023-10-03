@@ -95,13 +95,17 @@ fun CoinListScreen(
                 modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
             )
         }
+
         is CoinListUiState.Loading -> {
             CoinListSkeletonLoader()
         }
-        is CoinListUiState.Error -> ErrorState(
-            message = uiState.message,
-            onRetry = onErrorRetry
-        )
+
+        is CoinListUiState.Error -> {
+            ErrorState(
+                message = uiState.message,
+                onRetry = onErrorRetry
+            )
+        }
     }
 }
 
@@ -213,10 +217,12 @@ private fun CoinListContent(
                             bottomStart = CornerSize(0.dp),
                             bottomEnd = CornerSize(0.dp)
                         )
+
                         coins.lastIndex -> MaterialTheme.shapes.medium.copy(
                             topStart = CornerSize(0.dp),
                             topEnd = CornerSize(0.dp)
                         )
+
                         else -> RoundedCornerShape(0.dp)
                     }
 
@@ -234,7 +240,7 @@ private fun CoinListContent(
 
 @Composable
 @Preview(showBackground = true)
-private fun ListScreenPreview(
+private fun CoinListScreenPreview(
     @PreviewParameter(CoinListUiStatePreviewProvider::class) uiState: CoinListUiState
 ) {
     AppTheme {

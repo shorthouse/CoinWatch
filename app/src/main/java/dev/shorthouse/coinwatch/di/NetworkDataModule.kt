@@ -4,6 +4,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.shorthouse.coinwatch.data.mapper.CoinChartMapper
+import dev.shorthouse.coinwatch.data.mapper.CoinDetailMapper
+import dev.shorthouse.coinwatch.data.mapper.CoinMapper
 import dev.shorthouse.coinwatch.data.repository.chart.CoinChartRepository
 import dev.shorthouse.coinwatch.data.repository.chart.CoinChartRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.coin.CoinRepository
@@ -25,11 +28,13 @@ object NetworkDataModule {
     @Singleton
     fun provideCoinRepository(
         coinNetworkDataSource: CoinNetworkDataSourceImpl,
+        coinMapper: CoinMapper,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
     ): CoinRepository {
         return CoinRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
-            ioDispatcher = ioDispatcher
+            ioDispatcher = ioDispatcher,
+            coinMapper = coinMapper
         )
     }
 
@@ -37,10 +42,12 @@ object NetworkDataModule {
     @Singleton
     fun provideCoinDetailRepository(
         coinNetworkDataSource: CoinNetworkDataSourceImpl,
+        coinDetailMapper: CoinDetailMapper,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
     ): CoinDetailRepository {
         return CoinDetailRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
+            coinDetailMapper = coinDetailMapper,
             ioDispatcher = ioDispatcher
         )
     }
@@ -49,10 +56,12 @@ object NetworkDataModule {
     @Singleton
     fun provideCoinChartRepository(
         coinNetworkDataSource: CoinNetworkDataSourceImpl,
+        coinChartMapper: CoinChartMapper,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
     ): CoinChartRepository {
         return CoinChartRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
+            coinChartMapper = coinChartMapper,
             ioDispatcher = ioDispatcher
         )
     }

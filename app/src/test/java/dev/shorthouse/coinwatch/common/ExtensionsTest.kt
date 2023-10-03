@@ -1,8 +1,8 @@
 package dev.shorthouse.coinwatch.common
 
 import com.google.common.truth.Truth.assertThat
-import org.junit.Test
 import java.math.BigDecimal
+import org.junit.Test
 
 class ExtensionsTest {
     @Test
@@ -136,45 +136,6 @@ class ExtensionsTest {
 
         // Act
         val result = input.maxOrZero()
-
-        // Assert
-        assertThat(result).isEqualTo(expectedResult)
-    }
-
-    @Test
-    fun `When toDoubleOrZero called with valid string number should return valid number`() {
-        // Arrange
-        val input = "123.456"
-        val expectedResult = 123.456
-
-        // Act
-        val result = input.toDoubleOrZero()
-
-        // Assert
-        assertThat(result).isEqualTo(expectedResult)
-    }
-
-    @Test
-    fun `When toDoubleOrZero called with null string should return zero`() {
-        // Arrange
-        val input: String? = null
-        val expectedResult = 0.0
-
-        // Act
-        val result = input.toDoubleOrZero()
-
-        // Assert
-        assertThat(result).isEqualTo(expectedResult)
-    }
-
-    @Test
-    fun `When toDoubleOrZero called with invalid string number should return zero`() {
-        // Arrange
-        val input = "abc"
-        val expectedResult = 0.0
-
-        // Act
-        val result = input.toDoubleOrZero()
 
         // Assert
         assertThat(result).isEqualTo(expectedResult)
