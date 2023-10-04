@@ -4,15 +4,15 @@ import com.google.gson.annotations.SerializedName
 
 data class CoinSearchResultsApiModel(
     @SerializedName("data")
-    val coinsSearchResultsData: CoinSearchResultsData
+    val coinsSearchResultsData: CoinSearchResultsData?
 )
 
 data class CoinSearchResultsData(
     @SerializedName("coins")
-    val coinSearchResults: List<CoinSearch?>?
+    val coinSearchResults: List<CoinSearchResult?>?
 )
 
-data class CoinSearch(
+data class CoinSearchResult(
     @SerializedName("uuid")
     val id: String?,
     @SerializedName("symbol")
@@ -20,7 +20,7 @@ data class CoinSearch(
     @SerializedName("name")
     val name: String?,
     @SerializedName("iconUrl")
-    val iconUrl: String?,
+    val imageUrl: String?,
     @SerializedName("price")
     val currentPrice: String?
 )
