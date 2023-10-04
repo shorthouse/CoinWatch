@@ -54,7 +54,7 @@ android {
         buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.6"
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
     packaging {
         resources {
@@ -72,15 +72,11 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     // Compose
-    implementation(platform("androidx.compose:compose-bom:2023.09.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation(platform("androidx.compose:compose-bom:2023.09.02"))
     implementation("androidx.compose.material3:material3")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
     implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
-    implementation("com.google.accompanist:accompanist-placeholder-material:0.30.1")
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
     lintChecks("com.slack.lint.compose:compose-lint-checks:1.2.0")
 
@@ -93,8 +89,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.45")
-    kapt("com.google.dagger:hilt-android-compiler:2.45")
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
 
@@ -113,14 +109,14 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("io.coil-kt:coil-svg:2.4.0")
 
-    // Timber
+    // Logging
     implementation("com.jakewharton.timber:timber:5.0.1")
 
     // Testing
     testImplementation("junit:junit:4.13.2")
-    testImplementation("com.google.truth:truth:1.1.4")
-    testImplementation("com.google.truth.extensions:truth-java8-extension:1.1.4")
-    testImplementation("io.mockk:mockk:1.13.7")
+    testImplementation("com.google.truth:truth:1.1.5")
+    testImplementation("com.google.truth.extensions:truth-java8-extension:1.1.5")
+    testImplementation("io.mockk:mockk:1.13.8")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
 
@@ -128,7 +124,7 @@ dependencies {
     androidTestImplementation("androidx.test:rules:1.5.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.2")
-    androidTestImplementation("com.google.truth:truth:1.1.4")
+    androidTestImplementation("com.google.truth:truth:1.1.5")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
