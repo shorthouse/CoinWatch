@@ -50,7 +50,7 @@ fun CoinSearchListItem(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp)
+            modifier = Modifier.padding(12.dp)
         ) {
             AsyncImage(
                 model = imageBuilder
