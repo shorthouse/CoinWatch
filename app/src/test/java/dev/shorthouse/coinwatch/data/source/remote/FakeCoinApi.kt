@@ -7,6 +7,9 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartData
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailData
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailDataHolder
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResult
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsData
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsData
 import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
@@ -34,7 +37,8 @@ class FakeCoinApi : CoinApi {
                                     id = "Qwsogvtv82FCd",
                                     symbol = "BTC",
                                     name = "Bitcoin",
-                                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+                                    imageUrl =
+                                    "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                                     currentPrice = "29490.954785191607",
                                     priceChangePercentage24h = "-0.96",
                                     sparkline24h = listOf(
@@ -96,7 +100,8 @@ class FakeCoinApi : CoinApi {
                                     id = null,
                                     symbol = "BTC",
                                     name = "Bitcoin",
-                                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+                                    imageUrl =
+                                    "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                                     currentPrice = "29490.954785191607",
                                     priceChangePercentage24h = "-0.96",
                                     sparkline24h = listOf(
@@ -249,6 +254,70 @@ class FakeCoinApi : CoinApi {
                 return Response.error(
                     404,
                     "Coin detail not found".toResponseBody(null)
+                )
+            }
+        }
+    }
+
+    override suspend fun getCoinSearchResults(
+        searchQuery: String,
+        currencyUUID: String
+    ): Response<CoinSearchResultsApiModel> {
+        return when (searchQuery) {
+            "" -> {
+                Response.success(
+                    CoinSearchResultsApiModel(
+                        coinsSearchResultsData = CoinSearchResultsData(
+                            coinSearchResults = emptyList()
+                        )
+                    )
+                )
+            }
+
+            "bit" -> {
+                Response.success(
+                    CoinSearchResultsApiModel(
+                        coinsSearchResultsData = CoinSearchResultsData(
+                            coinSearchResults = listOf(
+                                CoinSearchResult(
+                                    id = "Qwsogvtv82FCd",
+                                    symbol = "BTC",
+                                    name = "Bitcoin",
+                                    imageUrl =
+                                    "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+                                    currentPrice = "29490.954785191607"
+                                ),
+                                CoinSearchResult(
+                                    id = "ZlZpzOJo43mIo",
+                                    symbol = "BCH",
+                                    name = "Bitcoin Cash",
+                                    imageUrl = "https://cdn.coinranking.com/By8ziihX7/bch.svg",
+                                    currentPrice = "228.2807353007971"
+                                )
+                            )
+                        )
+                    )
+                )
+            }
+
+            "null" -> {
+                Response.success(
+                    CoinSearchResultsApiModel(
+                        coinsSearchResultsData = CoinSearchResultsData(
+                            coinSearchResults = null
+                        )
+                    )
+                )
+            }
+
+            "exception" -> {
+                throw IllegalArgumentException("Test exception")
+            }
+
+            else -> {
+                Response.error(
+                    404,
+                    "Search results error".toResponseBody(null)
                 )
             }
         }
