@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -118,6 +119,7 @@ fun CoinSearchContent(
             IconButton(onClick = onNavigateUp) {
                 Icon(
                     imageVector = Icons.Rounded.ArrowBack,
+                    tint = MaterialTheme.colorScheme.onSurface,
                     contentDescription = stringResource(R.string.cd_top_bar_back)
                 )
             }
@@ -147,15 +149,17 @@ fun CoinSearchContent(
                         itemContent = { index ->
                             val searchCoin = searchResults[index]
 
-                            val cardShape = when (index) {
-                                0 -> MaterialTheme.shapes.medium.copy(
+                            val cardShape = when {
+                                searchResults.size == 1 -> MaterialTheme.shapes.medium
+                                index == 0 -> MaterialTheme.shapes.medium.copy(
                                     bottomStart = CornerSize(0.dp),
                                     bottomEnd = CornerSize(0.dp)
                                 )
-                                searchResults.lastIndex -> MaterialTheme.shapes.medium.copy(
-                                    topStart = CornerSize(0.dp),
-                                    topEnd = CornerSize(0.dp)
-                                )
+                                index == searchResults.lastIndex ->
+                                    MaterialTheme.shapes.medium.copy(
+                                        topStart = CornerSize(0.dp),
+                                        topEnd = CornerSize(0.dp)
+                                    )
                                 else -> RoundedCornerShape(0.dp)
                             }
 
@@ -171,7 +175,10 @@ fun CoinSearchContent(
         },
         colors = SearchBarDefaults.colors(
             containerColor = MaterialTheme.colorScheme.background,
-            dividerColor = MaterialTheme.colorScheme.surface
+            dividerColor = MaterialTheme.colorScheme.surface,
+            inputFieldColors = TextFieldDefaults.colors(
+                cursorColor = MaterialTheme.colorScheme.onSurface
+            )
         ),
         enabled = true,
         active = true,
