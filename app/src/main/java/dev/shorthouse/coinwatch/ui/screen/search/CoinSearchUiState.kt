@@ -4,7 +4,7 @@ import dev.shorthouse.coinwatch.model.SearchCoin
 import kotlinx.collections.immutable.ImmutableList
 
 sealed interface CoinSearchUiState {
-    object Loading : CoinSearchUiState
+    data object Loading : CoinSearchUiState
     data class Success(
         val searchResults: ImmutableList<SearchCoin>,
         val queryHasNoResults: Boolean
