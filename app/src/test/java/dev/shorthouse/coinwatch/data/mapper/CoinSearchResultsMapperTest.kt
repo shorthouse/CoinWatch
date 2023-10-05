@@ -4,7 +4,6 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResult
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsData
-import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.model.SearchCoin
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
@@ -71,8 +70,7 @@ class CoinSearchResultsMapperTest {
                 symbol = "BTC",
                 name = "Bitcoin",
                 imageUrl =
-                "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                currentPrice = Price("29490.954785191607")
+                "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
             )
         )
 
@@ -123,8 +121,7 @@ class CoinSearchResultsMapperTest {
                 symbol = "BTC",
                 name = "Bitcoin",
                 imageUrl =
-                "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                currentPrice = Price("29490.954785191607")
+                "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
             )
         )
 
@@ -157,8 +154,7 @@ class CoinSearchResultsMapperTest {
                 id = "Qwsogvtv82FCd",
                 symbol = "",
                 name = "",
-                imageUrl = "",
-                currentPrice = Price(null)
+                imageUrl = ""
             )
         )
 

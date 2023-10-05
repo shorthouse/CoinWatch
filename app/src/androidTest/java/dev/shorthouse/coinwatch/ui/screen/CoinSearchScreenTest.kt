@@ -9,7 +9,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.model.SearchCoin
 import dev.shorthouse.coinwatch.ui.screen.search.CoinSearchScreen
 import dev.shorthouse.coinwatch.ui.screen.search.CoinSearchUiState
@@ -248,15 +247,13 @@ class CoinSearchScreenTest {
                 id = "Qwsogvtv82FCd",
                 symbol = "BTC",
                 name = "Bitcoin",
-                imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                currentPrice = Price("29490.954785191607")
+                imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
             ),
             SearchCoin(
                 id = "ZlZpzOJo43mIo",
                 symbol = "BCH",
                 name = "Bitcoin Cash",
-                imageUrl = "https://cdn.coinranking.com/By8ziihX7/bch.svg",
-                currentPrice = Price("228.2807353007971")
+                imageUrl = "https://cdn.coinranking.com/By8ziihX7/bch.svg"
             )
         )
 
@@ -295,8 +292,7 @@ class CoinSearchScreenTest {
                 id = "Qwsogvtv82FCd",
                 symbol = "BTC",
                 name = "Bitcoin",
-                imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                currentPrice = Price("29490.954785191607")
+                imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
             )
         )
 

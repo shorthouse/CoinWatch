@@ -2,7 +2,6 @@ package dev.shorthouse.coinwatch.data.mapper
 
 import dev.shorthouse.coinwatch.common.Mapper
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
-import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.model.SearchCoin
 import javax.inject.Inject
 
@@ -19,8 +18,7 @@ class CoinSearchResultsMapper @Inject constructor() :
                 id = searchResultsCoin.id!!,
                 name = searchResultsCoin.name.orEmpty(),
                 symbol = searchResultsCoin.symbol.orEmpty(),
-                imageUrl = searchResultsCoin.imageUrl.orEmpty(),
-                currentPrice = Price(searchResultsCoin.currentPrice)
+                imageUrl = searchResultsCoin.imageUrl.orEmpty()
             )
         }
     }

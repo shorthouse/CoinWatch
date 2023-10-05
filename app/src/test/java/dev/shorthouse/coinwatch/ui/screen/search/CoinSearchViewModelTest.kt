@@ -4,7 +4,6 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.domain.GetCoinSearchResultsUseCase
-import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.model.SearchCoin
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -115,15 +114,13 @@ class CoinSearchViewModelTest {
                 id = "Qwsogvtv82FCd",
                 symbol = "BTC",
                 name = "Bitcoin",
-                imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                currentPrice = Price("29490.954785191607")
+                imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
             ),
             SearchCoin(
                 id = "ZlZpzOJo43mIo",
                 symbol = "BCH",
                 name = "Bitcoin Cash",
-                imageUrl = "https://cdn.coinranking.com/By8ziihX7/bch.svg",
-                currentPrice = Price("228.2807353007971")
+                imageUrl = "https://cdn.coinranking.com/By8ziihX7/bch.svg"
             )
         )
 
@@ -139,15 +136,13 @@ class CoinSearchViewModelTest {
                         id = "Qwsogvtv82FCd",
                         symbol = "BTC",
                         name = "Bitcoin",
-                        imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                        currentPrice = Price("29490.954785191607")
+                        imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
                     ),
                     SearchCoin(
                         id = "ZlZpzOJo43mIo",
                         symbol = "BCH",
                         name = "Bitcoin Cash",
-                        imageUrl = "https://cdn.coinranking.com/By8ziihX7/bch.svg",
-                        currentPrice = Price("228.2807353007971")
+                        imageUrl = "https://cdn.coinranking.com/By8ziihX7/bch.svg"
                     )
                 )
             )
