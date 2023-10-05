@@ -1,6 +1,6 @@
 package dev.shorthouse.coinwatch.model
 
-class SearchCoin(
+data class SearchCoin(
     val id: String,
     val name: String,
     val symbol: String,
