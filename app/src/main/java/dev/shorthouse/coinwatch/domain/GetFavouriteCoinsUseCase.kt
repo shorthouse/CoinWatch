@@ -9,11 +9,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 
 class GetFavouriteCoinsUseCase @Inject constructor(
     private val favouriteCoinRepository: FavouriteCoinRepository,
-    private val coinsRepository: CoinRepository
+    private val coinRepository: CoinRepository
 ) {
     operator fun invoke(): Flow<Result<List<Coin>>> {
         return getFavouriteCoins()
@@ -29,7 +28,7 @@ class GetFavouriteCoinsUseCase @Inject constructor(
                     val favouriteCoinIds = favouriteCoinsResult.data.map { it.id }
 
                     if (favouriteCoinIds.isNotEmpty()) {
-                        coinsRepository.getCoins(coinIds = favouriteCoinIds)
+                        coinRepository.getCoins(coinIds = favouriteCoinIds)
                     } else {
                         flow {
                             emit(Result.Success(emptyList()))
