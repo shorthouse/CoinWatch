@@ -2,7 +2,7 @@
 ## Introduction and definitions
 Your privacy is important to us - this privacy policy is designed to help you understand how we collect, use, disclose, and safeguard your personal information when you use the CoinWatch app.
 
-For the purposes of this Privacy Policy, ‘we’, ‘us’, ‘our’, and "the App" refers to the CoinWatch app, and ‘you’ refers to you, the user of the App.
+For the purposes of this Privacy Policy, ‘we’, ‘us’, ‘our’, and 'the App' refers to the CoinWatch app, and ‘you’ refers to you, the user of the App.
 
 By downloading, installing, or using the App, you consent to our collection and use of personal information in accordance with this Privacy Policy.
 
