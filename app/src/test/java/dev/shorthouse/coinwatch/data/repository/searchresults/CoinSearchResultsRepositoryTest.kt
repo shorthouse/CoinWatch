@@ -84,15 +84,13 @@ class CoinSearchResultsRepositoryTest {
                                 symbol = "BTC",
                                 name = "Bitcoin",
                                 imageUrl =
-                                "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                                currentPrice = "29490.954785191607"
+                                "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
                             ),
                             CoinSearchResult(
                                 id = "ZlZpzOJo43mIo",
                                 symbol = "BCH",
                                 name = "Bitcoin Cash",
-                                imageUrl = "https://cdn.coinranking.com/By8ziihX7/bch.svg",
-                                currentPrice = "228.2807353007971"
+                                imageUrl = "https://cdn.coinranking.com/By8ziihX7/bch.svg"
                             )
                         )
                     )
@@ -135,8 +133,7 @@ class CoinSearchResultsRepositoryTest {
                                     id = "Qwsogvtv82FCd",
                                     symbol = null,
                                     name = null,
-                                    imageUrl = null,
-                                    currentPrice = null
+                                    imageUrl = null
                                 )
                             )
                         )
@@ -171,8 +168,7 @@ class CoinSearchResultsRepositoryTest {
                                 id = null,
                                 symbol = null,
                                 name = null,
-                                imageUrl = null,
-                                currentPrice = null
+                                imageUrl = null
                             )
                         )
                     )
