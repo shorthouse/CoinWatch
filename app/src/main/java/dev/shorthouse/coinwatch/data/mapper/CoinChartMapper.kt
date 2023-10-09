@@ -6,6 +6,7 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
+import java.math.BigDecimal
 import javax.inject.Inject
 import kotlinx.collections.immutable.toPersistentList
 
@@ -16,6 +17,7 @@ class CoinChartMapper @Inject constructor() : Mapper<CoinChartApiModel, CoinChar
             .mapNotNull { pastPrice ->
                 pastPrice?.amount.toSanitisedBigDecimalOrNull()
             }
+            .filter { price -> price.compareTo(BigDecimal.ZERO) >= 0 }
             .reversed()
 
         val minPrice = when {
@@ -32,7 +34,7 @@ class CoinChartMapper @Inject constructor() : Mapper<CoinChartApiModel, CoinChar
             prices = validPrices.toPersistentList(),
             minPrice = Price(minPrice),
             maxPrice = Price(maxPrice),
-            periodPriceChangePercentage = Percentage(from.coinChartData?.pricePercentageChange)
+            periodPriceChangePercentage = Percentage(from.coinChartData?.priceChangePercentage)
         )
     }
 }
