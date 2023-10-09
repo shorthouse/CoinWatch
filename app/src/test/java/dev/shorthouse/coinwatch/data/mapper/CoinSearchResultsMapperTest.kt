@@ -56,8 +56,7 @@ class CoinSearchResultsMapperTest {
                         symbol = "BTC",
                         name = "Bitcoin",
                         imageUrl =
-                        "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                        currentPrice = "29490.954785191607"
+                        "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
                     ),
                     null
                 )
@@ -92,23 +91,20 @@ class CoinSearchResultsMapperTest {
                         symbol = "BTC",
                         name = "Bitcoin",
                         imageUrl =
-                        "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                        currentPrice = "29490.954785191607"
+                        "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
                     ),
                     CoinSearchResult(
                         id = null,
                         symbol = "BTC",
                         name = "Bitcoin",
                         imageUrl =
-                        "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                        currentPrice = "29490.954785191607"
+                        "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
                     ),
                     CoinSearchResult(
                         id = null,
                         symbol = null,
                         name = null,
-                        imageUrl = null,
-                        currentPrice = null
+                        imageUrl = null
                     )
 
                 )
@@ -142,8 +138,7 @@ class CoinSearchResultsMapperTest {
                         id = "Qwsogvtv82FCd",
                         symbol = null,
                         name = null,
-                        imageUrl = null,
-                        currentPrice = null
+                        imageUrl = null
                     )
                 )
             )
@@ -155,6 +150,38 @@ class CoinSearchResultsMapperTest {
                 symbol = "",
                 name = "",
                 imageUrl = ""
+            )
+        )
+
+        // Act
+        val coinSearchResults = coinSearchResultsMapper.mapApiModelToModel(apiModel)
+
+        // Assert
+        assertThat(coinSearchResults).isEqualTo(expectedCoinSearchResults)
+    }
+
+    @Test
+    fun `When search results has valid values should map to model`() = runTest {
+        // Arrange
+        val apiModel = CoinSearchResultsApiModel(
+            coinsSearchResultsData = CoinSearchResultsData(
+                coinSearchResults = listOf(
+                    CoinSearchResult(
+                        id = "Qwsogvtv82FCd",
+                        symbol = "BTC",
+                        name = "Bitcoin",
+                        imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
+                    )
+                )
+            )
+        )
+
+        val expectedCoinSearchResults = listOf(
+            SearchCoin(
+                id = "Qwsogvtv82FCd",
+                symbol = "BTC",
+                name = "Bitcoin",
+                imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
             )
         )
 
