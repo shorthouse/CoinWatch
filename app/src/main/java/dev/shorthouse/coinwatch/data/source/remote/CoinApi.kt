@@ -17,7 +17,7 @@ interface CoinApi {
         @Query("timePeriod") timePeriod: String = "24h",
         @Query("orderBy") orderBy: String = "marketCap",
         @Query("orderDirection") orderDirection: String = "desc",
-        @Query("limit") limit: String = "80"
+        @Query("limit") limit: String = "100"
     ): Response<CoinsApiModel>
 
     @GET("coin/{coinId}")
