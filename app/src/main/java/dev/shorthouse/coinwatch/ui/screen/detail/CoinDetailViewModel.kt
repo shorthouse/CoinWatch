@@ -70,12 +70,15 @@ class CoinDetailViewModel @Inject constructor(
                 coinDetailResult is Result.Error -> {
                     _uiState.update { CoinDetailUiState.Error(coinDetailResult.message) }
                 }
+
                 coinChartResult is Result.Error -> {
                     _uiState.update { CoinDetailUiState.Error(coinChartResult.message) }
                 }
+
                 isCoinFavouriteResult is Result.Error -> {
                     _uiState.update { CoinDetailUiState.Error(isCoinFavouriteResult.message) }
                 }
+
                 coinDetailResult is Result.Success &&
                     coinChartResult is Result.Success &&
                     isCoinFavouriteResult is Result.Success -> {
