@@ -42,7 +42,7 @@ class CoinDetailMapper @Inject constructor() : Mapper<CoinDetailApiModel, CoinDe
 
     private fun epochToDateOrEmpty(epochSecond: Long?): String {
         try {
-            if (epochSecond == null) return ""
+            if (epochSecond == null || epochSecond < 0) return ""
 
             val epochInstant = Instant.ofEpochSecond(epochSecond)
                 .atZone(ZoneId.systemDefault())
