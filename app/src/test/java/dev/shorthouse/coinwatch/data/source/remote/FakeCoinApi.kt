@@ -7,6 +7,8 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartData
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailData
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailDataHolder
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsData
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsData
 import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
@@ -34,10 +36,11 @@ class FakeCoinApi : CoinApi {
                                     id = "Qwsogvtv82FCd",
                                     symbol = "BTC",
                                     name = "Bitcoin",
-                                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+                                    imageUrl =
+                                    "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                                     currentPrice = "29490.954785191607",
                                     priceChangePercentage24h = "-0.96",
-                                    sparkline24h = listOf(
+                                    prices24h = listOf(
                                         BigDecimal("29790.15810429195"),
                                         BigDecimal("29782.07714670252"),
                                         BigDecimal("29436.47984833588"),
@@ -63,7 +66,7 @@ class FakeCoinApi : CoinApi {
                                     imageUrl = null,
                                     currentPrice = null,
                                     priceChangePercentage24h = null,
-                                    sparkline24h = null
+                                    prices24h = null
                                 )
                             )
                         )
@@ -96,10 +99,11 @@ class FakeCoinApi : CoinApi {
                                     id = null,
                                     symbol = "BTC",
                                     name = "Bitcoin",
-                                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+                                    imageUrl =
+                                    "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                                     currentPrice = "29490.954785191607",
                                     priceChangePercentage24h = "-0.96",
-                                    sparkline24h = listOf(
+                                    prices24h = listOf(
                                         BigDecimal("29790.15810429195"),
                                         BigDecimal("29782.07714670252"),
                                         BigDecimal("29436.47984833588"),
@@ -114,7 +118,7 @@ class FakeCoinApi : CoinApi {
                                     imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
                                     currentPrice = "1845.7097788177032",
                                     priceChangePercentage24h = "0.42",
-                                    sparkline24h = listOf(
+                                    prices24h = listOf(
                                         BigDecimal("1857.0635686120618"),
                                         BigDecimal("1852.7243420201132"),
                                         BigDecimal("1850.8054635160697"),
@@ -149,7 +153,7 @@ class FakeCoinApi : CoinApi {
         when (coinId) {
             "Qwsogvtv82FCd" -> {
                 val coinChartData = CoinChartData(
-                    pricePercentageChange = "-0.97",
+                    priceChangePercentage = "-0.97",
                     pastPrices = listOf(
                         PastPrice(amount = "20000.20"),
                         PastPrice(amount = "30000.47"),
@@ -168,7 +172,7 @@ class FakeCoinApi : CoinApi {
 
             "nullValues" -> {
                 val coinChartData = CoinChartData(
-                    pricePercentageChange = null,
+                    priceChangePercentage = null,
                     pastPrices = null
                 )
 
@@ -181,7 +185,7 @@ class FakeCoinApi : CoinApi {
 
             "nullPrices" -> {
                 val coinChartData = CoinChartData(
-                    pricePercentageChange = null,
+                    priceChangePercentage = null,
                     pastPrices = listOf(
                         PastPrice(amount = "30000.47"),
                         null,
@@ -249,6 +253,30 @@ class FakeCoinApi : CoinApi {
                 return Response.error(
                     404,
                     "Coin detail not found".toResponseBody(null)
+                )
+            }
+        }
+    }
+
+    override suspend fun getCoinSearchResults(
+        searchQuery: String,
+        currencyUUID: String
+    ): Response<CoinSearchResultsApiModel> {
+        return when (searchQuery) {
+            "" -> {
+                Response.success(
+                    CoinSearchResultsApiModel(
+                        coinsSearchResultsData = CoinSearchResultsData(
+                            coinSearchResults = emptyList()
+                        )
+                    )
+                )
+            }
+
+            else -> {
+                Response.error(
+                    404,
+                    "Search results error".toResponseBody(null)
                 )
             }
         }

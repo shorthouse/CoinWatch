@@ -27,5 +27,5 @@ data class CoinApiModel(
     @SerializedName("change")
     val priceChangePercentage24h: String?,
     @SerializedName("sparkline")
-    val sparkline24h: List<BigDecimal?>?
+    val prices24h: List<BigDecimal?>?
 )

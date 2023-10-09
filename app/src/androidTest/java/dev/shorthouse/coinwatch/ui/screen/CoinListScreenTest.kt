@@ -34,6 +34,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateLoading,
                     onCoinClick = {},
+                    onNavigateSearch = {},
                     onErrorRetry = {}
                 )
             }
@@ -54,6 +55,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateError,
                     onCoinClick = {},
+                    onNavigateSearch = {},
                     onErrorRetry = {}
                 )
             }
@@ -77,6 +79,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateError,
                     onCoinClick = {},
+                    onNavigateSearch = {},
                     onErrorRetry = { onErrorRetryCalled = true }
                 )
             }
@@ -102,6 +105,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
+                    onNavigateSearch = {},
                     onErrorRetry = {}
                 )
             }
@@ -126,6 +130,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
+                    onNavigateSearch = {},
                     onErrorRetry = {}
                 )
             }
@@ -195,6 +200,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
+                    onNavigateSearch = {},
                     onErrorRetry = {}
                 )
             }
@@ -237,6 +243,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
+                    onNavigateSearch = {},
                     onErrorRetry = {}
                 )
             }
@@ -304,6 +311,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
+                    onNavigateSearch = {},
                     onErrorRetry = {}
                 )
             }
@@ -360,6 +368,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = ({ onCoinClickCalled = true }),
+                    onNavigateSearch = {},
                     onErrorRetry = {}
                 )
             }
@@ -402,6 +411,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = ({ onCoinClickCalled = true }),
+                    onNavigateSearch = {},
                     onErrorRetry = {}
                 )
             }
@@ -427,6 +437,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
+                    onNavigateSearch = {},
                     onErrorRetry = {}
                 )
             }
@@ -450,6 +461,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
+                    onNavigateSearch = {},
                     onErrorRetry = {}
                 )
             }
@@ -473,6 +485,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
+                    onNavigateSearch = {},
                     onErrorRetry = {}
                 )
             }

@@ -3,7 +3,7 @@ package dev.shorthouse.coinwatch.ui.theme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -20,10 +20,13 @@ fun AppTheme(
     systemUiController: SystemUiController = rememberSystemUiController(),
     content: @Composable () -> Unit
 ) {
-    LaunchedEffect(systemUiController) {
+    DisposableEffect(systemUiController) {
         systemUiController.setSystemBarsColor(
+            darkIcons = false,
             color = darkColorScheme.background
         )
+
+        onDispose { }
     }
 
     MaterialTheme(

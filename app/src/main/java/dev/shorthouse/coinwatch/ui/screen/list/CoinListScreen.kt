@@ -1,8 +1,10 @@
 package dev.shorthouse.coinwatch.ui.screen.list
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -10,7 +12,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -19,9 +25,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -54,6 +62,7 @@ fun CoinListScreen(
         onCoinClick = { coin ->
             navController.navigate(Screen.CoinDetail.route + "/${coin.id}")
         },
+        onNavigateSearch = { navController.navigate(Screen.CoinSearch.route) },
         onErrorRetry = { viewModel.initialiseUiState() }
     )
 }
@@ -63,6 +72,7 @@ fun CoinListScreen(
 fun CoinListScreen(
     uiState: CoinListUiState,
     onCoinClick: (Coin) -> Unit,
+    onNavigateSearch: () -> Unit,
     onErrorRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -74,7 +84,8 @@ fun CoinListScreen(
                 topBar = {
                     CoinListTopBar(
                         timeOfDay = uiState.timeOfDay,
-                        scrollBehavior = scrollBehavior
+                        scrollBehavior = scrollBehavior,
+                        onNavigateSearch = onNavigateSearch
                     )
                 },
                 content = { scaffoldPadding ->
@@ -107,6 +118,7 @@ fun CoinListScreen(
 private fun CoinListTopBar(
     timeOfDay: TimeOfDay,
     scrollBehavior: TopAppBarScrollBehavior,
+    onNavigateSearch: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
@@ -121,6 +133,15 @@ private fun CoinListTopBar(
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.offset(x = (-4).dp)
             )
+        },
+        actions = {
+            IconButton(onClick = onNavigateSearch) {
+                Icon(
+                    imageVector = Icons.Rounded.Search,
+                    tint = MaterialTheme.colorScheme.onBackground,
+                    contentDescription = stringResource(R.string.cd_top_app_bar_search)
+                )
+            }
         },
         colors = TopAppBarDefaults.largeTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -218,6 +239,30 @@ private fun CoinListContent(
                 }
             )
         }
+
+        item {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.cant_find_coin_prompt),
+                    style = MaterialTheme.typography.bodySmall,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+
+                Text(
+                    text = stringResource(R.string.search_coin_prompt),
+                    style = MaterialTheme.typography.bodySmall,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
     }
 }
 
@@ -230,6 +275,7 @@ private fun CoinListScreenPreview(
         CoinListScreen(
             uiState = uiState,
             onCoinClick = {},
+            onNavigateSearch = {},
             onErrorRetry = {}
         )
     }

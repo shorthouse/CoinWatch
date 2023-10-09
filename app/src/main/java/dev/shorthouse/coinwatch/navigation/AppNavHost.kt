@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.shorthouse.coinwatch.ui.screen.detail.CoinDetailScreen
 import dev.shorthouse.coinwatch.ui.screen.list.CoinListScreen
+import dev.shorthouse.coinwatch.ui.screen.search.CoinSearchScreen
 
 @Composable
 fun AppNavHost(
@@ -25,6 +26,9 @@ fun AppNavHost(
         }
         composable(route = Screen.CoinDetail.route + "/{coinId}") {
             CoinDetailScreen(navController = navController)
+        }
+        composable(route = Screen.CoinSearch.route) {
+            CoinSearchScreen(navController = navController)
         }
     }
 }

@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import dev.shorthouse.coinwatch.data.mapper.CoinChartMapper
 import dev.shorthouse.coinwatch.data.mapper.CoinDetailMapper
 import dev.shorthouse.coinwatch.data.mapper.CoinMapper
+import dev.shorthouse.coinwatch.data.mapper.CoinSearchResultsMapper
 import javax.inject.Singleton
 
 @Module
@@ -29,5 +30,11 @@ object MapperModule {
     @Singleton
     fun provideCoinDetailMapper(): CoinDetailMapper {
         return CoinDetailMapper()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCoinSearchResultsMapper(): CoinSearchResultsMapper {
+        return CoinSearchResultsMapper()
     }
 }
