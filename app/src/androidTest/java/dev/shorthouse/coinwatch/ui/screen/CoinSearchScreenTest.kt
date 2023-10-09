@@ -73,6 +73,31 @@ class CoinSearchScreenTest {
     }
 
     @Test
+    fun when_uiStateErrorBackClicked_should_callOnNavigateUp() {
+        var onNavigateUpCalled = false
+        val uiStateError = CoinSearchUiState.Error("Error message")
+
+        composeTestRule.setContent {
+            AppTheme {
+                CoinSearchScreen(
+                    uiState = uiStateError,
+                    searchQuery = "",
+                    onSearchQueryChange = {},
+                    onNavigateUp = { onNavigateUpCalled = true },
+                    onCoinClick = {},
+                    onErrorRetry = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithContentDescription("Back").performClick()
+        }
+
+        assertThat(onNavigateUpCalled).isTrue()
+    }
+
+    @Test
     fun when_uiStateSuccess_should_showExpectedContent() {
         val uiStateSuccess = CoinSearchUiState.Success(
             searchResults = persistentListOf(),

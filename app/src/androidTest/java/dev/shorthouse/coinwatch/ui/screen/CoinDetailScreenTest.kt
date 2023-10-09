@@ -97,7 +97,31 @@ class CoinDetailScreenTest {
             onNodeWithText("Retry").performClick()
         }
 
-        assert(onErrorRetryCalled)
+        assertThat(onErrorRetryCalled).isTrue()
+    }
+
+    @Test
+    fun when_uiStateErrorBackClicked_should_callOnNavigateUp() {
+        var onNavigateUpCalled = false
+        val uiStateError = CoinDetailUiState.Error("Error message")
+
+        composeTestRule.setContent {
+            AppTheme {
+                CoinDetailScreen(
+                    uiState = uiStateError,
+                    onNavigateUp = { onNavigateUpCalled = true },
+                    onClickFavouriteCoin = {},
+                    onClickChartPeriod = {},
+                    onErrorRetry = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithContentDescription("Back").performClick()
+        }
+
+        assertThat(onNavigateUpCalled).isTrue()
     }
 
     @Test
