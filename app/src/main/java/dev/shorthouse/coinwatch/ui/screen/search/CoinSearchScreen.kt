@@ -81,12 +81,15 @@ fun CoinSearchScreen(
                 modifier = modifier
             )
         }
+
         is CoinSearchUiState.Error -> {
             ErrorState(
                 message = uiState.message,
-                onRetry = onErrorRetry
+                onRetry = onErrorRetry,
+                onNavigateUp = onNavigateUp
             )
         }
+
         CoinSearchUiState.Loading -> {}
     }
 }
@@ -155,11 +158,13 @@ fun CoinSearchContent(
                                     bottomStart = CornerSize(0.dp),
                                     bottomEnd = CornerSize(0.dp)
                                 )
+
                                 index == searchResults.lastIndex ->
                                     MaterialTheme.shapes.medium.copy(
                                         topStart = CornerSize(0.dp),
                                         topEnd = CornerSize(0.dp)
                                     )
+
                                 else -> RoundedCornerShape(0.dp)
                             }
 
