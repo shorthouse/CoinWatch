@@ -20,7 +20,5 @@ data class CoinSearchResult(
     @SerializedName("name")
     val name: String?,
     @SerializedName("iconUrl")
-    val imageUrl: String?,
-    @SerializedName("price")
-    val currentPrice: String?
+    val imageUrl: String?
 )
