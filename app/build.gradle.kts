@@ -68,16 +68,16 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("androidx.activity:activity-compose:1.8.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     // Compose
-    implementation(platform("androidx.compose:compose-bom:2023.09.02"))
+    implementation(platform("androidx.compose:compose-bom:2023.10.00"))
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6")
     lintChecks("com.slack.lint.compose:compose-lint-checks:1.2.0")
 
     // Coroutines
@@ -89,10 +89,10 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    implementation("com.google.dagger:hilt-android:2.48.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.48.1")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-beta01")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -123,7 +123,7 @@ dependencies {
     androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test:rules:1.5.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.2")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.3")
     androidTestImplementation("com.google.truth:truth:1.1.5")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
