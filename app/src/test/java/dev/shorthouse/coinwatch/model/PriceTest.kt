@@ -81,7 +81,7 @@ class PriceTest {
 
         // Assert
         assertThat(price.amount).isEqualTo(BigDecimal("1"))
-        assertThat(price.formattedAmount).isEqualTo("$1.00")
+        assertThat(price.formattedAmount).isEqualTo("$1.000000")
     }
 
     @Test
@@ -191,7 +191,8 @@ class PriceTest {
     @Test
     fun `When valid massive input is parsed correctly`() {
         // Arrange
-        val massivePrice = "23525782458793458793578905437890054935783245892347580934275093247952349785734290857938245798234578934"
+        val massivePrice =
+            "23525782458793458793578905437890054935783245892347580934275093247952349785734290857938245798234578934"
 
         // Act
         val price = Price(massivePrice)

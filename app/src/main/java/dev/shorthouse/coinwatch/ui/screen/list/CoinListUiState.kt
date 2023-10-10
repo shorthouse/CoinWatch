@@ -5,11 +5,12 @@ import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import kotlinx.collections.immutable.ImmutableList
 
 sealed interface CoinListUiState {
-    data object Loading : CoinListUiState
+    object Loading : CoinListUiState
     data class Success(
         val coins: ImmutableList<Coin>,
         val favouriteCoins: ImmutableList<Coin>,
         val timeOfDay: TimeOfDay
     ) : CoinListUiState
+
     data class Error(val message: String?) : CoinListUiState
 }

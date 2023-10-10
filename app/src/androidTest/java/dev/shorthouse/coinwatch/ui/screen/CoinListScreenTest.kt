@@ -223,7 +223,7 @@ class CoinListScreenTest {
 
             onNodeWithText("Tether").assertIsDisplayed()
             onNodeWithText("USDT").assertIsDisplayed()
-            onNodeWithText("$1.00").assertIsDisplayed()
+            onNodeWithText("$1.000000").assertIsDisplayed()
             onNodeWithText("+0.00%").assertIsDisplayed()
             onNodeWithTag(testTag = "priceGraph USDT", useUnmergedTree = true).assertIsDisplayed()
             onNodeWithText("Tether").assertHasClickAction()
@@ -332,7 +332,7 @@ class CoinListScreenTest {
 
             onNodeWithText("Tether").assertIsDisplayed()
             onNodeWithText("USDT").assertIsDisplayed()
-            onNodeWithText("$1.00").assertIsDisplayed()
+            onNodeWithText("$1.000000").assertIsDisplayed()
             onNodeWithText("+0.00%").assertIsDisplayed()
             onNodeWithText("Tether").assertHasClickAction()
         }
