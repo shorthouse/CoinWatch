@@ -3,7 +3,6 @@ package dev.shorthouse.coinwatch.ui.screen.detail.component
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -24,12 +23,15 @@ fun ChartRangeLine(
     maxPrice: Price,
     modifier: Modifier = Modifier
 ) {
-    val currentMinDiff = remember(currentPrice, minPrice) {
-        currentPrice.amount - minPrice.amount
+    val latestMinPrice = remember(currentPrice, minPrice) { minOf(currentPrice, minPrice) }
+    val latestMaxPrice = remember(currentPrice, maxPrice) { maxOf(currentPrice, maxPrice) }
+
+    val currentMinDiff = remember(currentPrice, latestMinPrice) {
+        currentPrice.amount - latestMinPrice.amount
     }
 
-    val maxMinDiff = remember(maxPrice, minPrice) {
-        maxPrice.amount - minPrice.amount
+    val maxMinDiff = remember(latestMaxPrice, latestMinPrice) {
+        latestMaxPrice.amount - latestMinPrice.amount
     }
 
     val currentPriceRatio = remember(currentMinDiff, maxMinDiff) {
@@ -49,26 +51,10 @@ fun ChartRangeLine(
         NegativeRed
     }
 
-    val dividerColor = MaterialTheme.colorScheme.onSurface
-
     Canvas(modifier = modifier) {
         val canvasWidth = size.width
         val canvasHeightMiddle = size.height / 2f
-        val lineWidth = 25f
-
-        drawLine(
-            start = Offset(
-                x = 0f,
-                y = canvasHeightMiddle
-            ),
-            end = Offset(
-                x = canvasWidth * currentPriceRatio,
-                y = canvasHeightMiddle
-            ),
-            color = positiveGreen,
-            strokeWidth = lineWidth,
-            cap = StrokeCap.Round
-        )
+        val lineWidth = 20f
 
         drawLine(
             start = Offset(
@@ -86,14 +72,14 @@ fun ChartRangeLine(
 
         drawLine(
             start = Offset(
-                x = canvasWidth * currentPriceRatio,
-                y = canvasHeightMiddle - (lineWidth / 2f)
+                x = 0f,
+                y = canvasHeightMiddle
             ),
             end = Offset(
                 x = canvasWidth * currentPriceRatio,
-                y = canvasHeightMiddle + (lineWidth / 2f)
+                y = canvasHeightMiddle
             ),
-            color = dividerColor,
+            color = positiveGreen,
             strokeWidth = lineWidth,
             cap = StrokeCap.Round
         )
