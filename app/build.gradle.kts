@@ -81,7 +81,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
     implementation("com.google.accompanist:accompanist-placeholder-material:0.30.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6")
     lintChecks("com.slack.lint.compose:compose-lint-checks:1.2.0")
 
     // Coroutines
@@ -118,17 +118,17 @@ dependencies {
 
     // Testing
     testImplementation("junit:junit:4.13.2")
-    testImplementation("com.google.truth:truth:1.1.4")
-    testImplementation("com.google.truth.extensions:truth-java8-extension:1.1.4")
-    testImplementation("io.mockk:mockk:1.13.7")
+    testImplementation("com.google.truth:truth:1.1.5")
+    testImplementation("com.google.truth.extensions:truth-java8-extension:1.1.5")
+    testImplementation("io.mockk:mockk:1.13.8")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
 
     androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test:rules:1.5.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.2")
-    androidTestImplementation("com.google.truth:truth:1.1.4")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.3")
+    androidTestImplementation("com.google.truth:truth:1.1.5")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
