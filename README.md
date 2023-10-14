@@ -14,6 +14,17 @@
 
 The app is built using the latest [Android architecture components](https://developer.android.com/topic/architecture/recommendations) - resulting in a scalable, modularised and testable app.
 
+# 📱 Download
+<a href='https://play.google.com/store/apps/details?id=dev.shorthouse.coinwatch&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+    <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height='80'/>
+</a>
+
+# ⭐ Features
+- Get a list of real-time prices and price changes of the top cryptocurrencies
+- Analyse coins in detail with animated price history graphs and market stats data 
+- Search through thousands of cryptocurrencies by name or symbol
+- Create a personalized list of favourite cryptocurrencies 
+
 # 🛠 Built With 
 - Kotlin
 - Jetpack Compose
@@ -49,7 +60,7 @@ To facilitate testing of the app, CoinWatch uses the following:
  - MockK for mocks
 
 
-# 🤝 Contribution 
+# 🤝 Contributing 
 Contributions to the project are welcome and highly encouraged! To get started, please check out the [contributing guidelines](https://github.com/shorthouse/CoinWatch/blob/main/CONTRIBUTING.md).
 
 # 📥 Contact 
@@ -57,7 +68,7 @@ Do you have ideas to improve the app or a query for the developer?
 
 Please get in touch via email - shorthousedev@gmail.com
 
-# ⭐ Acknowledgements 
+# ❤️ Acknowledgements 
  - Coin data provided by [CoinRanking API](https://developers.coinranking.com/api)
  - Empty state images provided by [unDraw](https://undraw.co/illustrations)
 
