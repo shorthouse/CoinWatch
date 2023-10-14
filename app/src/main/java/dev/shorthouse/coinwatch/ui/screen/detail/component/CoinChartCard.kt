@@ -77,6 +77,8 @@ fun CoinChartCard(
                         .height(200.dp)
                 )
 
+                Spacer(Modifier.height(12.dp))
+
                 ChartPeriodSelector(
                     selectedChartPeriod = chartPeriod,
                     onChartPeriodSelected = onClickChartPeriod,
