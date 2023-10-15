@@ -56,9 +56,7 @@ fun CoinSearchScreen(
         onSearchQueryChange = { viewModel.updateSearchQuery(it) },
         onNavigateUp = { navController.navigateUp() },
         onCoinClick = { coin ->
-            navController.navigate(Screen.CoinDetail.route + "/${coin.id}") {
-                popUpTo(Screen.CoinSearch.route) { inclusive = true }
-            }
+            navController.navigate(Screen.CoinDetail.route + "/${coin.id}")
         },
         onErrorRetry = { viewModel.initialiseUiState() }
     )
