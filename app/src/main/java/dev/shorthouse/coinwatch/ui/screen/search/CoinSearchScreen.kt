@@ -1,5 +1,6 @@
 package dev.shorthouse.coinwatch.ui.screen.search
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -199,6 +200,10 @@ fun CoinSearchContent(
 
     LaunchedEffect(focusRequester) {
         focusRequester.requestFocus()
+    }
+
+    BackHandler(enabled = true) {
+        onNavigateUp()
     }
 }
 
