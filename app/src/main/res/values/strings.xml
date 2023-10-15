@@ -48,5 +48,5 @@
     <string name="empty_chart_range_message">No chart range data available</string>
     <string name="empty_chart_message_short">No chart data</string>
     <string name="cant_find_coin_prompt">Can\'t find the coin you\'re looking for?</string>
-    <string name="search_coin_prompt">Try searching for it instead</string>
+    <string name="search_coin_prompt">Try using the search function!</string>
 </resources>

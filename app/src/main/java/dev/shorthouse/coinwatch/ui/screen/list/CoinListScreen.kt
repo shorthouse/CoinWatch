@@ -160,7 +160,7 @@ private fun CoinListContent(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(start = 12.dp, top = 12.dp, bottom = 12.dp),
+        contentPadding = PaddingValues(start = 12.dp, top = 12.dp),
         modifier = modifier
     ) {
         item {
@@ -244,10 +244,10 @@ private fun CoinListContent(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp)
+                modifier = Modifier.fillMaxWidth()
             ) {
+                Spacer(Modifier.height(12.dp))
+
                 Text(
                     text = stringResource(R.string.cant_find_coin_prompt),
                     style = MaterialTheme.typography.bodySmall,
@@ -261,6 +261,8 @@ private fun CoinListContent(
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+
+                Spacer(Modifier.height(12.dp))
             }
         }
     }
