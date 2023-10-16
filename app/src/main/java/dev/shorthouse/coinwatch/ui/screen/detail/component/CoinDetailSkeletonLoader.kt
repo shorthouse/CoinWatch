@@ -75,7 +75,7 @@ private fun SkeletonContent(modifier: Modifier = Modifier) {
         SkeletonSurface(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(392.dp)
+                .height(374.dp)
         )
 
         Spacer(Modifier.height(24.dp))
