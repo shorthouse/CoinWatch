@@ -24,14 +24,8 @@ data class Percentage(private val percentage: String?) {
 
     val formattedAmount: String =
         when {
-            percentage == null -> {
-                "-- %"
-            }
-            isNegative -> {
-                percentageFormat.format(amount.divide(BigDecimal("100")))
-            }
-            else -> {
-                "+" + percentageFormat.format(amount.divide(BigDecimal("100")))
-            }
+            percentage == null -> "-- %"
+            isNegative -> percentageFormat.format(amount.divide(BigDecimal("100")))
+            else -> "+" + percentageFormat.format(amount.divide(BigDecimal("100")))
         }
 }
