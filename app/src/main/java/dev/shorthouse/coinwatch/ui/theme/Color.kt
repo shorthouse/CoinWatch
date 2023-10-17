@@ -8,6 +8,6 @@ val dark_surface = Color(0xFF253667)
 val dark_onSurface = Color(0xFFFFFFFF)
 val dark_onSurfaceVariant = Color(0xFFBDBDBD)
 
-val PositiveGreen = Color(0xFF12D18E)
-val NegativeRed = Color(0xFFF75555)
+val PositiveGreen = Color(0xFF17C683)
+val NegativeRed = Color(0xFFEA3943)
 val ZeroWhite = Color(0xFFFFFFFF)

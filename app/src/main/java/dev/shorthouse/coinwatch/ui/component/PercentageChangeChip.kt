@@ -28,14 +28,14 @@ fun PercentageChangeChip(
     }
 
     Surface(
-        shape = MaterialTheme.shapes.small,
+        shape = MaterialTheme.shapes.extraSmall,
         color = backgroundColor
     ) {
         Text(
             text = percentage.formattedAmount,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.titleSmall,
             color = Color.White,
-            modifier = modifier.padding(horizontal = 7.dp)
+            modifier = modifier.padding(vertical = 1.dp, horizontal = 6.dp)
         )
     }
 }
