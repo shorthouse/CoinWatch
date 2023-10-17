@@ -57,9 +57,7 @@ private fun SkeletonTopAppBar(
 private fun SkeletonContent(
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier.padding(start = 12.dp, top = 12.dp)
-    ) {
+    Column(modifier = modifier.padding(start = 12.dp, top = 12.dp)) {
         Text(
             text = stringResource(R.string.header_favourites),
             style = MaterialTheme.typography.titleMedium
@@ -67,7 +65,7 @@ private fun SkeletonContent(
 
         Spacer(Modifier.height(8.dp))
 
-        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             repeat(12) {
                 SkeletonSurface(
                     modifier = Modifier.size(width = 140.dp, height = 200.dp)
