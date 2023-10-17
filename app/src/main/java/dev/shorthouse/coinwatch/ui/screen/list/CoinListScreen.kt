@@ -1,5 +1,8 @@
 package dev.shorthouse.coinwatch.ui.screen.list
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,22 +12,30 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -49,6 +60,7 @@ import dev.shorthouse.coinwatch.ui.screen.list.component.CoinsEmptyState
 import dev.shorthouse.coinwatch.ui.screen.list.component.FavouriteCoinsEmptyState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.launch
 
 @Composable
 fun CoinListScreen(
@@ -80,6 +92,14 @@ fun CoinListScreen(
 
     when (uiState) {
         is CoinListUiState.Success -> {
+            val lazyListState = rememberLazyListState()
+            val scope = rememberCoroutineScope()
+            val showButton by remember {
+                derivedStateOf {
+                    lazyListState.firstVisibleItemIndex > 0
+                }
+            }
+
             Scaffold(
                 topBar = {
                     CoinListTopBar(
@@ -93,8 +113,33 @@ fun CoinListScreen(
                         coins = uiState.coins,
                         favouriteCoins = uiState.favouriteCoins,
                         onCoinClick = onCoinClick,
+                        lazyListState = lazyListState,
                         modifier = Modifier.padding(scaffoldPadding)
                     )
+                },
+                floatingActionButton = {
+                    AnimatedVisibility(
+                        visible = showButton,
+                        enter = scaleIn(),
+                        exit = scaleOut()
+                    ) {
+                        SmallFloatingActionButton(
+                            onClick = {
+                                scope.launch {
+                                    scrollBehavior.state.heightOffset = 0f
+                                    lazyListState.animateScrollToItem(0)
+                                }
+                            },
+                            containerColor = MaterialTheme.colorScheme.background,
+                            contentColor = MaterialTheme.colorScheme.onBackground,
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Rounded.KeyboardDoubleArrowUp,
+                                    contentDescription = stringResource(R.string.cd_list_scroll_top)
+                                )
+                            }
+                        )
+                    }
                 },
                 modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
             )
@@ -157,9 +202,11 @@ private fun CoinListContent(
     coins: ImmutableList<Coin>,
     favouriteCoins: ImmutableList<Coin>,
     onCoinClick: (Coin) -> Unit,
+    lazyListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
+        state = lazyListState,
         contentPadding = PaddingValues(start = 12.dp, top = 12.dp),
         modifier = modifier
     ) {
