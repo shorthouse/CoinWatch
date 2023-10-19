@@ -75,7 +75,7 @@ fun ErrorState(
                 ) {
                     Image(
                         painter = painterResource(R.drawable.error_state),
-                        contentDescription = null,
+                        contentDescription = stringResource(R.string.cd_error_state),
                         modifier = Modifier.size(250.dp)
                     )
 
