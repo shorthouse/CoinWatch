@@ -50,4 +50,5 @@
     <string name="cant_find_coin_prompt">Can\'t find the coin you\'re looking for?</string>
     <string name="search_coin_prompt">Try using the search function!</string>
     <string name="cd_list_scroll_top">Scroll to top</string>
+    <string name="cd_error_state">Error</string>
 </resources>
