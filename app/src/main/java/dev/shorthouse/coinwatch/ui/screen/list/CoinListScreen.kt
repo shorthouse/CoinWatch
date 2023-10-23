@@ -19,10 +19,8 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallFloatingActionButton
@@ -73,7 +71,6 @@ fun CoinListScreen(
         onCoinClick = { coin ->
             navController.navigate(Screen.CoinDetail.route + "/${coin.id}")
         },
-        onNavigateSearch = { navController.navigate(Screen.CoinSearch.route) },
         onErrorRetry = { viewModel.initialiseUiState() }
     )
 }
@@ -83,7 +80,6 @@ fun CoinListScreen(
 fun CoinListScreen(
     uiState: CoinListUiState,
     onCoinClick: (Coin) -> Unit,
-    onNavigateSearch: () -> Unit,
     onErrorRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -103,8 +99,7 @@ fun CoinListScreen(
                 topBar = {
                     CoinListTopBar(
                         timeOfDay = uiState.timeOfDay,
-                        scrollBehavior = scrollBehavior,
-                        onNavigateSearch = onNavigateSearch
+                        scrollBehavior = scrollBehavior
                     )
                 },
                 content = { scaffoldPadding ->
@@ -144,7 +139,7 @@ fun CoinListScreen(
             )
         }
 
-        is CoinListUiState.Loading -> {
+        CoinListUiState.Loading -> {
             CoinListSkeletonLoader()
         }
 
@@ -162,7 +157,6 @@ fun CoinListScreen(
 private fun CoinListTopBar(
     timeOfDay: TimeOfDay,
     scrollBehavior: TopAppBarScrollBehavior,
-    onNavigateSearch: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
@@ -178,16 +172,7 @@ private fun CoinListTopBar(
                 modifier = Modifier.offset(x = (-4).dp)
             )
         },
-        actions = {
-            IconButton(onClick = onNavigateSearch) {
-                Icon(
-                    imageVector = Icons.Rounded.Search,
-                    tint = MaterialTheme.colorScheme.onBackground,
-                    contentDescription = stringResource(R.string.cd_top_app_bar_search)
-                )
-            }
-        },
-        colors = TopAppBarDefaults.largeTopAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
             scrolledContainerColor = MaterialTheme.colorScheme.background
         ),
@@ -323,7 +308,6 @@ private fun CoinListScreenPreview(
         CoinListScreen(
             uiState = uiState,
             onCoinClick = {},
-            onNavigateSearch = {},
             onErrorRetry = {}
         )
     }
