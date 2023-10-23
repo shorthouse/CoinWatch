@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -50,11 +49,9 @@ import dev.shorthouse.coinwatch.navigation.Screen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.previewdata.CoinListUiStatePreviewProvider
-import dev.shorthouse.coinwatch.ui.screen.list.component.CoinFavouriteItem
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListItem
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListSkeletonLoader
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinsEmptyState
-import dev.shorthouse.coinwatch.ui.screen.list.component.FavouriteCoinsEmptyState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
@@ -105,7 +102,6 @@ fun CoinListScreen(
                 content = { scaffoldPadding ->
                     CoinListContent(
                         coins = uiState.coins,
-                        favouriteCoins = uiState.favouriteCoins,
                         onCoinClick = onCoinClick,
                         lazyListState = lazyListState,
                         modifier = Modifier.padding(scaffoldPadding)
@@ -184,58 +180,15 @@ private fun CoinListTopBar(
 @Composable
 private fun CoinListContent(
     coins: ImmutableList<Coin>,
-    favouriteCoins: ImmutableList<Coin>,
     onCoinClick: (Coin) -> Unit,
     lazyListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         state = lazyListState,
-        contentPadding = PaddingValues(start = 12.dp, top = 12.dp),
+        contentPadding = PaddingValues(horizontal = 12.dp),
         modifier = modifier
     ) {
-        item {
-            Text(
-                text = stringResource(R.string.header_favourites),
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            Spacer(Modifier.height(8.dp))
-
-            if (favouriteCoins.isEmpty()) {
-                FavouriteCoinsEmptyState(
-                    modifier = Modifier.padding(end = 12.dp)
-                )
-            } else {
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    contentPadding = PaddingValues(end = 12.dp)
-                ) {
-                    items(
-                        count = favouriteCoins.size,
-                        key = { favouriteCoins[it].id },
-                        itemContent = { index ->
-                            val favouriteCoinItem = favouriteCoins[index]
-
-                            CoinFavouriteItem(
-                                coin = favouriteCoinItem,
-                                onCoinClick = { onCoinClick(favouriteCoinItem) }
-                            )
-                        }
-                    )
-                }
-            }
-
-            Spacer(Modifier.height(24.dp))
-
-            Text(
-                text = stringResource(R.string.header_coins),
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            Spacer(Modifier.height(8.dp))
-        }
-
         if (coins.isEmpty()) {
             item {
                 CoinsEmptyState()
@@ -264,8 +217,7 @@ private fun CoinListContent(
                     CoinListItem(
                         coin = coinListItem,
                         onCoinClick = { onCoinClick(coinListItem) },
-                        cardShape = cardShape,
-                        modifier = Modifier.padding(end = 12.dp)
+                        cardShape = cardShape
                     )
                 }
             )

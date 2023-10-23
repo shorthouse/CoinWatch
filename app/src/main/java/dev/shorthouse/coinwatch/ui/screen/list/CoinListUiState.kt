@@ -8,7 +8,6 @@ sealed interface CoinListUiState {
     object Loading : CoinListUiState
     data class Success(
         val coins: ImmutableList<Coin>,
-        val favouriteCoins: ImmutableList<Coin>,
         val timeOfDay: TimeOfDay
     ) : CoinListUiState
 
