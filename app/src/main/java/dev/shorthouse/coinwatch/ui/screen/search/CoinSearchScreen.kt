@@ -1,6 +1,5 @@
 package dev.shorthouse.coinwatch.ui.screen.search
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,8 +7,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -19,13 +18,9 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,7 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.SearchCoin
-import dev.shorthouse.coinwatch.navigation.Screen
+import dev.shorthouse.coinwatch.navigation.ScreenOld
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.previewdata.CoinSearchUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.search.component.CoinSearchListItem
@@ -55,10 +50,9 @@ fun CoinSearchScreen(
         uiState = uiState,
         searchQuery = viewModel.searchQuery,
         onSearchQueryChange = { viewModel.updateSearchQuery(it) },
-        onNavigateUp = { navController.navigateUp() },
         onCoinClick = { coin ->
-            navController.navigate(Screen.CoinDetail.route + "/${coin.id}") {
-                popUpTo(Screen.CoinSearch.route) { inclusive = true }
+            navController.navigate(ScreenOld.CoinDetail.route + "/${coin.id}") {
+                popUpTo(ScreenOld.CoinSearch.route) { inclusive = true }
             }
         },
         onErrorRetry = { viewModel.initialiseUiState() }
@@ -70,7 +64,6 @@ fun CoinSearchScreen(
     uiState: CoinSearchUiState,
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
-    onNavigateUp: () -> Unit,
     onCoinClick: (SearchCoin) -> Unit,
     onErrorRetry: () -> Unit,
     modifier: Modifier = Modifier
@@ -82,7 +75,6 @@ fun CoinSearchScreen(
                 searchQuery = searchQuery,
                 isSearchResultsEmpty = uiState.queryHasNoResults,
                 onSearchQueryChange = onSearchQueryChange,
-                onNavigateUp = onNavigateUp,
                 onCoinClick = onCoinClick,
                 modifier = modifier
             )
@@ -91,8 +83,7 @@ fun CoinSearchScreen(
         is CoinSearchUiState.Error -> {
             ErrorState(
                 message = uiState.message,
-                onRetry = onErrorRetry,
-                onNavigateUp = onNavigateUp
+                onRetry = onErrorRetry
             )
         }
 
@@ -109,12 +100,10 @@ fun CoinSearchContent(
     searchQuery: String,
     isSearchResultsEmpty: Boolean,
     onSearchQueryChange: (String) -> Unit,
-    onNavigateUp: () -> Unit,
     onCoinClick: (SearchCoin) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-    val focusRequester = remember { FocusRequester() }
 
     SearchBar(
         query = searchQuery,
@@ -128,9 +117,9 @@ fun CoinSearchContent(
             )
         },
         leadingIcon = {
-            IconButton(onClick = onNavigateUp) {
+            IconButton(onClick = {}) {
                 Icon(
-                    imageVector = Icons.Rounded.ArrowBack,
+                    imageVector = Icons.Rounded.Search,
                     tint = MaterialTheme.colorScheme.onSurface,
                     contentDescription = stringResource(R.string.cd_top_bar_back)
                 )
@@ -198,16 +187,8 @@ fun CoinSearchContent(
         active = true,
         onActiveChange = {},
         tonalElevation = 0.dp,
-        modifier = modifier.focusRequester(focusRequester).fillMaxSize()
+        modifier = modifier.fillMaxSize()
     )
-
-    LaunchedEffect(focusRequester) {
-        focusRequester.requestFocus()
-    }
-
-    BackHandler(enabled = true) {
-        onNavigateUp()
-    }
 }
 
 @Composable
@@ -220,7 +201,6 @@ private fun CoinSearchScreenPreview(
             uiState = uiState,
             searchQuery = "",
             onSearchQueryChange = {},
-            onNavigateUp = {},
             onCoinClick = {},
             onErrorRetry = {}
         )
