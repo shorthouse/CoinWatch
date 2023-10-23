@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.ui.screen.search
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -95,7 +96,9 @@ fun CoinSearchScreen(
             )
         }
 
-        CoinSearchUiState.Loading -> {}
+        is CoinSearchUiState.Loading -> {
+            Box(modifier = Modifier.fillMaxSize())
+        }
     }
 }
 
@@ -195,7 +198,7 @@ fun CoinSearchContent(
         active = true,
         onActiveChange = {},
         tonalElevation = 0.dp,
-        modifier = modifier.focusRequester(focusRequester)
+        modifier = modifier.focusRequester(focusRequester).fillMaxSize()
     )
 
     LaunchedEffect(focusRequester) {
