@@ -51,4 +51,7 @@
     <string name="search_coin_prompt">Try using the search function!</string>
     <string name="cd_list_scroll_top">Scroll to top</string>
     <string name="cd_error_state">Error</string>
+    <string name="market_screen">Market</string>
+    <string name="search_screen">Search</string>
+    <string name="favourites_screen">Favourites</string>
 </resources>
