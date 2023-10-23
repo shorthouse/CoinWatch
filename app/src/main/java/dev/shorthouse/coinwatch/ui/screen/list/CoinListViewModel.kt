@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
-import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import java.time.LocalTime
 import javax.inject.Inject
@@ -22,8 +21,7 @@ import kotlinx.coroutines.flow.update
 
 @HiltViewModel
 class CoinListViewModel @Inject constructor(
-    private val getCoinsUseCase: GetCoinsUseCase,
-    private val getFavouriteCoinsUseCase: GetFavouriteCoinsUseCase
+    private val getCoinsUseCase: GetCoinsUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<CoinListUiState>(CoinListUiState.Loading)
     val uiState = _uiState.asStateFlow()
@@ -36,7 +34,6 @@ class CoinListViewModel @Inject constructor(
         _uiState.update { CoinListUiState.Loading }
 
         val coinsFlow = getCoinsUseCase()
-        val favouriteCoinsFlow = getFavouriteCoinsUseCase()
         val currentHourFlow = flow {
             emit(LocalTime.now().hour)
             delay(5.minutes.inWholeMilliseconds)
@@ -44,27 +41,20 @@ class CoinListViewModel @Inject constructor(
 
         combine(
             coinsFlow,
-            favouriteCoinsFlow,
             currentHourFlow
-        ) { coinsResult, favouriteCoinsResult, currentHour ->
-            when {
-                coinsResult is Result.Error -> {
+        ) { coinsResult, currentHour ->
+            when (coinsResult) {
+                is Result.Error -> {
                     _uiState.update { CoinListUiState.Error(coinsResult.message) }
                 }
 
-                favouriteCoinsResult is Result.Error -> {
-                    _uiState.update { CoinListUiState.Error(favouriteCoinsResult.message) }
-                }
-
-                coinsResult is Result.Success && favouriteCoinsResult is Result.Success -> {
+                is Result.Success -> {
                     val coins = coinsResult.data.toImmutableList()
-                    val favouriteCoins = favouriteCoinsResult.data.toImmutableList()
                     val timeOfDay = calculateTimeOfDay(currentHour)
 
                     _uiState.update {
                         CoinListUiState.Success(
                             coins = coins,
-                            favouriteCoins = favouriteCoins,
                             timeOfDay = timeOfDay
                         )
                     }
