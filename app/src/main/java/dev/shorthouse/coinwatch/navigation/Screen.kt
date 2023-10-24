@@ -10,12 +10,6 @@ import androidx.compose.material.icons.rounded.StarOutline
 import androidx.compose.ui.graphics.vector.ImageVector
 import dev.shorthouse.coinwatch.R
 
-sealed class ScreenOld(val route: String) {
-    object CoinList : ScreenOld("coin_list_screen")
-    object CoinDetail : ScreenOld("coin_detail_screen")
-    object CoinSearch : ScreenOld("coin_search_screen")
-}
-
 sealed class NavigationBarScreen(
     val route: String,
     @StringRes val nameResourceId: Int,
