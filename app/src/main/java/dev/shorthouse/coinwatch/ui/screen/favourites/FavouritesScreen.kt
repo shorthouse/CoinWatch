@@ -31,6 +31,7 @@ import dev.shorthouse.coinwatch.navigation.Screen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.previewdata.FavouritesUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouritesEmptyState
+import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouritesSkeletonLoader
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinFavouriteItem
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
@@ -53,7 +54,7 @@ fun FavouritesScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavouriteScreen(
+private fun FavouriteScreen(
     uiState: FavouritesUiState,
     onCoinClick: (Coin) -> Unit,
     onRefresh: () -> Unit,
@@ -80,8 +81,8 @@ fun FavouriteScreen(
             )
         }
 
-        FavouritesUiState.Loading -> {
-            // TODO
+        is FavouritesUiState.Loading -> {
+            FavouritesSkeletonLoader()
         }
 
         is FavouritesUiState.Error -> {
@@ -95,7 +96,7 @@ fun FavouriteScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavouritesTopBar(
+private fun FavouritesTopBar(
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
 ) {
@@ -118,7 +119,7 @@ fun FavouritesTopBar(
 }
 
 @Composable
-fun FavouritesContent(
+private fun FavouritesContent(
     favouriteCoins: ImmutableList<Coin>,
     onCoinClick: (Coin) -> Unit,
     modifier: Modifier = Modifier
@@ -128,7 +129,7 @@ fun FavouritesContent(
     } else {
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 140.dp),
-            contentPadding = PaddingValues(12.dp),
+            contentPadding = PaddingValues(horizontal = 12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = modifier
