@@ -34,8 +34,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateLoading,
                     onCoinClick = {},
-                    onNavigateSearch = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -55,8 +54,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateError,
                     onCoinClick = {},
-                    onNavigateSearch = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -79,8 +77,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateError,
                     onCoinClick = {},
-                    onNavigateSearch = {},
-                    onErrorRetry = { onErrorRetryCalled = true }
+                    onRefresh = { onErrorRetryCalled = true }
                 )
             }
         }
@@ -96,7 +93,6 @@ class CoinListScreenTest {
     fun when_uiStateSuccess_should_showExpectedContent() {
         val uiStateSuccess = CoinListUiState.Success(
             coins = persistentListOf(),
-            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Morning
         )
 
@@ -105,8 +101,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onNavigateSearch = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -121,7 +116,6 @@ class CoinListScreenTest {
     fun when_uiStateSuccess_favouriteCoinsEmpty_should_showEmptyState() {
         val uiStateSuccess = CoinListUiState.Success(
             coins = persistentListOf(),
-            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Morning
         )
 
@@ -130,8 +124,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onNavigateSearch = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -148,50 +141,6 @@ class CoinListScreenTest {
     fun when_uiStateSuccess_favouriteCoinsList_should_showExpectedContent() {
         val uiStateSuccess = CoinListUiState.Success(
             coins = persistentListOf(),
-            favouriteCoins = persistentListOf(
-                Coin(
-                    id = "bitcoin",
-                    symbol = "BTC",
-                    name = "Bitcoin",
-                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                    currentPrice = Price("29446.336548759988"),
-                    priceChangePercentage24h = Percentage("0.76833"),
-                    prices24h = persistentListOf(
-                        BigDecimal("29390.15178296929"),
-                        BigDecimal("29428.222505493162"),
-                        BigDecimal("29475.12359313808"),
-                        BigDecimal("29471.20179209623")
-                    )
-                ),
-                Coin(
-                    id = "ethereum",
-                    symbol = "ETH",
-                    name = "Ethereum",
-                    imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
-                    currentPrice = Price("1875.473083380222"),
-                    priceChangePercentage24h = Percentage("-1.11008"),
-                    prices24h = persistentListOf(
-                        BigDecimal("1854.8824120105778"),
-                        BigDecimal("1853.3272421902477"),
-                        BigDecimal("1857.8290158859397"),
-                        BigDecimal("1859.4549720388395")
-                    )
-                ),
-                Coin(
-                    id = "tether",
-                    symbol = "USDT",
-                    name = "Tether",
-                    imageUrl = "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg",
-                    currentPrice = Price("1.00"),
-                    priceChangePercentage24h = Percentage("0.00"),
-                    prices24h = persistentListOf(
-                        BigDecimal("1.00"),
-                        BigDecimal("1.00"),
-                        BigDecimal("1.00"),
-                        BigDecimal("1.00")
-                    )
-                )
-            ),
             timeOfDay = TimeOfDay.Morning
         )
 
@@ -200,8 +149,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onNavigateSearch = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -234,7 +182,6 @@ class CoinListScreenTest {
     fun when_uiStateSuccess_coinsEmpty_should_showEmptyState() {
         val uiStateSuccess = CoinListUiState.Success(
             coins = persistentListOf(),
-            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Morning
         )
 
@@ -243,8 +190,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onNavigateSearch = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -302,7 +248,6 @@ class CoinListScreenTest {
                     )
                 )
             ),
-            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Morning
         )
 
@@ -311,8 +256,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onNavigateSearch = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -359,7 +303,6 @@ class CoinListScreenTest {
                     )
                 )
             ),
-            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Morning
         )
 
@@ -368,8 +311,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = ({ onCoinClickCalled = true }),
-                    onNavigateSearch = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -387,22 +329,6 @@ class CoinListScreenTest {
 
         val uiStateSuccess = CoinListUiState.Success(
             coins = persistentListOf(),
-            favouriteCoins = persistentListOf(
-                Coin(
-                    id = "bitcoin",
-                    symbol = "BTC",
-                    name = "Bitcoin",
-                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                    currentPrice = Price("29446.336548759988"),
-                    priceChangePercentage24h = Percentage("0.76833"),
-                    prices24h = persistentListOf(
-                        BigDecimal("29390.15178296929"),
-                        BigDecimal("29428.222505493162"),
-                        BigDecimal("29475.12359313808"),
-                        BigDecimal("29471.20179209623")
-                    )
-                )
-            ),
             timeOfDay = TimeOfDay.Morning
         )
 
@@ -411,8 +337,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = ({ onCoinClickCalled = true }),
-                    onNavigateSearch = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -428,7 +353,6 @@ class CoinListScreenTest {
     fun when_timeOfDayMorning_should_showMorningGreeting() {
         val uiStateSuccess = CoinListUiState.Success(
             coins = persistentListOf(),
-            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Morning
         )
 
@@ -437,8 +361,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onNavigateSearch = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -452,7 +375,6 @@ class CoinListScreenTest {
     fun when_timeOfDayAfternoon_should_showAfternoonGreeting() {
         val uiStateSuccess = CoinListUiState.Success(
             coins = persistentListOf(),
-            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Afternoon
         )
 
@@ -461,8 +383,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onNavigateSearch = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -476,7 +397,6 @@ class CoinListScreenTest {
     fun when_timeOfDayEvening_should_showEveningGreeting() {
         val uiStateSuccess = CoinListUiState.Success(
             coins = persistentListOf(),
-            favouriteCoins = persistentListOf(),
             timeOfDay = TimeOfDay.Evening
         )
 
@@ -485,8 +405,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onNavigateSearch = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }

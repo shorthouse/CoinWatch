@@ -32,7 +32,6 @@ class CoinSearchScreenTest {
                     uiState = uiStateError,
                     searchQuery = "",
                     onSearchQueryChange = {},
-                    onNavigateUp = {},
                     onCoinClick = {},
                     onErrorRetry = {}
                 )
@@ -58,7 +57,6 @@ class CoinSearchScreenTest {
                     uiState = uiStateError,
                     searchQuery = "",
                     onSearchQueryChange = {},
-                    onNavigateUp = {},
                     onCoinClick = {},
                     onErrorRetry = { onErrorRetryCalled = true }
                 )
@@ -70,31 +68,6 @@ class CoinSearchScreenTest {
         }
 
         assertThat(onErrorRetryCalled).isTrue()
-    }
-
-    @Test
-    fun when_uiStateErrorBackClicked_should_callOnNavigateUp() {
-        var onNavigateUpCalled = false
-        val uiStateError = CoinSearchUiState.Error("Error message")
-
-        composeTestRule.setContent {
-            AppTheme {
-                CoinSearchScreen(
-                    uiState = uiStateError,
-                    searchQuery = "",
-                    onSearchQueryChange = {},
-                    onNavigateUp = { onNavigateUpCalled = true },
-                    onCoinClick = {},
-                    onErrorRetry = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithContentDescription("Back").performClick()
-        }
-
-        assertThat(onNavigateUpCalled).isTrue()
     }
 
     @Test
@@ -110,7 +83,6 @@ class CoinSearchScreenTest {
                     uiState = uiStateSuccess,
                     searchQuery = "",
                     onSearchQueryChange = {},
-                    onNavigateUp = {},
                     onCoinClick = {},
                     onErrorRetry = {}
                 )
@@ -121,35 +93,6 @@ class CoinSearchScreenTest {
             onNodeWithContentDescription("Back").assertIsDisplayed()
             onNodeWithText("Search coins").assertIsDisplayed()
         }
-    }
-
-    @Test
-    fun when_backClicked_should_callOnNavigateUp() {
-        var onNavigateUpCalled = false
-
-        val uiStateSuccess = CoinSearchUiState.Success(
-            searchResults = persistentListOf(),
-            queryHasNoResults = false
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                CoinSearchScreen(
-                    uiState = uiStateSuccess,
-                    searchQuery = "",
-                    onSearchQueryChange = {},
-                    onNavigateUp = { onNavigateUpCalled = true },
-                    onCoinClick = {},
-                    onErrorRetry = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithContentDescription("Back").performClick()
-        }
-
-        assertThat(onNavigateUpCalled).isTrue()
     }
 
     @Test
@@ -167,7 +110,6 @@ class CoinSearchScreenTest {
                     uiState = uiStateSuccess,
                     searchQuery = searchQuery,
                     onSearchQueryChange = {},
-                    onNavigateUp = {},
                     onCoinClick = {},
                     onErrorRetry = {}
                 )
@@ -194,7 +136,6 @@ class CoinSearchScreenTest {
                     uiState = uiStateSuccess,
                     searchQuery = searchQuery,
                     onSearchQueryChange = {},
-                    onNavigateUp = {},
                     onCoinClick = {},
                     onErrorRetry = {}
                 )
@@ -221,7 +162,6 @@ class CoinSearchScreenTest {
                     uiState = uiStateSuccess,
                     searchQuery = searchQuery.value,
                     onSearchQueryChange = { searchQuery.value = it },
-                    onNavigateUp = {},
                     onCoinClick = {},
                     onErrorRetry = {}
                 )
@@ -250,7 +190,6 @@ class CoinSearchScreenTest {
                     uiState = uiStateSuccess,
                     searchQuery = searchQuery.value,
                     onSearchQueryChange = { searchQuery.value = it },
-                    onNavigateUp = {},
                     onCoinClick = {},
                     onErrorRetry = {}
                 )
@@ -293,7 +232,6 @@ class CoinSearchScreenTest {
                     uiState = uiStateSuccess,
                     searchQuery = "",
                     onSearchQueryChange = {},
-                    onNavigateUp = {},
                     onCoinClick = {},
                     onErrorRetry = {}
                 )
@@ -332,7 +270,6 @@ class CoinSearchScreenTest {
                     uiState = uiStateSuccess,
                     searchQuery = "",
                     onSearchQueryChange = {},
-                    onNavigateUp = {},
                     onCoinClick = { onCoinClickCalled = true },
                     onErrorRetry = {}
                 )
@@ -359,7 +296,6 @@ class CoinSearchScreenTest {
                     uiState = uiStateSuccess,
                     searchQuery = "abcdefghijk",
                     onSearchQueryChange = {},
-                    onNavigateUp = {},
                     onCoinClick = {},
                     onErrorRetry = {}
                 )

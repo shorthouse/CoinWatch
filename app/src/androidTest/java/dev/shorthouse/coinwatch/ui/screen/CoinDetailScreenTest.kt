@@ -15,8 +15,8 @@ import dev.shorthouse.coinwatch.model.CoinDetail
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
-import dev.shorthouse.coinwatch.ui.screen.detail.CoinDetailScreen
-import dev.shorthouse.coinwatch.ui.screen.detail.CoinDetailUiState
+import dev.shorthouse.coinwatch.ui.screen.details.CoinDetailScreen
+import dev.shorthouse.coinwatch.ui.screen.details.DetailsUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
@@ -30,7 +30,7 @@ class CoinDetailScreenTest {
 
     @Test
     fun when_uiStateLoading_should_showSkeletonLoader() {
-        val uiStateLoading = CoinDetailUiState.Loading
+        val uiStateLoading = DetailsUiState.Loading
 
         composeTestRule.setContent {
             AppTheme {
@@ -54,7 +54,7 @@ class CoinDetailScreenTest {
 
     @Test
     fun when_uiStateError_should_showErrorState() {
-        val uiStateError = CoinDetailUiState.Error("Error message")
+        val uiStateError = DetailsUiState.Error("Error message")
 
         composeTestRule.setContent {
             AppTheme {
@@ -79,7 +79,7 @@ class CoinDetailScreenTest {
     @Test
     fun when_uiStateErrorRetryClicked_should_callOnErrorRetry() {
         var onErrorRetryCalled = false
-        val uiStateError = CoinDetailUiState.Error("Error message")
+        val uiStateError = DetailsUiState.Error("Error message")
 
         composeTestRule.setContent {
             AppTheme {
@@ -103,7 +103,7 @@ class CoinDetailScreenTest {
     @Test
     fun when_uiStateErrorBackClicked_should_callOnNavigateUp() {
         var onNavigateUpCalled = false
-        val uiStateError = CoinDetailUiState.Error("Error message")
+        val uiStateError = DetailsUiState.Error("Error message")
 
         composeTestRule.setContent {
             AppTheme {
@@ -126,7 +126,7 @@ class CoinDetailScreenTest {
 
     @Test
     fun when_uiStateSuccess_should_showExpectedContent() {
-        val uiStateSuccess = CoinDetailUiState.Success(
+        val uiStateSuccess = DetailsUiState.Success(
             CoinDetail(
                 id = "ethereum",
                 name = "Ethereum",
@@ -219,7 +219,7 @@ class CoinDetailScreenTest {
     fun when_backClicked_should_callOnNavigateUp() {
         var onNavigateUpCalled = false
 
-        val uiStateSuccess = CoinDetailUiState.Success(
+        val uiStateSuccess = DetailsUiState.Success(
             CoinDetail(
                 id = "ethereum",
                 name = "Ethereum",
@@ -274,7 +274,7 @@ class CoinDetailScreenTest {
     fun when_favouriteCoinClicked_should_callOnClickFavouriteCoin() {
         var onClickFavouriteCoinCalled = false
 
-        val uiStateSuccess = CoinDetailUiState.Success(
+        val uiStateSuccess = DetailsUiState.Success(
             CoinDetail(
                 id = "ethereum",
                 name = "Ethereum",
@@ -331,7 +331,7 @@ class CoinDetailScreenTest {
             .associateWith { false }
             .toMutableMap()
 
-        val uiStateSuccess = CoinDetailUiState.Success(
+        val uiStateSuccess = DetailsUiState.Success(
             CoinDetail(
                 id = "ethereum",
                 name = "Ethereum",
