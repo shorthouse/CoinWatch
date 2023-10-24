@@ -68,7 +68,7 @@ fun CoinListScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CoinListScreen(
+private fun CoinListScreen(
     uiState: CoinListUiState,
     onCoinClick: (Coin) -> Unit,
     onRefresh: () -> Unit,
@@ -129,7 +129,7 @@ fun CoinListScreen(
             )
         }
 
-        CoinListUiState.Loading -> {
+        is CoinListUiState.Loading -> {
             CoinListSkeletonLoader()
         }
 
