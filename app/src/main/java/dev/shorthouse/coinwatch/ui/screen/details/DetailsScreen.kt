@@ -65,7 +65,7 @@ fun CoinDetailsScreen(
         onNavigateUp = { navController.navigateUp() },
         onClickFavouriteCoin = { viewModel.toggleIsCoinFavourite() },
         onClickChartPeriod = { viewModel.updateChartPeriod(it) },
-        onErrorRetry = { viewModel.initialiseUiState() }
+        onRefresh = { viewModel.initialiseUiState() }
     )
 }
 
@@ -76,7 +76,7 @@ fun CoinDetailsScreen(
     onNavigateUp: () -> Unit,
     onClickFavouriteCoin: () -> Unit,
     onClickChartPeriod: (ChartPeriod) -> Unit,
-    onErrorRetry: () -> Unit,
+    onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -113,7 +113,7 @@ fun CoinDetailsScreen(
         is DetailsUiState.Error -> {
             ErrorState(
                 message = uiState.message,
-                onRetry = onErrorRetry,
+                onRetry = onRefresh,
                 onNavigateUp = onNavigateUp
             )
         }
@@ -260,7 +260,7 @@ private fun CoinDetailScreenPreview(
             onNavigateUp = {},
             onClickFavouriteCoin = {},
             onClickChartPeriod = {},
-            onErrorRetry = {}
+            onRefresh = {}
         )
     }
 }

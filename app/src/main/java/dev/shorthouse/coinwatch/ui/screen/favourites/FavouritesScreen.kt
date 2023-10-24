@@ -47,7 +47,7 @@ fun FavouritesScreen(
         onCoinClick = { coin ->
             navController.navigate(Screen.Details.route + "/${coin.id}")
         },
-        onErrorRetry = { viewModel.initialiseUiState() }
+        onRefresh = { viewModel.initialiseUiState() }
     )
 }
 
@@ -56,7 +56,7 @@ fun FavouritesScreen(
 fun FavouriteScreen(
     uiState: FavouritesUiState,
     onCoinClick: (Coin) -> Unit,
-    onErrorRetry: () -> Unit,
+    onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -87,7 +87,7 @@ fun FavouriteScreen(
         is FavouritesUiState.Error -> {
             ErrorState(
                 message = uiState.message,
-                onRetry = onErrorRetry
+                onRetry = onRefresh
             )
         }
     }
@@ -158,7 +158,7 @@ private fun FavouritesScreenPreview(
         FavouriteScreen(
             uiState = uiState,
             onCoinClick = {},
-            onErrorRetry = {}
+            onRefresh = {}
         )
     }
 }

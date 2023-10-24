@@ -33,7 +33,7 @@ class CoinSearchScreenTest {
                     searchQuery = "",
                     onSearchQueryChange = {},
                     onCoinClick = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -47,8 +47,8 @@ class CoinSearchScreenTest {
     }
 
     @Test
-    fun when_uiStateErrorRetryClicked_should_callOnErrorRetry() {
-        var onErrorRetryCalled = false
+    fun when_uiStateErrorRetryClicked_should_callOnRefresh() {
+        var onRefreshCalled = false
         val uiStateError = CoinSearchUiState.Error("Error message")
 
         composeTestRule.setContent {
@@ -58,7 +58,7 @@ class CoinSearchScreenTest {
                     searchQuery = "",
                     onSearchQueryChange = {},
                     onCoinClick = {},
-                    onErrorRetry = { onErrorRetryCalled = true }
+                    onRefresh = { onRefreshCalled = true }
                 )
             }
         }
@@ -67,7 +67,7 @@ class CoinSearchScreenTest {
             onNodeWithText("Retry").performClick()
         }
 
-        assertThat(onErrorRetryCalled).isTrue()
+        assertThat(onRefreshCalled).isTrue()
     }
 
     @Test
@@ -84,7 +84,7 @@ class CoinSearchScreenTest {
                     searchQuery = "",
                     onSearchQueryChange = {},
                     onCoinClick = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -111,7 +111,7 @@ class CoinSearchScreenTest {
                     searchQuery = searchQuery,
                     onSearchQueryChange = {},
                     onCoinClick = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -137,7 +137,7 @@ class CoinSearchScreenTest {
                     searchQuery = searchQuery,
                     onSearchQueryChange = {},
                     onCoinClick = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -163,7 +163,7 @@ class CoinSearchScreenTest {
                     searchQuery = searchQuery.value,
                     onSearchQueryChange = { searchQuery.value = it },
                     onCoinClick = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -191,7 +191,7 @@ class CoinSearchScreenTest {
                     searchQuery = searchQuery.value,
                     onSearchQueryChange = { searchQuery.value = it },
                     onCoinClick = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -233,7 +233,7 @@ class CoinSearchScreenTest {
                     searchQuery = "",
                     onSearchQueryChange = {},
                     onCoinClick = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -271,7 +271,7 @@ class CoinSearchScreenTest {
                     searchQuery = "",
                     onSearchQueryChange = {},
                     onCoinClick = { onCoinClickCalled = true },
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -297,7 +297,7 @@ class CoinSearchScreenTest {
                     searchQuery = "abcdefghijk",
                     onSearchQueryChange = {},
                     onCoinClick = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }

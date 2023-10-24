@@ -39,7 +39,7 @@ class CoinDetailsScreenTest {
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
                     onClickChartPeriod = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -63,7 +63,7 @@ class CoinDetailsScreenTest {
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
                     onClickChartPeriod = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -77,8 +77,8 @@ class CoinDetailsScreenTest {
     }
 
     @Test
-    fun when_uiStateErrorRetryClicked_should_callOnErrorRetry() {
-        var onErrorRetryCalled = false
+    fun when_uiStateErrorRetryClicked_should_callOnRefresh() {
+        var onRefreshCalled = false
         val uiStateError = DetailsUiState.Error("Error message")
 
         composeTestRule.setContent {
@@ -88,7 +88,7 @@ class CoinDetailsScreenTest {
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
                     onClickChartPeriod = {},
-                    onErrorRetry = { onErrorRetryCalled = true }
+                    onRefresh = { onRefreshCalled = true }
                 )
             }
         }
@@ -97,7 +97,7 @@ class CoinDetailsScreenTest {
             onNodeWithText("Retry").performClick()
         }
 
-        assertThat(onErrorRetryCalled).isTrue()
+        assertThat(onRefreshCalled).isTrue()
     }
 
     @Test
@@ -112,7 +112,7 @@ class CoinDetailsScreenTest {
                     onNavigateUp = { onNavigateUpCalled = true },
                     onClickFavouriteCoin = {},
                     onClickChartPeriod = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -165,7 +165,7 @@ class CoinDetailsScreenTest {
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
                     onClickChartPeriod = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -258,7 +258,7 @@ class CoinDetailsScreenTest {
                     onNavigateUp = { onNavigateUpCalled = true },
                     onClickFavouriteCoin = {},
                     onClickChartPeriod = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -313,7 +313,7 @@ class CoinDetailsScreenTest {
                     onNavigateUp = {},
                     onClickFavouriteCoin = { onClickFavouriteCoinCalled = true },
                     onClickChartPeriod = {},
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }
@@ -370,7 +370,7 @@ class CoinDetailsScreenTest {
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
                     onClickChartPeriod = { onClickChartPeriodMap[it] = true },
-                    onErrorRetry = {}
+                    onRefresh = {}
                 )
             }
         }

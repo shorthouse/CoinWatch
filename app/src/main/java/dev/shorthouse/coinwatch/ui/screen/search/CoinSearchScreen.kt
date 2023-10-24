@@ -1,6 +1,5 @@
 package dev.shorthouse.coinwatch.ui.screen.search
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -36,6 +35,7 @@ import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.previewdata.CoinSearchUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.search.component.CoinSearchListItem
 import dev.shorthouse.coinwatch.ui.screen.search.component.SearchEmptyState
+import dev.shorthouse.coinwatch.ui.screen.search.component.SearchSkeletonLoader
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 
@@ -53,7 +53,7 @@ fun CoinSearchScreen(
         onCoinClick = { coin ->
             navController.navigate(Screen.Details.route + "/${coin.id}")
         },
-        onErrorRetry = { viewModel.initialiseUiState() }
+        onRefresh = { viewModel.initialiseUiState() }
     )
 }
 
@@ -63,7 +63,7 @@ fun CoinSearchScreen(
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
     onCoinClick: (SearchCoin) -> Unit,
-    onErrorRetry: () -> Unit,
+    onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (uiState) {
@@ -81,12 +81,12 @@ fun CoinSearchScreen(
         is CoinSearchUiState.Error -> {
             ErrorState(
                 message = uiState.message,
-                onRetry = onErrorRetry
+                onRetry = onRefresh
             )
         }
 
         is CoinSearchUiState.Loading -> {
-            Box(modifier = Modifier.fillMaxSize())
+            SearchSkeletonLoader()
         }
     }
 }
@@ -201,7 +201,7 @@ private fun CoinSearchScreenPreview(
             searchQuery = "",
             onSearchQueryChange = {},
             onCoinClick = {},
-            onErrorRetry = {}
+            onRefresh = {}
         )
     }
 }

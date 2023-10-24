@@ -68,8 +68,8 @@ class CoinListScreenTest {
     }
 
     @Test
-    fun when_uiStateErrorRetryClicked_should_callOnErrorRetry() {
-        var onErrorRetryCalled = false
+    fun when_uiStateErrorRetryClicked_should_callOnRefresh() {
+        var onRefreshCalled = false
         val uiStateError = CoinListUiState.Error("Error message")
 
         composeTestRule.setContent {
@@ -77,7 +77,7 @@ class CoinListScreenTest {
                 CoinListScreen(
                     uiState = uiStateError,
                     onCoinClick = {},
-                    onRefresh = { onErrorRetryCalled = true }
+                    onRefresh = { onRefreshCalled = true }
                 )
             }
         }
@@ -86,7 +86,7 @@ class CoinListScreenTest {
             onNodeWithText("Retry").performClick()
         }
 
-        assertThat(onErrorRetryCalled).isTrue()
+        assertThat(onRefreshCalled).isTrue()
     }
 
     @Test
