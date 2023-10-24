@@ -31,7 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.SearchCoin
-import dev.shorthouse.coinwatch.navigation.ScreenOld
+import dev.shorthouse.coinwatch.navigation.Screen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.previewdata.CoinSearchUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.search.component.CoinSearchListItem
@@ -51,9 +51,7 @@ fun CoinSearchScreen(
         searchQuery = viewModel.searchQuery,
         onSearchQueryChange = { viewModel.updateSearchQuery(it) },
         onCoinClick = { coin ->
-            navController.navigate(ScreenOld.CoinDetail.route + "/${coin.id}") {
-                popUpTo(ScreenOld.CoinSearch.route) { inclusive = true }
-            }
+            navController.navigate(Screen.CoinDetail.route + "/${coin.id}")
         },
         onErrorRetry = { viewModel.initialiseUiState() }
     )
@@ -152,6 +150,7 @@ fun CoinSearchContent(
 
                             val cardShape = when {
                                 searchResults.size == 1 -> MaterialTheme.shapes.medium
+
                                 index == 0 -> MaterialTheme.shapes.medium.copy(
                                     bottomStart = CornerSize(0.dp),
                                     bottomEnd = CornerSize(0.dp)
