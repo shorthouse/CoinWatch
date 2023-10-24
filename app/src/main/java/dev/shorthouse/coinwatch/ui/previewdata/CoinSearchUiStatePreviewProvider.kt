@@ -12,6 +12,10 @@ class CoinSearchUiStatePreviewProvider : PreviewParameterProvider<CoinSearchUiSt
             searchResults = searchResults,
             queryHasNoResults = false
         ),
+        CoinSearchUiState.Success(
+            searchResults = persistentListOf(),
+            queryHasNoResults = true
+        ),
         CoinSearchUiState.Loading,
         CoinSearchUiState.Error(
             message = "Error searching coins"
