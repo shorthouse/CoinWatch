@@ -2,6 +2,7 @@ package dev.shorthouse.coinwatch.ui.screen.favourites
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -28,8 +29,8 @@ import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.navigation.Screen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.previewdata.FavouritesUiStatePreviewProvider
+import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouritesEmptyState
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinFavouriteItem
-import dev.shorthouse.coinwatch.ui.screen.list.component.FavouriteCoinsEmptyState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 
@@ -122,9 +123,7 @@ fun FavouritesContent(
     modifier: Modifier = Modifier
 ) {
     if (favouriteCoins.isEmpty()) {
-        FavouriteCoinsEmptyState(
-            modifier = Modifier.padding(end = 12.dp)
-        )
+        FavouritesEmptyState(modifier = Modifier.fillMaxSize())
     } else {
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
