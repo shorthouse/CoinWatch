@@ -32,21 +32,21 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.SearchCoin
 import dev.shorthouse.coinwatch.navigation.Screen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
-import dev.shorthouse.coinwatch.ui.previewdata.CoinSearchUiStatePreviewProvider
-import dev.shorthouse.coinwatch.ui.screen.search.component.CoinSearchListItem
+import dev.shorthouse.coinwatch.ui.previewdata.SearchUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.search.component.SearchEmptyState
+import dev.shorthouse.coinwatch.ui.screen.search.component.SearchListItem
 import dev.shorthouse.coinwatch.ui.screen.search.component.SearchSkeletonLoader
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
-fun CoinSearchScreen(
+fun SearchScreen(
     navController: NavController,
-    viewModel: CoinSearchViewModel = hiltViewModel()
+    viewModel: SearchViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    CoinSearchScreen(
+    SearchScreen(
         uiState = uiState,
         searchQuery = viewModel.searchQuery,
         onSearchQueryChange = { viewModel.updateSearchQuery(it) },
@@ -58,8 +58,8 @@ fun CoinSearchScreen(
 }
 
 @Composable
-private fun CoinSearchScreen(
-    uiState: CoinSearchUiState,
+private fun SearchScreen(
+    uiState: SearchUiState,
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
     onCoinClick: (SearchCoin) -> Unit,
@@ -67,8 +67,8 @@ private fun CoinSearchScreen(
     modifier: Modifier = Modifier
 ) {
     when (uiState) {
-        is CoinSearchUiState.Success -> {
-            CoinSearchContent(
+        is SearchUiState.Success -> {
+            SearchContent(
                 searchResults = uiState.searchResults,
                 searchQuery = searchQuery,
                 isSearchResultsEmpty = uiState.queryHasNoResults,
@@ -78,11 +78,11 @@ private fun CoinSearchScreen(
             )
         }
 
-        is CoinSearchUiState.Loading -> {
+        is SearchUiState.Loading -> {
             SearchSkeletonLoader()
         }
 
-        is CoinSearchUiState.Error -> {
+        is SearchUiState.Error -> {
             ErrorState(
                 message = uiState.message,
                 onRetry = onRefresh
@@ -93,7 +93,7 @@ private fun CoinSearchScreen(
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-private fun CoinSearchContent(
+private fun SearchContent(
     searchResults: ImmutableList<SearchCoin>,
     searchQuery: String,
     isSearchResultsEmpty: Boolean,
@@ -165,7 +165,7 @@ private fun CoinSearchContent(
                                 else -> RoundedCornerShape(0.dp)
                             }
 
-                            CoinSearchListItem(
+                            SearchListItem(
                                 searchCoin = searchCoin,
                                 onCoinClick = onCoinClick,
                                 cardShape = cardShape
@@ -192,11 +192,11 @@ private fun CoinSearchContent(
 
 @Composable
 @Preview(showBackground = true)
-private fun CoinSearchScreenPreview(
-    @PreviewParameter(CoinSearchUiStatePreviewProvider::class) uiState: CoinSearchUiState
+private fun SearchScreenPreview(
+    @PreviewParameter(SearchUiStatePreviewProvider::class) uiState: SearchUiState
 ) {
     AppTheme {
-        CoinSearchScreen(
+        SearchScreen(
             uiState = uiState,
             searchQuery = "",
             onSearchQueryChange = {},

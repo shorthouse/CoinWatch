@@ -12,9 +12,7 @@ import dev.shorthouse.coinwatch.ui.component.EmptyState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun SearchEmptyState(
-    modifier: Modifier = Modifier
-) {
+fun SearchEmptyState(modifier: Modifier = Modifier) {
     EmptyState(
         image = painterResource(R.drawable.empty_state_search),
         title = stringResource(R.string.empty_state_search_title),

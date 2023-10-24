@@ -22,10 +22,10 @@ import kotlinx.coroutines.flow.update
 
 @OptIn(FlowPreview::class)
 @HiltViewModel
-class CoinSearchViewModel @Inject constructor(
+class SearchViewModel @Inject constructor(
     private val getCoinSearchResultsUseCase: GetCoinSearchResultsUseCase
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<CoinSearchUiState>(CoinSearchUiState.Loading)
+    private val _uiState = MutableStateFlow<SearchUiState>(SearchUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
     var searchQuery by mutableStateOf("")
@@ -45,7 +45,7 @@ class CoinSearchViewModel @Inject constructor(
                     when (result) {
                         is Result.Error -> {
                             _uiState.update {
-                                CoinSearchUiState.Error(
+                                SearchUiState.Error(
                                     message = result.message
                                 )
                             }
@@ -54,7 +54,7 @@ class CoinSearchViewModel @Inject constructor(
                             val searchResults = result.data.toPersistentList()
 
                             _uiState.update {
-                                CoinSearchUiState.Success(
+                                SearchUiState.Success(
                                     searchResults = searchResults,
                                     queryHasNoResults = searchResults.isEmpty()
                                 )
@@ -63,7 +63,7 @@ class CoinSearchViewModel @Inject constructor(
                     }
                 } else {
                     _uiState.update {
-                        CoinSearchUiState.Success(
+                        SearchUiState.Success(
                             searchResults = persistentListOf(),
                             queryHasNoResults = false
                         )

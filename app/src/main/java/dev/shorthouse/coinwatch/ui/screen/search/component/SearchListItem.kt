@@ -29,7 +29,7 @@ import dev.shorthouse.coinwatch.ui.previewdata.SearchCoinPreviewProvider
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun CoinSearchListItem(
+fun SearchListItem(
     searchCoin: SearchCoin,
     onCoinClick: (SearchCoin) -> Unit,
     cardShape: Shape,
@@ -84,11 +84,11 @@ fun CoinSearchListItem(
 
 @Composable
 @Preview
-private fun CoinSearchListItemPreview(
+private fun SearchListItemPreview(
     @PreviewParameter(SearchCoinPreviewProvider::class) searchCoin: SearchCoin
 ) {
     AppTheme {
-        CoinSearchListItem(
+        SearchListItem(
             searchCoin = searchCoin,
             onCoinClick = {},
             cardShape = MaterialTheme.shapes.medium
