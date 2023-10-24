@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.screen.detail.component
+package dev.shorthouse.coinwatch.ui.screen.details.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -31,10 +31,10 @@ import dev.shorthouse.coinwatch.ui.theme.AppTheme
 fun CoinDetailSkeletonLoader(modifier: Modifier = Modifier) {
     Scaffold(
         topBar = {
-            SkeletonTopAppBar()
+            DetailsSkeletonTopBar()
         },
         content = { scaffoldPadding ->
-            SkeletonContent(modifier = Modifier.padding(scaffoldPadding))
+            DetailsSkeletonContent(modifier = Modifier.padding(scaffoldPadding))
         },
         modifier = modifier
     )
@@ -42,7 +42,7 @@ fun CoinDetailSkeletonLoader(modifier: Modifier = Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SkeletonTopAppBar(modifier: Modifier = Modifier) {
+private fun DetailsSkeletonTopBar(modifier: Modifier = Modifier) {
     LargeTopAppBar(
         navigationIcon = {
             IconButton(onClick = {}) {
@@ -70,7 +70,7 @@ private fun SkeletonTopAppBar(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun SkeletonContent(modifier: Modifier = Modifier) {
+private fun DetailsSkeletonContent(modifier: Modifier = Modifier) {
     Column(modifier = modifier.padding(horizontal = 12.dp)) {
         SkeletonSurface(
             modifier = Modifier

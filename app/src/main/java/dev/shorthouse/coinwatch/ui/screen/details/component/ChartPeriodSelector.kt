@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.screen.detail.component
+package dev.shorthouse.coinwatch.ui.screen.details.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.screen.detail
+package dev.shorthouse.coinwatch.ui.screen.details
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -47,16 +47,16 @@ import dev.shorthouse.coinwatch.model.CoinDetail
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import dev.shorthouse.coinwatch.ui.previewdata.CoinDetailUiStatePreviewProvider
-import dev.shorthouse.coinwatch.ui.screen.detail.component.CoinChartCard
-import dev.shorthouse.coinwatch.ui.screen.detail.component.CoinChartRangeCard
-import dev.shorthouse.coinwatch.ui.screen.detail.component.CoinDetailSkeletonLoader
-import dev.shorthouse.coinwatch.ui.screen.detail.component.MarketStatsCard
+import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartCard
+import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartRangeCard
+import dev.shorthouse.coinwatch.ui.screen.details.component.CoinDetailSkeletonLoader
+import dev.shorthouse.coinwatch.ui.screen.details.component.MarketStatsCard
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun CoinDetailScreen(
     navController: NavController,
-    viewModel: CoinDetailViewModel = hiltViewModel()
+    viewModel: DetailsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -72,7 +72,7 @@ fun CoinDetailScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CoinDetailScreen(
-    uiState: CoinDetailUiState,
+    uiState: DetailsUiState,
     onNavigateUp: () -> Unit,
     onClickFavouriteCoin: () -> Unit,
     onClickChartPeriod: (ChartPeriod) -> Unit,
@@ -82,7 +82,7 @@ fun CoinDetailScreen(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     when (uiState) {
-        is CoinDetailUiState.Success -> {
+        is DetailsUiState.Success -> {
             Scaffold(
                 topBar = {
                     CoinDetailTopBar(
@@ -106,11 +106,11 @@ fun CoinDetailScreen(
             )
         }
 
-        is CoinDetailUiState.Loading -> {
+        is DetailsUiState.Loading -> {
             CoinDetailSkeletonLoader()
         }
 
-        is CoinDetailUiState.Error -> {
+        is DetailsUiState.Error -> {
             ErrorState(
                 message = uiState.message,
                 onRetry = onErrorRetry,
@@ -252,7 +252,7 @@ private fun CoinDetailContent(
 @Composable
 @Preview
 private fun CoinDetailScreenPreview(
-    @PreviewParameter(CoinDetailUiStatePreviewProvider::class) uiState: CoinDetailUiState
+    @PreviewParameter(CoinDetailUiStatePreviewProvider::class) uiState: DetailsUiState
 ) {
     AppTheme {
         CoinDetailScreen(

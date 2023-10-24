@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.screen.detail
+package dev.shorthouse.coinwatch.ui.screen.details
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class CoinDetailViewModel @Inject constructor(
+class DetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getCoinDetailUseCase: GetCoinDetailUseCase,
     private val getCoinChartUseCase: GetCoinChartUseCase,
@@ -33,7 +33,7 @@ class CoinDetailViewModel @Inject constructor(
     private val insertFavouriteCoinUseCase: InsertFavouriteCoinUseCase,
     private val deleteFavouriteCoinUseCase: DeleteFavouriteCoinUseCase
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<CoinDetailUiState>(CoinDetailUiState.Loading)
+    private val _uiState = MutableStateFlow<DetailsUiState>(DetailsUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
     private val chartPeriodFlow = MutableStateFlow(ChartPeriod.Day)
@@ -45,10 +45,10 @@ class CoinDetailViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun initialiseUiState() {
-        _uiState.update { CoinDetailUiState.Loading }
+        _uiState.update { DetailsUiState.Loading }
 
         if (coinId == null) {
-            _uiState.update { CoinDetailUiState.Error("Invalid coin ID") }
+            _uiState.update { DetailsUiState.Error("Invalid coin ID") }
             return
         }
 
@@ -68,22 +68,22 @@ class CoinDetailViewModel @Inject constructor(
         ) { coinDetailResult, coinChartResult, isCoinFavouriteResult ->
             when {
                 coinDetailResult is Result.Error -> {
-                    _uiState.update { CoinDetailUiState.Error(coinDetailResult.message) }
+                    _uiState.update { DetailsUiState.Error(coinDetailResult.message) }
                 }
 
                 coinChartResult is Result.Error -> {
-                    _uiState.update { CoinDetailUiState.Error(coinChartResult.message) }
+                    _uiState.update { DetailsUiState.Error(coinChartResult.message) }
                 }
 
                 isCoinFavouriteResult is Result.Error -> {
-                    _uiState.update { CoinDetailUiState.Error(isCoinFavouriteResult.message) }
+                    _uiState.update { DetailsUiState.Error(isCoinFavouriteResult.message) }
                 }
 
                 coinDetailResult is Result.Success &&
                     coinChartResult is Result.Success &&
                     isCoinFavouriteResult is Result.Success -> {
                     _uiState.update {
-                        CoinDetailUiState.Success(
+                        DetailsUiState.Success(
                             coinDetail = coinDetailResult.data,
                             coinChart = coinChartResult.data,
                             chartPeriod = chartPeriodFlow.value,
