@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.screen.list.component
+package dev.shorthouse.coinwatch.ui.screen.favourites.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

@@ -46,7 +46,7 @@ import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
-import dev.shorthouse.coinwatch.ui.previewdata.CoinDetailsUiStatePreviewProvider
+import dev.shorthouse.coinwatch.ui.previewdata.DetailsUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartRangeCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinDetailsSkeletonLoader
@@ -252,7 +252,7 @@ private fun CoinDetailsContent(
 @Composable
 @Preview
 private fun CoinDetailScreenPreview(
-    @PreviewParameter(CoinDetailsUiStatePreviewProvider::class) uiState: DetailsUiState
+    @PreviewParameter(DetailsUiStatePreviewProvider::class) uiState: DetailsUiState
 ) {
     AppTheme {
         CoinDetailsScreen(

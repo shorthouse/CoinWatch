@@ -3,21 +3,21 @@ package dev.shorthouse.coinwatch.ui.previewdata
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.shorthouse.coinwatch.model.SearchCoin
 import dev.shorthouse.coinwatch.ui.previewdata.CoinSearchPreviewData.searchResults
-import dev.shorthouse.coinwatch.ui.screen.search.CoinSearchUiState
+import dev.shorthouse.coinwatch.ui.screen.search.SearchUiState
 import kotlinx.collections.immutable.persistentListOf
 
-class CoinSearchUiStatePreviewProvider : PreviewParameterProvider<CoinSearchUiState> {
+class SearchUiStatePreviewProvider : PreviewParameterProvider<SearchUiState> {
     override val values = sequenceOf(
-        CoinSearchUiState.Success(
+        SearchUiState.Success(
             searchResults = searchResults,
             queryHasNoResults = false
         ),
-        CoinSearchUiState.Success(
+        SearchUiState.Success(
             searchResults = persistentListOf(),
             queryHasNoResults = true
         ),
-        CoinSearchUiState.Loading,
-        CoinSearchUiState.Error(
+        SearchUiState.Loading,
+        SearchUiState.Error(
             message = "Error searching coins"
         )
     )

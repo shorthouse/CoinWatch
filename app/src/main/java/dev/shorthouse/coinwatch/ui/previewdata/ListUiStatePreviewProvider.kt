@@ -10,7 +10,7 @@ import dev.shorthouse.coinwatch.ui.screen.list.CoinListUiState
 import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
 
-class CoinListUiStatePreviewProvider : PreviewParameterProvider<CoinListUiState> {
+class ListUiStatePreviewProvider : PreviewParameterProvider<CoinListUiState> {
     override val values = sequenceOf(
         CoinListUiState.Success(
             coins = coins,
