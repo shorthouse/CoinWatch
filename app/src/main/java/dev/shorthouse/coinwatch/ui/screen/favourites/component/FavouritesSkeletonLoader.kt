@@ -37,7 +37,7 @@ fun FavouritesSkeletonLoader(modifier: Modifier = Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavouritesSkeletonTopBar(modifier: Modifier = Modifier) {
+private fun FavouritesSkeletonTopBar(modifier: Modifier = Modifier) {
     TopAppBar(
         title = {
             Text(
@@ -56,7 +56,7 @@ fun FavouritesSkeletonTopBar(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun FavouritesSkeletonContent(modifier: Modifier = Modifier) {
+private fun FavouritesSkeletonContent(modifier: Modifier = Modifier) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 140.dp),
         contentPadding = PaddingValues(12.dp),
@@ -77,7 +77,7 @@ fun FavouritesSkeletonContent(modifier: Modifier = Modifier) {
 
 @Composable
 @Preview
-fun FavouritesSkeletonLoaderPreview() {
+private fun FavouritesSkeletonLoaderPreview() {
     AppTheme {
         FavouritesSkeletonLoader()
     }
