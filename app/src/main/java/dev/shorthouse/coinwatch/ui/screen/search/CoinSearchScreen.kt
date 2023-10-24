@@ -58,7 +58,7 @@ fun CoinSearchScreen(
 }
 
 @Composable
-fun CoinSearchScreen(
+private fun CoinSearchScreen(
     uiState: CoinSearchUiState,
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
@@ -78,22 +78,22 @@ fun CoinSearchScreen(
             )
         }
 
+        is CoinSearchUiState.Loading -> {
+            SearchSkeletonLoader()
+        }
+
         is CoinSearchUiState.Error -> {
             ErrorState(
                 message = uiState.message,
                 onRetry = onRefresh
             )
         }
-
-        is CoinSearchUiState.Loading -> {
-            SearchSkeletonLoader()
-        }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun CoinSearchContent(
+private fun CoinSearchContent(
     searchResults: ImmutableList<SearchCoin>,
     searchQuery: String,
     isSearchResultsEmpty: Boolean,
