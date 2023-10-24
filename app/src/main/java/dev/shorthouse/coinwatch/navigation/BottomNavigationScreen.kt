@@ -19,7 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import dev.shorthouse.coinwatch.ui.screen.detail.CoinDetailScreen
+import dev.shorthouse.coinwatch.ui.screen.details.CoinDetailScreen
 import dev.shorthouse.coinwatch.ui.screen.favourites.FavouritesScreen
 import dev.shorthouse.coinwatch.ui.screen.list.CoinListScreen
 import dev.shorthouse.coinwatch.ui.screen.search.CoinSearchScreen
