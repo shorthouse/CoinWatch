@@ -43,24 +43,24 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.CoinChart
-import dev.shorthouse.coinwatch.model.CoinDetail
+import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
-import dev.shorthouse.coinwatch.ui.previewdata.CoinDetailUiStatePreviewProvider
+import dev.shorthouse.coinwatch.ui.previewdata.CoinDetailsUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartRangeCard
-import dev.shorthouse.coinwatch.ui.screen.details.component.CoinDetailSkeletonLoader
+import dev.shorthouse.coinwatch.ui.screen.details.component.CoinDetailsSkeletonLoader
 import dev.shorthouse.coinwatch.ui.screen.details.component.MarketStatsCard
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun CoinDetailScreen(
+fun CoinDetailsScreen(
     navController: NavController,
     viewModel: DetailsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    CoinDetailScreen(
+    CoinDetailsScreen(
         uiState = uiState,
         onNavigateUp = { navController.navigateUp() },
         onClickFavouriteCoin = { viewModel.toggleIsCoinFavourite() },
@@ -71,7 +71,7 @@ fun CoinDetailScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CoinDetailScreen(
+fun CoinDetailsScreen(
     uiState: DetailsUiState,
     onNavigateUp: () -> Unit,
     onClickFavouriteCoin: () -> Unit,
@@ -85,8 +85,8 @@ fun CoinDetailScreen(
         is DetailsUiState.Success -> {
             Scaffold(
                 topBar = {
-                    CoinDetailTopBar(
-                        coinDetail = uiState.coinDetail,
+                    CoinDetailsTopBar(
+                        coinDetails = uiState.coinDetails,
                         isCoinFavourite = uiState.isCoinFavourite,
                         onNavigateUp = onNavigateUp,
                         onClickFavouriteCoin = onClickFavouriteCoin,
@@ -94,8 +94,8 @@ fun CoinDetailScreen(
                     )
                 },
                 content = { scaffoldPadding ->
-                    CoinDetailContent(
-                        coinDetail = uiState.coinDetail,
+                    CoinDetailsContent(
+                        coinDetails = uiState.coinDetails,
                         coinChart = uiState.coinChart,
                         chartPeriod = uiState.chartPeriod,
                         onClickChartPeriod = onClickChartPeriod,
@@ -107,7 +107,7 @@ fun CoinDetailScreen(
         }
 
         is DetailsUiState.Loading -> {
-            CoinDetailSkeletonLoader()
+            CoinDetailsSkeletonLoader()
         }
 
         is DetailsUiState.Error -> {
@@ -122,8 +122,8 @@ fun CoinDetailScreen(
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun CoinDetailTopBar(
-    coinDetail: CoinDetail,
+private fun CoinDetailsTopBar(
+    coinDetails: CoinDetails,
     isCoinFavourite: Boolean,
     onNavigateUp: () -> Unit,
     onClickFavouriteCoin: () -> Unit,
@@ -150,13 +150,13 @@ private fun CoinDetailTopBar(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = coinDetail.name,
+                        text = coinDetails.name,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
 
                     Text(
-                        text = coinDetail.symbol,
+                        text = coinDetails.symbol,
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
@@ -166,7 +166,7 @@ private fun CoinDetailTopBar(
 
                 AsyncImage(
                     model = imageBuilder
-                        .data(coinDetail.imageUrl)
+                        .data(coinDetails.imageUrl)
                         .build(),
                     contentDescription = null,
                     modifier = Modifier
@@ -198,8 +198,8 @@ private fun CoinDetailTopBar(
 }
 
 @Composable
-private fun CoinDetailContent(
-    coinDetail: CoinDetail,
+private fun CoinDetailsContent(
+    coinDetails: CoinDetails,
     coinChart: CoinChart,
     chartPeriod: ChartPeriod,
     onClickChartPeriod: (ChartPeriod) -> Unit,
@@ -210,10 +210,10 @@ private fun CoinDetailContent(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(start = 12.dp, end = 12.dp, bottom = 12.dp)
-            .testTag("coin_detail_content")
+            .testTag("coin_details_content")
     ) {
         CoinChartCard(
-            currentPrice = coinDetail.currentPrice,
+            currentPrice = coinDetails.currentPrice,
             prices = coinChart.prices,
             periodPriceChangePercentage = coinChart.periodPriceChangePercentage,
             chartPeriod = chartPeriod,
@@ -230,7 +230,7 @@ private fun CoinDetailContent(
         Spacer(Modifier.height(8.dp))
 
         CoinChartRangeCard(
-            currentPrice = coinDetail.currentPrice,
+            currentPrice = coinDetails.currentPrice,
             minPrice = coinChart.minPrice,
             maxPrice = coinChart.maxPrice,
             isPricesEmpty = coinChart.prices.isEmpty()
@@ -245,17 +245,17 @@ private fun CoinDetailContent(
 
         Spacer(Modifier.height(8.dp))
 
-        MarketStatsCard(coinDetail = coinDetail)
+        MarketStatsCard(coinDetails = coinDetails)
     }
 }
 
 @Composable
 @Preview
 private fun CoinDetailScreenPreview(
-    @PreviewParameter(CoinDetailUiStatePreviewProvider::class) uiState: DetailsUiState
+    @PreviewParameter(CoinDetailsUiStatePreviewProvider::class) uiState: DetailsUiState
 ) {
     AppTheme {
-        CoinDetailScreen(
+        CoinDetailsScreen(
             uiState = uiState,
             onNavigateUp = {},
             onClickFavouriteCoin = {},

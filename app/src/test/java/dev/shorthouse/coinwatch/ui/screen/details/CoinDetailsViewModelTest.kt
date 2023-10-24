@@ -8,11 +8,11 @@ import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.domain.DeleteFavouriteCoinUseCase
 import dev.shorthouse.coinwatch.domain.GetCoinChartUseCase
-import dev.shorthouse.coinwatch.domain.GetCoinDetailUseCase
+import dev.shorthouse.coinwatch.domain.GetCoinDetailsUseCase
 import dev.shorthouse.coinwatch.domain.InsertFavouriteCoinUseCase
 import dev.shorthouse.coinwatch.domain.IsCoinFavouriteUseCase
 import dev.shorthouse.coinwatch.model.CoinChart
-import dev.shorthouse.coinwatch.model.CoinDetail
+import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -30,7 +30,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class CoinDetailViewModelTest {
+class CoinDetailsViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -39,7 +39,7 @@ class CoinDetailViewModelTest {
     private lateinit var viewModel: DetailsViewModel
 
     @RelaxedMockK
-    private lateinit var getCoinDetailUseCase: GetCoinDetailUseCase
+    private lateinit var getCoinDetailsUseCase: GetCoinDetailsUseCase
 
     @RelaxedMockK
     private lateinit var getCoinChartUseCase: GetCoinChartUseCase
@@ -64,7 +64,7 @@ class CoinDetailViewModelTest {
 
         viewModel = DetailsViewModel(
             savedStateHandle = savedStateHandle,
-            getCoinDetailUseCase = getCoinDetailUseCase,
+            getCoinDetailsUseCase = getCoinDetailsUseCase,
             getCoinChartUseCase = getCoinChartUseCase,
             isCoinFavouriteUseCase = isCoinFavouriteUseCase,
             insertFavouriteCoinUseCase = insertFavouriteCoinUseCase,
@@ -89,13 +89,13 @@ class CoinDetailViewModelTest {
     }
 
     @Test
-    fun `When coin detail returns error should have error UI state`() = runTest {
+    fun `When coin details returns error should have error UI state`() = runTest {
         // Arrange
         val coinChart = mockkClass(CoinChart::class)
-        val errorMessage = "Coin detail error"
+        val errorMessage = "Coin details error"
         val expectedUiState = DetailsUiState.Error(errorMessage)
 
-        every { getCoinDetailUseCase(any()) } returns flowOf(Result.Error(errorMessage))
+        every { getCoinDetailsUseCase(any()) } returns flowOf(Result.Error(errorMessage))
         every { getCoinChartUseCase(any(), any()) } returns flowOf(Result.Success(coinChart))
         every { isCoinFavouriteUseCase(any()) } returns flowOf(Result.Success(false))
 
@@ -110,10 +110,10 @@ class CoinDetailViewModelTest {
     fun `When coin chart returns error should have error UI state`() = runTest {
         // Arrange
         val errorMessage = "Coin chart error"
-        val coinDetail = mockkClass(CoinDetail::class)
+        val coinDetails = mockkClass(CoinDetails::class)
         val expectedUiState = DetailsUiState.Error(errorMessage)
 
-        every { getCoinDetailUseCase(any()) } returns flowOf(Result.Success(coinDetail))
+        every { getCoinDetailsUseCase(any()) } returns flowOf(Result.Success(coinDetails))
         every { getCoinChartUseCase(any(), any()) } returns flowOf(Result.Error(errorMessage))
         every { isCoinFavouriteUseCase(any()) } returns flowOf(Result.Success(false))
 
@@ -128,11 +128,11 @@ class CoinDetailViewModelTest {
     fun `When is coin favourite returns error should have error UI state`() = runTest {
         // Arrange
         val errorMessage = "Coin favourite error"
-        val coinDetail = mockkClass(CoinDetail::class)
+        val coinDetails = mockkClass(CoinDetails::class)
         val coinChart = mockkClass(CoinChart::class)
         val expectedUiState = DetailsUiState.Error(errorMessage)
 
-        every { getCoinDetailUseCase(any()) } returns flowOf(Result.Success(coinDetail))
+        every { getCoinDetailsUseCase(any()) } returns flowOf(Result.Success(coinDetails))
         every { getCoinChartUseCase(any(), any()) } returns flowOf(Result.Success(coinChart))
         every { isCoinFavouriteUseCase(any()) } returns flowOf(Result.Error(errorMessage))
 
@@ -146,18 +146,18 @@ class CoinDetailViewModelTest {
     @Test
     fun `When all use cases return success should have success UI state`() = runTest {
         // Arrange
-        val coinDetail = mockkClass(CoinDetail::class)
+        val coinDetails = mockkClass(CoinDetails::class)
         val coinChart = mockkClass(CoinChart::class)
         val isCoinFavourite = false
 
         val expectedUiState = DetailsUiState.Success(
-            coinDetail = coinDetail,
+            coinDetails = coinDetails,
             coinChart = coinChart,
             chartPeriod = ChartPeriod.Day,
             isCoinFavourite = isCoinFavourite
         )
 
-        every { getCoinDetailUseCase(any()) } returns flowOf(Result.Success(coinDetail))
+        every { getCoinDetailsUseCase(any()) } returns flowOf(Result.Success(coinDetails))
         every { getCoinChartUseCase(any(), any()) } returns flowOf(Result.Success(coinChart))
         every { isCoinFavouriteUseCase(any()) } returns flowOf(Result.Success(isCoinFavourite))
 
@@ -172,18 +172,18 @@ class CoinDetailViewModelTest {
     fun `When updating chart period UI state should update with new chart period value`() =
         runTest {
             // Arrange
-            val coinDetail = mockkClass(CoinDetail::class)
+            val coinDetails = mockkClass(CoinDetails::class)
             val coinChart = mockkClass(CoinChart::class)
             val isCoinFavourite = false
 
             val expectedUiState = DetailsUiState.Success(
-                coinDetail = coinDetail,
+                coinDetails = coinDetails,
                 coinChart = coinChart,
                 chartPeriod = ChartPeriod.Week,
                 isCoinFavourite = isCoinFavourite
             )
 
-            every { getCoinDetailUseCase(any()) } returns flowOf(Result.Success(coinDetail))
+            every { getCoinDetailsUseCase(any()) } returns flowOf(Result.Success(coinDetails))
             every { getCoinChartUseCase(any(), any()) } returns flowOf(Result.Success(coinChart))
             every { isCoinFavouriteUseCase(any()) } returns flowOf(Result.Success(isCoinFavourite))
 

@@ -17,44 +17,44 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.model.CoinDetail
+import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun MarketStatsCard(
-    coinDetail: CoinDetail,
+    coinDetails: CoinDetails,
     modifier: Modifier = Modifier
 ) {
-    val coinDetailItems = remember(coinDetail) {
+    val coinDetailsItems = remember(coinDetails) {
         listOf(
-            CoinDetailListItem(
+            CoinDetailsListItem(
                 nameId = R.string.list_item_market_cap_rank,
-                value = coinDetail.marketCapRank
+                value = coinDetails.marketCapRank
             ),
-            CoinDetailListItem(
+            CoinDetailsListItem(
                 nameId = R.string.list_item_market_cap,
-                value = coinDetail.marketCap.formattedAmount
+                value = coinDetails.marketCap.formattedAmount
             ),
-            CoinDetailListItem(
+            CoinDetailsListItem(
                 nameId = R.string.list_item_volume_24h,
-                value = coinDetail.volume24h
+                value = coinDetails.volume24h
             ),
-            CoinDetailListItem(
+            CoinDetailsListItem(
                 nameId = R.string.list_item_circulating_supply,
-                value = coinDetail.circulatingSupply
+                value = coinDetails.circulatingSupply
             ),
-            CoinDetailListItem(
+            CoinDetailsListItem(
                 nameId = R.string.list_item_ath,
-                value = coinDetail.allTimeHigh.formattedAmount
+                value = coinDetails.allTimeHigh.formattedAmount
             ),
-            CoinDetailListItem(
+            CoinDetailsListItem(
                 nameId = R.string.list_item_ath_date,
-                value = coinDetail.allTimeHighDate
+                value = coinDetails.allTimeHighDate
             ),
-            CoinDetailListItem(
+            CoinDetailsListItem(
                 nameId = R.string.list_item_listed_date,
-                value = coinDetail.listedDate
+                value = coinDetails.listedDate
             )
         )
     }
@@ -65,8 +65,8 @@ fun MarketStatsCard(
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                coinDetailItems.forEachIndexed { coinDetailIndex, coinDetailListItem ->
-                    if (coinDetailIndex != 0) {
+                coinDetailsItems.forEachIndexed { coinDetailsIndex, coinDetailsListItem ->
+                    if (coinDetailsIndex != 0) {
                         Divider(color = MaterialTheme.colorScheme.background)
                     }
 
@@ -75,13 +75,13 @@ fun MarketStatsCard(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = stringResource(coinDetailListItem.nameId),
+                            text = stringResource(coinDetailsListItem.nameId),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
 
                         Text(
-                            text = coinDetailListItem.value,
+                            text = coinDetailsListItem.value,
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface
                         )
@@ -92,7 +92,7 @@ fun MarketStatsCard(
     }
 }
 
-private data class CoinDetailListItem(
+private data class CoinDetailsListItem(
     @StringRes val nameId: Int,
     val value: String
 )
@@ -102,7 +102,7 @@ private data class CoinDetailListItem(
 private fun MarketStatsCardPreview() {
     AppTheme {
         MarketStatsCard(
-            coinDetail = CoinDetail(
+            coinDetails = CoinDetails(
                 id = "ethereum",
                 name = "Ethereum",
                 symbol = "ETH",

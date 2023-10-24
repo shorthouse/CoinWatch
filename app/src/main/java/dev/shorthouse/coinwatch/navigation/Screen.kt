@@ -39,5 +39,5 @@ sealed class NavigationBarScreen(
 }
 
 sealed class Screen(val route: String) {
-    object CoinDetail : Screen("detail_screen")
+    object Details : Screen("details_screen")
 }

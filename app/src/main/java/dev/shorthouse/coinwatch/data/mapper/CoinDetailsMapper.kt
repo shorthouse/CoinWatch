@@ -1,8 +1,8 @@
 package dev.shorthouse.coinwatch.data.mapper
 
 import dev.shorthouse.coinwatch.common.Mapper
-import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailApiModel
-import dev.shorthouse.coinwatch.model.CoinDetail
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
+import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.model.Price
 import java.text.NumberFormat
 import java.time.DateTimeException
@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 import javax.inject.Inject
 
-class CoinDetailMapper @Inject constructor() : Mapper<CoinDetailApiModel, CoinDetail> {
+class CoinDetailsMapper @Inject constructor() : Mapper<CoinDetailsApiModel, CoinDetails> {
     companion object {
         private val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.US)
 
@@ -21,22 +21,22 @@ class CoinDetailMapper @Inject constructor() : Mapper<CoinDetailApiModel, CoinDe
         }
     }
 
-    override fun mapApiModelToModel(from: CoinDetailApiModel): CoinDetail {
-        val coinDetail = from.coinDetailDataHolder?.coinDetailData
+    override fun mapApiModelToModel(from: CoinDetailsApiModel): CoinDetails {
+        val coinDetails = from.coinDetailsDataHolder?.coinDetailsData
 
-        return CoinDetail(
-            id = coinDetail?.id.orEmpty(),
-            name = coinDetail?.name.orEmpty(),
-            symbol = coinDetail?.symbol.orEmpty(),
-            imageUrl = coinDetail?.imageUrl.orEmpty(),
-            currentPrice = Price(coinDetail?.currentPrice),
-            marketCap = Price(coinDetail?.marketCap),
-            marketCapRank = coinDetail?.marketCapRank.orEmpty(),
-            volume24h = formatNumberOrEmpty(coinDetail?.volume24h),
-            circulatingSupply = formatNumberOrEmpty(coinDetail?.supply?.circulatingSupply),
-            allTimeHigh = Price(coinDetail?.allTimeHigh?.price),
-            allTimeHighDate = epochToDateOrEmpty(coinDetail?.allTimeHigh?.timestamp),
-            listedDate = epochToDateOrEmpty(coinDetail?.listedAt)
+        return CoinDetails(
+            id = coinDetails?.id.orEmpty(),
+            name = coinDetails?.name.orEmpty(),
+            symbol = coinDetails?.symbol.orEmpty(),
+            imageUrl = coinDetails?.imageUrl.orEmpty(),
+            currentPrice = Price(coinDetails?.currentPrice),
+            marketCap = Price(coinDetails?.marketCap),
+            marketCapRank = coinDetails?.marketCapRank.orEmpty(),
+            volume24h = formatNumberOrEmpty(coinDetails?.volume24h),
+            circulatingSupply = formatNumberOrEmpty(coinDetails?.supply?.circulatingSupply),
+            allTimeHigh = Price(coinDetails?.allTimeHigh?.price),
+            allTimeHighDate = epochToDateOrEmpty(coinDetails?.allTimeHigh?.timestamp),
+            listedDate = epochToDateOrEmpty(coinDetails?.listedAt)
         )
     }
 

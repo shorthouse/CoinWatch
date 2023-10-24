@@ -28,7 +28,7 @@ import dev.shorthouse.coinwatch.ui.component.SkeletonSurface
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun CoinDetailSkeletonLoader(modifier: Modifier = Modifier) {
+fun CoinDetailsSkeletonLoader(modifier: Modifier = Modifier) {
     Scaffold(
         topBar = {
             DetailsSkeletonTopBar()
@@ -116,6 +116,6 @@ private fun DetailsSkeletonContent(modifier: Modifier = Modifier) {
 @Composable
 private fun CoinDetailSkeletonLoaderPreview() {
     AppTheme {
-        CoinDetailSkeletonLoader()
+        CoinDetailsSkeletonLoader()
     }
 }

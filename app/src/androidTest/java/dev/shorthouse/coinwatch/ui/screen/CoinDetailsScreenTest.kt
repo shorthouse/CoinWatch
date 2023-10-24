@@ -11,11 +11,11 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.model.CoinChart
-import dev.shorthouse.coinwatch.model.CoinDetail
+import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
-import dev.shorthouse.coinwatch.ui.screen.details.CoinDetailScreen
+import dev.shorthouse.coinwatch.ui.screen.details.CoinDetailsScreen
 import dev.shorthouse.coinwatch.ui.screen.details.DetailsUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import java.math.BigDecimal
@@ -23,7 +23,7 @@ import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
 import org.junit.Test
 
-class CoinDetailScreenTest {
+class CoinDetailsScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -34,7 +34,7 @@ class CoinDetailScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinDetailScreen(
+                CoinDetailsScreen(
                     uiState = uiStateLoading,
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
@@ -58,7 +58,7 @@ class CoinDetailScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinDetailScreen(
+                CoinDetailsScreen(
                     uiState = uiStateError,
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
@@ -83,7 +83,7 @@ class CoinDetailScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinDetailScreen(
+                CoinDetailsScreen(
                     uiState = uiStateError,
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
@@ -107,7 +107,7 @@ class CoinDetailScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinDetailScreen(
+                CoinDetailsScreen(
                     uiState = uiStateError,
                     onNavigateUp = { onNavigateUpCalled = true },
                     onClickFavouriteCoin = {},
@@ -127,7 +127,7 @@ class CoinDetailScreenTest {
     @Test
     fun when_uiStateSuccess_should_showExpectedContent() {
         val uiStateSuccess = DetailsUiState.Success(
-            CoinDetail(
+            CoinDetails(
                 id = "ethereum",
                 name = "Ethereum",
                 symbol = "ETH",
@@ -160,7 +160,7 @@ class CoinDetailScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinDetailScreen(
+                CoinDetailsScreen(
                     uiState = uiStateSuccess,
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
@@ -194,7 +194,7 @@ class CoinDetailScreenTest {
             onNodeWithText("High").assertIsDisplayed()
             onNodeWithText("$1,922.83").assertIsDisplayed()
 
-            onNodeWithTag("coin_detail_content")
+            onNodeWithTag("coin_details_content")
                 .performTouchInput { swipeUp(durationMillis = 500) }
 
             onNodeWithText("Market Stats").assertIsDisplayed()
@@ -220,7 +220,7 @@ class CoinDetailScreenTest {
         var onNavigateUpCalled = false
 
         val uiStateSuccess = DetailsUiState.Success(
-            CoinDetail(
+            CoinDetails(
                 id = "ethereum",
                 name = "Ethereum",
                 symbol = "ETH",
@@ -253,7 +253,7 @@ class CoinDetailScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinDetailScreen(
+                CoinDetailsScreen(
                     uiState = uiStateSuccess,
                     onNavigateUp = { onNavigateUpCalled = true },
                     onClickFavouriteCoin = {},
@@ -275,7 +275,7 @@ class CoinDetailScreenTest {
         var onClickFavouriteCoinCalled = false
 
         val uiStateSuccess = DetailsUiState.Success(
-            CoinDetail(
+            CoinDetails(
                 id = "ethereum",
                 name = "Ethereum",
                 symbol = "ETH",
@@ -308,7 +308,7 @@ class CoinDetailScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinDetailScreen(
+                CoinDetailsScreen(
                     uiState = uiStateSuccess,
                     onNavigateUp = {},
                     onClickFavouriteCoin = { onClickFavouriteCoinCalled = true },
@@ -332,7 +332,7 @@ class CoinDetailScreenTest {
             .toMutableMap()
 
         val uiStateSuccess = DetailsUiState.Success(
-            CoinDetail(
+            CoinDetails(
                 id = "ethereum",
                 name = "Ethereum",
                 symbol = "ETH",
@@ -365,7 +365,7 @@ class CoinDetailScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinDetailScreen(
+                CoinDetailsScreen(
                     uiState = uiStateSuccess,
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},

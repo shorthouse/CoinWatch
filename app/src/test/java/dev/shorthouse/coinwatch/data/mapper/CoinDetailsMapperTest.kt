@@ -2,27 +2,27 @@ package dev.shorthouse.coinwatch.data.mapper
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.data.source.remote.model.AllTimeHigh
-import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailApiModel
-import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailData
-import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailDataHolder
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsData
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsDataHolder
 import dev.shorthouse.coinwatch.data.source.remote.model.Supply
-import dev.shorthouse.coinwatch.model.CoinDetail
+import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.model.Price
 import org.junit.Test
 
-class CoinDetailMapperTest {
+class CoinDetailsMapperTest {
 
     // Class under test
-    private val coinDetailMapper = CoinDetailMapper()
+    private val coinDetailsMapper = CoinDetailsMapper()
 
     @Test
-    fun `When coin detail data holder is null should return default values`() {
+    fun `When coin details data holder is null should return default values`() {
         // Arrange
-        val coinDetailApiModel = CoinDetailApiModel(
-            coinDetailDataHolder = null
+        val coinDetailsApiModel = CoinDetailsApiModel(
+            coinDetailsDataHolder = null
         )
 
-        val expectedCoinDetail = CoinDetail(
+        val expectedCoinDetails = CoinDetails(
             id = "",
             name = "",
             symbol = "",
@@ -38,22 +38,22 @@ class CoinDetailMapperTest {
         )
 
         // Act
-        val coinDetail = coinDetailMapper.mapApiModelToModel(coinDetailApiModel)
+        val coinDetails = coinDetailsMapper.mapApiModelToModel(coinDetailsApiModel)
 
         // Assert
-        assertThat(coinDetail).isEqualTo(expectedCoinDetail)
+        assertThat(coinDetails).isEqualTo(expectedCoinDetails)
     }
 
     @Test
-    fun `When coin detail data is null should return default values`() {
+    fun `When coin details data is null should return default values`() {
         // Arrange
-        val coinDetailApiModel = CoinDetailApiModel(
-            coinDetailDataHolder = CoinDetailDataHolder(
-                coinDetailData = null
+        val coinDetailsApiModel = CoinDetailsApiModel(
+            coinDetailsDataHolder = CoinDetailsDataHolder(
+                coinDetailsData = null
             )
         )
 
-        val expectedCoinDetail = CoinDetail(
+        val expectedCoinDetails = CoinDetails(
             id = "",
             name = "",
             symbol = "",
@@ -69,18 +69,18 @@ class CoinDetailMapperTest {
         )
 
         // Act
-        val coinDetail = coinDetailMapper.mapApiModelToModel(coinDetailApiModel)
+        val coinDetails = coinDetailsMapper.mapApiModelToModel(coinDetailsApiModel)
 
         // Assert
-        assertThat(coinDetail).isEqualTo(expectedCoinDetail)
+        assertThat(coinDetails).isEqualTo(expectedCoinDetails)
     }
 
     @Test
-    fun `When all coin detail values are null should return default values`() {
+    fun `When all coin details values are null should return default values`() {
         // Arrange
-        val coinDetailApiModel = CoinDetailApiModel(
-            coinDetailDataHolder = CoinDetailDataHolder(
-                coinDetailData = CoinDetailData(
+        val coinDetailsApiModel = CoinDetailsApiModel(
+            coinDetailsDataHolder = CoinDetailsDataHolder(
+                coinDetailsData = CoinDetailsData(
                     id = null,
                     name = null,
                     symbol = null,
@@ -96,7 +96,7 @@ class CoinDetailMapperTest {
             )
         )
 
-        val expectedCoinDetail = CoinDetail(
+        val expectedCoinDetails = CoinDetails(
             id = "",
             name = "",
             symbol = "",
@@ -112,18 +112,18 @@ class CoinDetailMapperTest {
         )
 
         // Act
-        val coinDetail = coinDetailMapper.mapApiModelToModel(coinDetailApiModel)
+        val coinDetails = coinDetailsMapper.mapApiModelToModel(coinDetailsApiModel)
 
         // Assert
-        assertThat(coinDetail).isEqualTo(expectedCoinDetail)
+        assertThat(coinDetails).isEqualTo(expectedCoinDetails)
     }
 
     @Test
     fun `When all numbers to format are invalid should return empty values`() {
         // Arrange
-        val coinDetailApiModel = CoinDetailApiModel(
-            coinDetailDataHolder = CoinDetailDataHolder(
-                coinDetailData = CoinDetailData(
+        val coinDetailsApiModel = CoinDetailsApiModel(
+            coinDetailsDataHolder = CoinDetailsDataHolder(
+                coinDetailsData = CoinDetailsData(
                     id = "Qwsogvtv82FCd",
                     name = "Bitcoin",
                     symbol = "BTC",
@@ -144,7 +144,7 @@ class CoinDetailMapperTest {
             )
         )
 
-        val expectedCoinDetail = CoinDetail(
+        val expectedCoinDetails = CoinDetails(
             id = "Qwsogvtv82FCd",
             name = "Bitcoin",
             symbol = "BTC",
@@ -160,18 +160,18 @@ class CoinDetailMapperTest {
         )
 
         // Act
-        val coinDetail = coinDetailMapper.mapApiModelToModel(coinDetailApiModel)
+        val coinDetails = coinDetailsMapper.mapApiModelToModel(coinDetailsApiModel)
 
         // Assert
-        assertThat(coinDetail).isEqualTo(expectedCoinDetail)
+        assertThat(coinDetails).isEqualTo(expectedCoinDetails)
     }
 
     @Test
     fun `When timestamps are invalid should return default values`() {
         // Arrange
-        val coinDetailApiModel = CoinDetailApiModel(
-            coinDetailDataHolder = CoinDetailDataHolder(
-                coinDetailData = CoinDetailData(
+        val coinDetailsApiModel = CoinDetailsApiModel(
+            coinDetailsDataHolder = CoinDetailsDataHolder(
+                coinDetailsData = CoinDetailsData(
                     id = "Qwsogvtv82FCd",
                     name = "Bitcoin",
                     symbol = "BTC",
@@ -192,7 +192,7 @@ class CoinDetailMapperTest {
             )
         )
 
-        val expectedCoinDetail = CoinDetail(
+        val expectedCoinDetails = CoinDetails(
             id = "Qwsogvtv82FCd",
             name = "Bitcoin",
             symbol = "BTC",
@@ -208,18 +208,18 @@ class CoinDetailMapperTest {
         )
 
         // Act
-        val coinDetail = coinDetailMapper.mapApiModelToModel(coinDetailApiModel)
+        val coinDetails = coinDetailsMapper.mapApiModelToModel(coinDetailsApiModel)
 
         // Assert
-        assertThat(coinDetail).isEqualTo(expectedCoinDetail)
+        assertThat(coinDetails).isEqualTo(expectedCoinDetails)
     }
 
     @Test
-    fun `When coin detail data has valid values should map as expected`() {
+    fun `When coin details data has valid values should map as expected`() {
         // Arrange
-        val coinDetailApiModel = CoinDetailApiModel(
-            coinDetailDataHolder = CoinDetailDataHolder(
-                coinDetailData = CoinDetailData(
+        val coinDetailsApiModel = CoinDetailsApiModel(
+            coinDetailsDataHolder = CoinDetailsDataHolder(
+                coinDetailsData = CoinDetailsData(
                     id = "Qwsogvtv82FCd",
                     name = "Bitcoin",
                     symbol = "BTC",
@@ -240,7 +240,7 @@ class CoinDetailMapperTest {
             )
         )
 
-        val expectedCoinDetail = CoinDetail(
+        val expectedCoinDetails = CoinDetails(
             id = "Qwsogvtv82FCd",
             name = "Bitcoin",
             symbol = "BTC",
@@ -256,9 +256,9 @@ class CoinDetailMapperTest {
         )
 
         // Act
-        val coinDetail = coinDetailMapper.mapApiModelToModel(coinDetailApiModel)
+        val coinDetails = coinDetailsMapper.mapApiModelToModel(coinDetailsApiModel)
 
         // Assert
-        assertThat(coinDetail).isEqualTo(expectedCoinDetail)
+        assertThat(coinDetails).isEqualTo(expectedCoinDetails)
     }
 }

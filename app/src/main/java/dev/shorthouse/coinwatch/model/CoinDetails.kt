@@ -1,6 +1,6 @@
 package dev.shorthouse.coinwatch.model
 
-data class CoinDetail(
+data class CoinDetails(
     val id: String,
     val name: String,
     val symbol: String,

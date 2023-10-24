@@ -2,17 +2,17 @@ package dev.shorthouse.coinwatch.data.source.remote.model
 
 import com.google.gson.annotations.SerializedName
 
-data class CoinDetailApiModel(
+data class CoinDetailsApiModel(
     @SerializedName("data")
-    val coinDetailDataHolder: CoinDetailDataHolder?
+    val coinDetailsDataHolder: CoinDetailsDataHolder?
 )
 
-data class CoinDetailDataHolder(
+data class CoinDetailsDataHolder(
     @SerializedName("coin")
-    val coinDetailData: CoinDetailData?
+    val coinDetailsData: CoinDetailsData?
 )
 
-data class CoinDetailData(
+data class CoinDetailsData(
     @SerializedName("uuid")
     val id: String?,
     @SerializedName("name")

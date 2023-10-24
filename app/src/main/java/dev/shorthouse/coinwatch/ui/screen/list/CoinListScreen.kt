@@ -60,7 +60,7 @@ fun CoinListScreen(
     CoinListScreen(
         uiState = uiState,
         onCoinClick = { coin ->
-            navController.navigate(Screen.CoinDetail.route + "/${coin.id}")
+            navController.navigate(Screen.Details.route + "/${coin.id}")
         },
         onRefresh = { viewModel.initialiseUiState() }
     )

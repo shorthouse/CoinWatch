@@ -9,7 +9,7 @@ import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.domain.DeleteFavouriteCoinUseCase
 import dev.shorthouse.coinwatch.domain.GetCoinChartUseCase
-import dev.shorthouse.coinwatch.domain.GetCoinDetailUseCase
+import dev.shorthouse.coinwatch.domain.GetCoinDetailsUseCase
 import dev.shorthouse.coinwatch.domain.InsertFavouriteCoinUseCase
 import dev.shorthouse.coinwatch.domain.IsCoinFavouriteUseCase
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getCoinDetailUseCase: GetCoinDetailUseCase,
+    private val getCoinDetailsUseCase: GetCoinDetailsUseCase,
     private val getCoinChartUseCase: GetCoinChartUseCase,
     private val isCoinFavouriteUseCase: IsCoinFavouriteUseCase,
     private val insertFavouriteCoinUseCase: InsertFavouriteCoinUseCase,
@@ -52,7 +52,7 @@ class DetailsViewModel @Inject constructor(
             return
         }
 
-        val coinDetailFlow = getCoinDetailUseCase(coinId = coinId)
+        val coinDetailsFlow = getCoinDetailsUseCase(coinId = coinId)
         val coinChartFlow = chartPeriodFlow.flatMapLatest { chartPeriod ->
             getCoinChartUseCase(
                 coinId = coinId,
@@ -62,13 +62,13 @@ class DetailsViewModel @Inject constructor(
         val isCoinFavouriteFlow = isCoinFavouriteUseCase(coinId = coinId)
 
         combine(
-            coinDetailFlow,
+            coinDetailsFlow,
             coinChartFlow,
             isCoinFavouriteFlow
-        ) { coinDetailResult, coinChartResult, isCoinFavouriteResult ->
+        ) { coinDetailsResult, coinChartResult, isCoinFavouriteResult ->
             when {
-                coinDetailResult is Result.Error -> {
-                    _uiState.update { DetailsUiState.Error(coinDetailResult.message) }
+                coinDetailsResult is Result.Error -> {
+                    _uiState.update { DetailsUiState.Error(coinDetailsResult.message) }
                 }
 
                 coinChartResult is Result.Error -> {
@@ -79,12 +79,12 @@ class DetailsViewModel @Inject constructor(
                     _uiState.update { DetailsUiState.Error(isCoinFavouriteResult.message) }
                 }
 
-                coinDetailResult is Result.Success &&
+                coinDetailsResult is Result.Success &&
                     coinChartResult is Result.Success &&
                     isCoinFavouriteResult is Result.Success -> {
                     _uiState.update {
                         DetailsUiState.Success(
-                            coinDetail = coinDetailResult.data,
+                            coinDetails = coinDetailsResult.data,
                             coinChart = coinChartResult.data,
                             chartPeriod = chartPeriodFlow.value,
                             isCoinFavourite = isCoinFavouriteResult.data
