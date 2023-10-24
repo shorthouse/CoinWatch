@@ -26,7 +26,7 @@ import dev.shorthouse.coinwatch.ui.screen.search.CoinSearchScreen
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun BottomNavigationScreen(
+fun AppNavHost(
     modifier: Modifier = Modifier
 ) {
     val navController = rememberNavController()
