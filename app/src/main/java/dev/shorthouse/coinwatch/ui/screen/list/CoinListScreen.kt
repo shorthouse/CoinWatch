@@ -3,12 +3,7 @@ package dev.shorthouse.coinwatch.ui.screen.list
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,11 +27,9 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -51,6 +44,7 @@ import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.previewdata.CoinListUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListItem
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListSkeletonLoader
+import dev.shorthouse.coinwatch.ui.screen.list.component.CoinSearchPrompt
 import dev.shorthouse.coinwatch.ui.screen.list.component.CoinsEmptyState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
@@ -68,7 +62,7 @@ fun CoinListScreen(
         onCoinClick = { coin ->
             navController.navigate(Screen.CoinDetail.route + "/${coin.id}")
         },
-        onErrorRetry = { viewModel.initialiseUiState() }
+        onRefresh = { viewModel.initialiseUiState() }
     )
 }
 
@@ -77,7 +71,7 @@ fun CoinListScreen(
 fun CoinListScreen(
     uiState: CoinListUiState,
     onCoinClick: (Coin) -> Unit,
-    onErrorRetry: () -> Unit,
+    onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -142,7 +136,7 @@ fun CoinListScreen(
         is CoinListUiState.Error -> {
             ErrorState(
                 message = uiState.message,
-                onRetry = onErrorRetry
+                onRetry = onRefresh
             )
         }
     }
@@ -184,16 +178,14 @@ private fun CoinListContent(
     lazyListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        state = lazyListState,
-        contentPadding = PaddingValues(horizontal = 12.dp),
-        modifier = modifier
-    ) {
-        if (coins.isEmpty()) {
-            item {
-                CoinsEmptyState()
-            }
-        } else {
+    if (coins.isEmpty()) {
+        CoinsEmptyState()
+    } else {
+        LazyColumn(
+            state = lazyListState,
+            contentPadding = PaddingValues(horizontal = 12.dp),
+            modifier = modifier
+        ) {
             items(
                 count = coins.size,
                 key = { coins[it].id },
@@ -221,31 +213,9 @@ private fun CoinListContent(
                     )
                 }
             )
-        }
 
-        item {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Spacer(Modifier.height(12.dp))
-
-                Text(
-                    text = stringResource(R.string.cant_find_coin_prompt),
-                    style = MaterialTheme.typography.bodySmall,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
-                Text(
-                    text = stringResource(R.string.search_coin_prompt),
-                    style = MaterialTheme.typography.bodySmall,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
-                Spacer(Modifier.height(12.dp))
+            item {
+                CoinSearchPrompt(modifier = Modifier.padding(vertical = 12.dp))
             }
         }
     }
@@ -260,7 +230,7 @@ private fun CoinListScreenPreview(
         CoinListScreen(
             uiState = uiState,
             onCoinClick = {},
-            onErrorRetry = {}
+            onRefresh = {}
         )
     }
 }
