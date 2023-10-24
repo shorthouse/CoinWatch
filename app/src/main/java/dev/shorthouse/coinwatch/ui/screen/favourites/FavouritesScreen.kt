@@ -5,7 +5,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -125,9 +126,11 @@ fun FavouritesContent(
     if (favouriteCoins.isEmpty()) {
         FavouritesEmptyState(modifier = Modifier.fillMaxSize())
     } else {
-        LazyRow(
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = 140.dp),
+            contentPadding = PaddingValues(12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(end = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = modifier
         ) {
             items(
