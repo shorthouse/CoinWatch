@@ -6,13 +6,13 @@ import dev.shorthouse.coinwatch.model.CoinDetail
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
-import dev.shorthouse.coinwatch.ui.screen.detail.CoinDetailUiState
+import dev.shorthouse.coinwatch.ui.screen.details.DetailsUiState
 import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
 
-class CoinDetailUiStatePreviewProvider : PreviewParameterProvider<CoinDetailUiState> {
+class CoinDetailUiStatePreviewProvider : PreviewParameterProvider<DetailsUiState> {
     override val values = sequenceOf(
-        CoinDetailUiState.Success(
+        DetailsUiState.Success(
             CoinDetail(
                 id = "ethereum",
                 name = "Ethereum",
@@ -38,7 +38,7 @@ class CoinDetailUiStatePreviewProvider : PreviewParameterProvider<CoinDetailUiSt
             chartPeriod = ChartPeriod.Week,
             isCoinFavourite = true
         ),
-        CoinDetailUiState.Loading,
-        CoinDetailUiState.Error("No internet connection")
+        DetailsUiState.Loading,
+        DetailsUiState.Error("No internet connection")
     )
 }
