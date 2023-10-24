@@ -10,7 +10,7 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 
 @HiltViewModel
@@ -29,7 +29,7 @@ class FavouritesViewModel @Inject constructor(
 
         val favouriteCoinsFlow = getFavouriteCoinsUseCase()
 
-        favouriteCoinsFlow.map { favouriteCoinsResult ->
+        favouriteCoinsFlow.onEach { favouriteCoinsResult ->
             when (favouriteCoinsResult) {
                 is Result.Error -> {
                     _uiState.update { FavouritesUiState.Error(favouriteCoinsResult.message) }
