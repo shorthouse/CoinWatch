@@ -41,11 +41,11 @@ import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.navigation.Screen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
-import dev.shorthouse.coinwatch.ui.previewdata.CoinListUiStatePreviewProvider
-import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListItem
-import dev.shorthouse.coinwatch.ui.screen.list.component.CoinListSkeletonLoader
-import dev.shorthouse.coinwatch.ui.screen.list.component.CoinSearchPrompt
-import dev.shorthouse.coinwatch.ui.screen.list.component.CoinsEmptyState
+import dev.shorthouse.coinwatch.ui.previewdata.ListUiStatePreviewProvider
+import dev.shorthouse.coinwatch.ui.screen.list.component.ListEmptyState
+import dev.shorthouse.coinwatch.ui.screen.list.component.ListItem
+import dev.shorthouse.coinwatch.ui.screen.list.component.ListSkeletonLoader
+import dev.shorthouse.coinwatch.ui.screen.list.component.SearchPrompt
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
@@ -130,7 +130,7 @@ private fun CoinListScreen(
         }
 
         is CoinListUiState.Loading -> {
-            CoinListSkeletonLoader()
+            ListSkeletonLoader()
         }
 
         is CoinListUiState.Error -> {
@@ -179,7 +179,7 @@ private fun CoinListContent(
     modifier: Modifier = Modifier
 ) {
     if (coins.isEmpty()) {
-        CoinsEmptyState()
+        ListEmptyState()
     } else {
         LazyColumn(
             state = lazyListState,
@@ -206,7 +206,7 @@ private fun CoinListContent(
                         else -> RoundedCornerShape(0.dp)
                     }
 
-                    CoinListItem(
+                    ListItem(
                         coin = coinListItem,
                         onCoinClick = { onCoinClick(coinListItem) },
                         cardShape = cardShape
@@ -215,7 +215,7 @@ private fun CoinListContent(
             )
 
             item {
-                CoinSearchPrompt(modifier = Modifier.padding(vertical = 12.dp))
+                SearchPrompt(modifier = Modifier.padding(vertical = 12.dp))
             }
         }
     }
@@ -224,7 +224,7 @@ private fun CoinListContent(
 @Composable
 @Preview(showBackground = true)
 private fun CoinListScreenPreview(
-    @PreviewParameter(CoinListUiStatePreviewProvider::class) uiState: CoinListUiState
+    @PreviewParameter(ListUiStatePreviewProvider::class) uiState: CoinListUiState
 ) {
     AppTheme {
         CoinListScreen(

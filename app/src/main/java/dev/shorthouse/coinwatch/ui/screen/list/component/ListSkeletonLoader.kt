@@ -17,13 +17,13 @@ import dev.shorthouse.coinwatch.ui.component.SkeletonSurface
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun CoinListSkeletonLoader(modifier: Modifier = Modifier) {
+fun ListSkeletonLoader(modifier: Modifier = Modifier) {
     Scaffold(
         topBar = {
-            SkeletonTopAppBar()
+            ListSkeletonTopBar()
         },
         content = { scaffoldPadding ->
-            SkeletonContent(
+            ListSkeletonContent(
                 modifier = Modifier.padding(scaffoldPadding)
             )
         },
@@ -33,7 +33,7 @@ fun CoinListSkeletonLoader(modifier: Modifier = Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SkeletonTopAppBar(modifier: Modifier = Modifier) {
+private fun ListSkeletonTopBar(modifier: Modifier = Modifier) {
     TopAppBar(
         title = {},
         colors = TopAppBarDefaults.largeTopAppBarColors(
@@ -44,7 +44,7 @@ private fun SkeletonTopAppBar(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun SkeletonContent(modifier: Modifier = Modifier) {
+private fun ListSkeletonContent(modifier: Modifier = Modifier) {
     Column(modifier = modifier.padding(start = 12.dp, top = 12.dp)) {
         SkeletonSurface(
             shape = MaterialTheme.shapes.medium.copy(
@@ -60,8 +60,8 @@ private fun SkeletonContent(modifier: Modifier = Modifier) {
 
 @Composable
 @Preview
-fun CoinListSkeletonLoaderPreview() {
+private fun ListSkeletonLoaderPreview() {
     AppTheme {
-        CoinListSkeletonLoader()
+        ListSkeletonLoader()
     }
 }

@@ -15,7 +15,7 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun CoinSearchPrompt(modifier: Modifier = Modifier) {
+fun SearchPrompt(modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -39,8 +39,8 @@ fun CoinSearchPrompt(modifier: Modifier = Modifier) {
 
 @Composable
 @Preview
-fun CoinSearchPromptPreview() {
+fun SearchPromptPreview() {
     AppTheme {
-        CoinSearchPrompt()
+        SearchPrompt()
     }
 }

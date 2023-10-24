@@ -12,7 +12,7 @@ import dev.shorthouse.coinwatch.ui.component.EmptyState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun CoinsEmptyState(modifier: Modifier = Modifier) {
+fun ListEmptyState(modifier: Modifier = Modifier) {
     EmptyState(
         image = painterResource(R.drawable.empty_state_coins),
         title = stringResource(R.string.empty_state_coins_title),
@@ -29,8 +29,8 @@ fun CoinsEmptyState(modifier: Modifier = Modifier) {
 
 @Composable
 @Preview
-fun CoinsEmptyStatePreview() {
+private fun ListEmptyStatePreview() {
     AppTheme {
-        CoinsEmptyState()
+        ListEmptyState()
     }
 }

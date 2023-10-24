@@ -26,12 +26,11 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.ui.component.PercentageChange
-import dev.shorthouse.coinwatch.ui.component.PercentageChangeChip
 import dev.shorthouse.coinwatch.ui.previewdata.CoinPreviewProvider
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun CoinListItem(
+fun ListItem(
     coin: Coin,
     onCoinClick: (Coin) -> Unit,
     cardShape: Shape,
@@ -97,11 +96,11 @@ fun CoinListItem(
 
 @Composable
 @Preview
-private fun CoinListItemPreview(
+private fun ListItemPreview(
     @PreviewParameter(CoinPreviewProvider::class) coin: Coin
 ) {
     AppTheme {
-        CoinListItem(
+        ListItem(
             coin = coin,
             onCoinClick = {},
             cardShape = MaterialTheme.shapes.medium

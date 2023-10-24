@@ -32,7 +32,7 @@ import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.previewdata.FavouritesUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouritesEmptyState
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouritesSkeletonLoader
-import dev.shorthouse.coinwatch.ui.screen.list.component.CoinFavouriteItem
+import dev.shorthouse.coinwatch.ui.screen.favourites.component.CoinFavouriteItem
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 
