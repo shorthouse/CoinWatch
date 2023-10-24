@@ -1,19 +1,12 @@
-package dev.shorthouse.coinwatch.ui.screen.list.component
+package dev.shorthouse.coinwatch.ui.screen.favourites.component
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.StarOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,34 +16,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.ui.component.EmptyState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun FavouriteCoinsEmptyState(modifier: Modifier = Modifier) {
-    Surface(
-        shape = MaterialTheme.shapes.medium,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(200.dp)
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(12.dp)
-        ) {
-            Image(
-                painter = painterResource(R.drawable.empty_state_favourite_coins),
-                contentDescription = null,
-                modifier = Modifier.weight(1f)
-            )
-
-            Spacer(Modifier.height(16.dp))
-
-            Text(
-                text = stringResource(R.string.empty_state_favourite_coins_title),
-                style = MaterialTheme.typography.titleSmall
-            )
-
+fun FavouritesEmptyState(modifier: Modifier = Modifier) {
+    EmptyState(
+        image = painterResource(R.drawable.empty_state_favourite_coins),
+        title = stringResource(R.string.empty_state_favourite_coins_title),
+        subtitle = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = stringResource(R.string.empty_state_favourite_coins_subtitle_start),
@@ -73,14 +47,15 @@ fun FavouriteCoinsEmptyState(modifier: Modifier = Modifier) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-        }
-    }
+        },
+        modifier = modifier
+    )
 }
 
-@Preview
 @Composable
-private fun FavouriteCoinsEmptyStatePreview() {
+@Preview
+fun FavouritesEmptyStatePreview() {
     AppTheme {
-        FavouriteCoinsEmptyState()
+        FavouritesEmptyState()
     }
 }
