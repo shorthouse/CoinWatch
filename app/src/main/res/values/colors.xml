@@ -2,4 +2,12 @@
 <resources>
     <color name="ic_launcher_background">#19284D</color>
     <color name="background">#19284D</color>
+    <color name="surface">#253667</color>
+    <color name="drawable_lighter">#6F6C88</color>
+    <color name="drawable_darker">#3F3d56</color>
+    <color name="white">#FFFFFF</color>
+    <color name="grey">#F2F2F2</color>
+    <color name="tone_one">#97636b</color>
+    <color name="tone_two">#FFB6B6</color>
+    <color name="tone_three">#A0616A</color>
 </resources>
