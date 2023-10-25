@@ -3,7 +3,6 @@ package dev.shorthouse.coinwatch.ui.screen.favourites
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -30,9 +29,9 @@ import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.navigation.Screen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.previewdata.FavouritesUiStatePreviewProvider
+import dev.shorthouse.coinwatch.ui.screen.favourites.component.CoinFavouriteItem
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouritesEmptyState
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouritesSkeletonLoader
-import dev.shorthouse.coinwatch.ui.screen.favourites.component.CoinFavouriteItem
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 
@@ -62,36 +61,37 @@ private fun FavouriteScreen(
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    when (uiState) {
-        is FavouritesUiState.Success -> {
-            Scaffold(
-                topBar = {
-                    FavouritesTopBar(
-                        scrollBehavior = scrollBehavior
-                    )
-                },
-                content = { scaffoldPadding ->
+    Scaffold(
+        topBar = {
+            FavouritesTopBar(
+                scrollBehavior = scrollBehavior
+            )
+        },
+        content = { scaffoldPadding ->
+            when (uiState) {
+                is FavouritesUiState.Success -> {
                     FavouritesContent(
                         favouriteCoins = uiState.favouriteCoins,
                         onCoinClick = onCoinClick,
                         modifier = Modifier.padding(scaffoldPadding)
                     )
-                },
-                modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-            )
-        }
+                }
 
-        is FavouritesUiState.Loading -> {
-            FavouritesSkeletonLoader()
-        }
+                is FavouritesUiState.Error -> {
+                    ErrorState(
+                        message = stringResource(R.string.error_state_favourite_coins),
+                        onRetry = onRefresh,
+                        modifier = Modifier.padding(scaffoldPadding)
+                    )
+                }
 
-        is FavouritesUiState.Error -> {
-            ErrorState(
-                message = uiState.message,
-                onRetry = onRefresh
-            )
-        }
-    }
+                is FavouritesUiState.Loading -> {
+                    FavouritesSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
+                }
+            }
+        },
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -105,8 +105,7 @@ private fun FavouritesTopBar(
             Text(
                 text = stringResource(R.string.favourites_screen),
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.offset(x = (-4).dp)
+                color = MaterialTheme.colorScheme.onBackground
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(
