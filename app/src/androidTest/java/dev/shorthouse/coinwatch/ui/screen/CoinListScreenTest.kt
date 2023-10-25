@@ -11,7 +11,6 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
-import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.screen.list.CoinListScreen
 import dev.shorthouse.coinwatch.ui.screen.list.CoinListUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
@@ -92,8 +91,7 @@ class CoinListScreenTest {
     @Test
     fun when_uiStateSuccess_should_showExpectedContent() {
         val uiStateSuccess = CoinListUiState.Success(
-            coins = persistentListOf(),
-            timeOfDay = TimeOfDay.Morning
+            coins = persistentListOf()
         )
 
         composeTestRule.setContent {
@@ -115,8 +113,7 @@ class CoinListScreenTest {
     @Test
     fun when_uiStateSuccess_favouriteCoinsEmpty_should_showEmptyState() {
         val uiStateSuccess = CoinListUiState.Success(
-            coins = persistentListOf(),
-            timeOfDay = TimeOfDay.Morning
+            coins = persistentListOf()
         )
 
         composeTestRule.setContent {
@@ -140,8 +137,7 @@ class CoinListScreenTest {
     @Test
     fun when_uiStateSuccess_favouriteCoinsList_should_showExpectedContent() {
         val uiStateSuccess = CoinListUiState.Success(
-            coins = persistentListOf(),
-            timeOfDay = TimeOfDay.Morning
+            coins = persistentListOf()
         )
 
         composeTestRule.setContent {
@@ -181,8 +177,7 @@ class CoinListScreenTest {
     @Test
     fun when_uiStateSuccess_coinsEmpty_should_showEmptyState() {
         val uiStateSuccess = CoinListUiState.Success(
-            coins = persistentListOf(),
-            timeOfDay = TimeOfDay.Morning
+            coins = persistentListOf()
         )
 
         composeTestRule.setContent {
@@ -247,8 +242,7 @@ class CoinListScreenTest {
                         BigDecimal("1.00")
                     )
                 )
-            ),
-            timeOfDay = TimeOfDay.Morning
+            )
         )
 
         composeTestRule.setContent {
@@ -302,8 +296,7 @@ class CoinListScreenTest {
                         BigDecimal("29471.20179209623")
                     )
                 )
-            ),
-            timeOfDay = TimeOfDay.Morning
+            )
         )
 
         composeTestRule.setContent {
@@ -328,8 +321,7 @@ class CoinListScreenTest {
         var onCoinClickCalled = false
 
         val uiStateSuccess = CoinListUiState.Success(
-            coins = persistentListOf(),
-            timeOfDay = TimeOfDay.Morning
+            coins = persistentListOf()
         )
 
         composeTestRule.setContent {
@@ -352,8 +344,7 @@ class CoinListScreenTest {
     @Test
     fun when_timeOfDayMorning_should_showMorningGreeting() {
         val uiStateSuccess = CoinListUiState.Success(
-            coins = persistentListOf(),
-            timeOfDay = TimeOfDay.Morning
+            coins = persistentListOf()
         )
 
         composeTestRule.setContent {
@@ -374,8 +365,7 @@ class CoinListScreenTest {
     @Test
     fun when_timeOfDayAfternoon_should_showAfternoonGreeting() {
         val uiStateSuccess = CoinListUiState.Success(
-            coins = persistentListOf(),
-            timeOfDay = TimeOfDay.Afternoon
+            coins = persistentListOf()
         )
 
         composeTestRule.setContent {
@@ -396,8 +386,7 @@ class CoinListScreenTest {
     @Test
     fun when_timeOfDayEvening_should_showEveningGreeting() {
         val uiStateSuccess = CoinListUiState.Success(
-            coins = persistentListOf(),
-            timeOfDay = TimeOfDay.Evening
+            coins = persistentListOf()
         )
 
         composeTestRule.setContent {
