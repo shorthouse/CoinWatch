@@ -168,7 +168,7 @@ class DetailsUiStatePreviewProvider : PreviewParameterProvider<DetailsUiState> {
             chartPeriod = ChartPeriod.Week,
             isCoinFavourite = true
         ),
-        DetailsUiState.Loading,
-        DetailsUiState.Error("No internet connection")
+        DetailsUiState.Error("No internet connection"),
+        DetailsUiState.Loading
     )
 }

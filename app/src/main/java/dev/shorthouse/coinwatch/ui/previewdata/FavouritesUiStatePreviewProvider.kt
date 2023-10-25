@@ -17,8 +17,8 @@ class FavouritesUiStatePreviewProvider : PreviewParameterProvider<FavouritesUiSt
         FavouritesUiState.Success(
             favouriteCoins = persistentListOf()
         ),
-        FavouritesUiState.Loading,
-        FavouritesUiState.Error("No internet connection")
+        FavouritesUiState.Error("No internet connection"),
+        FavouritesUiState.Loading
     )
 }
 

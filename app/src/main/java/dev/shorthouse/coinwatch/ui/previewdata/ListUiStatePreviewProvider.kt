@@ -4,7 +4,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
-import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.previewdata.CoinListPreviewData.coins
 import dev.shorthouse.coinwatch.ui.screen.list.CoinListUiState
 import java.math.BigDecimal
@@ -13,15 +12,13 @@ import kotlinx.collections.immutable.persistentListOf
 class ListUiStatePreviewProvider : PreviewParameterProvider<CoinListUiState> {
     override val values = sequenceOf(
         CoinListUiState.Success(
-            coins = coins,
-            timeOfDay = TimeOfDay.Evening
+            coins = coins
         ),
         CoinListUiState.Success(
-            coins = persistentListOf(),
-            timeOfDay = TimeOfDay.Morning
+            coins = persistentListOf()
         ),
-        CoinListUiState.Loading,
-        CoinListUiState.Error("No internet connection")
+        CoinListUiState.Error("No internet connection"),
+        CoinListUiState.Loading
     )
 }
 
