@@ -54,4 +54,5 @@
     <string name="market_screen">Market</string>
     <string name="search_screen">Search</string>
     <string name="favourites_screen">Favourites</string>
+    <string name="error_state_favourite_coins">Unable to fetch favourite coins</string>
 </resources>
