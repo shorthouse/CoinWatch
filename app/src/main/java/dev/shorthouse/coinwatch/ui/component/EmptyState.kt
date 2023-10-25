@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
@@ -27,7 +28,6 @@ fun EmptyState(
     title: String,
     subtitle: @Composable () -> Unit,
     modifier: Modifier = Modifier
-    // onRetry: (() -> Unit)? = null,
 ) {
     Box(
         modifier = modifier.background(MaterialTheme.colorScheme.background)
@@ -56,34 +56,22 @@ fun EmptyState(
             Spacer(Modifier.height(4.dp))
 
             subtitle()
-
-            Spacer(Modifier.height(24.dp))
-
-//            Button(
-//                onClick = onRetry,
-//                shape = MaterialTheme.shapes.small,
-//                colors = ButtonDefaults.buttonColors(
-//                    containerColor = MaterialTheme.colorScheme.surface,
-//                    contentColor = MaterialTheme.colorScheme.onSurface
-//                )
-//            ) {
-//                Text(
-//                    text = stringResource(R.string.button_retry),
-//                    style = MaterialTheme.typography.titleSmall
-//                )
-//            }
         }
     }
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview
 private fun EmptyStatePreview() {
     EmptyState(
         image = painterResource(R.drawable.empty_state_coins),
         title = "No coins",
         subtitle = {
-            Text(text = "Please try again later")
+            Text(
+                text = stringResource(R.string.empty_state_coins_subtitle),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     )
 }
