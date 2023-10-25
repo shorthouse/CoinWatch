@@ -40,7 +40,6 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.navigation.Screen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
-import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.previewdata.ListUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.list.component.ListEmptyState
 import dev.shorthouse.coinwatch.ui.screen.list.component.ListItem
@@ -68,98 +67,89 @@ fun CoinListScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CoinListScreen(
+fun CoinListScreen(
     uiState: CoinListUiState,
     onCoinClick: (Coin) -> Unit,
     onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val lazyListState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+    val showJumpToTopFab by remember {
+        derivedStateOf {
+            lazyListState.firstVisibleItemIndex > 0
+        }
+    }
 
-    when (uiState) {
-        is CoinListUiState.Success -> {
-            val lazyListState = rememberLazyListState()
-            val scope = rememberCoroutineScope()
-            val showJumpToTopFab by remember {
-                derivedStateOf {
-                    lazyListState.firstVisibleItemIndex > 0
-                }
-            }
-
-            Scaffold(
-                topBar = {
-                    CoinListTopBar(
-                        timeOfDay = uiState.timeOfDay,
-                        scrollBehavior = scrollBehavior
-                    )
-                },
-                content = { scaffoldPadding ->
+    Scaffold(
+        topBar = {
+            CoinListTopBar(scrollBehavior = scrollBehavior)
+        },
+        content = { scaffoldPadding ->
+            when (uiState) {
+                is CoinListUiState.Success -> {
                     CoinListContent(
                         coins = uiState.coins,
                         onCoinClick = onCoinClick,
                         lazyListState = lazyListState,
                         modifier = Modifier.padding(scaffoldPadding)
                     )
-                },
-                floatingActionButton = {
-                    AnimatedVisibility(
-                        visible = showJumpToTopFab,
-                        enter = scaleIn(),
-                        exit = scaleOut()
-                    ) {
-                        SmallFloatingActionButton(
-                            onClick = {
-                                scope.launch {
-                                    scrollBehavior.state.heightOffset = 0f
-                                    lazyListState.animateScrollToItem(0)
-                                }
-                            },
-                            containerColor = MaterialTheme.colorScheme.background,
-                            contentColor = MaterialTheme.colorScheme.onBackground,
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Rounded.KeyboardDoubleArrowUp,
-                                    contentDescription = stringResource(R.string.cd_list_scroll_top)
-                                )
-                            }
+                }
+
+                is CoinListUiState.Error -> {
+                    ErrorState(
+                        message = uiState.message,
+                        onRetry = onRefresh,
+                        modifier = Modifier.padding(scaffoldPadding)
+                    )
+                }
+
+                is CoinListUiState.Loading -> {
+                    ListSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
+                }
+            }
+        },
+        floatingActionButton = {
+            AnimatedVisibility(
+                visible = showJumpToTopFab,
+                enter = scaleIn(),
+                exit = scaleOut()
+            ) {
+                SmallFloatingActionButton(
+                    onClick = {
+                        scope.launch {
+                            scrollBehavior.state.heightOffset = 0f
+                            lazyListState.animateScrollToItem(0)
+                        }
+                    },
+                    containerColor = MaterialTheme.colorScheme.background,
+                    contentColor = MaterialTheme.colorScheme.onBackground,
+                    content = {
+                        Icon(
+                            imageVector = Icons.Rounded.KeyboardDoubleArrowUp,
+                            contentDescription = stringResource(R.string.cd_list_scroll_top)
                         )
                     }
-                },
-                modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-            )
-        }
-
-        is CoinListUiState.Loading -> {
-            ListSkeletonLoader()
-        }
-
-        is CoinListUiState.Error -> {
-            ErrorState(
-                message = uiState.message,
-                onRetry = onRefresh
-            )
-        }
-    }
+                )
+            }
+        },
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+    )
 }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun CoinListTopBar(
-    timeOfDay: TimeOfDay,
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
         title = {
             Text(
-                text = when (timeOfDay) {
-                    TimeOfDay.Morning -> stringResource(R.string.good_morning)
-                    TimeOfDay.Afternoon -> stringResource(R.string.good_afternoon)
-                    TimeOfDay.Evening -> stringResource(R.string.good_evening)
-                },
+                text = stringResource(R.string.market_screen),
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.offset(x = (-4).dp)
+                color = MaterialTheme.colorScheme.onBackground
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(
