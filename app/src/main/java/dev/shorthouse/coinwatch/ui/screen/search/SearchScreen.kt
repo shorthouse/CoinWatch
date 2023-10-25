@@ -58,7 +58,7 @@ fun SearchScreen(
 }
 
 @Composable
-private fun SearchScreen(
+fun SearchScreen(
     uiState: SearchUiState,
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
