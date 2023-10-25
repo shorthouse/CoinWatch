@@ -113,8 +113,7 @@ fun CoinDetailsScreen(
         is DetailsUiState.Error -> {
             ErrorState(
                 message = uiState.message,
-                onRetry = onRefresh,
-                onNavigateUp = onNavigateUp
+                onRetry = onRefresh
             )
         }
     }
