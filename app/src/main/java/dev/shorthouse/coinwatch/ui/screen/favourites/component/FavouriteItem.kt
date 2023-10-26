@@ -65,7 +65,7 @@ fun CoinFavouriteItem(
                         modifier = Modifier.size(32.dp)
                     )
 
-                    Spacer(Modifier.width(8.dp))
+                    Spacer(Modifier.width(16.dp))
 
                     Column {
                         Text(
