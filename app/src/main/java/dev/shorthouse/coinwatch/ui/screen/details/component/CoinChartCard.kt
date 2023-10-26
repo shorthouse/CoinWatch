@@ -104,7 +104,7 @@ fun CoinChartCard(
 
 @Preview
 @Composable
-fun CoinChartCardPreview() {
+private fun CoinChartCardPreview() {
     AppTheme {
         CoinChartCard(
             currentPrice = Price("1000"),

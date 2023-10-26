@@ -97,7 +97,7 @@ fun CoinChartRangeCard(
 
 @Preview
 @Composable
-fun ChartRangeCardPreview() {
+private fun ChartRangeCardPreview() {
     AppTheme {
         CoinChartRangeCard(
             currentPrice = Price("80.0"),
