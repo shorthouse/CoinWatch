@@ -21,7 +21,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.shorthouse.coinwatch.ui.screen.details.CoinDetailsScreen
 import dev.shorthouse.coinwatch.ui.screen.favourites.FavouritesScreen
-import dev.shorthouse.coinwatch.ui.screen.list.CoinListScreen
+import dev.shorthouse.coinwatch.ui.screen.list.ListScreen
 import dev.shorthouse.coinwatch.ui.screen.search.SearchScreen
 import kotlinx.collections.immutable.persistentListOf
 
@@ -37,57 +37,60 @@ fun AppNavHost(modifier: Modifier = Modifier) {
         )
     }
 
+    val showNavigationBar = navController.currentBackStackEntryAsState()
+        .value?.destination?.route in navigationBarScreens.map { it.route }
+
     Scaffold(
         bottomBar = {
-            NavigationBar(
-                containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.onSurface
-            ) {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
+            if (showNavigationBar) {
+                NavigationBar(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                ) {
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    val currentDestination = navBackStackEntry?.destination
 
-                navigationBarScreens.forEach { screen ->
-                    val selected = currentDestination?.hierarchy?.any {
-                        it.route == screen.route
-                    } == true
+                    navigationBarScreens.forEach { screen ->
+                        val selected = currentDestination?.hierarchy?.any { destination ->
+                            destination.route == screen.route
+                        } == true
 
-                    NavigationBarItem(
-                        icon = {
-                            if (selected) {
-                                Icon(
-                                    imageVector = screen.selectedIcon,
-                                    contentDescription = null
-                                )
-                            } else {
-                                Icon(
-                                    imageVector = screen.icon,
-                                    contentDescription = null
-                                )
-                            }
-                        },
-                        label = {
-                            Text(text = stringResource(screen.nameResourceId))
-                        },
-                        selected = currentDestination?.hierarchy?.any {
-                            it.route == screen.route
-                        } == true,
-                        onClick = {
-                            navController.navigate(screen.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
+                        NavigationBarItem(
+                            icon = {
+                                if (selected) {
+                                    Icon(
+                                        imageVector = screen.selectedIcon,
+                                        contentDescription = null
+                                    )
+                                } else {
+                                    Icon(
+                                        imageVector = screen.icon,
+                                        contentDescription = null
+                                    )
                                 }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = MaterialTheme.colorScheme.onSurface,
-                            selectedTextColor = MaterialTheme.colorScheme.onSurface,
-                            indicatorColor = MaterialTheme.colorScheme.background,
-                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+                            },
+                            label = {
+                                Text(text = stringResource(screen.nameResourceId))
+                            },
+                            selected = selected,
+                            onClick = {
+                                navController.navigate(screen.route) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
+                            colors = NavigationBarItemDefaults.colors(
+                                selectedIconColor = MaterialTheme.colorScheme.onSurface,
+                                selectedTextColor = MaterialTheme.colorScheme.onSurface,
+                                indicatorColor = MaterialTheme.colorScheme.background,
+                                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         )
-                    )
+                    }
                 }
             }
         },
@@ -98,7 +101,7 @@ fun AppNavHost(modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(scaffoldPadding)
             ) {
                 composable(route = NavigationBarScreen.Market.route) {
-                    CoinListScreen(navController = navController)
+                    ListScreen(navController = navController)
                 }
                 composable(route = NavigationBarScreen.Favourites.route) {
                     FavouritesScreen(navController = navController)
