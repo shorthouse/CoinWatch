@@ -2,6 +2,7 @@ package dev.shorthouse.coinwatch.ui.screen.search
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -57,6 +58,7 @@ fun SearchScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SearchScreen(
     uiState: SearchUiState,
@@ -64,41 +66,6 @@ fun SearchScreen(
     onSearchQueryChange: (String) -> Unit,
     onCoinClick: (SearchCoin) -> Unit,
     onRefresh: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    when (uiState) {
-        is SearchUiState.Success -> {
-            SearchContent(
-                searchResults = uiState.searchResults,
-                searchQuery = searchQuery,
-                isSearchResultsEmpty = uiState.queryHasNoResults,
-                onSearchQueryChange = onSearchQueryChange,
-                onCoinClick = onCoinClick,
-                modifier = modifier
-            )
-        }
-
-        is SearchUiState.Loading -> {
-            SearchSkeletonLoader()
-        }
-
-        is SearchUiState.Error -> {
-            ErrorState(
-                message = uiState.message,
-                onRetry = onRefresh
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
-@Composable
-private fun SearchContent(
-    searchResults: ImmutableList<SearchCoin>,
-    searchQuery: String,
-    isSearchResultsEmpty: Boolean,
-    onSearchQueryChange: (String) -> Unit,
-    onCoinClick: (SearchCoin) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -135,43 +102,25 @@ private fun SearchContent(
             }
         },
         content = {
-            if (isSearchResultsEmpty) {
-                SearchEmptyState()
-            } else {
-                LazyColumn(
-                    contentPadding = PaddingValues(12.dp),
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    items(
-                        count = searchResults.size,
-                        key = { index -> searchResults[index].id },
-                        itemContent = { index ->
-                            val searchCoin = searchResults[index]
-
-                            val cardShape = when {
-                                searchResults.size == 1 -> MaterialTheme.shapes.medium
-
-                                index == 0 -> MaterialTheme.shapes.medium.copy(
-                                    bottomStart = CornerSize(0.dp),
-                                    bottomEnd = CornerSize(0.dp)
-                                )
-
-                                index == searchResults.lastIndex ->
-                                    MaterialTheme.shapes.medium.copy(
-                                        topStart = CornerSize(0.dp),
-                                        topEnd = CornerSize(0.dp)
-                                    )
-
-                                else -> RoundedCornerShape(0.dp)
-                            }
-
-                            SearchListItem(
-                                searchCoin = searchCoin,
-                                onCoinClick = onCoinClick,
-                                cardShape = cardShape
-                            )
-                        }
+            when (uiState) {
+                is SearchUiState.Success -> {
+                    SearchContent(
+                        searchResults = uiState.searchResults,
+                        queryHasNoResults = uiState.queryHasNoResults,
+                        onCoinClick = onCoinClick
                     )
+                }
+
+                is SearchUiState.Error -> {
+                    ErrorState(
+                        message = uiState.message,
+                        onRetry = onRefresh,
+                        modifier = Modifier.padding(bottom = 10.dp)
+                    )
+                }
+
+                is SearchUiState.Loading -> {
+                    SearchSkeletonLoader()
                 }
             }
         },
@@ -179,7 +128,11 @@ private fun SearchContent(
             containerColor = MaterialTheme.colorScheme.background,
             dividerColor = MaterialTheme.colorScheme.surface,
             inputFieldColors = TextFieldDefaults.colors(
-                cursorColor = MaterialTheme.colorScheme.onSurface
+                cursorColor = MaterialTheme.colorScheme.onSurface,
+                focusedIndicatorColor = MaterialTheme.colorScheme.surface,
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.surface,
+                disabledIndicatorColor = MaterialTheme.colorScheme.surface,
+                errorIndicatorColor = MaterialTheme.colorScheme.surface
             )
         ),
         enabled = true,
@@ -188,6 +141,58 @@ private fun SearchContent(
         tonalElevation = 0.dp,
         modifier = modifier.fillMaxSize()
     )
+}
+
+@Composable
+fun SearchContent(
+    searchResults: ImmutableList<SearchCoin>,
+    queryHasNoResults: Boolean,
+    onCoinClick: (SearchCoin) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    if (queryHasNoResults) {
+        SearchEmptyState(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(12.dp)
+        )
+    } else {
+        LazyColumn(
+            contentPadding = PaddingValues(12.dp),
+            modifier = modifier.fillMaxSize()
+        ) {
+            items(
+                count = searchResults.size,
+                key = { index -> searchResults[index].id },
+                itemContent = { index ->
+                    val searchCoin = searchResults[index]
+
+                    val cardShape = when {
+                        searchResults.size == 1 -> MaterialTheme.shapes.medium
+
+                        index == 0 -> MaterialTheme.shapes.medium.copy(
+                            bottomStart = CornerSize(0.dp),
+                            bottomEnd = CornerSize(0.dp)
+                        )
+
+                        index == searchResults.lastIndex ->
+                            MaterialTheme.shapes.medium.copy(
+                                topStart = CornerSize(0.dp),
+                                topEnd = CornerSize(0.dp)
+                            )
+
+                        else -> RoundedCornerShape(0.dp)
+                    }
+
+                    SearchListItem(
+                        searchCoin = searchCoin,
+                        onCoinClick = onCoinClick,
+                        cardShape = cardShape
+                    )
+                }
+            )
+        }
+    }
 }
 
 @Composable

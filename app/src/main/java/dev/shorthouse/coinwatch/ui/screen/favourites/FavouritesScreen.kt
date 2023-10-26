@@ -53,7 +53,7 @@ fun FavouritesScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun FavouriteScreen(
+fun FavouriteScreen(
     uiState: FavouritesUiState,
     onCoinClick: (Coin) -> Unit,
     onRefresh: () -> Unit,
@@ -96,7 +96,7 @@ private fun FavouriteScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun FavouritesTopBar(
+fun FavouritesTopBar(
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
 ) {
@@ -118,13 +118,17 @@ private fun FavouritesTopBar(
 }
 
 @Composable
-private fun FavouritesContent(
+fun FavouritesContent(
     favouriteCoins: ImmutableList<Coin>,
     onCoinClick: (Coin) -> Unit,
     modifier: Modifier = Modifier
 ) {
     if (favouriteCoins.isEmpty()) {
-        FavouritesEmptyState(modifier = Modifier.fillMaxSize())
+        FavouritesEmptyState(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(12.dp)
+        )
     } else {
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 140.dp),

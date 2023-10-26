@@ -14,7 +14,11 @@ import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun ListSkeletonLoader(modifier: Modifier = Modifier) {
-    Column(modifier = modifier.padding(horizontal = 12.dp)) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 12.dp)
+    ) {
         SkeletonSurface(
             shape = MaterialTheme.shapes.medium.copy(
                 bottomStart = CornerSize(0.dp),

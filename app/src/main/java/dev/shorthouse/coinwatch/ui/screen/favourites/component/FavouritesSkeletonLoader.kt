@@ -2,6 +2,7 @@ package dev.shorthouse.coinwatch.ui.screen.favourites.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -20,7 +21,7 @@ fun FavouritesSkeletonLoader(modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         userScrollEnabled = false,
-        modifier = modifier
+        modifier = modifier.fillMaxSize()
     ) {
         repeat(20) {
             item {
