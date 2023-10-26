@@ -14,10 +14,10 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 
 @HiltViewModel
-class CoinListViewModel @Inject constructor(
+class ListViewModel @Inject constructor(
     private val getCoinsUseCase: GetCoinsUseCase
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<CoinListUiState>(CoinListUiState.Loading)
+    private val _uiState = MutableStateFlow<ListUiState>(ListUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
     init {
@@ -25,21 +25,21 @@ class CoinListViewModel @Inject constructor(
     }
 
     fun initialiseUiState() {
-        _uiState.update { CoinListUiState.Loading }
+        _uiState.update { ListUiState.Loading }
 
         val coinsFlow = getCoinsUseCase()
 
         coinsFlow.onEach { coinsResult ->
             when (coinsResult) {
                 is Result.Error -> {
-                    _uiState.update { CoinListUiState.Error(coinsResult.message) }
+                    _uiState.update { ListUiState.Error(coinsResult.message) }
                 }
 
                 is Result.Success -> {
                     val coins = coinsResult.data.toImmutableList()
 
                     _uiState.update {
-                        CoinListUiState.Success(
+                        ListUiState.Success(
                             coins = coins
                         )
                     }

@@ -11,8 +11,8 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
-import dev.shorthouse.coinwatch.ui.screen.list.CoinListScreen
-import dev.shorthouse.coinwatch.ui.screen.list.CoinListUiState
+import dev.shorthouse.coinwatch.ui.screen.list.ListScreen
+import dev.shorthouse.coinwatch.ui.screen.list.ListUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
@@ -26,11 +26,11 @@ class CoinListScreenTest {
 
     @Test
     fun when_uiStateLoading_should_showSkeletonLoader() {
-        val uiStateLoading = CoinListUiState.Loading
+        val uiStateLoading = ListUiState.Loading
 
         composeTestRule.setContent {
             AppTheme {
-                CoinListScreen(
+                ListScreen(
                     uiState = uiStateLoading,
                     onCoinClick = {},
                     onRefresh = {}
@@ -46,11 +46,11 @@ class CoinListScreenTest {
 
     @Test
     fun when_uiStateError_should_showErrorState() {
-        val uiStateError = CoinListUiState.Error("Error message")
+        val uiStateError = ListUiState.Error("Error message")
 
         composeTestRule.setContent {
             AppTheme {
-                CoinListScreen(
+                ListScreen(
                     uiState = uiStateError,
                     onCoinClick = {},
                     onRefresh = {}
@@ -69,11 +69,11 @@ class CoinListScreenTest {
     @Test
     fun when_uiStateErrorRetryClicked_should_callOnRefresh() {
         var onRefreshCalled = false
-        val uiStateError = CoinListUiState.Error("Error message")
+        val uiStateError = ListUiState.Error("Error message")
 
         composeTestRule.setContent {
             AppTheme {
-                CoinListScreen(
+                ListScreen(
                     uiState = uiStateError,
                     onCoinClick = {},
                     onRefresh = { onRefreshCalled = true }
@@ -90,13 +90,13 @@ class CoinListScreenTest {
 
     @Test
     fun when_uiStateSuccess_should_showExpectedContent() {
-        val uiStateSuccess = CoinListUiState.Success(
+        val uiStateSuccess = ListUiState.Success(
             coins = persistentListOf()
         )
 
         composeTestRule.setContent {
             AppTheme {
-                CoinListScreen(
+                ListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
                     onRefresh = {}
@@ -112,13 +112,13 @@ class CoinListScreenTest {
 
     @Test
     fun when_uiStateSuccess_favouriteCoinsEmpty_should_showEmptyState() {
-        val uiStateSuccess = CoinListUiState.Success(
+        val uiStateSuccess = ListUiState.Success(
             coins = persistentListOf()
         )
 
         composeTestRule.setContent {
             AppTheme {
-                CoinListScreen(
+                ListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
                     onRefresh = {}
@@ -136,13 +136,13 @@ class CoinListScreenTest {
 
     @Test
     fun when_uiStateSuccess_favouriteCoinsList_should_showExpectedContent() {
-        val uiStateSuccess = CoinListUiState.Success(
+        val uiStateSuccess = ListUiState.Success(
             coins = persistentListOf()
         )
 
         composeTestRule.setContent {
             AppTheme {
-                CoinListScreen(
+                ListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
                     onRefresh = {}
@@ -176,13 +176,13 @@ class CoinListScreenTest {
 
     @Test
     fun when_uiStateSuccess_coinsEmpty_should_showEmptyState() {
-        val uiStateSuccess = CoinListUiState.Success(
+        val uiStateSuccess = ListUiState.Success(
             coins = persistentListOf()
         )
 
         composeTestRule.setContent {
             AppTheme {
-                CoinListScreen(
+                ListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
                     onRefresh = {}
@@ -198,7 +198,7 @@ class CoinListScreenTest {
 
     @Test
     fun when_uiStateSuccess_coinsList_should_showExpectedContent() {
-        val uiStateSuccess = CoinListUiState.Success(
+        val uiStateSuccess = ListUiState.Success(
             coins = persistentListOf(
                 Coin(
                     id = "bitcoin",
@@ -247,7 +247,7 @@ class CoinListScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinListScreen(
+                ListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
                     onRefresh = {}
@@ -280,7 +280,7 @@ class CoinListScreenTest {
     fun when_coinItemClicked_should_callOnClick() {
         var onCoinClickCalled = false
 
-        val uiStateSuccess = CoinListUiState.Success(
+        val uiStateSuccess = ListUiState.Success(
             coins = persistentListOf(
                 Coin(
                     id = "bitcoin",
@@ -301,7 +301,7 @@ class CoinListScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinListScreen(
+                ListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = ({ onCoinClickCalled = true }),
                     onRefresh = {}
@@ -320,13 +320,13 @@ class CoinListScreenTest {
     fun when_favouriteCoinItemClicked_should_callOnClick() {
         var onCoinClickCalled = false
 
-        val uiStateSuccess = CoinListUiState.Success(
+        val uiStateSuccess = ListUiState.Success(
             coins = persistentListOf()
         )
 
         composeTestRule.setContent {
             AppTheme {
-                CoinListScreen(
+                ListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = ({ onCoinClickCalled = true }),
                     onRefresh = {}
@@ -343,13 +343,13 @@ class CoinListScreenTest {
 
     @Test
     fun when_timeOfDayMorning_should_showMorningGreeting() {
-        val uiStateSuccess = CoinListUiState.Success(
+        val uiStateSuccess = ListUiState.Success(
             coins = persistentListOf()
         )
 
         composeTestRule.setContent {
             AppTheme {
-                CoinListScreen(
+                ListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
                     onRefresh = {}
@@ -364,13 +364,13 @@ class CoinListScreenTest {
 
     @Test
     fun when_timeOfDayAfternoon_should_showAfternoonGreeting() {
-        val uiStateSuccess = CoinListUiState.Success(
+        val uiStateSuccess = ListUiState.Success(
             coins = persistentListOf()
         )
 
         composeTestRule.setContent {
             AppTheme {
-                CoinListScreen(
+                ListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
                     onRefresh = {}
@@ -385,13 +385,13 @@ class CoinListScreenTest {
 
     @Test
     fun when_timeOfDayEvening_should_showEveningGreeting() {
-        val uiStateSuccess = CoinListUiState.Success(
+        val uiStateSuccess = ListUiState.Success(
             coins = persistentListOf()
         )
 
         composeTestRule.setContent {
             AppTheme {
-                CoinListScreen(
+                ListScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
                     onRefresh = {}

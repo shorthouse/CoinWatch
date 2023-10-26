@@ -5,20 +5,20 @@ import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.previewdata.CoinListPreviewData.coins
-import dev.shorthouse.coinwatch.ui.screen.list.CoinListUiState
+import dev.shorthouse.coinwatch.ui.screen.list.ListUiState
 import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
 
-class ListUiStatePreviewProvider : PreviewParameterProvider<CoinListUiState> {
+class ListUiStatePreviewProvider : PreviewParameterProvider<ListUiState> {
     override val values = sequenceOf(
-        CoinListUiState.Success(
+        ListUiState.Success(
             coins = coins
         ),
-        CoinListUiState.Success(
+        ListUiState.Success(
             coins = persistentListOf()
         ),
-        CoinListUiState.Error("No internet connection"),
-        CoinListUiState.Loading
+        ListUiState.Error("No internet connection"),
+        ListUiState.Loading
     )
 }
 

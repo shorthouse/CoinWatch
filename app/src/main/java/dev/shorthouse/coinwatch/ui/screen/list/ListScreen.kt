@@ -4,7 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -50,13 +50,13 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 
 @Composable
-fun CoinListScreen(
+fun ListScreen(
     navController: NavController,
-    viewModel: CoinListViewModel = hiltViewModel()
+    viewModel: ListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    CoinListScreen(
+    ListScreen(
         uiState = uiState,
         onCoinClick = { coin ->
             navController.navigate(Screen.Details.route + "/${coin.id}")
@@ -67,8 +67,8 @@ fun CoinListScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CoinListScreen(
-    uiState: CoinListUiState,
+fun ListScreen(
+    uiState: ListUiState,
     onCoinClick: (Coin) -> Unit,
     onRefresh: () -> Unit,
     modifier: Modifier = Modifier
@@ -84,12 +84,12 @@ fun CoinListScreen(
 
     Scaffold(
         topBar = {
-            CoinListTopBar(scrollBehavior = scrollBehavior)
+            ListTopBar(scrollBehavior = scrollBehavior)
         },
         content = { scaffoldPadding ->
             when (uiState) {
-                is CoinListUiState.Success -> {
-                    CoinListContent(
+                is ListUiState.Success -> {
+                    ListContent(
                         coins = uiState.coins,
                         onCoinClick = onCoinClick,
                         lazyListState = lazyListState,
@@ -97,7 +97,7 @@ fun CoinListScreen(
                     )
                 }
 
-                is CoinListUiState.Error -> {
+                is ListUiState.Error -> {
                     ErrorState(
                         message = uiState.message,
                         onRetry = onRefresh,
@@ -105,7 +105,7 @@ fun CoinListScreen(
                     )
                 }
 
-                is CoinListUiState.Loading -> {
+                is ListUiState.Loading -> {
                     ListSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
                 }
             }
@@ -140,7 +140,7 @@ fun CoinListScreen(
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun CoinListTopBar(
+fun ListTopBar(
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
 ) {
@@ -162,19 +162,23 @@ private fun CoinListTopBar(
 }
 
 @Composable
-private fun CoinListContent(
+fun ListContent(
     coins: ImmutableList<Coin>,
     onCoinClick: (Coin) -> Unit,
     lazyListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
     if (coins.isEmpty()) {
-        ListEmptyState()
+        ListEmptyState(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(12.dp)
+        )
     } else {
         LazyColumn(
             state = lazyListState,
             contentPadding = PaddingValues(horizontal = 12.dp),
-            modifier = modifier
+            modifier = modifier.fillMaxSize()
         ) {
             items(
                 count = coins.size,
@@ -213,11 +217,11 @@ private fun CoinListContent(
 
 @Composable
 @Preview(showBackground = true)
-private fun CoinListScreenPreview(
-    @PreviewParameter(ListUiStatePreviewProvider::class) uiState: CoinListUiState
+private fun ListScreenPreview(
+    @PreviewParameter(ListUiStatePreviewProvider::class) uiState: ListUiState
 ) {
     AppTheme {
-        CoinListScreen(
+        ListScreen(
             uiState = uiState,
             onCoinClick = {},
             onRefresh = {}

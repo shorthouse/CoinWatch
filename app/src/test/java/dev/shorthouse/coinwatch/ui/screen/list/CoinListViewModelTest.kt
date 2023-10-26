@@ -28,7 +28,7 @@ class CoinListViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     // Class under test
-    private lateinit var viewModel: CoinListViewModel
+    private lateinit var viewModel: ListViewModel
 
     @RelaxedMockK
     private lateinit var getCoinsUseCase: GetCoinsUseCase
@@ -40,7 +40,7 @@ class CoinListViewModelTest {
     fun setup() {
         MockKAnnotations.init(this)
 
-        viewModel = CoinListViewModel(
+        viewModel = ListViewModel(
             getCoinsUseCase = getCoinsUseCase,
             getFavouriteCoinsUseCase = getFavouriteCoinsUseCase
         )
@@ -54,7 +54,7 @@ class CoinListViewModelTest {
     @Test
     fun `When ViewModel is initialised should have loading UI state`() = runTest {
         // Arrange
-        val expectedUiState = CoinListUiState.Loading
+        val expectedUiState = ListUiState.Loading
 
         // Act
 
@@ -66,7 +66,7 @@ class CoinListViewModelTest {
     fun `When coins returns error should have error UI state`() = runTest {
         // Arrange
         val errorMessage = "Coins error"
-        val expectedUiState = CoinListUiState.Error(errorMessage)
+        val expectedUiState = ListUiState.Error(errorMessage)
 
         every { getCoinsUseCase() } returns flowOf(Result.Error(errorMessage))
         every { getFavouriteCoinsUseCase() } returns flowOf(Result.Success(emptyList()))
@@ -82,7 +82,7 @@ class CoinListViewModelTest {
     fun `When favourite coins returns error should have error UI state`() = runTest {
         // Arrange
         val errorMessage = "Favourite coins error"
-        val expectedUiState = CoinListUiState.Error(errorMessage)
+        val expectedUiState = ListUiState.Error(errorMessage)
 
         every { getCoinsUseCase() } returns flowOf(Result.Success(emptyList()))
         every { getFavouriteCoinsUseCase() } returns flowOf(Result.Error(errorMessage))
@@ -148,7 +148,7 @@ class CoinListViewModelTest {
             else -> TimeOfDay.Evening
         }
 
-        val expectedUiState = CoinListUiState.Success(
+        val expectedUiState = ListUiState.Success(
             coins = coins,
             favouriteCoins = expectedFavouriteCoins,
             timeOfDay = expectedTimeOfDay
