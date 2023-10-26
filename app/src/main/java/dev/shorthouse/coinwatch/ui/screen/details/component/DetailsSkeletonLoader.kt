@@ -7,17 +7,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.StarOutline
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -28,50 +19,12 @@ import dev.shorthouse.coinwatch.ui.component.SkeletonSurface
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun CoinDetailsSkeletonLoader(modifier: Modifier = Modifier) {
-    Scaffold(
-        topBar = {
-            DetailsSkeletonTopBar()
-        },
-        content = { scaffoldPadding ->
-            DetailsSkeletonContent(modifier = Modifier.padding(scaffoldPadding))
-        },
+fun DetailsSkeletonLoader(modifier: Modifier = Modifier) {
+    Column(
         modifier = modifier
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun DetailsSkeletonTopBar(modifier: Modifier = Modifier) {
-    LargeTopAppBar(
-        navigationIcon = {
-            IconButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Rounded.ArrowBack,
-                    contentDescription = stringResource(R.string.cd_top_bar_back)
-                )
-            }
-        },
-        title = {},
-        actions = {
-            IconButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Rounded.StarOutline,
-                    contentDescription = stringResource(R.string.cd_top_bar_favourite),
-                    tint = MaterialTheme.colorScheme.onBackground
-                )
-            }
-        },
-        colors = TopAppBarDefaults.largeTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background
-        ),
-        modifier = modifier
-    )
-}
-
-@Composable
-private fun DetailsSkeletonContent(modifier: Modifier = Modifier) {
-    Column(modifier = modifier.padding(horizontal = 12.dp)) {
+            .fillMaxSize()
+            .padding(horizontal = 12.dp)
+    ) {
         SkeletonSurface(
             modifier = Modifier
                 .fillMaxWidth()
@@ -82,7 +35,8 @@ private fun DetailsSkeletonContent(modifier: Modifier = Modifier) {
 
         Text(
             text = stringResource(R.string.title_chart_range),
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Spacer(Modifier.height(8.dp))
@@ -97,7 +51,8 @@ private fun DetailsSkeletonContent(modifier: Modifier = Modifier) {
 
         Text(
             text = stringResource(R.string.card_header_market_stats),
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Spacer(Modifier.height(8.dp))
@@ -112,10 +67,10 @@ private fun DetailsSkeletonContent(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview
 @Composable
+@Preview(showBackground = true)
 private fun CoinDetailSkeletonLoaderPreview() {
     AppTheme {
-        CoinDetailsSkeletonLoader()
+        DetailsSkeletonLoader()
     }
 }

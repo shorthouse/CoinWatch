@@ -49,7 +49,8 @@ import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import dev.shorthouse.coinwatch.ui.previewdata.DetailsUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartRangeCard
-import dev.shorthouse.coinwatch.ui.screen.details.component.CoinDetailsSkeletonLoader
+import dev.shorthouse.coinwatch.ui.screen.details.component.DetailsEmptyTopBar
+import dev.shorthouse.coinwatch.ui.screen.details.component.DetailsSkeletonLoader
 import dev.shorthouse.coinwatch.ui.screen.details.component.MarketStatsCard
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
@@ -81,10 +82,10 @@ fun CoinDetailsScreen(
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    when (uiState) {
-        is DetailsUiState.Success -> {
-            Scaffold(
-                topBar = {
+    Scaffold(
+        topBar = {
+            when (uiState) {
+                is DetailsUiState.Success -> {
                     CoinDetailsTopBar(
                         coinDetails = uiState.coinDetails,
                         isCoinFavourite = uiState.isCoinFavourite,
@@ -92,8 +93,19 @@ fun CoinDetailsScreen(
                         onClickFavouriteCoin = onClickFavouriteCoin,
                         scrollBehavior = scrollBehavior
                     )
-                },
-                content = { scaffoldPadding ->
+                }
+
+                else -> {
+                    DetailsEmptyTopBar(
+                        onNavigateUp = onNavigateUp,
+                        showFavouriteAction = uiState == DetailsUiState.Loading
+                    )
+                }
+            }
+        },
+        content = { scaffoldPadding ->
+            when (uiState) {
+                is DetailsUiState.Success -> {
                     CoinDetailsContent(
                         coinDetails = uiState.coinDetails,
                         coinChart = uiState.coinChart,
@@ -101,27 +113,28 @@ fun CoinDetailsScreen(
                         onClickChartPeriod = onClickChartPeriod,
                         modifier = Modifier.padding(scaffoldPadding)
                     )
-                },
-                modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-            )
-        }
+                }
 
-        is DetailsUiState.Loading -> {
-            CoinDetailsSkeletonLoader()
-        }
+                is DetailsUiState.Error -> {
+                    ErrorState(
+                        message = uiState.message,
+                        onRetry = onRefresh,
+                        modifier = Modifier.padding(scaffoldPadding)
+                    )
+                }
 
-        is DetailsUiState.Error -> {
-            ErrorState(
-                message = uiState.message,
-                onRetry = onRefresh
-            )
-        }
-    }
+                is DetailsUiState.Loading -> {
+                    DetailsSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
+                }
+            }
+        },
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+    )
 }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun CoinDetailsTopBar(
+fun CoinDetailsTopBar(
     coinDetails: CoinDetails,
     isCoinFavourite: Boolean,
     onNavigateUp: () -> Unit,
@@ -197,7 +210,7 @@ private fun CoinDetailsTopBar(
 }
 
 @Composable
-private fun CoinDetailsContent(
+fun CoinDetailsContent(
     coinDetails: CoinDetails,
     coinChart: CoinChart,
     chartPeriod: ChartPeriod,
