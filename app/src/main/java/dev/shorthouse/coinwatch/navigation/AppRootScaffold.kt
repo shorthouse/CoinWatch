@@ -1,19 +1,26 @@
 package dev.shorthouse.coinwatch.navigation
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHost
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import dev.shorthouse.coinwatch.ui.screen.details.CoinDetailsScreen
 import dev.shorthouse.coinwatch.ui.screen.favourites.FavouritesScreen
@@ -22,67 +29,10 @@ import dev.shorthouse.coinwatch.ui.screen.search.SearchScreen
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun RootNavGraph(
+fun AppRootScaffold(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
-    NavHost(
-        navController = navController,
-        route = Graph.Root.route,
-        startDestination = Graph.Home.route
-    ) {
-        composable(route = Graph.Home.route) {
-            Scaffold(
-                bottomBar = { AppNavigationBar(navController = navController) },
-                content = { scaffoldPadding ->
-                    HomeNavGraph(
-                        navController = navController,
-                        modifier = Modifier.padding(scaffoldPadding)
-                    )
-                },
-                modifier = modifier
-            )
-        }
-    }
-}
-
-@Composable
-fun HomeNavGraph(
-    navController: NavHostController,
-    modifier: Modifier = Modifier
-) {
-    NavHost(
-        navController = navController,
-        route = Graph.Home.route,
-        startDestination = NavigationBarScreen.Market.route,
-        modifier = modifier
-    ) {
-        composable(route = NavigationBarScreen.Market.route) {
-            ListScreen(navController = navController)
-        }
-        composable(route = NavigationBarScreen.Favourites.route) {
-            FavouritesScreen(navController = navController)
-        }
-        composable(route = NavigationBarScreen.Search.route) {
-            SearchScreen(navController = navController)
-        }
-        detailsNavGraph(navController = navController)
-    }
-}
-
-fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
-    navigation(
-        route = Graph.Details.route,
-        startDestination = Screen.Details.route
-    ) {
-        composable(route = Screen.Details.route + "/{coinId}") {
-            CoinDetailsScreen(navController = navController)
-        }
-    }
-}
-
-@Composable
-fun AppNavigationBar(navController: NavHostController) {
     val navigationBarScreens = remember {
         persistentListOf(
             NavigationBarScreen.Market,
@@ -95,21 +45,60 @@ fun AppNavigationBar(navController: NavHostController) {
     val currentDestination = navBackStackEntry?.destination
     val showNavigationBar = navigationBarScreens.any { it.route == currentDestination?.route }
 
-    if (showNavigationBar) {
-        NavigationBar {
-            navigationBarScreens.forEach { screen ->
-                AddItem(
-                    screen = screen,
-                    currentDestination = currentDestination,
-                    navController = navController
-                )
+    Scaffold(
+        bottomBar = {
+            if (showNavigationBar) {
+                NavigationBar(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                ) {
+                    navigationBarScreens.forEach { screen ->
+                        AddNavigationBarItem(
+                            screen = screen,
+                            currentDestination = currentDestination,
+                            navController = navController
+                        )
+                    }
+                }
             }
+        },
+        content = { scaffoldPadding ->
+            AppNavHost(
+                navController = navController,
+                modifier = Modifier.padding(scaffoldPadding)
+            )
+        },
+        modifier = modifier
+    )
+}
+
+@Composable
+fun AppNavHost(
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
+    NavHost(
+        navController = navController,
+        startDestination = NavigationBarScreen.Market.route,
+        modifier = modifier
+    ) {
+        composable(route = NavigationBarScreen.Market.route) {
+            ListScreen(navController = navController)
+        }
+        composable(route = NavigationBarScreen.Favourites.route) {
+            FavouritesScreen(navController = navController)
+        }
+        composable(route = NavigationBarScreen.Search.route) {
+            SearchScreen(navController = navController)
+        }
+        composable(route = Screen.Details.route + "/{coinId}") {
+            CoinDetailsScreen(navController = navController)
         }
     }
 }
 
 @Composable
-private fun RowScope.AddItem(
+fun RowScope.AddNavigationBarItem(
     screen: NavigationBarScreen,
     currentDestination: NavDestination?,
     navController: NavHostController,
