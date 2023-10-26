@@ -81,7 +81,7 @@ fun ErrorState(
 
 @Composable
 @Preview
-fun ErrorStatePreview() {
+private fun ErrorStatePreview() {
     AppTheme {
         ErrorState(
             message = "No internet connection",
