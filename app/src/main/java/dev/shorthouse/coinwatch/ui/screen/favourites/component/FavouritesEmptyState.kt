@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.StarOutline
+import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -35,7 +35,7 @@ fun FavouritesEmptyState(modifier: Modifier = Modifier) {
                     )
 
                     Icon(
-                        imageVector = Icons.Rounded.StarOutline,
+                        imageVector = Icons.Rounded.FavoriteBorder,
                         contentDescription = stringResource(R.string.cd_top_bar_favourite),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier
