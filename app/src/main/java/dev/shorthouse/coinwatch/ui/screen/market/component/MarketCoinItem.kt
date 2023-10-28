@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.screen.list.component
+package dev.shorthouse.coinwatch.ui.screen.market.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -30,7 +30,7 @@ import dev.shorthouse.coinwatch.ui.previewdata.CoinPreviewProvider
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun ListItem(
+fun MarketCoinItem(
     coin: Coin,
     onCoinClick: (Coin) -> Unit,
     cardShape: Shape,
@@ -96,11 +96,11 @@ fun ListItem(
 
 @Composable
 @Preview
-private fun ListItemPreview(
+private fun MarketCoinItemPreview(
     @PreviewParameter(CoinPreviewProvider::class) coin: Coin
 ) {
     AppTheme {
-        ListItem(
+        MarketCoinItem(
             coin = coin,
             onCoinClick = {},
             cardShape = MaterialTheme.shapes.medium
