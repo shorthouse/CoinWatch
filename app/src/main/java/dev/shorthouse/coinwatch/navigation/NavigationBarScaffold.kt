@@ -25,7 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.shorthouse.coinwatch.ui.screen.favourites.FavouritesScreen
-import dev.shorthouse.coinwatch.ui.screen.list.ListScreen
+import dev.shorthouse.coinwatch.ui.screen.market.MarketScreen
 import dev.shorthouse.coinwatch.ui.screen.search.SearchScreen
 import kotlinx.collections.immutable.persistentListOf
 
@@ -89,7 +89,7 @@ private fun NavigationBarNavHost(
         modifier = modifier
     ) {
         composable(route = NavigationBarScreen.Market.route) {
-            ListScreen(onNavigateDetails = onNavigateDetails)
+            MarketScreen(onNavigateDetails = onNavigateDetails)
         }
         composable(route = NavigationBarScreen.Favourites.route) {
             FavouritesScreen(onNavigateDetails = onNavigateDetails)
