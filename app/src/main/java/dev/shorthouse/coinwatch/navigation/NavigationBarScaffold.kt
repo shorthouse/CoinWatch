@@ -14,6 +14,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -22,17 +24,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import dev.shorthouse.coinwatch.ui.screen.details.CoinDetailsScreen
 import dev.shorthouse.coinwatch.ui.screen.favourites.FavouritesScreen
 import dev.shorthouse.coinwatch.ui.screen.list.ListScreen
 import dev.shorthouse.coinwatch.ui.screen.search.SearchScreen
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-fun AppRootScaffold(
-    modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController()
+fun NavigationBarScaffold(
+    onNavigateDetails: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
+    val navController = rememberNavController()
+
     val navigationBarScreens = remember {
         persistentListOf(
             NavigationBarScreen.Market,
@@ -49,8 +52,9 @@ fun AppRootScaffold(
         bottomBar = {
             if (showNavigationBar) {
                 NavigationBar(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    tonalElevation = 0.dp
                 ) {
                     navigationBarScreens.forEach { screen ->
                         AddNavigationBarItem(
@@ -63,8 +67,9 @@ fun AppRootScaffold(
             }
         },
         content = { scaffoldPadding ->
-            AppNavHost(
+            NavigationBarNavHost(
                 navController = navController,
+                onNavigateDetails = onNavigateDetails,
                 modifier = Modifier.padding(scaffoldPadding)
             )
         },
@@ -73,9 +78,10 @@ fun AppRootScaffold(
 }
 
 @Composable
-fun AppNavHost(
+private fun NavigationBarNavHost(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onNavigateDetails: (String) -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -83,22 +89,19 @@ fun AppNavHost(
         modifier = modifier
     ) {
         composable(route = NavigationBarScreen.Market.route) {
-            ListScreen(navController = navController)
+            ListScreen(onNavigateDetails = onNavigateDetails)
         }
         composable(route = NavigationBarScreen.Favourites.route) {
-            FavouritesScreen(navController = navController)
+            FavouritesScreen(onNavigateDetails = onNavigateDetails)
         }
         composable(route = NavigationBarScreen.Search.route) {
-            SearchScreen(navController = navController)
-        }
-        composable(route = Screen.Details.route + "/{coinId}") {
-            CoinDetailsScreen(navController = navController)
+            SearchScreen(onNavigateDetails = onNavigateDetails)
         }
     }
 }
 
 @Composable
-fun RowScope.AddNavigationBarItem(
+private fun RowScope.AddNavigationBarItem(
     screen: NavigationBarScreen,
     currentDestination: NavDestination?,
     navController: NavHostController,
@@ -110,7 +113,10 @@ fun RowScope.AddNavigationBarItem(
 
     NavigationBarItem(
         label = {
-            Text(text = stringResource(screen.nameResourceId))
+            Text(
+                text = stringResource(screen.nameResourceId),
+                fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
+            )
         },
         icon = {
             Icon(
