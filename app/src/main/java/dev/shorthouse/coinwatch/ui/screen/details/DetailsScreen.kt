@@ -11,8 +11,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Star
-import androidx.compose.material.icons.rounded.StarOutline
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -37,7 +37,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
@@ -56,14 +55,14 @@ import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun CoinDetailsScreen(
-    navController: NavController,
-    viewModel: DetailsViewModel = hiltViewModel()
+    viewModel: DetailsViewModel = hiltViewModel(),
+    onNavigateUp: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     CoinDetailsScreen(
         uiState = uiState,
-        onNavigateUp = { navController.navigateUp() },
+        onNavigateUp = onNavigateUp,
         onClickFavouriteCoin = { viewModel.toggleIsCoinFavourite() },
         onClickChartPeriod = { viewModel.updateChartPeriod(it) },
         onRefresh = { viewModel.initialiseUiState() }
@@ -97,8 +96,7 @@ fun CoinDetailsScreen(
 
                 else -> {
                     DetailsEmptyTopBar(
-                        onNavigateUp = onNavigateUp,
-                        showFavouriteAction = uiState == DetailsUiState.Loading
+                        onNavigateUp = onNavigateUp
                     )
                 }
             }
@@ -191,9 +189,9 @@ fun CoinDetailsTopBar(
             IconButton(onClick = onClickFavouriteCoin) {
                 Icon(
                     imageVector = if (isCoinFavourite) {
-                        Icons.Rounded.Star
+                        Icons.Rounded.Favorite
                     } else {
-                        Icons.Rounded.StarOutline
+                        Icons.Rounded.FavoriteBorder
                     },
                     contentDescription = stringResource(R.string.cd_top_bar_favourite),
                     tint = MaterialTheme.colorScheme.onBackground

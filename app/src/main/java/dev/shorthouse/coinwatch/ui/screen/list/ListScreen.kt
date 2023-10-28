@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -35,10 +36,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.Coin
-import dev.shorthouse.coinwatch.navigation.Screen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.previewdata.ListUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.list.component.ListEmptyState
@@ -51,15 +50,15 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ListScreen(
-    navController: NavController,
-    viewModel: ListViewModel = hiltViewModel()
+    viewModel: ListViewModel = hiltViewModel(),
+    onNavigateDetails: (String) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     ListScreen(
         uiState = uiState,
         onCoinClick = { coin ->
-            navController.navigate(Screen.Details.route + "/${coin.id}")
+            onNavigateDetails(coin.id)
         },
         onRefresh = { viewModel.initialiseUiState() }
     )
@@ -123,8 +122,11 @@ fun ListScreen(
                             lazyListState.animateScrollToItem(0)
                         }
                     },
-                    containerColor = MaterialTheme.colorScheme.background,
-                    contentColor = MaterialTheme.colorScheme.onBackground,
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    elevation = FloatingActionButtonDefaults.elevation(
+                        defaultElevation = 12.dp
+                    ),
                     content = {
                         Icon(
                             imageVector = Icons.Rounded.KeyboardDoubleArrowUp,
