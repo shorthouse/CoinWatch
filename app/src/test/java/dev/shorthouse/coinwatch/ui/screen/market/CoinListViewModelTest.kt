@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.screen.list
+package dev.shorthouse.coinwatch.ui.screen.market
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
@@ -25,7 +25,7 @@ class CoinListViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     // Class under test
-    private lateinit var viewModel: ListViewModel
+    private lateinit var viewModel: MarketViewModel
 
     @RelaxedMockK
     private lateinit var getCoinsUseCase: GetCoinsUseCase
@@ -34,7 +34,7 @@ class CoinListViewModelTest {
     fun setup() {
         MockKAnnotations.init(this)
 
-        viewModel = ListViewModel(
+        viewModel = MarketViewModel(
             getCoinsUseCase = getCoinsUseCase
         )
     }
@@ -47,7 +47,7 @@ class CoinListViewModelTest {
     @Test
     fun `When ViewModel is initialised should have loading UI state`() = runTest {
         // Arrange
-        val expectedUiState = ListUiState.Loading
+        val expectedUiState = MarketUiState.Loading
 
         // Act
 
@@ -59,7 +59,7 @@ class CoinListViewModelTest {
     fun `When coins returns error should have error UI state`() = runTest {
         // Arrange
         val errorMessage = "Coins error"
-        val expectedUiState = ListUiState.Error(errorMessage)
+        val expectedUiState = MarketUiState.Error(errorMessage)
 
         every { getCoinsUseCase() } returns flowOf(Result.Error(errorMessage))
 
@@ -94,7 +94,7 @@ class CoinListViewModelTest {
             )
         )
 
-        val expectedUiState = ListUiState.Success(
+        val expectedUiState = MarketUiState.Success(
             coins = coins
         )
 

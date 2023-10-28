@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.screen.list
+package dev.shorthouse.coinwatch.ui.screen.market
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
@@ -39,23 +39,23 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.ui.component.ErrorState
-import dev.shorthouse.coinwatch.ui.previewdata.ListUiStatePreviewProvider
-import dev.shorthouse.coinwatch.ui.screen.list.component.ListEmptyState
-import dev.shorthouse.coinwatch.ui.screen.list.component.ListItem
-import dev.shorthouse.coinwatch.ui.screen.list.component.ListSkeletonLoader
-import dev.shorthouse.coinwatch.ui.screen.list.component.SearchPrompt
+import dev.shorthouse.coinwatch.ui.previewdata.MarketUiStatePreviewProvider
+import dev.shorthouse.coinwatch.ui.screen.market.component.MarketCoinItem
+import dev.shorthouse.coinwatch.ui.screen.market.component.MarketEmptyState
+import dev.shorthouse.coinwatch.ui.screen.market.component.MarketSkeletonLoader
+import dev.shorthouse.coinwatch.ui.screen.market.component.SearchPrompt
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 
 @Composable
-fun ListScreen(
-    viewModel: ListViewModel = hiltViewModel(),
+fun MarketScreen(
+    viewModel: MarketViewModel = hiltViewModel(),
     onNavigateDetails: (String) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    ListScreen(
+    MarketScreen(
         uiState = uiState,
         onCoinClick = { coin ->
             onNavigateDetails(coin.id)
@@ -66,8 +66,8 @@ fun ListScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListScreen(
-    uiState: ListUiState,
+fun MarketScreen(
+    uiState: MarketUiState,
     onCoinClick: (Coin) -> Unit,
     onRefresh: () -> Unit,
     modifier: Modifier = Modifier
@@ -83,12 +83,12 @@ fun ListScreen(
 
     Scaffold(
         topBar = {
-            ListTopBar(scrollBehavior = scrollBehavior)
+            MarketTopBar(scrollBehavior = scrollBehavior)
         },
         content = { scaffoldPadding ->
             when (uiState) {
-                is ListUiState.Success -> {
-                    ListContent(
+                is MarketUiState.Success -> {
+                    MarketContent(
                         coins = uiState.coins,
                         onCoinClick = onCoinClick,
                         lazyListState = lazyListState,
@@ -96,7 +96,7 @@ fun ListScreen(
                     )
                 }
 
-                is ListUiState.Error -> {
+                is MarketUiState.Error -> {
                     ErrorState(
                         message = uiState.message,
                         onRetry = onRefresh,
@@ -104,8 +104,8 @@ fun ListScreen(
                     )
                 }
 
-                is ListUiState.Loading -> {
-                    ListSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
+                is MarketUiState.Loading -> {
+                    MarketSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
                 }
             }
         },
@@ -142,7 +142,7 @@ fun ListScreen(
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun ListTopBar(
+fun MarketTopBar(
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
 ) {
@@ -164,14 +164,14 @@ fun ListTopBar(
 }
 
 @Composable
-fun ListContent(
+fun MarketContent(
     coins: ImmutableList<Coin>,
     onCoinClick: (Coin) -> Unit,
     lazyListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
     if (coins.isEmpty()) {
-        ListEmptyState(
+        MarketEmptyState(
             modifier = modifier
                 .fillMaxSize()
                 .padding(12.dp)
@@ -202,7 +202,7 @@ fun ListContent(
                         else -> RoundedCornerShape(0.dp)
                     }
 
-                    ListItem(
+                    MarketCoinItem(
                         coin = coinListItem,
                         onCoinClick = { onCoinClick(coinListItem) },
                         cardShape = cardShape
@@ -219,11 +219,11 @@ fun ListContent(
 
 @Composable
 @Preview(showBackground = true)
-private fun ListScreenPreview(
-    @PreviewParameter(ListUiStatePreviewProvider::class) uiState: ListUiState
+private fun MarketScreenPreview(
+    @PreviewParameter(MarketUiStatePreviewProvider::class) uiState: MarketUiState
 ) {
     AppTheme {
-        ListScreen(
+        MarketScreen(
             uiState = uiState,
             onCoinClick = {},
             onRefresh = {}

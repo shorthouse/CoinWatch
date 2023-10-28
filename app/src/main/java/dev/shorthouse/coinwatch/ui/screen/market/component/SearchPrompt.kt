@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.screen.list.component
+package dev.shorthouse.coinwatch.ui.screen.market.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

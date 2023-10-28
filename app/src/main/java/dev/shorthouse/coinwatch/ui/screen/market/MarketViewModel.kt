@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.screen.list
+package dev.shorthouse.coinwatch.ui.screen.market
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,10 +14,10 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 
 @HiltViewModel
-class ListViewModel @Inject constructor(
+class MarketViewModel @Inject constructor(
     private val getCoinsUseCase: GetCoinsUseCase
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<ListUiState>(ListUiState.Loading)
+    private val _uiState = MutableStateFlow<MarketUiState>(MarketUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
     init {
@@ -25,21 +25,21 @@ class ListViewModel @Inject constructor(
     }
 
     fun initialiseUiState() {
-        _uiState.update { ListUiState.Loading }
+        _uiState.update { MarketUiState.Loading }
 
         val coinsFlow = getCoinsUseCase()
 
         coinsFlow.onEach { coinsResult ->
             when (coinsResult) {
                 is Result.Error -> {
-                    _uiState.update { ListUiState.Error(coinsResult.message) }
+                    _uiState.update { MarketUiState.Error(coinsResult.message) }
                 }
 
                 is Result.Success -> {
                     val coins = coinsResult.data.toImmutableList()
 
                     _uiState.update {
-                        ListUiState.Success(
+                        MarketUiState.Success(
                             coins = coins
                         )
                     }

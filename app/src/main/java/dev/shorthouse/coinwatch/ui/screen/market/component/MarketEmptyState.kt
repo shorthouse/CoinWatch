@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.screen.list.component
+package dev.shorthouse.coinwatch.ui.screen.market.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
@@ -13,7 +13,7 @@ import dev.shorthouse.coinwatch.ui.component.EmptyState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun ListEmptyState(modifier: Modifier = Modifier) {
+fun MarketEmptyState(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         EmptyState(
             image = painterResource(R.drawable.empty_state_coins),
@@ -32,8 +32,8 @@ fun ListEmptyState(modifier: Modifier = Modifier) {
 
 @Composable
 @Preview
-private fun ListEmptyStatePreview() {
+private fun MarketEmptyStatePreview() {
     AppTheme {
-        ListEmptyState()
+        MarketEmptyState()
     }
 }
