@@ -28,10 +28,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.SearchCoin
-import dev.shorthouse.coinwatch.navigation.Screen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.previewdata.SearchUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.search.component.SearchEmptyState
@@ -42,8 +40,8 @@ import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun SearchScreen(
-    navController: NavController,
-    viewModel: SearchViewModel = hiltViewModel()
+    viewModel: SearchViewModel = hiltViewModel(),
+    onNavigateDetails: (String) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -52,7 +50,7 @@ fun SearchScreen(
         searchQuery = viewModel.searchQuery,
         onSearchQueryChange = { viewModel.updateSearchQuery(it) },
         onCoinClick = { coin ->
-            navController.navigate(Screen.Details.route + "/${coin.id}")
+            onNavigateDetails(coin.id)
         },
         onRefresh = { viewModel.initialiseUiState() }
     )
