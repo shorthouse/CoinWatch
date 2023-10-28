@@ -2,7 +2,6 @@ package dev.shorthouse.coinwatch.ui.screen.details.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.StarOutline
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,7 +19,6 @@ import dev.shorthouse.coinwatch.ui.theme.AppTheme
 @Composable
 fun DetailsEmptyTopBar(
     onNavigateUp: () -> Unit,
-    showFavouriteAction: Boolean,
     modifier: Modifier = Modifier
 ) {
     LargeTopAppBar(
@@ -33,17 +31,6 @@ fun DetailsEmptyTopBar(
             }
         },
         title = {},
-        actions = {
-            if (showFavouriteAction) {
-                IconButton(onClick = {}) {
-                    Icon(
-                        imageVector = Icons.Rounded.StarOutline,
-                        contentDescription = stringResource(R.string.cd_top_bar_favourite),
-                        tint = MaterialTheme.colorScheme.onBackground
-                    )
-                }
-            }
-        },
         colors = TopAppBarDefaults.largeTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.background
         ),
@@ -57,7 +44,6 @@ private fun DetailsEmptyTopBar() {
     AppTheme {
         DetailsEmptyTopBar(
             onNavigateUp = {},
-            showFavouriteAction = true
         )
     }
 }
