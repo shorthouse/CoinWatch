@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.screen.list.component
+package dev.shorthouse.coinwatch.ui.screen.market.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +13,7 @@ import dev.shorthouse.coinwatch.ui.component.SkeletonSurface
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun ListSkeletonLoader(modifier: Modifier = Modifier) {
+fun MarketSkeletonLoader(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -31,8 +31,8 @@ fun ListSkeletonLoader(modifier: Modifier = Modifier) {
 
 @Composable
 @Preview
-private fun ListSkeletonLoaderPreview() {
+private fun MarketSkeletonLoaderPreview() {
     AppTheme {
-        ListSkeletonLoader()
+        MarketSkeletonLoader()
     }
 }
