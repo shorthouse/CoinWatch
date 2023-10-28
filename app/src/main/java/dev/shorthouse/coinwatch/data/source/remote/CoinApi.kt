@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.data.source.remote
 
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
-import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import retrofit2.Response
@@ -21,10 +21,10 @@ interface CoinApi {
     ): Response<CoinsApiModel>
 
     @GET("coin/{coinId}")
-    suspend fun getCoinDetail(
+    suspend fun getCoinDetails(
         @Path("coinId") coinId: String,
         @Query("referenceCurrencyUuid") currencyUUID: String = "yhjMzLPhuIDl"
-    ): Response<CoinDetailApiModel>
+    ): Response<CoinDetailsApiModel>
 
     @GET("coin/{coinId}/history")
     suspend fun getCoinChart(

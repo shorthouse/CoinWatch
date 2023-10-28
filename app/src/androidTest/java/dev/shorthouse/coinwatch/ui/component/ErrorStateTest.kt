@@ -68,41 +68,4 @@ class ErrorStateTest {
             assertThat(onRetryCalled).isTrue()
         }
     }
-
-    @Test
-    fun when_navigateUpProvided_should_displayBackButton() {
-        composeTestRule.setContent {
-            AppTheme {
-                ErrorState(
-                    message = null,
-                    onRetry = {},
-                    onNavigateUp = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithContentDescription("Back").assertIsDisplayed().assertHasClickAction()
-        }
-    }
-
-    @Test
-    fun when_navigateUpClicked_should_callOnNavigateUp() {
-        var onNavigateUpCalled = false
-
-        composeTestRule.setContent {
-            AppTheme {
-                ErrorState(
-                    message = null,
-                    onRetry = {},
-                    onNavigateUp = { onNavigateUpCalled = true }
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithContentDescription("Back").performClick()
-            assertThat(onNavigateUpCalled).isTrue()
-        }
-    }
 }

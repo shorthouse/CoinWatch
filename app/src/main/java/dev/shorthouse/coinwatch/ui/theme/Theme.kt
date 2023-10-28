@@ -8,6 +8,8 @@ import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val darkColorScheme = darkColorScheme(
+    primaryContainer = dark_primaryContainer,
+    onPrimaryContainer = dark_onPrimaryContainer,
     background = dark_background,
     onBackground = dark_onBackground,
     surface = dark_surface,

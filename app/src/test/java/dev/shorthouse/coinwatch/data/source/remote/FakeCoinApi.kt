@@ -4,9 +4,9 @@ import dev.shorthouse.coinwatch.data.source.remote.model.AllTimeHigh
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartData
-import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailApiModel
-import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailData
-import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailDataHolder
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsData
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsDataHolder
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsData
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
@@ -215,13 +215,13 @@ class FakeCoinApi : CoinApi {
         }
     }
 
-    override suspend fun getCoinDetail(
+    override suspend fun getCoinDetails(
         coinId: String,
         currencyUUID: String
-    ): Response<CoinDetailApiModel> {
+    ): Response<CoinDetailsApiModel> {
         when (coinId) {
             "Qwsogvtv82FCd" -> {
-                val coinDetail = CoinDetailData(
+                val coinDetails = CoinDetailsData(
                     id = "Qwsogvtv82FCd",
                     name = "Bitcoin",
                     symbol = "BTC",
@@ -241,9 +241,9 @@ class FakeCoinApi : CoinApi {
                 )
 
                 return Response.success(
-                    CoinDetailApiModel(
-                        coinDetailDataHolder = CoinDetailDataHolder(
-                            coinDetailData = coinDetail
+                    CoinDetailsApiModel(
+                        coinDetailsDataHolder = CoinDetailsDataHolder(
+                            coinDetailsData = coinDetails
                         )
                     )
                 )
@@ -252,7 +252,7 @@ class FakeCoinApi : CoinApi {
             else -> {
                 return Response.error(
                     404,
-                    "Coin detail not found".toResponseBody(null)
+                    "Coin details not found".toResponseBody(null)
                 )
             }
         }

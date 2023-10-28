@@ -5,15 +5,15 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.shorthouse.coinwatch.data.mapper.CoinChartMapper
-import dev.shorthouse.coinwatch.data.mapper.CoinDetailMapper
+import dev.shorthouse.coinwatch.data.mapper.CoinDetailsMapper
 import dev.shorthouse.coinwatch.data.mapper.CoinMapper
 import dev.shorthouse.coinwatch.data.mapper.CoinSearchResultsMapper
 import dev.shorthouse.coinwatch.data.repository.chart.CoinChartRepository
 import dev.shorthouse.coinwatch.data.repository.chart.CoinChartRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.coin.CoinRepository
 import dev.shorthouse.coinwatch.data.repository.coin.CoinRepositoryImpl
-import dev.shorthouse.coinwatch.data.repository.detail.CoinDetailRepository
-import dev.shorthouse.coinwatch.data.repository.detail.CoinDetailRepositoryImpl
+import dev.shorthouse.coinwatch.data.repository.details.CoinDetailsRepository
+import dev.shorthouse.coinwatch.data.repository.details.CoinDetailsRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.searchResults.CoinSearchResultsRepository
 import dev.shorthouse.coinwatch.data.repository.searchResults.CoinSearchResultsRepositoryImpl
 import dev.shorthouse.coinwatch.data.source.remote.CoinApi
@@ -41,14 +41,14 @@ object NetworkDataModule {
 
     @Provides
     @Singleton
-    fun provideCoinDetailRepository(
+    fun provideCoinDetailsRepository(
         coinNetworkDataSource: CoinNetworkDataSourceImpl,
-        coinDetailMapper: CoinDetailMapper,
+        coinDetailsMapper: CoinDetailsMapper,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
-    ): CoinDetailRepository {
-        return CoinDetailRepositoryImpl(
+    ): CoinDetailsRepository {
+        return CoinDetailsRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
-            coinDetailMapper = coinDetailMapper,
+            coinDetailsMapper = coinDetailsMapper,
             ioDispatcher = ioDispatcher
         )
     }

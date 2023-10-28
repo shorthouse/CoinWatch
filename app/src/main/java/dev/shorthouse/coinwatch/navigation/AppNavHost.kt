@@ -1,34 +1,27 @@
 package dev.shorthouse.coinwatch.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import dev.shorthouse.coinwatch.ui.screen.detail.CoinDetailScreen
-import dev.shorthouse.coinwatch.ui.screen.list.CoinListScreen
-import dev.shorthouse.coinwatch.ui.screen.search.CoinSearchScreen
+import dev.shorthouse.coinwatch.ui.screen.details.CoinDetailsScreen
 
 @Composable
-fun AppNavHost(
-    modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
-    startDestination: String = Screen.CoinList.route
-) {
+fun AppNavHost(navController: NavHostController = rememberNavController()) {
+    val onNavigateDetails: (String) -> Unit = { coinId ->
+        navController.navigate(Screen.Details.route + "/$coinId")
+    }
+
     NavHost(
         navController = navController,
-        startDestination = startDestination,
-        modifier = modifier
+        startDestination = Screen.NavigationBar.route
     ) {
-        composable(route = Screen.CoinList.route) {
-            CoinListScreen(navController = navController)
+        composable(Screen.NavigationBar.route) {
+            NavigationBarScaffold(onNavigateDetails = onNavigateDetails)
         }
-        composable(route = Screen.CoinDetail.route + "/{coinId}") {
-            CoinDetailScreen(navController = navController)
-        }
-        composable(route = Screen.CoinSearch.route) {
-            CoinSearchScreen(navController = navController)
+        composable(route = Screen.Details.route + "/{coinId}") {
+            CoinDetailsScreen(onNavigateUp = { navController.navigateUp() })
         }
     }
 }

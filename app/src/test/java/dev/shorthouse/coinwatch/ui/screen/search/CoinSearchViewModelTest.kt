@@ -22,7 +22,7 @@ class CoinSearchViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     // Class under test
-    private lateinit var viewModel: CoinSearchViewModel
+    private lateinit var viewModel: SearchViewModel
 
     @MockK
     private lateinit var getCoinSearchResultsUseCase: GetCoinSearchResultsUseCase
@@ -31,7 +31,7 @@ class CoinSearchViewModelTest {
     fun setup() {
         MockKAnnotations.init(this)
 
-        viewModel = CoinSearchViewModel(
+        viewModel = SearchViewModel(
             getCoinSearchResultsUseCase = getCoinSearchResultsUseCase
         )
     }
@@ -44,7 +44,7 @@ class CoinSearchViewModelTest {
     @Test
     fun `When ViewModel is initialised should have loading UI state`() = runTest {
         // Arrange
-        val expectedUiState = CoinSearchUiState.Loading
+        val expectedUiState = SearchUiState.Loading
 
         // Act
 
@@ -66,7 +66,7 @@ class CoinSearchViewModelTest {
     @Test
     fun `When search query is empty should return empty search results list`() = runTest {
         // Arrange
-        val expectedUiState = CoinSearchUiState.Success(
+        val expectedUiState = SearchUiState.Success(
             searchResults = persistentListOf(),
             queryHasNoResults = false
         )
@@ -86,7 +86,7 @@ class CoinSearchViewModelTest {
         val searchQuery = "bit"
         val errorMessage = "Unable to fetch coin search results"
 
-        val expectedUiState = CoinSearchUiState.Error(
+        val expectedUiState = SearchUiState.Error(
             message = errorMessage
         )
 
@@ -124,7 +124,7 @@ class CoinSearchViewModelTest {
             )
         )
 
-        val expectedUiState = CoinSearchUiState.Success(
+        val expectedUiState = SearchUiState.Success(
             searchResults = searchResults,
             queryHasNoResults = false
         )
@@ -164,7 +164,7 @@ class CoinSearchViewModelTest {
 
             val searchResults = persistentListOf<SearchCoin>()
 
-            val expectedUiState = CoinSearchUiState.Success(
+            val expectedUiState = SearchUiState.Success(
                 searchResults = searchResults,
                 queryHasNoResults = true
             )
