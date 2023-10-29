@@ -33,7 +33,10 @@ class CoinListScreenTest {
                 MarketScreen(
                     uiState = uiStateLoading,
                     onCoinClick = {},
-                    onRefresh = {}
+                    onRefresh = {},
+                    onUpdateCoinSortOrder = { coinSortOrder ->
+                        viewModel.updateCoinSortOrder(coinSortOrder)
+                    }
                 )
             }
         }
@@ -53,7 +56,10 @@ class CoinListScreenTest {
                 MarketScreen(
                     uiState = uiStateError,
                     onCoinClick = {},
-                    onRefresh = {}
+                    onRefresh = {},
+                    onUpdateCoinSortOrder = { coinSortOrder ->
+                        viewModel.updateCoinSortOrder(coinSortOrder)
+                    }
                 )
             }
         }
@@ -76,7 +82,10 @@ class CoinListScreenTest {
                 MarketScreen(
                     uiState = uiStateError,
                     onCoinClick = {},
-                    onRefresh = { onRefreshCalled = true }
+                    onRefresh = { onRefreshCalled = true },
+                    onUpdateCoinSortOrder = { coinSortOrder ->
+                        viewModel.updateCoinSortOrder(coinSortOrder)
+                    }
                 )
             }
         }
@@ -99,7 +108,10 @@ class CoinListScreenTest {
                 MarketScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onRefresh = {}
+                    onRefresh = {},
+                    onUpdateCoinSortOrder = { coinSortOrder ->
+                        viewModel.updateCoinSortOrder(coinSortOrder)
+                    }
                 )
             }
         }
@@ -121,7 +133,10 @@ class CoinListScreenTest {
                 MarketScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onRefresh = {}
+                    onRefresh = {},
+                    onUpdateCoinSortOrder = { coinSortOrder ->
+                        viewModel.updateCoinSortOrder(coinSortOrder)
+                    }
                 )
             }
         }
@@ -145,7 +160,10 @@ class CoinListScreenTest {
                 MarketScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onRefresh = {}
+                    onRefresh = {},
+                    onUpdateCoinSortOrder = { coinSortOrder ->
+                        viewModel.updateCoinSortOrder(coinSortOrder)
+                    }
                 )
             }
         }
@@ -185,7 +203,10 @@ class CoinListScreenTest {
                 MarketScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onRefresh = {}
+                    onRefresh = {},
+                    onUpdateCoinSortOrder = { coinSortOrder ->
+                        viewModel.updateCoinSortOrder(coinSortOrder)
+                    }
                 )
             }
         }
@@ -250,7 +271,10 @@ class CoinListScreenTest {
                 MarketScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onRefresh = {}
+                    onRefresh = {},
+                    onUpdateCoinSortOrder = { coinSortOrder ->
+                        viewModel.updateCoinSortOrder(coinSortOrder)
+                    }
                 )
             }
         }
@@ -304,7 +328,10 @@ class CoinListScreenTest {
                 MarketScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = ({ onCoinClickCalled = true }),
-                    onRefresh = {}
+                    onRefresh = {},
+                    onUpdateCoinSortOrder = { coinSortOrder ->
+                        viewModel.updateCoinSortOrder(coinSortOrder)
+                    }
                 )
             }
         }
@@ -329,7 +356,10 @@ class CoinListScreenTest {
                 MarketScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = ({ onCoinClickCalled = true }),
-                    onRefresh = {}
+                    onRefresh = {},
+                    onUpdateCoinSortOrder = { coinSortOrder ->
+                        viewModel.updateCoinSortOrder(coinSortOrder)
+                    }
                 )
             }
         }
@@ -352,7 +382,10 @@ class CoinListScreenTest {
                 MarketScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onRefresh = {}
+                    onRefresh = {},
+                    onUpdateCoinSortOrder = { coinSortOrder ->
+                        viewModel.updateCoinSortOrder(coinSortOrder)
+                    }
                 )
             }
         }
@@ -373,7 +406,10 @@ class CoinListScreenTest {
                 MarketScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onRefresh = {}
+                    onRefresh = {},
+                    onUpdateCoinSortOrder = { coinSortOrder ->
+                        viewModel.updateCoinSortOrder(coinSortOrder)
+                    }
                 )
             }
         }
@@ -394,7 +430,10 @@ class CoinListScreenTest {
                 MarketScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onRefresh = {}
+                    onRefresh = {},
+                    onUpdateCoinSortOrder = { coinSortOrder ->
+                        viewModel.updateCoinSortOrder(coinSortOrder)
+                    }
                 )
             }
         }
