@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CoinWatch</string>
+    <string name="app_name" translatable="false">CoinWatch</string>
     <string name="cd_top_bar_back">Back</string>
     <string name="cd_top_bar_favourite">Favourite</string>
     <string name="good_morning">Good morning</string>
@@ -55,4 +55,7 @@
     <string name="search_screen">Search</string>
     <string name="favourites_screen">Favourites</string>
     <string name="error_state_favourite_coins">Unable to fetch favourite coins</string>
+    <string name="currency_usd" translatable="false">USD</string>
+    <string name="currency_gbp" translatable="false">GBP</string>
+    <string name="currency_eur" translatable="false">EUR</string>
 </resources>
