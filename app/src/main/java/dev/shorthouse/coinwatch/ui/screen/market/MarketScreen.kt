@@ -13,10 +13,13 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
+import androidx.compose.material.icons.rounded.SwapVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
@@ -37,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.data.datastore.CoinSortOrder
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.previewdata.MarketUiStatePreviewProvider
@@ -60,6 +64,9 @@ fun MarketScreen(
         onCoinClick = { coin ->
             onNavigateDetails(coin.id)
         },
+        onUpdateCoinSortOrder = { coinSortOrder ->
+            viewModel.updateCoinSortOrder(coinSortOrder)
+        },
         onRefresh = { viewModel.initialiseUiState() }
     )
 }
@@ -69,6 +76,7 @@ fun MarketScreen(
 fun MarketScreen(
     uiState: MarketUiState,
     onCoinClick: (Coin) -> Unit,
+    onUpdateCoinSortOrder: (CoinSortOrder) -> Unit,
     onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -138,11 +146,15 @@ fun MarketScreen(
         },
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     )
+
+    ModalBottomSheet(onDismissRequest = { /*TODO*/ }) {
+    }
 }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun MarketTopBar(
+    onUpdateCoinSortOrder: (CoinSortOrder) -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
 ) {
@@ -153,6 +165,15 @@ fun MarketTopBar(
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
+        },
+        actions = {
+            IconButton(onClick = {}) {
+                Icon(
+                    imageVector = Icons.Rounded.SwapVert,
+                    tint = MaterialTheme.colorScheme.onBackground,
+                    contentDescription = stringResource(R.string.cd_list_scroll_top)
+                )
+            }
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -226,7 +247,8 @@ private fun MarketScreenPreview(
         MarketScreen(
             uiState = uiState,
             onCoinClick = {},
-            onRefresh = {}
+            onRefresh = {},
+            onUpdateCoinSortOrder = {}
         )
     }
 }
