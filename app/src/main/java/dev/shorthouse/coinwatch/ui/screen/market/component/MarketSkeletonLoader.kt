@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.ui.screen.market.component
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CornerSize
@@ -19,6 +20,8 @@ fun MarketSkeletonLoader(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .padding(horizontal = 12.dp)
     ) {
+        Spacer(Modifier.padding(1.dp))
+
         SkeletonSurface(
             shape = MaterialTheme.shapes.medium.copy(
                 bottomStart = CornerSize(0.dp),
