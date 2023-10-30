@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.data.repository.coin
 
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.datastore.CoinSort
 import dev.shorthouse.coinwatch.data.mapper.CoinMapper
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.di.IoDispatcher
@@ -18,21 +19,24 @@ class CoinRepositoryImpl @Inject constructor(
     private val coinMapper: CoinMapper,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : CoinRepository {
-    override fun getCoins(coinIds: List<String>): Flow<Result<List<Coin>>> = flow {
-        val response = coinNetworkDataSource.getCoins(
-            coinIds = coinIds
-        )
-        val body = response.body()
+    override fun getCoins(coinIds: List<String>, coinSort: CoinSort): Flow<Result<List<Coin>>> =
+        flow {
+            val response = coinNetworkDataSource.getCoins(
+                coinIds = coinIds,
+                coinSort = coinSort
+            )
 
-        if (response.isSuccessful && body?.coinsData != null) {
-            val coins = coinMapper.mapApiModelToModel(body)
-            emit(Result.Success(coins))
-        } else {
-            Timber.e("getCoins unsuccessful retrofit response ${response.message()}")
+            val body = response.body()
+
+            if (response.isSuccessful && body?.coinsData != null) {
+                val coins = coinMapper.mapApiModelToModel(body)
+                emit(Result.Success(coins))
+            } else {
+                Timber.e("getCoins unsuccessful retrofit response ${response.message()}")
+                emit(Result.Error("Unable to fetch coins list"))
+            }
+        }.catch { e ->
+            Timber.e("getCoins error ${e.message}")
             emit(Result.Error("Unable to fetch coins list"))
-        }
-    }.catch { e ->
-        Timber.e("getCoins error ${e.message}")
-        emit(Result.Error("Unable to fetch coins list"))
-    }.flowOn(ioDispatcher)
+        }.flowOn(ioDispatcher)
 }

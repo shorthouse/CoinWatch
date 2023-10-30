@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,9 +14,11 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
+import androidx.compose.material.icons.rounded.SwapVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallFloatingActionButton
@@ -23,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -37,9 +41,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.data.datastore.CoinSort
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.previewdata.MarketUiStatePreviewProvider
+import dev.shorthouse.coinwatch.ui.screen.market.component.CoinSortBottomSheet
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketCoinItem
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketEmptyState
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketSkeletonLoader
@@ -60,6 +66,13 @@ fun MarketScreen(
         onCoinClick = { coin ->
             onNavigateDetails(coin.id)
         },
+        onUpdateCoinSort = { coinSort ->
+            viewModel.updateCoinSort(coinSort = coinSort)
+        },
+        onUpdateShowCoinSortBottomSheet = { showSheet ->
+            viewModel.updateShowCoinSortBottomSheet(showSheet)
+        },
+
         onRefresh = { viewModel.initialiseUiState() }
     )
 }
@@ -69,6 +82,8 @@ fun MarketScreen(
 fun MarketScreen(
     uiState: MarketUiState,
     onCoinClick: (Coin) -> Unit,
+    onUpdateCoinSort: (CoinSort) -> Unit,
+    onUpdateShowCoinSortBottomSheet: (Boolean) -> Unit,
     onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -80,10 +95,15 @@ fun MarketScreen(
             lazyListState.firstVisibleItemIndex > 0
         }
     }
+    val sheetState = rememberModalBottomSheetState()
 
     Scaffold(
         topBar = {
-            MarketTopBar(scrollBehavior = scrollBehavior)
+            MarketTopBar(
+                showActions = uiState is MarketUiState.Success,
+                onUpdateShowCoinSortBottomSheet = onUpdateShowCoinSortBottomSheet,
+                scrollBehavior = scrollBehavior
+            )
         },
         content = { scaffoldPadding ->
             when (uiState) {
@@ -94,6 +114,25 @@ fun MarketScreen(
                         lazyListState = lazyListState,
                         modifier = Modifier.padding(scaffoldPadding)
                     )
+
+                    if (uiState.showCoinSortBottomSheet) {
+                        CoinSortBottomSheet(
+                            sheetState = sheetState,
+                            onDismissRequest = { onUpdateShowCoinSortBottomSheet(false) },
+                            selectedCoinSort = uiState.coinSort,
+                            onCoinSortSelected = { coinSort ->
+                                onUpdateCoinSort(coinSort)
+
+                                scope.launch {
+                                    sheetState.hide()
+                                }.invokeOnCompletion {
+                                    if (!sheetState.isVisible) {
+                                        onUpdateShowCoinSortBottomSheet(false)
+                                    }
+                                }
+                            }
+                        )
+                    }
                 }
 
                 is MarketUiState.Error -> {
@@ -143,6 +182,8 @@ fun MarketScreen(
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun MarketTopBar(
+    showActions: Boolean,
+    onUpdateShowCoinSortBottomSheet: (Boolean) -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
 ) {
@@ -153,6 +194,17 @@ fun MarketTopBar(
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
+        },
+        actions = {
+            if (showActions) {
+                IconButton(onClick = { onUpdateShowCoinSortBottomSheet(true) }) {
+                    Icon(
+                        imageVector = Icons.Rounded.SwapVert,
+                        tint = MaterialTheme.colorScheme.onBackground,
+                        contentDescription = stringResource(R.string.cd_list_scroll_top)
+                    )
+                }
+            }
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -182,6 +234,10 @@ fun MarketContent(
             contentPadding = PaddingValues(horizontal = 12.dp),
             modifier = modifier.fillMaxSize()
         ) {
+            // Workaround for https://issuetracker.google.com/issues/209652366
+            item(key = "0") {
+                Spacer(Modifier.padding(1.dp))
+            }
             items(
                 count = coins.size,
                 key = { coins[it].id },
@@ -226,7 +282,9 @@ private fun MarketScreenPreview(
         MarketScreen(
             uiState = uiState,
             onCoinClick = {},
-            onRefresh = {}
+            onUpdateShowCoinSortBottomSheet = {},
+            onRefresh = {},
+            onUpdateCoinSort = {}
         )
     }
 }

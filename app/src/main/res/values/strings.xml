@@ -58,4 +58,9 @@
     <string name="currency_usd" translatable="false">USD</string>
     <string name="currency_gbp" translatable="false">GBP</string>
     <string name="currency_eur" translatable="false">EUR</string>
+    <string name="coin_sort_price">Price</string>
+    <string name="coin_sort_market_cap">Market Cap</string>
+    <string name="coin_sort_price_change_24h">Price Change 24h</string>
+    <string name="coin_sort_volume_24h">Volume 24h</string>
+    <string name="coin_sort_bottom_sheet_title">Sort coins by</string>
 </resources>
