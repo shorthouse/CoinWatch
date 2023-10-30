@@ -25,4 +25,10 @@ class UserPreferencesRepository @Inject constructor(
             currentPreferences.copy(currency = currency)
         }
     }
+
+    suspend fun updateCoinSort(coinSort: CoinSort) {
+        userPreferencesDataStore.updateData { currentPreferences ->
+            currentPreferences.copy(coinSort = coinSort)
+        }
+    }
 }
