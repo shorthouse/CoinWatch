@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.ui.previewdata
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import dev.shorthouse.coinwatch.data.datastore.CoinSort
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
@@ -12,10 +13,19 @@ import kotlinx.collections.immutable.persistentListOf
 class MarketUiStatePreviewProvider : PreviewParameterProvider<MarketUiState> {
     override val values = sequenceOf(
         MarketUiState.Success(
-            coins = coins
+            coins = coins,
+            coinSort = CoinSort.MarketCap,
+            showCoinSortBottomSheet = false
         ),
         MarketUiState.Success(
-            coins = persistentListOf()
+            coins = persistentListOf(),
+            coinSort = CoinSort.MarketCap,
+            showCoinSortBottomSheet = false
+        ),
+        MarketUiState.Success(
+            coins = coins,
+            coinSort = CoinSort.MarketCap,
+            showCoinSortBottomSheet = true
         ),
         MarketUiState.Error("No internet connection"),
         MarketUiState.Loading
