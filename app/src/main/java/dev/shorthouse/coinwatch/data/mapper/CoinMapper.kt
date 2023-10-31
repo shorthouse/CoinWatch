@@ -1,6 +1,6 @@
 package dev.shorthouse.coinwatch.data.mapper
 
-import dev.shorthouse.coinwatch.common.Mapper
+import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
@@ -9,8 +9,8 @@ import java.math.BigDecimal
 import javax.inject.Inject
 import kotlinx.collections.immutable.toPersistentList
 
-class CoinMapper @Inject constructor() : Mapper<CoinsApiModel, List<Coin>> {
-    override fun mapApiModelToModel(from: CoinsApiModel): List<Coin> {
+class CoinMapper @Inject constructor() {
+    fun mapApiModelToModel(from: CoinsApiModel, currency: Currency): List<Coin> {
         val validCoins = from.coinsData?.coins
             .orEmpty()
             .filterNotNull()
@@ -22,7 +22,7 @@ class CoinMapper @Inject constructor() : Mapper<CoinsApiModel, List<Coin>> {
                 name = coinApiModel.name.orEmpty(),
                 symbol = coinApiModel.symbol.orEmpty(),
                 imageUrl = coinApiModel.imageUrl.orEmpty(),
-                currentPrice = Price(coinApiModel.currentPrice),
+                currentPrice = Price(coinApiModel.currentPrice, currency = currency),
                 priceChangePercentage24h = Percentage(coinApiModel.priceChangePercentage24h),
                 prices24h = coinApiModel.prices24h
                     .orEmpty()

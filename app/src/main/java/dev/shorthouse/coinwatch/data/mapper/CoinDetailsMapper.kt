@@ -1,6 +1,6 @@
 package dev.shorthouse.coinwatch.data.mapper
 
-import dev.shorthouse.coinwatch.common.Mapper
+import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.model.Price
@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 import javax.inject.Inject
 
-class CoinDetailsMapper @Inject constructor() : Mapper<CoinDetailsApiModel, CoinDetails> {
+class CoinDetailsMapper @Inject constructor() {
     companion object {
         private val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.US)
 
@@ -21,7 +21,7 @@ class CoinDetailsMapper @Inject constructor() : Mapper<CoinDetailsApiModel, Coin
         }
     }
 
-    override fun mapApiModelToModel(from: CoinDetailsApiModel): CoinDetails {
+    fun mapApiModelToModel(from: CoinDetailsApiModel, currency: Currency): CoinDetails {
         val coinDetails = from.coinDetailsDataHolder?.coinDetailsData
 
         return CoinDetails(
@@ -29,12 +29,12 @@ class CoinDetailsMapper @Inject constructor() : Mapper<CoinDetailsApiModel, Coin
             name = coinDetails?.name.orEmpty(),
             symbol = coinDetails?.symbol.orEmpty(),
             imageUrl = coinDetails?.imageUrl.orEmpty(),
-            currentPrice = Price(coinDetails?.currentPrice),
-            marketCap = Price(coinDetails?.marketCap),
+            currentPrice = Price(coinDetails?.currentPrice, currency = currency),
+            marketCap = Price(coinDetails?.marketCap, currency = currency),
             marketCapRank = coinDetails?.marketCapRank.orEmpty(),
             volume24h = formatNumberOrEmpty(coinDetails?.volume24h),
             circulatingSupply = formatNumberOrEmpty(coinDetails?.supply?.circulatingSupply),
-            allTimeHigh = Price(coinDetails?.allTimeHigh?.price),
+            allTimeHigh = Price(coinDetails?.allTimeHigh?.price, currency = currency),
             allTimeHighDate = epochToDateOrEmpty(coinDetails?.allTimeHigh?.timestamp),
             listedDate = epochToDateOrEmpty(coinDetails?.listedAt)
         )
