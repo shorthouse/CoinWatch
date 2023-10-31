@@ -62,5 +62,8 @@
     <string name="coin_sort_market_cap">Market Cap</string>
     <string name="coin_sort_price_change_24h">Price Change 24h</string>
     <string name="coin_sort_volume_24h">Volume 24h</string>
-    <string name="coin_sort_bottom_sheet_title">Sort coins by</string>
+    <string name="coin_sort_bottom_sheet_title">Coins Sort Order</string>
+    <string name="currency_bottom_sheet_title">Coins Currency</string>
+    <string name="top_bar_action_sort_coins">Sort coins</string>
+    <string name="top_bar_action_change_currency">Change currency</string>
 </resources>
