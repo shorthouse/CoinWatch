@@ -2,6 +2,7 @@ package dev.shorthouse.coinwatch.ui.previewdata
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.shorthouse.coinwatch.data.datastore.CoinSort
+import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
@@ -15,17 +16,30 @@ class MarketUiStatePreviewProvider : PreviewParameterProvider<MarketUiState> {
         MarketUiState.Success(
             coins = coins,
             coinSort = CoinSort.MarketCap,
-            showCoinSortBottomSheet = false
+            showCoinSortBottomSheet = false,
+            coinCurrency = Currency.USD,
+            showCoinCurrencyBottomSheet = false
         ),
         MarketUiState.Success(
             coins = persistentListOf(),
             coinSort = CoinSort.MarketCap,
-            showCoinSortBottomSheet = false
+            showCoinSortBottomSheet = false,
+            coinCurrency = Currency.USD,
+            showCoinCurrencyBottomSheet = false
         ),
         MarketUiState.Success(
             coins = coins,
             coinSort = CoinSort.MarketCap,
-            showCoinSortBottomSheet = true
+            showCoinSortBottomSheet = true,
+            coinCurrency = Currency.USD,
+            showCoinCurrencyBottomSheet = false
+        ),
+        MarketUiState.Success(
+            coins = coins,
+            coinSort = CoinSort.MarketCap,
+            showCoinSortBottomSheet = false,
+            coinCurrency = Currency.USD,
+            showCoinCurrencyBottomSheet = true
         ),
         MarketUiState.Error("No internet connection"),
         MarketUiState.Loading
