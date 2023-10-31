@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.domain
 
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.datastore.UserPreferencesRepository
 import dev.shorthouse.coinwatch.data.repository.coin.CoinRepository
 import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepository
 import dev.shorthouse.coinwatch.model.Coin
@@ -12,7 +13,8 @@ import kotlinx.coroutines.flow.flow
 
 class GetFavouriteCoinsUseCase @Inject constructor(
     private val favouriteCoinRepository: FavouriteCoinRepository,
-    private val coinRepository: CoinRepository
+    private val coinRepository: CoinRepository,
+    private val userPreferencesRepository: UserPreferencesRepository
 ) {
     operator fun invoke(): Flow<Result<List<Coin>>> {
         return getFavouriteCoins()
@@ -20,20 +22,11 @@ class GetFavouriteCoinsUseCase @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun getFavouriteCoins(): Flow<Result<List<Coin>>> {
-        val favouriteCoinsFlow = favouriteCoinRepository.getFavouriteCoins()
-
-        return favouriteCoinsFlow.flatMapLatest { favouriteCoinsResult ->
+        return favouriteCoinRepository.getFavouriteCoins().flatMapLatest { favouriteCoinsResult ->
             when (favouriteCoinsResult) {
                 is Result.Success -> {
                     val favouriteCoinIds = favouriteCoinsResult.data.map { it.id }
-
-                    if (favouriteCoinIds.isNotEmpty()) {
-                        coinRepository.getCoins(coinIds = favouriteCoinIds)
-                    } else {
-                        flow {
-                            emit(Result.Success(emptyList()))
-                        }
-                    }
+                    getCoins(favouriteCoinIds = favouriteCoinIds)
                 }
 
                 is Result.Error -> {
@@ -41,6 +34,22 @@ class GetFavouriteCoinsUseCase @Inject constructor(
                         emit(Result.Error(favouriteCoinsResult.message))
                     }
                 }
+            }
+        }
+    }
+
+    private fun getCoins(favouriteCoinIds: List<String>): Flow<Result<List<Coin>>> {
+        return if (favouriteCoinIds.isEmpty()) {
+            flow {
+                emit(Result.Success(emptyList()))
+            }
+        } else {
+            userPreferencesRepository.userPreferencesFlow.flatMapLatest { userPreferences ->
+                coinRepository.getCoins(
+                    coinIds = favouriteCoinIds,
+                    coinSort = userPreferences.coinSort,
+                    currency = userPreferences.currency
+                )
             }
         }
     }
