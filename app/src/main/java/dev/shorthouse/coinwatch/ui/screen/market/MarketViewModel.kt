@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.datastore.CoinSort
+import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCoinSortUseCase
+import dev.shorthouse.coinwatch.domain.UpdateCurrencyUseCase
 import javax.inject.Inject
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +23,8 @@ import kotlinx.coroutines.launch
 class MarketViewModel @Inject constructor(
     private val getCoinsUseCase: GetCoinsUseCase,
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
-    private val updateCoinSortUseCase: UpdateCoinSortUseCase
+    private val updateCoinSortUseCase: UpdateCoinSortUseCase,
+    private val updateCurrencyUseCase: UpdateCurrencyUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<MarketUiState>(MarketUiState.Loading)
     val uiState = _uiState.asStateFlow()
@@ -49,19 +52,28 @@ class MarketViewModel @Inject constructor(
                         if (it is MarketUiState.Success) {
                             it.copy(
                                 coins = coins,
-                                coinSort = userPreferences.coinSort
+                                coinSort = userPreferences.coinSort,
+                                coinCurrency = userPreferences.currency
                             )
                         } else {
                             MarketUiState.Success(
                                 coins = coins,
                                 coinSort = userPreferences.coinSort,
-                                showCoinSortBottomSheet = false
+                                showCoinSortBottomSheet = false,
+                                coinCurrency = userPreferences.currency,
+                                showCoinCurrencyBottomSheet = false
                             )
                         }
                     }
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun updateCoinSort(coinSort: CoinSort) {
+        viewModelScope.launch {
+            updateCoinSortUseCase(coinSort = coinSort)
+        }
     }
 
     fun updateShowCoinSortBottomSheet(showSheet: Boolean) {
@@ -74,9 +86,19 @@ class MarketViewModel @Inject constructor(
         }
     }
 
-    fun updateCoinSort(coinSort: CoinSort) {
+    fun updateCoinCurrency(currency: Currency) {
         viewModelScope.launch {
-            updateCoinSortUseCase(coinSort = coinSort)
+            updateCurrencyUseCase(currency = currency)
+        }
+    }
+
+    fun updateShowCoinCurrencyBottomSheet(showSheet: Boolean) {
+        _uiState.update {
+            if (it is MarketUiState.Success) {
+                it.copy(showCoinCurrencyBottomSheet = showSheet)
+            } else {
+                it
+            }
         }
     }
 }
