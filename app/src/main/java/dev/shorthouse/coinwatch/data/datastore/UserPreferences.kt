@@ -1,7 +1,5 @@
 package dev.shorthouse.coinwatch.data.datastore
 
-import androidx.annotation.StringRes
-import dev.shorthouse.coinwatch.R
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,10 +8,10 @@ data class UserPreferences(
     val coinSort: CoinSort = CoinSort.MarketCap
 )
 
-enum class Currency(@StringRes val nameStringId: Int) {
-    USD(R.string.currency_usd),
-    GBP(R.string.currency_gbp),
-    EUR(R.string.currency_eur)
+enum class Currency(val symbol: String) {
+    USD("$"),
+    GBP("£"),
+    EUR("€")
 }
 
 enum class CoinSort {

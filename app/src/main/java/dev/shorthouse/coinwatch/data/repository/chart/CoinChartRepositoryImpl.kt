@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.data.repository.chart
 
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.mapper.CoinChartMapper
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.di.IoDispatcher
@@ -18,16 +19,21 @@ class CoinChartRepositoryImpl @Inject constructor(
     private val coinChartMapper: CoinChartMapper,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : CoinChartRepository {
-    override fun getCoinChart(coinId: String, chartPeriod: String): Flow<Result<CoinChart>> = flow {
+    override fun getCoinChart(
+        coinId: String,
+        chartPeriod: String,
+        currency: Currency
+    ): Flow<Result<CoinChart>> = flow {
         val response = coinNetworkDataSource.getCoinChart(
             coinId = coinId,
-            chartPeriod = chartPeriod
+            chartPeriod = chartPeriod,
+            currency = currency
         )
 
         val body = response.body()
 
         if (response.isSuccessful && body?.coinChartData != null) {
-            val coinChart = coinChartMapper.mapApiModelToModel(body)
+            val coinChart = coinChartMapper.mapApiModelToModel(body, currency = currency)
             emit(Result.Success(coinChart))
         } else {
             Timber.e("getCoinChart unsuccessful retrofit response ${response.message()}")

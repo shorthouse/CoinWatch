@@ -2,6 +2,7 @@ package dev.shorthouse.coinwatch.data.repository.coin
 
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.datastore.CoinSort
+import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.mapper.CoinMapper
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.di.IoDispatcher
@@ -19,17 +20,22 @@ class CoinRepositoryImpl @Inject constructor(
     private val coinMapper: CoinMapper,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : CoinRepository {
-    override fun getCoins(coinIds: List<String>, coinSort: CoinSort): Flow<Result<List<Coin>>> =
+    override fun getCoins(
+        coinIds: List<String>,
+        coinSort: CoinSort,
+        currency: Currency
+    ): Flow<Result<List<Coin>>> =
         flow {
             val response = coinNetworkDataSource.getCoins(
                 coinIds = coinIds,
-                coinSort = coinSort
+                coinSort = coinSort,
+                currency = currency
             )
 
             val body = response.body()
 
             if (response.isSuccessful && body?.coinsData != null) {
-                val coins = coinMapper.mapApiModelToModel(body)
+                val coins = coinMapper.mapApiModelToModel(body, currency = currency)
                 emit(Result.Success(coins))
             } else {
                 Timber.e("getCoins unsuccessful retrofit response ${response.message()}")

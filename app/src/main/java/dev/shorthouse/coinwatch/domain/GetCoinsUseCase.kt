@@ -20,7 +20,10 @@ class GetCoinsUseCase @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun getCoins(): Flow<Result<List<Coin>>> {
         return userPreferencesRepository.userPreferencesFlow.flatMapLatest { userPreferences ->
-            coinRepository.getCoins(coinSort = userPreferences.coinSort)
+            coinRepository.getCoins(
+                coinSort = userPreferences.coinSort,
+                currency = userPreferences.currency
+            )
         }
     }
 }
