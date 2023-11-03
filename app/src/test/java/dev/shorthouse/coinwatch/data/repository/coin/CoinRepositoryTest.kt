@@ -3,6 +3,8 @@ package dev.shorthouse.coinwatch.data.repository.coin
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.datastore.CoinSort
+import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.mapper.CoinMapper
 import dev.shorthouse.coinwatch.data.source.remote.FakeCoinApi
 import dev.shorthouse.coinwatch.data.source.remote.FakeCoinNetworkDataSource
@@ -62,7 +64,9 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getCoins(
-            coinIds = listOf("Qwsogvtv82FCd")
+            coinIds = listOf("Qwsogvtv82FCd"),
+            coinSort = CoinSort.MarketCap,
+            currency = Currency.USD
         ).first()
 
         // Assert
@@ -90,7 +94,9 @@ class CoinRepositoryTest {
 
             // Act
             val result = coinRepository.getCoins(
-                coinIds = listOf("nullValues")
+                coinIds = listOf("nullValues"),
+                coinSort = CoinSort.MarketCap,
+                currency = Currency.USD
             ).first()
 
             // Assert
@@ -107,7 +113,9 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getCoins(
-            coinIds = listOf("nullCoins")
+            coinIds = listOf("nullCoins"),
+            coinSort = CoinSort.MarketCap,
+            currency = Currency.USD
         ).first()
 
         // Assert
@@ -141,7 +149,9 @@ class CoinRepositoryTest {
 
             // Act
             val result = coinRepository.getCoins(
-                coinIds = listOf("nullIds")
+                coinIds = listOf("nullIds"),
+                coinSort = CoinSort.MarketCap,
+                currency = Currency.USD
             ).first()
 
             // Assert
@@ -158,7 +168,9 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getCoins(
-            coinIds = listOf("")
+            coinIds = listOf(""),
+            coinSort = CoinSort.MarketCap,
+            currency = Currency.USD
         ).first()
 
         // Assert
@@ -175,7 +187,9 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getCoins(
-            coinIds = listOf("nullBody")
+            coinIds = listOf("nullBody"),
+            coinSort = CoinSort.MarketCap,
+            currency = Currency.USD
         ).first()
 
         // Assert
@@ -192,7 +206,9 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getCoins(
-            coinIds = listOf("exception")
+            coinIds = listOf("exception"),
+            coinSort = CoinSort.MarketCap,
+            currency = Currency.USD
         ).first()
 
         // Assert

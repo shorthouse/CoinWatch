@@ -21,8 +21,8 @@ class CoinDetailsMapper @Inject constructor() {
         }
     }
 
-    fun mapApiModelToModel(from: CoinDetailsApiModel, currency: Currency): CoinDetails {
-        val coinDetails = from.coinDetailsDataHolder?.coinDetailsData
+    fun mapApiModelToModel(apiModel: CoinDetailsApiModel, currency: Currency): CoinDetails {
+        val coinDetails = apiModel.coinDetailsDataHolder?.coinDetailsData
 
         return CoinDetails(
             id = coinDetails?.id.orEmpty(),

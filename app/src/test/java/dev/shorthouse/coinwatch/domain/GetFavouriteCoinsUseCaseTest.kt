@@ -2,6 +2,10 @@ package dev.shorthouse.coinwatch.domain
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.datastore.CoinSort
+import dev.shorthouse.coinwatch.data.datastore.Currency
+import dev.shorthouse.coinwatch.data.datastore.UserPreferences
+import dev.shorthouse.coinwatch.data.datastore.UserPreferencesRepository
 import dev.shorthouse.coinwatch.data.repository.coin.CoinRepository
 import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepository
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
@@ -30,13 +34,17 @@ class GetFavouriteCoinsUseCaseTest {
     @MockK
     private lateinit var coinRepository: CoinRepository
 
+    @MockK
+    private lateinit var userPreferencesRepository: UserPreferencesRepository
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
 
         getFavouriteCoinsUseCase = GetFavouriteCoinsUseCase(
             favouriteCoinRepository = favouriteCoinRepository,
-            coinRepository = coinRepository
+            coinRepository = coinRepository,
+            userPreferencesRepository = userPreferencesRepository
         )
     }
 
@@ -64,6 +72,12 @@ class GetFavouriteCoinsUseCaseTest {
         )
 
         every {
+            userPreferencesRepository.userPreferencesFlow
+        } returns flowOf(
+            UserPreferences()
+        )
+
+        every {
             favouriteCoinRepository.getFavouriteCoins()
         } returns flowOf(
             Result.Success(
@@ -74,7 +88,11 @@ class GetFavouriteCoinsUseCaseTest {
         )
 
         every {
-            coinRepository.getCoins(coinIds = listOf("Qwsogvtv82FCd"))
+            coinRepository.getCoins(
+                coinIds = listOf("Qwsogvtv82FCd"),
+                coinSort = CoinSort.MarketCap,
+                currency = Currency.USD
+            )
         } returns flowOf(
             Result.Success(
                 listOf(
