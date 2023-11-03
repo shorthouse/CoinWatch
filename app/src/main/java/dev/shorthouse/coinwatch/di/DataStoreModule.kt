@@ -14,8 +14,8 @@ import dev.shorthouse.coinwatch.data.datastore.UserPreferences
 import dev.shorthouse.coinwatch.data.datastore.UserPreferencesSerializer
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 class DataStoreModule {
 
     @Provides
