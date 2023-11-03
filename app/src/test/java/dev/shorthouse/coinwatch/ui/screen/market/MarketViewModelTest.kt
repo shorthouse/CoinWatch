@@ -3,7 +3,13 @@ package dev.shorthouse.coinwatch.ui.screen.market
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.datastore.CoinSort
+import dev.shorthouse.coinwatch.data.datastore.Currency
+import dev.shorthouse.coinwatch.data.datastore.UserPreferences
 import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
+import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
+import dev.shorthouse.coinwatch.domain.UpdateCoinSortUseCase
+import dev.shorthouse.coinwatch.domain.UpdateCurrencyUseCase
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
@@ -19,7 +25,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class CoinListViewModelTest {
+class MarketViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -30,12 +36,24 @@ class CoinListViewModelTest {
     @RelaxedMockK
     private lateinit var getCoinsUseCase: GetCoinsUseCase
 
+    @RelaxedMockK
+    private lateinit var getUserPreferencesUseCase: GetUserPreferencesUseCase
+
+    @RelaxedMockK
+    private lateinit var updateCoinSortUseCase: UpdateCoinSortUseCase
+
+    @RelaxedMockK
+    private lateinit var updateCurrencyUseCase: UpdateCurrencyUseCase
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
 
         viewModel = MarketViewModel(
-            getCoinsUseCase = getCoinsUseCase
+            getCoinsUseCase = getCoinsUseCase,
+            getUserPreferencesUseCase = getUserPreferencesUseCase,
+            updateCoinSortUseCase = updateCoinSortUseCase,
+            updateCurrencyUseCase = updateCurrencyUseCase
         )
     }
 
@@ -61,7 +79,13 @@ class CoinListViewModelTest {
         val errorMessage = "Coins error"
         val expectedUiState = MarketUiState.Error(errorMessage)
 
+        val userPreferences = UserPreferences(
+            coinSort = CoinSort.MarketCap,
+            currency = Currency.USD
+        )
+
         every { getCoinsUseCase() } returns flowOf(Result.Error(errorMessage))
+        every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
 
         // Act
         viewModel.initialiseUiState()
@@ -71,7 +95,7 @@ class CoinListViewModelTest {
     }
 
     @Test
-    fun `When coins return success should have success UI state`() = runTest {
+    fun `When coins and user prefs return success should have success UI state`() = runTest {
         // Arrange
         val coins = persistentListOf(
             Coin(
@@ -94,11 +118,21 @@ class CoinListViewModelTest {
             )
         )
 
+        val userPreferences = UserPreferences(
+            coinSort = CoinSort.MarketCap,
+            currency = Currency.USD
+        )
+
         val expectedUiState = MarketUiState.Success(
-            coins = coins
+            coins = coins,
+            coinSort = CoinSort.MarketCap,
+            showCoinSortBottomSheet = false,
+            coinCurrency = Currency.USD,
+            showCoinCurrencyBottomSheet = false
         )
 
         every { getCoinsUseCase() } returns flowOf(Result.Success(coins))
+        every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
 
         // Act
         viewModel.initialiseUiState()
