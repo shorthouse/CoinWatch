@@ -4,8 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserPreferences(
-    val currency: Currency = Currency.USD,
-    val coinSort: CoinSort = CoinSort.MarketCap
+    val coinSort: CoinSort = CoinSort.MarketCap,
+    val currency: Currency = Currency.USD
 )
 
 enum class Currency(val symbol: String) {
