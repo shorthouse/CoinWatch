@@ -1,8 +1,6 @@
 package dev.shorthouse.coinwatch.ui.previewdata
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.shorthouse.coinwatch.data.datastore.CoinSort
-import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
@@ -13,36 +11,26 @@ import kotlinx.collections.immutable.persistentListOf
 
 class MarketUiStatePreviewProvider : PreviewParameterProvider<MarketUiState> {
     override val values = sequenceOf(
-        MarketUiState.Success(
-            coins = coins,
-            coinSort = CoinSort.MarketCap,
-            showCoinSortBottomSheet = false,
-            coinCurrency = Currency.USD,
-            showCoinCurrencyBottomSheet = false
+        MarketUiState(
+            coins = coins
         ),
-        MarketUiState.Success(
-            coins = persistentListOf(),
-            coinSort = CoinSort.MarketCap,
-            showCoinSortBottomSheet = false,
-            coinCurrency = Currency.USD,
-            showCoinCurrencyBottomSheet = false
+        MarketUiState(
+            coins = persistentListOf()
         ),
-        MarketUiState.Success(
+        MarketUiState(
             coins = coins,
-            coinSort = CoinSort.MarketCap,
-            showCoinSortBottomSheet = true,
-            coinCurrency = Currency.USD,
-            showCoinCurrencyBottomSheet = false
+            showCoinSortBottomSheet = true
         ),
-        MarketUiState.Success(
+        MarketUiState(
             coins = coins,
-            coinSort = CoinSort.MarketCap,
-            showCoinSortBottomSheet = false,
-            coinCurrency = Currency.USD,
             showCoinCurrencyBottomSheet = true
         ),
-        MarketUiState.Error("No internet connection"),
-        MarketUiState.Loading
+        MarketUiState(
+            errorMessage = "Error message"
+        ),
+        MarketUiState(
+            isLoading = true
+        )
     )
 }
 
