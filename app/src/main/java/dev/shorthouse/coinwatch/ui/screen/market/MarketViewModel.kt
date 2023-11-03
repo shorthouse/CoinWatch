@@ -6,27 +6,29 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.datastore.CoinSort
 import dev.shorthouse.coinwatch.data.datastore.Currency
-import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
+import dev.shorthouse.coinwatch.domain.GetCachedCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
+import dev.shorthouse.coinwatch.domain.RefreshCachedCoinsUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCoinSortUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCurrencyUseCase
 import javax.inject.Inject
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MarketViewModel @Inject constructor(
-    private val getCoinsUseCase: GetCoinsUseCase,
+    private val getCachedCoinsUseCase: GetCachedCoinsUseCase,
+    private val refreshCachedCoinsUseCase: RefreshCachedCoinsUseCase,
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
     private val updateCoinSortUseCase: UpdateCoinSortUseCase,
     private val updateCurrencyUseCase: UpdateCurrencyUseCase
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<MarketUiState>(MarketUiState.Loading)
+    private val _uiState = MutableStateFlow(MarketUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
@@ -34,40 +36,51 @@ class MarketViewModel @Inject constructor(
     }
 
     fun initialiseUiState() {
-        _uiState.update { MarketUiState.Loading }
+        refreshCachedCoins()
 
-        val coinsFlow = getCoinsUseCase()
-        val userPreferencesFlow = getUserPreferencesUseCase()
+        getCachedCoinsUseCase().onEach { coinsResult ->
+            _uiState.update { it.copy(isLoading = true) }
 
-        combine(coinsFlow, userPreferencesFlow) { coinsResult, userPreferences ->
             when (coinsResult) {
-                is Result.Error -> {
-                    _uiState.update { MarketUiState.Error(coinsResult.message) }
-                }
-
                 is Result.Success -> {
                     val coins = coinsResult.data.toImmutableList()
 
                     _uiState.update {
-                        if (it is MarketUiState.Success) {
-                            it.copy(
-                                coins = coins,
-                                coinSort = userPreferences.coinSort,
-                                coinCurrency = userPreferences.currency
-                            )
-                        } else {
-                            MarketUiState.Success(
-                                coins = coins,
-                                coinSort = userPreferences.coinSort,
-                                showCoinSortBottomSheet = false,
-                                coinCurrency = userPreferences.currency,
-                                showCoinCurrencyBottomSheet = false
-                            )
-                        }
+                        it.copy(
+                            coins = coins,
+                            isLoading = false,
+                            errorMessage = null
+                        )
+                    }
+                }
+
+                is Result.Error -> {
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = coinsResult.message
+                        )
                     }
                 }
             }
         }.launchIn(viewModelScope)
+
+        getUserPreferencesUseCase().onEach { userPreferences ->
+            _uiState.update {
+                it.copy(
+                    coinSort = userPreferences.coinSort,
+                    coinCurrency = userPreferences.currency
+                )
+            }
+
+            refreshCachedCoins()
+        }.launchIn(viewModelScope)
+    }
+
+    fun refreshCachedCoins() {
+        viewModelScope.launch {
+            refreshCachedCoinsUseCase()
+        }
     }
 
     fun updateCoinSort(coinSort: CoinSort) {
@@ -77,13 +90,7 @@ class MarketViewModel @Inject constructor(
     }
 
     fun updateShowCoinSortBottomSheet(showSheet: Boolean) {
-        _uiState.update {
-            if (it is MarketUiState.Success) {
-                it.copy(showCoinSortBottomSheet = showSheet)
-            } else {
-                it
-            }
-        }
+        _uiState.update { it.copy(showCoinSortBottomSheet = showSheet) }
     }
 
     fun updateCoinCurrency(currency: Currency) {
@@ -93,12 +100,6 @@ class MarketViewModel @Inject constructor(
     }
 
     fun updateShowCoinCurrencyBottomSheet(showSheet: Boolean) {
-        _uiState.update {
-            if (it is MarketUiState.Success) {
-                it.copy(showCoinCurrencyBottomSheet = showSheet)
-            } else {
-                it
-            }
-        }
+        _uiState.update { it.copy(showCoinCurrencyBottomSheet = showSheet) }
     }
 }
