@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.data.mapper
 
 import com.google.common.truth.Truth.assertThat
+import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsData
@@ -16,15 +17,20 @@ class CoinMapperTest {
     // Class under test
     private val coinMapper = CoinMapper()
 
+    private val currency = Currency.USD
+
     @Test
     fun `When coins data null should return empty list`() {
         // Arrange
-        val apiModel = CoinsApiModel(
+        val coinsApiModel = CoinsApiModel(
             coinsData = null
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToModel(apiModel)
+        val coins = coinMapper.mapApiModelToModel(
+            apiModel = coinsApiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coins).isEmpty()
@@ -33,14 +39,17 @@ class CoinMapperTest {
     @Test
     fun `When coins null should return empty list`() {
         // Arrange
-        val apiModel = CoinsApiModel(
+        val coinsApiModel = CoinsApiModel(
             coinsData = CoinsData(
                 coins = null
             )
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToModel(apiModel)
+        val coins = coinMapper.mapApiModelToModel(
+            apiModel = coinsApiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coins).isEmpty()
@@ -49,7 +58,7 @@ class CoinMapperTest {
     @Test
     fun `When coins has null list items should filter out these items`() {
         // Arrange
-        val apiModel = CoinsApiModel(
+        val coinsApiModel = CoinsApiModel(
             coinsData = CoinsData(
                 coins = listOf(
                     null,
@@ -80,7 +89,10 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToModel(apiModel)
+        val coins = coinMapper.mapApiModelToModel(
+            apiModel = coinsApiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coins).isEqualTo(expectedCoins)
@@ -89,7 +101,7 @@ class CoinMapperTest {
     @Test
     fun `When coins has null id items should filter out these items`() {
         // Arrange
-        val apiModel = CoinsApiModel(
+        val coinsApiModel = CoinsApiModel(
             coinsData = CoinsData(
                 coins = listOf(
                     CoinApiModel(
@@ -136,7 +148,10 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToModel(apiModel)
+        val coins = coinMapper.mapApiModelToModel(
+            apiModel = coinsApiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coins).isEqualTo(expectedCoins)
@@ -145,7 +160,7 @@ class CoinMapperTest {
     @Test
     fun `When coins has null values should replace with default values`() {
         // Arrange
-        val apiModel = CoinsApiModel(
+        val coinsApiModel = CoinsApiModel(
             coinsData = CoinsData(
                 coins = listOf(
                     CoinApiModel(
@@ -174,7 +189,10 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToModel(apiModel)
+        val coins = coinMapper.mapApiModelToModel(
+            apiModel = coinsApiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coins).isEqualTo(expectedCoins)
@@ -183,7 +201,7 @@ class CoinMapperTest {
     @Test
     fun `When coins has valid values should map to model`() {
         // Arrange
-        val apiModel = CoinsApiModel(
+        val coinsApiModel = CoinsApiModel(
             coinsData = CoinsData(
                 coins = listOf(
                     CoinApiModel(
@@ -220,7 +238,10 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToModel(apiModel)
+        val coins = coinMapper.mapApiModelToModel(
+            apiModel = coinsApiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coins).isEqualTo(expectedCoins)
@@ -229,7 +250,7 @@ class CoinMapperTest {
     @Test
     fun `When prices list is null should return empty list`() {
         // Arrange
-        val apiModel = CoinsApiModel(
+        val coinsApiModel = CoinsApiModel(
             coinsData = CoinsData(
                 coins = listOf(
                     CoinApiModel(
@@ -258,7 +279,10 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToModel(apiModel)
+        val coins = coinMapper.mapApiModelToModel(
+            apiModel = coinsApiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coins).isEqualTo(expectedCoins)
@@ -267,7 +291,7 @@ class CoinMapperTest {
     @Test
     fun `When prices list has null values should filter out these values`() {
         // Arrange
-        val apiModel = CoinsApiModel(
+        val coinsApiModel = CoinsApiModel(
             coinsData = CoinsData(
                 coins = listOf(
                     CoinApiModel(
@@ -309,7 +333,10 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToModel(apiModel)
+        val coins = coinMapper.mapApiModelToModel(
+            apiModel = coinsApiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coins).isEqualTo(expectedCoins)
@@ -318,7 +345,7 @@ class CoinMapperTest {
     @Test
     fun `When prices list has negative values should filter out these values`() {
         // Arrange
-        val apiModel = CoinsApiModel(
+        val coinsApiModel = CoinsApiModel(
             coinsData = CoinsData(
                 coins = listOf(
                     CoinApiModel(
@@ -354,7 +381,10 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToModel(apiModel)
+        val coins = coinMapper.mapApiModelToModel(
+            apiModel = coinsApiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coins).isEqualTo(expectedCoins)

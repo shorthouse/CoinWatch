@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.data.mapper
 
 import com.google.common.truth.Truth.assertThat
+import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartData
 import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
@@ -15,6 +16,8 @@ class CoinChartMapperTest {
 
     // Class under test
     private val coinChartMapper = CoinChartMapper()
+
+    private val currency = Currency.USD
 
     @Test
     fun `When coin chart data is null should return default values`() {
@@ -31,7 +34,10 @@ class CoinChartMapperTest {
         )
 
         // Act
-        val coinChart = coinChartMapper.mapApiModelToModel(apiModel)
+        val coinChart = coinChartMapper.mapApiModelToModel(
+            apiModel = apiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coinChart).isEqualTo(expectedCoinChart)
@@ -55,7 +61,10 @@ class CoinChartMapperTest {
         )
 
         // Act
-        val coinChart = coinChartMapper.mapApiModelToModel(apiModel)
+        val coinChart = coinChartMapper.mapApiModelToModel(
+            apiModel = apiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coinChart).isEqualTo(expectedCoinChart)
@@ -79,7 +88,10 @@ class CoinChartMapperTest {
         )
 
         // Act
-        val coinChart = coinChartMapper.mapApiModelToModel(apiModel)
+        val coinChart = coinChartMapper.mapApiModelToModel(
+            apiModel = apiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coinChart).isEqualTo(expectedCoinChart)
@@ -103,7 +115,10 @@ class CoinChartMapperTest {
         )
 
         // Act
-        val coinChart = coinChartMapper.mapApiModelToModel(apiModel)
+        val coinChart = coinChartMapper.mapApiModelToModel(
+            apiModel = apiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coinChart).isEqualTo(expectedCoinChart)
@@ -134,7 +149,10 @@ class CoinChartMapperTest {
         )
 
         // Act
-        val coinChart = coinChartMapper.mapApiModelToModel(apiModel)
+        val coinChart = coinChartMapper.mapApiModelToModel(
+            apiModel = apiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coinChart).isEqualTo(expectedCoinChart)
@@ -164,7 +182,10 @@ class CoinChartMapperTest {
         )
 
         // Act
-        val coinChart = coinChartMapper.mapApiModelToModel(apiModel)
+        val coinChart = coinChartMapper.mapApiModelToModel(
+            apiModel = apiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coinChart).isEqualTo(expectedCoinChart)
@@ -197,7 +218,10 @@ class CoinChartMapperTest {
         )
 
         // Act
-        val coinChart = coinChartMapper.mapApiModelToModel(apiModel)
+        val coinChart = coinChartMapper.mapApiModelToModel(
+            apiModel = apiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coinChart).isEqualTo(expectedCoinChart)
@@ -233,7 +257,10 @@ class CoinChartMapperTest {
         )
 
         // Act
-        val coinChart = coinChartMapper.mapApiModelToModel(apiModel)
+        val coinChart = coinChartMapper.mapApiModelToModel(
+            apiModel = apiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coinChart).isEqualTo(expectedCoinChart)
@@ -269,7 +296,10 @@ class CoinChartMapperTest {
         )
 
         // Act
-        val coinChart = coinChartMapper.mapApiModelToModel(apiModel)
+        val coinChart = coinChartMapper.mapApiModelToModel(
+            apiModel = apiModel,
+            currency = currency
+        )
 
         // Assert
         assertThat(coinChart).isEqualTo(expectedCoinChart)
