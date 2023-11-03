@@ -56,6 +56,7 @@ fun MarketCoinItem(
             AsyncImage(
                 model = imageBuilder
                     .data(coin.imageUrl)
+                    .crossfade(true)
                     .build(),
                 modifier = Modifier.size(32.dp),
                 contentDescription = null
