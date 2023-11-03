@@ -59,6 +59,7 @@ fun CoinFavouriteItem(
                     AsyncImage(
                         model = imageBuilder
                             .data(coin.imageUrl)
+                            .crossfade(true)
                             .build(),
                         contentDescription = null,
                         alignment = Alignment.Center,

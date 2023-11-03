@@ -177,6 +177,7 @@ fun CoinDetailsTopBar(
                 AsyncImage(
                     model = imageBuilder
                         .data(coinDetails.imageUrl)
+                        .crossfade(true)
                         .build(),
                     contentDescription = null,
                     modifier = Modifier
