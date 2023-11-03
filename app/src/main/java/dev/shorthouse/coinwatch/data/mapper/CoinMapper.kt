@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.data.mapper
 
 import dev.shorthouse.coinwatch.data.datastore.Currency
+import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
@@ -10,8 +11,8 @@ import javax.inject.Inject
 import kotlinx.collections.immutable.toPersistentList
 
 class CoinMapper @Inject constructor() {
-    fun mapApiModelToModel(from: CoinsApiModel, currency: Currency): List<Coin> {
-        val validCoins = from.coinsData?.coins
+    fun mapApiModelToModel(apiModel: CoinsApiModel, currency: Currency): List<Coin> {
+        val validCoins = apiModel.coinsData?.coins
             .orEmpty()
             .filterNotNull()
             .filter { it.id != null }
@@ -31,5 +32,17 @@ class CoinMapper @Inject constructor() {
                     .toPersistentList()
             )
         }
+    }
+
+    fun mapCachedCoinToModel(cachedCoin: CachedCoin): Coin {
+        return Coin(
+            id = cachedCoin.id,
+            name = cachedCoin.name,
+            symbol = cachedCoin.symbol,
+            imageUrl = cachedCoin.imageUrl,
+            currentPrice = cachedCoin.currentPrice,
+            priceChangePercentage24h = cachedCoin.priceChangePercentage24h,
+            prices24h = cachedCoin.prices24h
+        )
     }
 }

@@ -11,8 +11,8 @@ import javax.inject.Inject
 import kotlinx.collections.immutable.toPersistentList
 
 class CoinChartMapper @Inject constructor() {
-    fun mapApiModelToModel(from: CoinChartApiModel, currency: Currency): CoinChart {
-        val validPrices = from.coinChartData?.pastPrices
+    fun mapApiModelToModel(apiModel: CoinChartApiModel, currency: Currency): CoinChart {
+        val validPrices = apiModel.coinChartData?.pastPrices
             .orEmpty()
             .mapNotNull { pastPrice ->
                 pastPrice?.amount.toSanitisedBigDecimalOrNull()
@@ -34,7 +34,7 @@ class CoinChartMapper @Inject constructor() {
             prices = validPrices.toPersistentList(),
             minPrice = Price(minPrice, currency = currency),
             maxPrice = Price(maxPrice, currency = currency),
-            periodPriceChangePercentage = Percentage(from.coinChartData?.priceChangePercentage)
+            periodPriceChangePercentage = Percentage(apiModel.coinChartData?.priceChangePercentage)
         )
     }
 }
