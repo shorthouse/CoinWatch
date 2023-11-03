@@ -1,9 +1,13 @@
 package dev.shorthouse.coinwatch.data.source.local
 
+import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import kotlinx.coroutines.flow.Flow
 
-class CoinLocalDataSource(private val favouriteCoinDao: FavouriteCoinDao) {
+class CoinLocalDataSource(
+    private val favouriteCoinDao: FavouriteCoinDao,
+    private val cachedCoinDao: CachedCoinDao
+) {
     fun getFavouriteCoins(): Flow<List<FavouriteCoin>> {
         return favouriteCoinDao.getFavouriteCoins()
     }
@@ -18,5 +22,17 @@ class CoinLocalDataSource(private val favouriteCoinDao: FavouriteCoinDao) {
 
     suspend fun delete(favouriteCoin: FavouriteCoin) {
         favouriteCoinDao.delete(favouriteCoin)
+    }
+
+    fun getCachedCoins(): Flow<List<CachedCoin>> {
+        return cachedCoinDao.getCachedCoins()
+    }
+
+    suspend fun insertCachedCoins(coins: List<CachedCoin>) {
+        cachedCoinDao.insertCachedCoins(coins)
+    }
+
+    suspend fun deleteAllCachedCoins() {
+        cachedCoinDao.deleteAllCachedCoins()
     }
 }
