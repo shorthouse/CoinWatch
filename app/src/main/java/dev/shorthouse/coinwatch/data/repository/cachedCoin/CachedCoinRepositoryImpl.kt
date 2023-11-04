@@ -8,7 +8,6 @@ import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSource
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.di.IoDispatcher
-import dev.shorthouse.coinwatch.model.Coin
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -51,22 +50,17 @@ class CachedCoinRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getCachedCoins(): Flow<Result<List<Coin>>> {
+    override fun getCachedCoins(): Flow<Result<List<CachedCoin>>> {
         return coinLocalDataSource.getCachedCoins()
-            .map { cachedCoins ->
-                val coins = cachedCoins.map { cachedCoin ->
-                    coinMapper.mapCachedCoinToModel(cachedCoin)
-                }
-                Result.Success(coins)
-            }
+            .map { Result.Success(it) }
             .catch { e ->
                 Timber.e("getCachedCoins error ${e.message}")
-                Result.Error<List<Coin>>("Unable to fetch cached coins")
+                Result.Error<List<CachedCoin>>("Unable to fetch cached coins")
             }
             .flowOn(ioDispatcher)
     }
 
-    override suspend fun insertCachedCoins(cachedCoins: List<CachedCoin>) =
+    override suspend fun insertCachedCoins(cachedCoins: List<CachedCoin>) {
         withContext(ioDispatcher) {
             try {
                 coinLocalDataSource.insertCachedCoins(cachedCoins)
@@ -74,12 +68,15 @@ class CachedCoinRepositoryImpl @Inject constructor(
                 Timber.e("insertCachedCoins error ${e.message}")
             }
         }
+    }
 
     override suspend fun deleteAllCachedCoins() {
-        try {
-            coinLocalDataSource.deleteAllCachedCoins()
-        } catch (e: Exception) {
-            Timber.e("deleteAllCachedCoins error ${e.message}")
+        withContext(ioDispatcher) {
+            try {
+                coinLocalDataSource.deleteAllCachedCoins()
+            } catch (e: Exception) {
+                Timber.e("deleteAllCachedCoins error ${e.message}")
+            }
         }
     }
 }

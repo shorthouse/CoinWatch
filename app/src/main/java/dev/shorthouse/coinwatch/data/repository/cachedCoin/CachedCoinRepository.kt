@@ -4,7 +4,6 @@ import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.datastore.CoinSort
 import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
-import dev.shorthouse.coinwatch.model.Coin
 import kotlinx.coroutines.flow.Flow
 
 interface CachedCoinRepository {
@@ -14,7 +13,7 @@ interface CachedCoinRepository {
         currency: Currency
     ): Result<List<CachedCoin>>
 
-    fun getCachedCoins(): Flow<Result<List<Coin>>>
+    fun getCachedCoins(): Flow<Result<List<CachedCoin>>>
     suspend fun insertCachedCoins(cachedCoins: List<CachedCoin>)
     suspend fun deleteAllCachedCoins()
 }

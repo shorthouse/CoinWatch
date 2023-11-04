@@ -44,7 +44,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.data.datastore.CoinSort
 import dev.shorthouse.coinwatch.data.datastore.Currency
-import dev.shorthouse.coinwatch.model.Coin
+import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.previewdata.MarketUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.market.component.CoinSortBottomSheet
@@ -91,7 +91,7 @@ fun MarketScreen(
 @Composable
 fun MarketScreen(
     uiState: MarketUiState,
-    onCoinClick: (Coin) -> Unit,
+    onCoinClick: (CachedCoin) -> Unit,
     onUpdateCoinSort: (CoinSort) -> Unit,
     onUpdateShowCoinSortBottomSheet: (Boolean) -> Unit,
     onUpdateCoinCurrency: (Currency) -> Unit,
@@ -256,8 +256,8 @@ fun MarketTopBar(
 
 @Composable
 fun MarketContent(
-    coins: ImmutableList<Coin>,
-    onCoinClick: (Coin) -> Unit,
+    coins: ImmutableList<CachedCoin>,
+    onCoinClick: (CachedCoin) -> Unit,
     lazyListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
