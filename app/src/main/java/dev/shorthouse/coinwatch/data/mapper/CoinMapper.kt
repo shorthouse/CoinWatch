@@ -56,16 +56,4 @@ class CoinMapper @Inject constructor() {
             )
         }
     }
-
-    fun mapCachedCoinToModel(cachedCoin: CachedCoin): Coin {
-        return Coin(
-            id = cachedCoin.id,
-            name = cachedCoin.name,
-            symbol = cachedCoin.symbol,
-            imageUrl = cachedCoin.imageUrl,
-            currentPrice = cachedCoin.currentPrice,
-            priceChangePercentage24h = cachedCoin.priceChangePercentage24h,
-            prices24h = cachedCoin.prices24h
-        )
-    }
 }
