@@ -16,11 +16,11 @@ class CoinLocalDataSource(
         return favouriteCoinDao.isCoinFavourite(coinId = coinId)
     }
 
-    suspend fun insert(favouriteCoin: FavouriteCoin) {
+    suspend fun insertFavouriteCoin(favouriteCoin: FavouriteCoin) {
         favouriteCoinDao.insert(favouriteCoin)
     }
 
-    suspend fun delete(favouriteCoin: FavouriteCoin) {
+    suspend fun deleteFavouriteCoin(favouriteCoin: FavouriteCoin) {
         favouriteCoinDao.delete(favouriteCoin)
     }
 
