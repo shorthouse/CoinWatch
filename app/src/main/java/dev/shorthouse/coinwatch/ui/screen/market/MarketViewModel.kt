@@ -28,7 +28,7 @@ class MarketViewModel @Inject constructor(
     private val updateCoinSortUseCase: UpdateCoinSortUseCase,
     private val updateCurrencyUseCase: UpdateCurrencyUseCase
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(MarketUiState())
+    private val _uiState = MutableStateFlow(MarketUiState(isLoading = true))
     val uiState = _uiState.asStateFlow()
 
     init {
