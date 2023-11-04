@@ -6,11 +6,12 @@ import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.datastore.CoinSort
 import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.datastore.UserPreferences
-import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
+import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.domain.GetCachedCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
+import dev.shorthouse.coinwatch.domain.RefreshCachedCoinsUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCoinSortUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCurrencyUseCase
-import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import io.mockk.MockKAnnotations
@@ -34,7 +35,10 @@ class MarketViewModelTest {
     private lateinit var viewModel: MarketViewModel
 
     @RelaxedMockK
-    private lateinit var getCoinsUseCase: GetCoinsUseCase
+    private lateinit var getCachedCoinsUseCase: GetCachedCoinsUseCase
+
+    @RelaxedMockK
+    private lateinit var refreshCachedCoinsUseCase: RefreshCachedCoinsUseCase
 
     @RelaxedMockK
     private lateinit var getUserPreferencesUseCase: GetUserPreferencesUseCase
@@ -50,7 +54,8 @@ class MarketViewModelTest {
         MockKAnnotations.init(this)
 
         viewModel = MarketViewModel(
-            getCoinsUseCase = getCoinsUseCase,
+            getCachedCoinsUseCase = getCachedCoinsUseCase,
+            refreshCachedCoinsUseCase = refreshCachedCoinsUseCase,
             getUserPreferencesUseCase = getUserPreferencesUseCase,
             updateCoinSortUseCase = updateCoinSortUseCase,
             updateCurrencyUseCase = updateCurrencyUseCase
@@ -65,7 +70,7 @@ class MarketViewModelTest {
     @Test
     fun `When ViewModel is initialised should have loading UI state`() = runTest {
         // Arrange
-        val expectedUiState = MarketUiState.Loading
+        val expectedUiState = MarketUiState(isLoading = true)
 
         // Act
 
@@ -77,14 +82,14 @@ class MarketViewModelTest {
     fun `When coins returns error should have error UI state`() = runTest {
         // Arrange
         val errorMessage = "Coins error"
-        val expectedUiState = MarketUiState.Error(errorMessage)
+        val expectedUiState = MarketUiState(errorMessage = errorMessage)
 
         val userPreferences = UserPreferences(
             coinSort = CoinSort.MarketCap,
             currency = Currency.USD
         )
 
-        every { getCoinsUseCase() } returns flowOf(Result.Error(errorMessage))
+        every { getCachedCoinsUseCase() } returns flowOf(Result.Error(errorMessage))
         every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
 
         // Act
@@ -97,8 +102,8 @@ class MarketViewModelTest {
     @Test
     fun `When coins and user prefs return success should have success UI state`() = runTest {
         // Arrange
-        val coins = persistentListOf(
-            Coin(
+        val cachedCoins = persistentListOf(
+            CachedCoin(
                 id = "bitcoin",
                 name = "Bitcoin",
                 symbol = "BTC",
@@ -107,7 +112,7 @@ class MarketViewModelTest {
                 priceChangePercentage24h = Percentage("1.0"),
                 prices24h = persistentListOf()
             ),
-            Coin(
+            CachedCoin(
                 id = "ethereum",
                 name = "Ethereum",
                 symbol = "ETH",
@@ -123,15 +128,15 @@ class MarketViewModelTest {
             currency = Currency.USD
         )
 
-        val expectedUiState = MarketUiState.Success(
-            coins = coins,
+        val expectedUiState = MarketUiState(
+            coins = cachedCoins,
             coinSort = CoinSort.MarketCap,
             showCoinSortBottomSheet = false,
             coinCurrency = Currency.USD,
             showCoinCurrencyBottomSheet = false
         )
 
-        every { getCoinsUseCase() } returns flowOf(Result.Success(coins))
+        every { getCachedCoinsUseCase() } returns flowOf(Result.Success(cachedCoins))
         every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
 
         // Act
