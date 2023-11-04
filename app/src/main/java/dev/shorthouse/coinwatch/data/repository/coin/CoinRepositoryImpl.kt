@@ -24,25 +24,24 @@ class CoinRepositoryImpl @Inject constructor(
         coinIds: List<String>,
         coinSort: CoinSort,
         currency: Currency
-    ): Flow<Result<List<Coin>>> =
-        flow {
-            val response = coinNetworkDataSource.getCoins(
-                coinIds = coinIds,
-                coinSort = coinSort,
-                currency = currency
-            )
+    ): Flow<Result<List<Coin>>> = flow {
+        val response = coinNetworkDataSource.getCoins(
+            coinIds = coinIds,
+            coinSort = coinSort,
+            currency = currency
+        )
 
-            val body = response.body()
+        val body = response.body()
 
-            if (response.isSuccessful && body?.coinsData != null) {
-                val coins = coinMapper.mapApiModelToModel(body, currency = currency)
-                emit(Result.Success(coins))
-            } else {
-                Timber.e("getCoins unsuccessful retrofit response ${response.message()}")
-                emit(Result.Error("Unable to fetch coins list"))
-            }
-        }.catch { e ->
-            Timber.e("getCoins error ${e.message}")
+        if (response.isSuccessful && body?.coinsData != null) {
+            val coins = coinMapper.mapApiModelToModel(body, currency = currency)
+            emit(Result.Success(coins))
+        } else {
+            Timber.e("getCoins unsuccessful retrofit response ${response.message()}")
             emit(Result.Error("Unable to fetch coins list"))
-        }.flowOn(ioDispatcher)
+        }
+    }.catch { e ->
+        Timber.e("getCoins error ${e.message}")
+        emit(Result.Error("Unable to fetch coins list"))
+    }.flowOn(ioDispatcher)
 }

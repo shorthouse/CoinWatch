@@ -44,7 +44,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.data.datastore.CoinSort
 import dev.shorthouse.coinwatch.data.datastore.Currency
-import dev.shorthouse.coinwatch.model.Coin
+import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.previewdata.MarketUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.market.component.CoinSortBottomSheet
@@ -81,7 +81,9 @@ fun MarketScreen(
         onUpdateShowCoinCurrencyBottomSheet = { showSheet ->
             viewModel.updateShowCoinCurrencyBottomSheet(showSheet)
         },
-        onRefresh = { viewModel.initialiseUiState() }
+        onRefresh = {
+            viewModel.refreshCachedCoins()
+        }
     )
 }
 
@@ -89,7 +91,7 @@ fun MarketScreen(
 @Composable
 fun MarketScreen(
     uiState: MarketUiState,
-    onCoinClick: (Coin) -> Unit,
+    onCoinClick: (CachedCoin) -> Unit,
     onUpdateCoinSort: (CoinSort) -> Unit,
     onUpdateShowCoinSortBottomSheet: (Boolean) -> Unit,
     onUpdateCoinCurrency: (Currency) -> Unit,
@@ -111,15 +113,26 @@ fun MarketScreen(
     Scaffold(
         topBar = {
             MarketTopBar(
-                showActions = uiState is MarketUiState.Success,
                 onUpdateShowCoinSortBottomSheet = onUpdateShowCoinSortBottomSheet,
                 onUpdateShowCoinCurrencyBottomSheet = onUpdateShowCoinCurrencyBottomSheet,
                 scrollBehavior = scrollBehavior
             )
         },
         content = { scaffoldPadding ->
-            when (uiState) {
-                is MarketUiState.Success -> {
+            when {
+                uiState.isLoading -> {
+                    MarketSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
+                }
+
+                uiState.errorMessage != null -> {
+                    ErrorState(
+                        message = uiState.errorMessage,
+                        onRetry = onRefresh,
+                        modifier = Modifier.padding(scaffoldPadding)
+                    )
+                }
+
+                else -> {
                     MarketContent(
                         coins = uiState.coins,
                         onCoinClick = onCoinClick,
@@ -165,18 +178,6 @@ fun MarketScreen(
                         )
                     }
                 }
-
-                is MarketUiState.Error -> {
-                    ErrorState(
-                        message = uiState.message,
-                        onRetry = onRefresh,
-                        modifier = Modifier.padding(scaffoldPadding)
-                    )
-                }
-
-                is MarketUiState.Loading -> {
-                    MarketSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
-                }
             }
         },
         floatingActionButton = {
@@ -215,7 +216,6 @@ fun MarketScreen(
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun MarketTopBar(
-    showActions: Boolean,
     onUpdateShowCoinSortBottomSheet: (Boolean) -> Unit,
     onUpdateShowCoinCurrencyBottomSheet: (Boolean) -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
@@ -230,21 +230,19 @@ fun MarketTopBar(
             )
         },
         actions = {
-            if (showActions) {
-                IconButton(onClick = { onUpdateShowCoinCurrencyBottomSheet(true) }) {
-                    Icon(
-                        imageVector = Icons.Rounded.CurrencyExchange,
-                        tint = MaterialTheme.colorScheme.onBackground,
-                        contentDescription = stringResource(R.string.top_bar_action_change_currency)
-                    )
-                }
-                IconButton(onClick = { onUpdateShowCoinSortBottomSheet(true) }) {
-                    Icon(
-                        imageVector = Icons.Rounded.SwapVert,
-                        tint = MaterialTheme.colorScheme.onBackground,
-                        contentDescription = stringResource(R.string.top_bar_action_sort_coins)
-                    )
-                }
+            IconButton(onClick = { onUpdateShowCoinCurrencyBottomSheet(true) }) {
+                Icon(
+                    imageVector = Icons.Rounded.CurrencyExchange,
+                    tint = MaterialTheme.colorScheme.onBackground,
+                    contentDescription = stringResource(R.string.top_bar_action_change_currency)
+                )
+            }
+            IconButton(onClick = { onUpdateShowCoinSortBottomSheet(true) }) {
+                Icon(
+                    imageVector = Icons.Rounded.SwapVert,
+                    tint = MaterialTheme.colorScheme.onBackground,
+                    contentDescription = stringResource(R.string.top_bar_action_sort_coins)
+                )
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -258,8 +256,8 @@ fun MarketTopBar(
 
 @Composable
 fun MarketContent(
-    coins: ImmutableList<Coin>,
-    onCoinClick: (Coin) -> Unit,
+    coins: ImmutableList<CachedCoin>,
+    onCoinClick: (CachedCoin) -> Unit,
     lazyListState: LazyListState,
     modifier: Modifier = Modifier
 ) {

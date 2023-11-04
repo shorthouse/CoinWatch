@@ -24,15 +24,17 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
+import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.ui.component.PercentageChange
+import dev.shorthouse.coinwatch.ui.previewdata.CachedCoinPreviewProvider
 import dev.shorthouse.coinwatch.ui.previewdata.CoinPreviewProvider
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun MarketCoinItem(
-    coin: Coin,
-    onCoinClick: (Coin) -> Unit,
+    coin: CachedCoin,
+    onCoinClick: (CachedCoin) -> Unit,
     cardShape: Shape,
     modifier: Modifier = Modifier
 ) {
@@ -98,11 +100,11 @@ fun MarketCoinItem(
 @Composable
 @Preview
 private fun MarketCoinItemPreview(
-    @PreviewParameter(CoinPreviewProvider::class) coin: Coin
+    @PreviewParameter(CachedCoinPreviewProvider::class) cachedCoin: CachedCoin
 ) {
     AppTheme {
         MarketCoinItem(
-            coin = coin,
+            coin = cachedCoin,
             onCoinClick = {},
             cardShape = MaterialTheme.shapes.medium
         )

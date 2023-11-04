@@ -1,9 +1,7 @@
 package dev.shorthouse.coinwatch.ui.previewdata
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.shorthouse.coinwatch.data.datastore.CoinSort
-import dev.shorthouse.coinwatch.data.datastore.Currency
-import dev.shorthouse.coinwatch.model.Coin
+import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.previewdata.CoinListPreviewData.coins
@@ -13,42 +11,32 @@ import kotlinx.collections.immutable.persistentListOf
 
 class MarketUiStatePreviewProvider : PreviewParameterProvider<MarketUiState> {
     override val values = sequenceOf(
-        MarketUiState.Success(
-            coins = coins,
-            coinSort = CoinSort.MarketCap,
-            showCoinSortBottomSheet = false,
-            coinCurrency = Currency.USD,
-            showCoinCurrencyBottomSheet = false
+        MarketUiState(
+            coins = coins
         ),
-        MarketUiState.Success(
-            coins = persistentListOf(),
-            coinSort = CoinSort.MarketCap,
-            showCoinSortBottomSheet = false,
-            coinCurrency = Currency.USD,
-            showCoinCurrencyBottomSheet = false
+        MarketUiState(
+            coins = persistentListOf()
         ),
-        MarketUiState.Success(
+        MarketUiState(
             coins = coins,
-            coinSort = CoinSort.MarketCap,
-            showCoinSortBottomSheet = true,
-            coinCurrency = Currency.USD,
-            showCoinCurrencyBottomSheet = false
+            showCoinSortBottomSheet = true
         ),
-        MarketUiState.Success(
+        MarketUiState(
             coins = coins,
-            coinSort = CoinSort.MarketCap,
-            showCoinSortBottomSheet = false,
-            coinCurrency = Currency.USD,
             showCoinCurrencyBottomSheet = true
         ),
-        MarketUiState.Error("No internet connection"),
-        MarketUiState.Loading
+        MarketUiState(
+            errorMessage = "Error message"
+        ),
+        MarketUiState(
+            isLoading = true
+        )
     )
 }
 
 private object CoinListPreviewData {
     val coins = persistentListOf(
-        Coin(
+        CachedCoin(
             id = "bitcoin",
             symbol = "BTC",
             name = "Bitcoin",
@@ -82,7 +70,7 @@ private object CoinListPreviewData {
                 BigDecimal("29471.20179209623")
             )
         ),
-        Coin(
+        CachedCoin(
             id = "ethereum",
             symbol = "ETH",
             name = "Ethereum",
@@ -116,7 +104,7 @@ private object CoinListPreviewData {
                 BigDecimal("1859.4549720388395")
             )
         ),
-        Coin(
+        CachedCoin(
             id = "tether",
             symbol = "USDT",
             name = "Tether USD",
@@ -150,7 +138,7 @@ private object CoinListPreviewData {
                 BigDecimal("1.00")
             )
         ),
-        Coin(
+        CachedCoin(
             id = "binancecoin",
             symbol = "BNB",
             name = "BNB",
@@ -184,7 +172,7 @@ private object CoinListPreviewData {
                 BigDecimal("241.82729323371586")
             )
         ),
-        Coin(
+        CachedCoin(
             id = "ripple",
             symbol = "XRP",
             name = "XRP",
@@ -218,7 +206,7 @@ private object CoinListPreviewData {
                 BigDecimal("0.7186324625859829")
             )
         ),
-        Coin(
+        CachedCoin(
             id = "Polkadot",
             symbol = "DOT",
             name = "Polkadot",
