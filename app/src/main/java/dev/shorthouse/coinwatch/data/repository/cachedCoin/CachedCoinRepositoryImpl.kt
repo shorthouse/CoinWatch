@@ -60,23 +60,9 @@ class CachedCoinRepositoryImpl @Inject constructor(
             .flowOn(ioDispatcher)
     }
 
-    override suspend fun insertCachedCoins(cachedCoins: List<CachedCoin>) {
+    override suspend fun refreshCachedCoins(coins: List<CachedCoin>) {
         withContext(ioDispatcher) {
-            try {
-                coinLocalDataSource.insertCachedCoins(cachedCoins)
-            } catch (e: Exception) {
-                Timber.e("insertCachedCoins error ${e.message}")
-            }
-        }
-    }
-
-    override suspend fun deleteAllCachedCoins() {
-        withContext(ioDispatcher) {
-            try {
-                coinLocalDataSource.deleteAllCachedCoins()
-            } catch (e: Exception) {
-                Timber.e("deleteAllCachedCoins error ${e.message}")
-            }
+            coinLocalDataSource.refreshCachedCoins(coins)
         }
     }
 }

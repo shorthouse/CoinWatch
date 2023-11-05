@@ -28,11 +28,7 @@ class CoinLocalDataSource(
         return cachedCoinDao.getCachedCoins()
     }
 
-    suspend fun insertCachedCoins(coins: List<CachedCoin>) {
-        cachedCoinDao.insertCachedCoins(coins)
-    }
-
-    suspend fun deleteAllCachedCoins() {
-        cachedCoinDao.deleteAllCachedCoins()
+    suspend fun refreshCachedCoins(coins: List<CachedCoin>) {
+        cachedCoinDao.refreshCachedCoins(coins)
     }
 }

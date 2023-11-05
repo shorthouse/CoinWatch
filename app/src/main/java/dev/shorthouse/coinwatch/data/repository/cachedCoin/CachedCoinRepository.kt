@@ -14,6 +14,5 @@ interface CachedCoinRepository {
     ): Result<List<CachedCoin>>
 
     fun getCachedCoins(): Flow<Result<List<CachedCoin>>>
-    suspend fun insertCachedCoins(cachedCoins: List<CachedCoin>)
-    suspend fun deleteAllCachedCoins()
+    suspend fun refreshCachedCoins(coins: List<CachedCoin>)
 }

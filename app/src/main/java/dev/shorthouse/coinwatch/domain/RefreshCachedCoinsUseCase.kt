@@ -24,8 +24,7 @@ class RefreshCachedCoinsUseCase @Inject constructor(
         )
 
         if (remoteCoinsResult is Result.Success) {
-            cachedCoinRepository.deleteAllCachedCoins()
-            cachedCoinRepository.insertCachedCoins(remoteCoinsResult.data)
+            cachedCoinRepository.refreshCachedCoins(remoteCoinsResult.data)
         }
 
         return remoteCoinsResult
