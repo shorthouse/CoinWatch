@@ -84,8 +84,8 @@ dependencies {
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
     implementation("com.google.accompanist:accompanist-placeholder-material:0.30.1")
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6")
-    implementation("androidx.compose.ui:ui-tooling-preview-android:1.5.3")
-    implementation("androidx.navigation:navigation-compose:2.7.4")
+    implementation("androidx.compose.ui:ui-tooling-preview-android:1.5.4")
+    implementation("androidx.navigation:navigation-compose:2.7.5")
     lintChecks("com.slack.lint.compose:compose-lint-checks:1.2.0")
 
     // Coroutines
