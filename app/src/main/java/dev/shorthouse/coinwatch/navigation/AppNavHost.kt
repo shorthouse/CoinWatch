@@ -1,5 +1,7 @@
 package dev.shorthouse.coinwatch.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -15,7 +17,9 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.NavigationBar.route
+        startDestination = Screen.NavigationBar.route,
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.None }
     ) {
         composable(Screen.NavigationBar.route) {
             NavigationBarScaffold(onNavigateDetails = onNavigateDetails)

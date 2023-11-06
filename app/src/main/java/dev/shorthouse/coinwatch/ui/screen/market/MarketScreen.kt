@@ -3,6 +3,7 @@ package dev.shorthouse.coinwatch.ui.screen.market
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,6 +34,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -46,6 +48,9 @@ import dev.shorthouse.coinwatch.data.datastore.CoinSort
 import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import dev.shorthouse.coinwatch.ui.component.ErrorState
+import dev.shorthouse.coinwatch.ui.component.pullrefresh.PullRefreshIndicator
+import dev.shorthouse.coinwatch.ui.component.pullrefresh.pullRefresh
+import dev.shorthouse.coinwatch.ui.component.pullrefresh.rememberPullRefreshState
 import dev.shorthouse.coinwatch.ui.previewdata.MarketUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.market.component.CoinSortBottomSheet
 import dev.shorthouse.coinwatch.ui.screen.market.component.CurrencyBottomSheet
@@ -82,7 +87,7 @@ fun MarketScreen(
             viewModel.updateShowCoinCurrencyBottomSheet(showSheet)
         },
         onRefresh = {
-            viewModel.refreshCachedCoins()
+            viewModel.pullRefreshCachedCoins()
         }
     )
 }
@@ -100,10 +105,14 @@ fun MarketScreen(
     modifier: Modifier = Modifier
 ) {
     val scope = rememberCoroutineScope()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val lazyListState = rememberLazyListState()
     val coinSortSheetState = rememberModalBottomSheetState()
     val currencySheetState = rememberModalBottomSheetState()
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = uiState.isRefreshing,
+        onRefresh = onRefresh
+    )
     val showJumpToTopFab by remember {
         derivedStateOf {
             lazyListState.firstVisibleItemIndex > 0
@@ -119,65 +128,77 @@ fun MarketScreen(
             )
         },
         content = { scaffoldPadding ->
-            when {
-                uiState.isLoading -> {
-                    MarketSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
-                }
+            Box(
+                contentAlignment = Alignment.TopCenter,
+                modifier = Modifier.pullRefresh(pullRefreshState)
+            ) {
+                when {
+                    uiState.isLoading -> {
+                        MarketSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
+                    }
 
-                uiState.errorMessage != null -> {
-                    ErrorState(
-                        message = uiState.errorMessage,
-                        onRetry = onRefresh,
-                        modifier = Modifier.padding(scaffoldPadding)
-                    )
-                }
-
-                else -> {
-                    MarketContent(
-                        coins = uiState.coins,
-                        onCoinClick = onCoinClick,
-                        lazyListState = lazyListState,
-                        modifier = Modifier.padding(scaffoldPadding)
-                    )
-
-                    if (uiState.showCoinSortBottomSheet) {
-                        CoinSortBottomSheet(
-                            sheetState = coinSortSheetState,
-                            selectedCoinSort = uiState.coinSort,
-                            onCoinSortSelected = { coinSort ->
-                                onUpdateCoinSort(coinSort)
-
-                                scope.launch {
-                                    coinSortSheetState.hide()
-                                }.invokeOnCompletion {
-                                    if (!coinSortSheetState.isVisible) {
-                                        onUpdateShowCoinSortBottomSheet(false)
-                                    }
-                                }
-                            },
-                            onDismissRequest = { onUpdateShowCoinSortBottomSheet(false) }
+                    uiState.errorMessage != null -> {
+                        ErrorState(
+                            message = uiState.errorMessage,
+                            onRetry = onRefresh,
+                            modifier = Modifier.padding(scaffoldPadding)
                         )
                     }
 
-                    if (uiState.showCoinCurrencyBottomSheet) {
-                        CurrencyBottomSheet(
-                            sheetState = currencySheetState,
-                            selectedCurrency = uiState.coinCurrency,
-                            onCurrencySelected = { currency ->
-                                onUpdateCoinCurrency(currency)
-
-                                scope.launch {
-                                    currencySheetState.hide()
-                                }.invokeOnCompletion {
-                                    if (!currencySheetState.isVisible) {
-                                        onUpdateShowCoinCurrencyBottomSheet(false)
-                                    }
-                                }
-                            },
-                            onDismissRequest = { onUpdateShowCoinCurrencyBottomSheet(false) }
+                    else -> {
+                        MarketContent(
+                            coins = uiState.coins,
+                            onCoinClick = onCoinClick,
+                            lazyListState = lazyListState,
+                            modifier = Modifier.padding(scaffoldPadding)
                         )
+
+                        if (uiState.showCoinSortBottomSheet) {
+                            CoinSortBottomSheet(
+                                sheetState = coinSortSheetState,
+                                selectedCoinSort = uiState.coinSort,
+                                onCoinSortSelected = { coinSort ->
+                                    onUpdateCoinSort(coinSort)
+
+                                    scope.launch {
+                                        coinSortSheetState.hide()
+                                    }.invokeOnCompletion {
+                                        if (!coinSortSheetState.isVisible) {
+                                            onUpdateShowCoinSortBottomSheet(false)
+                                        }
+                                    }
+                                },
+                                onDismissRequest = { onUpdateShowCoinSortBottomSheet(false) }
+                            )
+                        }
+
+                        if (uiState.showCoinCurrencyBottomSheet) {
+                            CurrencyBottomSheet(
+                                sheetState = currencySheetState,
+                                selectedCurrency = uiState.coinCurrency,
+                                onCurrencySelected = { currency ->
+                                    onUpdateCoinCurrency(currency)
+
+                                    scope.launch {
+                                        currencySheetState.hide()
+                                    }.invokeOnCompletion {
+                                        if (!currencySheetState.isVisible) {
+                                            onUpdateShowCoinCurrencyBottomSheet(false)
+                                        }
+                                    }
+                                },
+                                onDismissRequest = { onUpdateShowCoinCurrencyBottomSheet(false) }
+                            )
+                        }
                     }
                 }
+
+                PullRefreshIndicator(
+                    refreshing = uiState.isRefreshing,
+                    state = pullRefreshState,
+                    backgroundColor = MaterialTheme.colorScheme.primaryContainer,
+                    modifier = Modifier.padding(scaffoldPadding)
+                )
             }
         },
         floatingActionButton = {
