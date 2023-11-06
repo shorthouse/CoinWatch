@@ -1,26 +1,26 @@
 package dev.shorthouse.coinwatch.domain
 
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.datastore.UserPreferencesRepository
+import dev.shorthouse.coinwatch.data.datastore.CoinSort
+import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.repository.cachedCoin.CachedCoinRepository
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import javax.inject.Inject
-import kotlinx.coroutines.flow.first
 
 class RefreshCachedCoinsUseCase @Inject constructor(
-    private val cachedCoinRepository: CachedCoinRepository,
-    private val userPreferencesRepository: UserPreferencesRepository
+    private val cachedCoinRepository: CachedCoinRepository
 ) {
-    suspend operator fun invoke(): Result<List<CachedCoin>> {
-        return refreshCachedCoins()
+    suspend operator fun invoke(coinSort: CoinSort, currency: Currency): Result<List<CachedCoin>> {
+        return refreshCachedCoins(coinSort = coinSort, currency = currency)
     }
 
-    private suspend fun refreshCachedCoins(): Result<List<CachedCoin>> {
-        val userPreferences = userPreferencesRepository.userPreferencesFlow.first()
-
+    private suspend fun refreshCachedCoins(
+        coinSort: CoinSort,
+        currency: Currency
+    ): Result<List<CachedCoin>> {
         val remoteCoinsResult = cachedCoinRepository.getRemoteCoins(
-            coinSort = userPreferences.coinSort,
-            currency = userPreferences.currency
+            coinSort = coinSort,
+            currency = currency
         )
 
         if (remoteCoinsResult is Result.Success) {
