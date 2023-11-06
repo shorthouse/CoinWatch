@@ -15,6 +15,7 @@ import javax.inject.Inject
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -36,11 +37,21 @@ class MarketViewModel @Inject constructor(
     }
 
     fun initialiseUiState() {
-        refreshCachedCoins()
+        getUserPreferencesUseCase().onEach { userPreferences ->
+            _uiState.update {
+                it.copy(
+                    coinSort = userPreferences.coinSort,
+                    coinCurrency = userPreferences.currency
+                )
+            }
+
+            refreshCachedCoinsUseCase(
+                coinSort = userPreferences.coinSort,
+                currency = userPreferences.currency
+            )
+        }.launchIn(viewModelScope)
 
         getCachedCoinsUseCase().onEach { coinsResult ->
-            _uiState.update { it.copy(isLoading = true) }
-
             when (coinsResult) {
                 is Result.Success -> {
                     val coins = coinsResult.data.toImmutableList()
@@ -64,22 +75,29 @@ class MarketViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
 
-        getUserPreferencesUseCase().onEach { userPreferences ->
+    fun pullRefreshCachedCoins() {
+        viewModelScope.launch {
             _uiState.update {
                 it.copy(
-                    coinSort = userPreferences.coinSort,
-                    coinCurrency = userPreferences.currency
+                    isRefreshing = true,
+                    isLoading = true
                 )
             }
 
-            refreshCachedCoins()
-        }.launchIn(viewModelScope)
-    }
+            val userPreferences = getUserPreferencesUseCase().first()
+            refreshCachedCoinsUseCase(
+                coinSort = userPreferences.coinSort,
+                currency = userPreferences.currency
+            )
 
-    fun refreshCachedCoins() {
-        viewModelScope.launch {
-            refreshCachedCoinsUseCase()
+            _uiState.update {
+                it.copy(
+                    isRefreshing = false,
+                    isLoading = false
+                )
+            }
         }
     }
 
@@ -89,14 +107,14 @@ class MarketViewModel @Inject constructor(
         }
     }
 
-    fun updateShowCoinSortBottomSheet(showSheet: Boolean) {
-        _uiState.update { it.copy(showCoinSortBottomSheet = showSheet) }
-    }
-
     fun updateCoinCurrency(currency: Currency) {
         viewModelScope.launch {
             updateCurrencyUseCase(currency = currency)
         }
+    }
+
+    fun updateShowCoinSortBottomSheet(showSheet: Boolean) {
+        _uiState.update { it.copy(showCoinSortBottomSheet = showSheet) }
     }
 
     fun updateShowCoinCurrencyBottomSheet(showSheet: Boolean) {
