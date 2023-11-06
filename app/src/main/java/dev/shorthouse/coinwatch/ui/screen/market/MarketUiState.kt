@@ -12,6 +12,7 @@ data class MarketUiState(
     val showCoinSortBottomSheet: Boolean = false,
     val coinCurrency: Currency = Currency.USD,
     val showCoinCurrencyBottomSheet: Boolean = false,
+    val isRefreshing: Boolean = false,
     val isLoading: Boolean = false,
     val errorMessage: String? = null
 )
