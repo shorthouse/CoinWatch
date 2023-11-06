@@ -87,7 +87,7 @@ fun MarketScreen(
             viewModel.updateShowCoinCurrencyBottomSheet(showSheet)
         },
         onRefresh = {
-            viewModel.refreshCachedCoins()
+            viewModel.pullRefreshCachedCoins()
         }
     )
 }
@@ -110,7 +110,7 @@ fun MarketScreen(
     val coinSortSheetState = rememberModalBottomSheetState()
     val currencySheetState = rememberModalBottomSheetState()
     val pullRefreshState = rememberPullRefreshState(
-        refreshing = uiState.isLoading,
+        refreshing = uiState.isRefreshing,
         onRefresh = onRefresh
     )
     val showJumpToTopFab by remember {
@@ -194,7 +194,7 @@ fun MarketScreen(
                 }
 
                 PullRefreshIndicator(
-                    refreshing = uiState.isLoading,
+                    refreshing = uiState.isRefreshing,
                     state = pullRefreshState,
                     backgroundColor = MaterialTheme.colorScheme.primaryContainer,
                     modifier = Modifier.padding(scaffoldPadding)
