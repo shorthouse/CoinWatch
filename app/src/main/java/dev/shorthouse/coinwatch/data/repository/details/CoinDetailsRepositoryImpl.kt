@@ -3,7 +3,7 @@ package dev.shorthouse.coinwatch.data.repository.details
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.mapper.CoinDetailsMapper
-import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSourceImpl
+import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.di.IoDispatcher
 import dev.shorthouse.coinwatch.model.CoinDetails
 import javax.inject.Inject
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 
 class CoinDetailsRepositoryImpl @Inject constructor(
-    private val coinNetworkDataSource: CoinNetworkDataSourceImpl,
+    private val coinNetworkDataSource: CoinNetworkDataSource,
     private val coinDetailsMapper: CoinDetailsMapper,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : CoinDetailsRepository {

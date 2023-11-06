@@ -16,7 +16,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class DataStoreModule {
+object DataStoreModule {
 
     @Provides
     @Singleton
