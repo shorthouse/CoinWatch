@@ -6,7 +6,6 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
     id("com.google.devtools.ksp")
-    id("com.google.protobuf")
     kotlin("plugin.serialization")
 }
 
@@ -115,7 +114,6 @@ dependencies {
 
     // DataStore
     implementation("androidx.datastore:datastore:1.0.0")
-    implementation("com.google.protobuf:protobuf-javalite:3.22.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
 
     // Coil
@@ -154,20 +152,4 @@ fun getApiKey(): String {
     apikeyProperties.load(apiKeyFile.inputStream())
 
     return apikeyProperties.getProperty("API_KEY")
-}
-
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.24.4"
-    }
-
-    generateProtoTasks {
-        all().forEach { task ->
-            task.builtins {
-                create("java") {
-                    option("lite")
-                }
-            }
-        }
-    }
 }

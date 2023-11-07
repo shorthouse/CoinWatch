@@ -10,8 +10,3 @@
 -keepclasseswithmembers,allowobfuscation class * {
     @com.google.gson.annotations.SerializedName <fields>;
 }
-
-# Proto DataStore
--keepclassmembers class * extends com.google.protobuf.GeneratedMessageLite {
-    <fields>;
-}
