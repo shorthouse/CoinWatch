@@ -17,7 +17,7 @@ class CoinChartMapperTest {
     // Class under test
     private val coinChartMapper = CoinChartMapper()
 
-    private val currency = Currency.USD
+    private val defaultCurrency = Currency.USD
 
     @Test
     fun `When coin chart data is null should return default values`() {
@@ -36,7 +36,7 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = currency
+            currency = defaultCurrency
         )
 
         // Assert
@@ -63,7 +63,7 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = currency
+            currency = defaultCurrency
         )
 
         // Assert
@@ -90,7 +90,7 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = currency
+            currency = defaultCurrency
         )
 
         // Assert
@@ -117,7 +117,7 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = currency
+            currency = defaultCurrency
         )
 
         // Assert
@@ -151,7 +151,7 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = currency
+            currency = defaultCurrency
         )
 
         // Assert
@@ -184,7 +184,7 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = currency
+            currency = defaultCurrency
         )
 
         // Assert
@@ -220,7 +220,7 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = currency
+            currency = defaultCurrency
         )
 
         // Assert
@@ -259,7 +259,7 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = currency
+            currency = defaultCurrency
         )
 
         // Assert
@@ -292,6 +292,88 @@ class CoinChartMapperTest {
             ),
             minPrice = Price("123.45"),
             maxPrice = Price("123.49"),
+            periodPriceChangePercentage = Percentage("2.92")
+        )
+
+        // Act
+        val coinChart = coinChartMapper.mapApiModelToModel(
+            apiModel = apiModel,
+            currency = defaultCurrency
+        )
+
+        // Assert
+        assertThat(coinChart).isEqualTo(expectedCoinChart)
+    }
+
+    @Test
+    fun `When coin chart has gbp currency with valid values should return expected coin chart`() {
+        // Arrange
+        val currency = Currency.GBP
+
+        val apiModel = CoinChartApiModel(
+            coinChartData = CoinChartData(
+                priceChangePercentage = "2.92",
+                pastPrices = listOf(
+                    PastPrice("123.45"),
+                    PastPrice("123.46"),
+                    PastPrice("123.47"),
+                    PastPrice("123.48"),
+                    PastPrice("123.49")
+                )
+            )
+        )
+
+        val expectedCoinChart = CoinChart(
+            prices = persistentListOf(
+                BigDecimal("123.49"),
+                BigDecimal("123.48"),
+                BigDecimal("123.47"),
+                BigDecimal("123.46"),
+                BigDecimal("123.45")
+            ),
+            minPrice = Price("123.45", currency = currency),
+            maxPrice = Price("123.49", currency = currency),
+            periodPriceChangePercentage = Percentage("2.92")
+        )
+
+        // Act
+        val coinChart = coinChartMapper.mapApiModelToModel(
+            apiModel = apiModel,
+            currency = currency
+        )
+
+        // Assert
+        assertThat(coinChart).isEqualTo(expectedCoinChart)
+    }
+
+    @Test
+    fun `When coin chart has eur currency with valid values should return expected coin chart`() {
+        // Arrange
+        val currency = Currency.EUR
+
+        val apiModel = CoinChartApiModel(
+            coinChartData = CoinChartData(
+                priceChangePercentage = "2.92",
+                pastPrices = listOf(
+                    PastPrice("123.45"),
+                    PastPrice("123.46"),
+                    PastPrice("123.47"),
+                    PastPrice("123.48"),
+                    PastPrice("123.49")
+                )
+            )
+        )
+
+        val expectedCoinChart = CoinChart(
+            prices = persistentListOf(
+                BigDecimal("123.49"),
+                BigDecimal("123.48"),
+                BigDecimal("123.47"),
+                BigDecimal("123.46"),
+                BigDecimal("123.45")
+            ),
+            minPrice = Price("123.45", currency = currency),
+            maxPrice = Price("123.49", currency = currency),
             periodPriceChangePercentage = Percentage("2.92")
         )
 
