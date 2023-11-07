@@ -15,6 +15,8 @@ import dev.shorthouse.coinwatch.domain.UpdateCurrencyUseCase
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.unmockkAll
@@ -79,28 +81,7 @@ class MarketViewModelTest {
     }
 
     @Test
-    fun `When coins returns error should have error UI state`() = runTest {
-        // Arrange
-        val errorMessage = "Coins error"
-        val expectedUiState = MarketUiState(errorMessage = errorMessage)
-
-        val userPreferences = UserPreferences(
-            coinSort = CoinSort.MarketCap,
-            currency = Currency.USD
-        )
-
-        every { getCachedCoinsUseCase() } returns flowOf(Result.Error(errorMessage))
-        every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
-
-        // Act
-        viewModel.initialiseUiState()
-
-        // Assert
-        assertThat(viewModel.uiState.value).isEqualTo(expectedUiState)
-    }
-
-    @Test
-    fun `When coins and user prefs return success should have success UI state`() = runTest {
+    fun `When cached coins returns success should update UI state with coins`() {
         // Arrange
         val cachedCoins = persistentListOf(
             CachedCoin(
@@ -123,26 +104,161 @@ class MarketViewModelTest {
             )
         )
 
-        val userPreferences = UserPreferences(
-            coinSort = CoinSort.MarketCap,
-            currency = Currency.USD
-        )
-
         val expectedUiState = MarketUiState(
             coins = cachedCoins,
-            coinSort = CoinSort.MarketCap,
-            showCoinSortBottomSheet = false,
-            coinCurrency = Currency.USD,
-            showCoinCurrencyBottomSheet = false
+            isLoading = false,
+            errorMessage = null
         )
 
         every { getCachedCoinsUseCase() } returns flowOf(Result.Success(cachedCoins))
-        every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
 
         // Act
         viewModel.initialiseUiState()
 
         // Assert
         assertThat(viewModel.uiState.value).isEqualTo(expectedUiState)
+    }
+
+    @Test
+    fun `When cached coins returns error should update UI state with error message`() {
+        // Arrange
+        val errorMessage = "Coins error"
+        val expectedUiState = MarketUiState(
+            isLoading = false,
+            errorMessage = errorMessage
+        )
+
+        every { getCachedCoinsUseCase() } returns flowOf(Result.Error(errorMessage))
+
+        // Act
+        viewModel.initialiseUiState()
+
+        // Assert
+        assertThat(viewModel.uiState.value).isEqualTo(expectedUiState)
+    }
+
+    @Test
+    fun `When user preferences initialises should update UI state and refresh cached coins`() {
+        // Arrange
+        val coinSort = CoinSort.Price
+        val currency = Currency.GBP
+
+        val userPreferences = UserPreferences(
+            coinSort = coinSort,
+            currency = currency
+        )
+
+        val expectedUiState = MarketUiState(
+            coinSort = coinSort,
+            coinCurrency = currency,
+            isLoading = true
+        )
+
+        every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
+        coEvery {
+            refreshCachedCoinsUseCase(
+                coinSort = coinSort,
+                currency = currency
+            )
+        } returns Result.Success(emptyList())
+
+        // Act
+        viewModel.initialiseUiState()
+
+        // Assert
+        assertThat(viewModel.uiState.value).isEqualTo(expectedUiState)
+        coVerify {
+            getUserPreferencesUseCase()
+            refreshCachedCoinsUseCase(
+                coinSort = coinSort,
+                currency = currency
+            )
+        }
+    }
+
+    @Test
+    fun `When coin sort updates should call use case`() {
+        // Arrange
+        val coinSort = CoinSort.Price
+
+        // Act
+        viewModel.updateCoinSort(coinSort)
+
+        // Assert
+        coVerify {
+            updateCoinSortUseCase(coinSort)
+        }
+    }
+
+    @Test
+    fun `When currency updates should call use case`() {
+        // Arrange
+        val currency = Currency.GBP
+
+        // Act
+        viewModel.updateCoinCurrency(currency)
+
+        // Assert
+        coVerify {
+            updateCurrencyUseCase(currency)
+        }
+    }
+
+    @Test
+    fun `When update show coin sort bottom sheet updates called update UI state`() {
+        // Arrange
+        val currentShowSheet = viewModel.uiState.value.showCoinSortBottomSheet
+        val newShowSheet = currentShowSheet.not()
+
+        // Act
+        viewModel.updateShowCoinSortBottomSheet(newShowSheet)
+
+        // Assert
+        assertThat(viewModel.uiState.value.showCoinSortBottomSheet).isEqualTo(newShowSheet)
+    }
+
+    @Test
+    fun `When update show coin currency bottom sheet called should update UI state`() {
+        // Arrange
+        val currentShowSheet = viewModel.uiState.value.showCoinCurrencyBottomSheet
+        val newShowSheet = currentShowSheet.not()
+
+        // Act
+        viewModel.updateShowCoinCurrencyBottomSheet(newShowSheet)
+
+        // Assert
+        assertThat(viewModel.uiState.value.showCoinCurrencyBottomSheet).isEqualTo(newShowSheet)
+    }
+
+    @Test
+    fun `When pull refresh cached coins called should refresh cached coins with user prefs`() {
+        // Arrange
+        val coinSort = CoinSort.Price
+        val currency = Currency.GBP
+
+        val userPreferences = UserPreferences(
+            coinSort = coinSort,
+            currency = currency
+        )
+
+        every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
+        coEvery {
+            refreshCachedCoinsUseCase(
+                coinSort = coinSort,
+                currency = currency
+            )
+        } returns Result.Success(emptyList())
+
+        // Act
+        viewModel.pullRefreshCachedCoins()
+
+        // Assert
+        coVerify {
+            getUserPreferencesUseCase()
+            refreshCachedCoinsUseCase(
+                coinSort = coinSort,
+                currency = currency
+            )
+        }
     }
 }

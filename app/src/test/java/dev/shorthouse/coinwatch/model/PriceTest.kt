@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.model
 
 import com.google.common.truth.Truth.assertThat
+import dev.shorthouse.coinwatch.data.datastore.Currency
 import java.math.BigDecimal
 import org.junit.Test
 
@@ -219,5 +220,89 @@ class PriceTest {
         // Assert
         assertThat(price.amount).isEqualTo(BigDecimal("45678901.23"))
         assertThat(price.formattedAmount).isEqualTo("$45,678,901.23")
+    }
+
+    @Test
+    fun `When valid price input with USD currency should be parsed correctly`() {
+        // Arrange
+        val validPrice = "1.23"
+        val currency = Currency.USD
+
+        // Act
+        val price = Price(validPrice, currency)
+
+        // Assert
+        assertThat(price.amount).isEqualTo(BigDecimal("1.23"))
+        assertThat(price.formattedAmount).isEqualTo("$1.23")
+    }
+
+    @Test
+    fun `When invalid price input with USD currency should be parsed correctly`() {
+        // Arrange
+        val invalidPrice = null
+        val currency = Currency.USD
+
+        // Act
+        val price = Price(invalidPrice, currency)
+
+        // Assert
+        assertThat(price.amount).isEqualTo(BigDecimal.ZERO)
+        assertThat(price.formattedAmount).isEqualTo("$ --")
+    }
+
+    @Test
+    fun `When valid price input with GBP currency should be parsed correctly`() {
+        // Arrange
+        val validPrice = "1.23"
+        val currency = Currency.GBP
+
+        // Act
+        val price = Price(validPrice, currency)
+
+        // Assert
+        assertThat(price.amount).isEqualTo(BigDecimal("1.23"))
+        assertThat(price.formattedAmount).isEqualTo("£1.23")
+    }
+
+    @Test
+    fun `When invalid price input with GBP currency should be parsed correctly`() {
+        // Arrange
+        val invalidPrice = null
+        val currency = Currency.GBP
+
+        // Act
+        val price = Price(invalidPrice, currency)
+
+        // Assert
+        assertThat(price.amount).isEqualTo(BigDecimal.ZERO)
+        assertThat(price.formattedAmount).isEqualTo("£ --")
+    }
+
+    @Test
+    fun `When valid price input with EUR currency should be parsed correctly`() {
+        // Arrange
+        val validPrice = "1.23"
+        val currency = Currency.EUR
+
+        // Act
+        val price = Price(validPrice, currency)
+
+        // Assert
+        assertThat(price.amount).isEqualTo(BigDecimal("1.23"))
+        assertThat(price.formattedAmount).isEqualTo("€1.23")
+    }
+
+    @Test
+    fun `When invalid price input with EUR currency should be parsed correctly`() {
+        // Arrange
+        val invalidPrice = null
+        val currency = Currency.EUR
+
+        // Act
+        val price = Price(invalidPrice, currency)
+
+        // Assert
+        assertThat(price.amount).isEqualTo(BigDecimal.ZERO)
+        assertThat(price.formattedAmount).isEqualTo("€ --")
     }
 }

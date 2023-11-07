@@ -16,7 +16,7 @@ class CoinDetailsMapperTest {
     // Class under test
     private val coinDetailsMapper = CoinDetailsMapper()
 
-    private val currency = Currency.USD
+    private val defaultCurrency = Currency.USD
 
     @Test
     fun `When coin details data holder is null should return default values`() {
@@ -43,7 +43,7 @@ class CoinDetailsMapperTest {
         // Act
         val coinDetails = coinDetailsMapper.mapApiModelToModel(
             apiModel = coinDetailsApiModel,
-            currency = currency
+            currency = defaultCurrency
         )
 
         // Assert
@@ -77,7 +77,7 @@ class CoinDetailsMapperTest {
         // Act
         val coinDetails = coinDetailsMapper.mapApiModelToModel(
             apiModel = coinDetailsApiModel,
-            currency = currency
+            currency = defaultCurrency
         )
 
         // Assert
@@ -123,7 +123,7 @@ class CoinDetailsMapperTest {
         // Act
         val coinDetails = coinDetailsMapper.mapApiModelToModel(
             apiModel = coinDetailsApiModel,
-            currency = currency
+            currency = defaultCurrency
         )
 
         // Assert
@@ -174,7 +174,7 @@ class CoinDetailsMapperTest {
         // Act
         val coinDetails = coinDetailsMapper.mapApiModelToModel(
             apiModel = coinDetailsApiModel,
-            currency = currency
+            currency = defaultCurrency
         )
 
         // Assert
@@ -225,7 +225,7 @@ class CoinDetailsMapperTest {
         // Act
         val coinDetails = coinDetailsMapper.mapApiModelToModel(
             apiModel = coinDetailsApiModel,
-            currency = currency
+            currency = defaultCurrency
         )
 
         // Assert
@@ -269,6 +269,112 @@ class CoinDetailsMapperTest {
             volume24h = "9,294,621,082.274",
             circulatingSupply = "19,508,368",
             allTimeHigh = Price("68763.41083248306"),
+            allTimeHighDate = "10 Nov 2021",
+            listedDate = "26 Feb 2012"
+        )
+
+        // Act
+        val coinDetails = coinDetailsMapper.mapApiModelToModel(
+            coinDetailsApiModel,
+            currency = defaultCurrency
+        )
+
+        // Assert
+        assertThat(coinDetails).isEqualTo(expectedCoinDetails)
+    }
+
+    @Test
+    fun `When coin details has gbp currency with valid values should map expected coin details`() {
+        // Arrange
+        val currency = Currency.GBP
+
+        val coinDetailsApiModel = CoinDetailsApiModel(
+            coinDetailsDataHolder = CoinDetailsDataHolder(
+                coinDetailsData = CoinDetailsData(
+                    id = "Qwsogvtv82FCd",
+                    name = "Bitcoin",
+                    symbol = "BTC",
+                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+                    currentPrice = "29490.954785191607",
+                    marketCap = "515076089546.27606",
+                    marketCapRank = "1",
+                    volume24h = "9294621082.273935",
+                    supply = Supply(
+                        circulatingSupply = "19508368"
+                    ),
+                    allTimeHigh = AllTimeHigh(
+                        price = "68763.41083248306",
+                        timestamp = 1636502400
+                    ),
+                    listedAt = 1330214400
+                )
+            )
+        )
+
+        val expectedCoinDetails = CoinDetails(
+            id = "Qwsogvtv82FCd",
+            name = "Bitcoin",
+            symbol = "BTC",
+            imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+            currentPrice = Price("29490.954785191607", currency = currency),
+            marketCap = Price("515076089546.27606", currency = currency),
+            marketCapRank = "1",
+            volume24h = "9,294,621,082.274",
+            circulatingSupply = "19,508,368",
+            allTimeHigh = Price("68763.41083248306", currency = currency),
+            allTimeHighDate = "10 Nov 2021",
+            listedDate = "26 Feb 2012"
+        )
+
+        // Act
+        val coinDetails = coinDetailsMapper.mapApiModelToModel(
+            coinDetailsApiModel,
+            currency = currency
+        )
+
+        // Assert
+        assertThat(coinDetails).isEqualTo(expectedCoinDetails)
+    }
+
+    @Test
+    fun `When coin details has eur currency with valid values should map expected coin details`() {
+        // Arrange
+        val currency = Currency.EUR
+
+        val coinDetailsApiModel = CoinDetailsApiModel(
+            coinDetailsDataHolder = CoinDetailsDataHolder(
+                coinDetailsData = CoinDetailsData(
+                    id = "Qwsogvtv82FCd",
+                    name = "Bitcoin",
+                    symbol = "BTC",
+                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+                    currentPrice = "29490.954785191607",
+                    marketCap = "515076089546.27606",
+                    marketCapRank = "1",
+                    volume24h = "9294621082.273935",
+                    supply = Supply(
+                        circulatingSupply = "19508368"
+                    ),
+                    allTimeHigh = AllTimeHigh(
+                        price = "68763.41083248306",
+                        timestamp = 1636502400
+                    ),
+                    listedAt = 1330214400
+                )
+            )
+        )
+
+        val expectedCoinDetails = CoinDetails(
+            id = "Qwsogvtv82FCd",
+            name = "Bitcoin",
+            symbol = "BTC",
+            imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+            currentPrice = Price("29490.954785191607", currency = currency),
+            marketCap = Price("515076089546.27606", currency = currency),
+            marketCapRank = "1",
+            volume24h = "9,294,621,082.274",
+            circulatingSupply = "19,508,368",
+            allTimeHigh = Price("68763.41083248306", currency = currency),
             allTimeHighDate = "10 Nov 2021",
             listedDate = "26 Feb 2012"
         )
