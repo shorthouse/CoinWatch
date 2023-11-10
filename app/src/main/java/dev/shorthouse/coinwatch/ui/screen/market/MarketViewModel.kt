@@ -114,10 +114,18 @@ class MarketViewModel @Inject constructor(
     }
 
     fun updateShowCoinSortBottomSheet(showSheet: Boolean) {
+        if (showSheet && isAnyBottomSheetOpen()) return
+
         _uiState.update { it.copy(showCoinSortBottomSheet = showSheet) }
     }
 
     fun updateShowCoinCurrencyBottomSheet(showSheet: Boolean) {
+        if (showSheet && isAnyBottomSheetOpen()) return
+
         _uiState.update { it.copy(showCoinCurrencyBottomSheet = showSheet) }
+    }
+
+    private fun isAnyBottomSheetOpen(): Boolean {
+        return _uiState.value.showCoinSortBottomSheet || _uiState.value.showCoinCurrencyBottomSheet
     }
 }
