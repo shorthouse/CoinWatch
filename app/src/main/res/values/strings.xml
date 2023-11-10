@@ -2,11 +2,6 @@
     <string name="app_name" translatable="false">CoinWatch</string>
     <string name="cd_top_bar_back">Back</string>
     <string name="cd_top_bar_favourite">Favourite</string>
-    <string name="good_morning">Good morning</string>
-    <string name="good_afternoon">Good afternoon</string>
-    <string name="good_evening">Good evening</string>
-    <string name="header_favourites">Favourites</string>
-    <string name="header_coins">Coins</string>
     <string name="period_short_name_hour">1H</string>
     <string name="period_short_name_day">1D</string>
     <string name="period_short_name_week">1W</string>
@@ -40,7 +35,6 @@
     <string name="button_retry">Retry</string>
     <string name="error_occurred">An error has occurred</string>
     <string name="cd_clear_search">Clear search</string>
-    <string name="cd_top_app_bar_search">Search</string>
     <string name="search_coins_hint">Search coins</string>
     <string name="empty_state_search_title">No coins found</string>
     <string name="empty_state_search_subtitle">Try adjusting your search</string>
