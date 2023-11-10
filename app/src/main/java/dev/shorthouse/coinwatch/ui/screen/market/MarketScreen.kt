@@ -115,7 +115,7 @@ fun MarketScreen(
     )
     val showJumpToTopFab by remember {
         derivedStateOf {
-            lazyListState.firstVisibleItemIndex > 0
+            lazyListState.firstVisibleItemIndex > 1
         }
     }
 

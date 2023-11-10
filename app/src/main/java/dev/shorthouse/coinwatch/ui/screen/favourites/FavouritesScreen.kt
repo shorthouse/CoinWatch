@@ -45,7 +45,9 @@ fun FavouritesScreen(
         onCoinClick = { coin ->
             onNavigateDetails(coin.id)
         },
-        onRefresh = { viewModel.initialiseUiState() }
+        onRefresh = {
+            viewModel.initialiseUiState()
+        }
     )
 }
 
