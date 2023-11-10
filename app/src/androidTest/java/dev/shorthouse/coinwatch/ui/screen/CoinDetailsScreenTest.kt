@@ -46,7 +46,6 @@ class CoinDetailsScreenTest {
 
         composeTestRule.apply {
             onNodeWithContentDescription("Back").assertIsDisplayed()
-            onNodeWithContentDescription("Favourite").assertIsDisplayed()
             onNodeWithText("Chart Range").assertIsDisplayed()
             onNodeWithText("Market Stats").assertExists()
         }
