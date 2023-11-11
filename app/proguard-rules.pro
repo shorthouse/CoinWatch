@@ -10,3 +10,7 @@
 -keepclasseswithmembers,allowobfuscation class * {
     @com.google.gson.annotations.SerializedName <fields>;
 }
+
+# Retain generic signatures of GSON TypeToken and its subclasses
+-keep class com.google.gson.reflect.TypeToken
+-keep class * extends com.google.gson.reflect.TypeToken
