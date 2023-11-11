@@ -36,6 +36,8 @@ object RoomModule {
             context.applicationContext,
             CoinDatabase::class.java,
             Constants.COIN_DATABASE_NAME
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }
