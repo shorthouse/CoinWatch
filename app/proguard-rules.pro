@@ -14,3 +14,7 @@
 # Retain generic signatures of GSON TypeToken and its subclasses
 -keep class com.google.gson.reflect.TypeToken
 -keep class * extends com.google.gson.reflect.TypeToken
+
+# Keep room database and entities
+-keep class * extends androidx.room.RoomDatabase
+-keep @androidx.room.Entity class *
