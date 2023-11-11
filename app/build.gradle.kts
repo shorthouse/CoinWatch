@@ -29,11 +29,11 @@ android {
         buildConfigField("String", "API_KEY", getApiKey())
     }
     buildTypes {
-        debug {
+        getByName("debug") {
             isDebuggable = true
             applicationIdSuffix = ".debug"
         }
-        release {
+        getByName("release") {
             isDebuggable = false
             isMinifyEnabled = true
             isShrinkResources = true
@@ -152,4 +152,8 @@ fun getApiKey(): String {
     apikeyProperties.load(apiKeyFile.inputStream())
 
     return apikeyProperties.getProperty("API_KEY")
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }

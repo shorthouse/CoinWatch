@@ -38,6 +38,7 @@ class GetFavouriteCoinsUseCase @Inject constructor(
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun getCoins(favouriteCoinIds: List<String>): Flow<Result<List<Coin>>> {
         return if (favouriteCoinIds.isEmpty()) {
             flow {
