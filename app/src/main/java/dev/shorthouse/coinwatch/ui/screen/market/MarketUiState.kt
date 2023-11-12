@@ -13,8 +13,8 @@ data class MarketUiState(
     val showCoinSortBottomSheet: Boolean = false,
     val currency: Currency = Currency.USD,
     val showCurrencyBottomSheet: Boolean = false,
-    val isRefreshing: Boolean = false,
     val timeOfDay: TimeOfDay = TimeOfDay.Morning,
     val isLoading: Boolean = false,
-    val errorMessage: String? = null
+    val isRefreshing: Boolean = false,
+    val errorMessageIds: List<Int> = persistentListOf()
 )
