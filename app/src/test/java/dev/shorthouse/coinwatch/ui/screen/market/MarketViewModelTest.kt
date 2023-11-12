@@ -150,7 +150,7 @@ class MarketViewModelTest {
 
         val expectedUiState = MarketUiState(
             coinSort = coinSort,
-            coinCurrency = currency,
+            currency = currency,
             isLoading = true
         )
 
@@ -196,7 +196,7 @@ class MarketViewModelTest {
         val currency = Currency.GBP
 
         // Act
-        viewModel.updateCoinCurrency(currency)
+        viewModel.updateCurrency(currency)
 
         // Assert
         coVerify {
@@ -220,14 +220,14 @@ class MarketViewModelTest {
     @Test
     fun `When update show coin currency bottom sheet called should update UI state`() {
         // Arrange
-        val currentShowSheet = viewModel.uiState.value.showCoinCurrencyBottomSheet
+        val currentShowSheet = viewModel.uiState.value.showCurrencyBottomSheet
         val newShowSheet = currentShowSheet.not()
 
         // Act
-        viewModel.updateShowCoinCurrencyBottomSheet(newShowSheet)
+        viewModel.onUpdateShowCurrencyBottomSheet(newShowSheet)
 
         // Assert
-        assertThat(viewModel.uiState.value.showCoinCurrencyBottomSheet).isEqualTo(newShowSheet)
+        assertThat(viewModel.uiState.value.showCurrencyBottomSheet).isEqualTo(newShowSheet)
     }
 
     @Test

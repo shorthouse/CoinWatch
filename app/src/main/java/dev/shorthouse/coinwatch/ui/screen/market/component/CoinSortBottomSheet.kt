@@ -48,12 +48,12 @@ fun CoinSortBottomSheet(
             ),
             CoinSortOption(
                 icon = Icons.Rounded.Percent,
-                labelId = R.string.coin_sort_price_change_24h,
+                labelId = R.string.coin_sort_price_change,
                 coinSort = CoinSort.PriceChange24h
             ),
             CoinSortOption(
                 icon = Icons.Rounded.CurrencyExchange,
-                labelId = R.string.coin_sort_volume_24h,
+                labelId = R.string.coin_sort_volume,
                 coinSort = CoinSort.Volume24h
             )
         )
