@@ -11,11 +11,17 @@ import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.RefreshCachedCoinsUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCoinSortUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCurrencyUseCase
+import dev.shorthouse.coinwatch.ui.model.TimeOfDay
+import java.time.LocalTime
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.minutes
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -41,7 +47,7 @@ class MarketViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     coinSort = userPreferences.coinSort,
-                    coinCurrency = userPreferences.currency
+                    currency = userPreferences.currency
                 )
             }
 
@@ -73,6 +79,18 @@ class MarketViewModel @Inject constructor(
                         )
                     }
                 }
+            }
+        }.launchIn(viewModelScope)
+
+        getCurrentHourFlow().onEach { currentHour ->
+            val timeOfDay = when (currentHour) {
+                in 4..11 -> TimeOfDay.Morning
+                in 12..17 -> TimeOfDay.Afternoon
+                else -> TimeOfDay.Evening
+            }
+
+            _uiState.update {
+                it.copy(timeOfDay = timeOfDay)
             }
         }.launchIn(viewModelScope)
     }
@@ -107,7 +125,7 @@ class MarketViewModel @Inject constructor(
         }
     }
 
-    fun updateCoinCurrency(currency: Currency) {
+    fun updateCurrency(currency: Currency) {
         viewModelScope.launch {
             updateCurrencyUseCase(currency = currency)
         }
@@ -119,13 +137,21 @@ class MarketViewModel @Inject constructor(
         _uiState.update { it.copy(showCoinSortBottomSheet = showSheet) }
     }
 
-    fun updateShowCoinCurrencyBottomSheet(showSheet: Boolean) {
+    fun onUpdateShowCurrencyBottomSheet(showSheet: Boolean) {
         if (showSheet && isAnyBottomSheetOpen()) return
 
-        _uiState.update { it.copy(showCoinCurrencyBottomSheet = showSheet) }
+        _uiState.update { it.copy(showCurrencyBottomSheet = showSheet) }
     }
 
     private fun isAnyBottomSheetOpen(): Boolean {
-        return _uiState.value.showCoinSortBottomSheet || _uiState.value.showCoinCurrencyBottomSheet
+        return _uiState.value.showCoinSortBottomSheet || _uiState.value.showCurrencyBottomSheet
+    }
+
+    private fun getCurrentHourFlow(): Flow<Int> = flow {
+        while (true) {
+            val currentHour = LocalTime.now().hour
+            emit(currentHour)
+            delay(5.minutes.inWholeMilliseconds)
+        }
     }
 }
