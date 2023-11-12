@@ -3,8 +3,10 @@ package dev.shorthouse.coinwatch.ui.screen.market
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,13 +16,10 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.CurrencyExchange
 import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
-import androidx.compose.material.icons.rounded.SwapVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallFloatingActionButton
@@ -51,9 +50,11 @@ import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.PullRefreshIndicator
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.pullRefresh
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.rememberPullRefreshState
+import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.previewdata.MarketUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.market.component.CoinSortBottomSheet
 import dev.shorthouse.coinwatch.ui.screen.market.component.CurrencyBottomSheet
+import dev.shorthouse.coinwatch.ui.screen.market.component.MarketChip
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketCoinItem
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketEmptyState
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketSkeletonLoader
@@ -80,11 +81,11 @@ fun MarketScreen(
         onUpdateShowCoinSortBottomSheet = { showSheet ->
             viewModel.updateShowCoinSortBottomSheet(showSheet)
         },
-        onUpdateCoinCurrency = { currency ->
-            viewModel.updateCoinCurrency(currency)
+        onUpdateCurrency = { currency ->
+            viewModel.updateCurrency(currency)
         },
-        onUpdateShowCoinCurrencyBottomSheet = { showSheet ->
-            viewModel.updateShowCoinCurrencyBottomSheet(showSheet)
+        onUpdateShowCurrencyBottomSheet = { showSheet ->
+            viewModel.onUpdateShowCurrencyBottomSheet(showSheet)
         },
         onRefresh = {
             viewModel.pullRefreshCachedCoins()
@@ -99,8 +100,8 @@ fun MarketScreen(
     onCoinClick: (CachedCoin) -> Unit,
     onUpdateCoinSort: (CoinSort) -> Unit,
     onUpdateShowCoinSortBottomSheet: (Boolean) -> Unit,
-    onUpdateCoinCurrency: (Currency) -> Unit,
-    onUpdateShowCoinCurrencyBottomSheet: (Boolean) -> Unit,
+    onUpdateCurrency: (Currency) -> Unit,
+    onUpdateShowCurrencyBottomSheet: (Boolean) -> Unit,
     onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -122,8 +123,7 @@ fun MarketScreen(
     Scaffold(
         topBar = {
             MarketTopBar(
-                onUpdateShowCoinSortBottomSheet = onUpdateShowCoinSortBottomSheet,
-                onUpdateShowCoinCurrencyBottomSheet = onUpdateShowCoinCurrencyBottomSheet,
+                timeOfDay = uiState.timeOfDay,
                 scrollBehavior = scrollBehavior
             )
         },
@@ -149,6 +149,10 @@ fun MarketScreen(
                         MarketContent(
                             coins = uiState.coins,
                             onCoinClick = onCoinClick,
+                            currency = uiState.currency,
+                            onUpdateShowCurrencyBottomSheet = onUpdateShowCurrencyBottomSheet,
+                            coinSort = uiState.coinSort,
+                            onUpdateShowCoinSortBottomSheet = onUpdateShowCoinSortBottomSheet,
                             lazyListState = lazyListState,
                             modifier = Modifier.padding(scaffoldPadding)
                         )
@@ -172,22 +176,22 @@ fun MarketScreen(
                             )
                         }
 
-                        if (uiState.showCoinCurrencyBottomSheet) {
+                        if (uiState.showCurrencyBottomSheet) {
                             CurrencyBottomSheet(
                                 sheetState = currencySheetState,
-                                selectedCurrency = uiState.coinCurrency,
+                                selectedCurrency = uiState.currency,
                                 onCurrencySelected = { currency ->
-                                    onUpdateCoinCurrency(currency)
+                                    onUpdateCurrency(currency)
 
                                     scope.launch {
                                         currencySheetState.hide()
                                     }.invokeOnCompletion {
                                         if (!currencySheetState.isVisible) {
-                                            onUpdateShowCoinCurrencyBottomSheet(false)
+                                            onUpdateShowCurrencyBottomSheet(false)
                                         }
                                     }
                                 },
-                                onDismissRequest = { onUpdateShowCoinCurrencyBottomSheet(false) }
+                                onDismissRequest = { onUpdateShowCurrencyBottomSheet(false) }
                             )
                         }
                     }
@@ -237,34 +241,18 @@ fun MarketScreen(
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun MarketTopBar(
-    onUpdateShowCoinSortBottomSheet: (Boolean) -> Unit,
-    onUpdateShowCoinCurrencyBottomSheet: (Boolean) -> Unit,
+    timeOfDay: TimeOfDay,
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
         title = {
             Text(
-                text = stringResource(R.string.market_screen),
+                text = stringResource(R.string.time_of_day_prefix_good) +
+                    " " + timeOfDay.name.lowercase(),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
-        },
-        actions = {
-            IconButton(onClick = { onUpdateShowCoinCurrencyBottomSheet(true) }) {
-                Icon(
-                    imageVector = Icons.Rounded.CurrencyExchange,
-                    tint = MaterialTheme.colorScheme.onBackground,
-                    contentDescription = stringResource(R.string.top_bar_action_change_currency)
-                )
-            }
-            IconButton(onClick = { onUpdateShowCoinSortBottomSheet(true) }) {
-                Icon(
-                    imageVector = Icons.Rounded.SwapVert,
-                    tint = MaterialTheme.colorScheme.onBackground,
-                    contentDescription = stringResource(R.string.top_bar_action_sort_coins)
-                )
-            }
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -279,55 +267,75 @@ fun MarketTopBar(
 fun MarketContent(
     coins: ImmutableList<CachedCoin>,
     onCoinClick: (CachedCoin) -> Unit,
+    currency: Currency,
+    onUpdateShowCurrencyBottomSheet: (Boolean) -> Unit,
+    coinSort: CoinSort,
+    onUpdateShowCoinSortBottomSheet: (Boolean) -> Unit,
     lazyListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
-    if (coins.isEmpty()) {
-        MarketEmptyState(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(12.dp)
-        )
-    } else {
-        LazyColumn(
-            state = lazyListState,
-            contentPadding = PaddingValues(horizontal = 12.dp),
-            modifier = modifier.fillMaxSize()
-        ) {
-            // Workaround for https://issuetracker.google.com/issues/209652366
-            item(key = "0") {
-                Spacer(Modifier.padding(1.dp))
-            }
-            items(
-                count = coins.size,
-                key = { coins[it].id },
-                itemContent = { index ->
-                    val coinListItem = coins[index]
-
-                    val cardShape = when (index) {
-                        0 -> MaterialTheme.shapes.medium.copy(
-                            bottomStart = CornerSize(0.dp),
-                            bottomEnd = CornerSize(0.dp)
-                        )
-
-                        coins.lastIndex -> MaterialTheme.shapes.medium.copy(
-                            topStart = CornerSize(0.dp),
-                            topEnd = CornerSize(0.dp)
-                        )
-
-                        else -> RoundedCornerShape(0.dp)
-                    }
-
-                    MarketCoinItem(
-                        coin = coinListItem,
-                        onCoinClick = { onCoinClick(coinListItem) },
-                        cardShape = cardShape
-                    )
-                }
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 12.dp)
+    ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            MarketChip(
+                label = currency.name.uppercase(),
+                onClick = { onUpdateShowCurrencyBottomSheet(true) }
             )
+            MarketChip(
+                label = stringResource(coinSort.nameId),
+                onClick = { onUpdateShowCoinSortBottomSheet(true) }
+            )
+        }
 
-            item {
-                SearchPrompt(modifier = Modifier.padding(vertical = 12.dp))
+        if (coins.isEmpty()) {
+            MarketEmptyState(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(12.dp)
+            )
+        } else {
+            LazyColumn(
+                state = lazyListState,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                // Workaround for https://issuetracker.google.com/issues/209652366
+                item(key = "0") {
+                    Spacer(Modifier.padding(1.dp))
+                }
+                items(
+                    count = coins.size,
+                    key = { coins[it].id },
+                    itemContent = { index ->
+                        val coinListItem = coins[index]
+
+                        val cardShape = when (index) {
+                            0 -> MaterialTheme.shapes.medium.copy(
+                                bottomStart = CornerSize(0.dp),
+                                bottomEnd = CornerSize(0.dp)
+                            )
+
+                            coins.lastIndex -> MaterialTheme.shapes.medium.copy(
+                                topStart = CornerSize(0.dp),
+                                topEnd = CornerSize(0.dp)
+                            )
+
+                            else -> RoundedCornerShape(0.dp)
+                        }
+
+                        MarketCoinItem(
+                            coin = coinListItem,
+                            onCoinClick = { onCoinClick(coinListItem) },
+                            cardShape = cardShape
+                        )
+                    }
+                )
+
+                item {
+                    SearchPrompt(modifier = Modifier.padding(vertical = 12.dp))
+                }
             }
         }
     }
@@ -345,8 +353,8 @@ private fun MarketScreenPreview(
             onUpdateCoinSort = {},
             onUpdateShowCoinSortBottomSheet = {},
             onRefresh = {},
-            onUpdateCoinCurrency = {},
-            onUpdateShowCoinCurrencyBottomSheet = {}
+            onUpdateCurrency = {},
+            onUpdateShowCurrencyBottomSheet = {}
         )
     }
 }
