@@ -23,7 +23,7 @@ class MarketUiStatePreviewProvider : PreviewParameterProvider<MarketUiState> {
         ),
         MarketUiState(
             coins = coins,
-            showCoinCurrencyBottomSheet = true
+            showCurrencyBottomSheet = true
         ),
         MarketUiState(
             errorMessage = "Error message"

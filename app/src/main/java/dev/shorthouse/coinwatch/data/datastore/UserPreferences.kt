@@ -1,5 +1,7 @@
 package dev.shorthouse.coinwatch.data.datastore
 
+import androidx.annotation.StringRes
+import dev.shorthouse.coinwatch.R
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -14,9 +16,9 @@ enum class Currency(val symbol: String) {
     EUR("€")
 }
 
-enum class CoinSort {
-    MarketCap,
-    Price,
-    PriceChange24h,
-    Volume24h
+enum class CoinSort(@StringRes val nameId: Int) {
+    MarketCap(R.string.coin_sort_market_cap),
+    Price(R.string.coin_sort_price),
+    PriceChange24h(R.string.coin_sort_price_change),
+    Volume24h(R.string.coin_sort_volume)
 }
