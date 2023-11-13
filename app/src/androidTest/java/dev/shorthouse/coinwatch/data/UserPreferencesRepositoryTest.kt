@@ -5,8 +5,8 @@ import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth.assertThat
+import dev.shorthouse.coinwatch.data.datastore.CoinSort
 import dev.shorthouse.coinwatch.data.datastore.Currency
-import dev.shorthouse.coinwatch.data.datastore.UserPreferences
 import dev.shorthouse.coinwatch.data.datastore.UserPreferencesRepository
 import dev.shorthouse.coinwatch.data.datastore.UserPreferencesSerializer
 import kotlinx.coroutines.Dispatchers
@@ -53,54 +53,112 @@ class UserPreferencesRepositoryTest {
     @Test
     fun when_setCurrencyToUSD_should_updateUserPreferencesCurrencyToUSD() =
         testCoroutineScope.runTest {
-            val expectedUserPreferences = UserPreferences(
-                currency = Currency.USD
-            )
+            val currency = Currency.USD
 
             userPreferencesRepository.updateCurrency(
-                currency = Currency.USD
+                currency = currency
             )
 
             val userPreferences = userPreferencesRepository
                 .userPreferencesFlow
                 .first()
 
-            assertThat(userPreferences).isEqualTo(expectedUserPreferences)
+            assertThat(userPreferences.currency).isEqualTo(currency)
         }
 
     @Test
     fun when_setCurrencyToGBP_should_updateUserPreferencesCurrencyToGBP() =
         testCoroutineScope.runTest {
-            val expectedUserPreferences = UserPreferences(
-                currency = Currency.GBP
-            )
+            val currency = Currency.GBP
 
             userPreferencesRepository.updateCurrency(
-                currency = Currency.GBP
+                currency = currency
             )
 
             val userPreferences = userPreferencesRepository
                 .userPreferencesFlow
                 .first()
 
-            assertThat(userPreferences).isEqualTo(expectedUserPreferences)
+            assertThat(userPreferences.currency).isEqualTo(currency)
         }
 
     @Test
     fun when_setCurrencyToEUR_should_updateUserPreferencesCurrencyToEUR() =
         testCoroutineScope.runTest {
-            val expectedUserPreferences = UserPreferences(
-                currency = Currency.EUR
-            )
+            val currency = Currency.EUR
 
             userPreferencesRepository.updateCurrency(
-                currency = Currency.EUR
+                currency = currency
             )
 
             val userPreferences = userPreferencesRepository
                 .userPreferencesFlow
                 .first()
 
-            assertThat(userPreferences).isEqualTo(expectedUserPreferences)
+            assertThat(userPreferences.currency).isEqualTo(currency)
+        }
+
+    @Test
+    fun when_setCoinSortToMarketCap_should_updateUserPreferencesCoinSortToMarketCap() =
+        testCoroutineScope.runTest {
+            val coinSort = CoinSort.MarketCap
+
+            userPreferencesRepository.updateCoinSort(
+                coinSort = coinSort
+            )
+
+            val userPreferences = userPreferencesRepository
+                .userPreferencesFlow
+                .first()
+
+            assertThat(userPreferences.coinSort).isEqualTo(coinSort)
+        }
+
+    @Test
+    fun when_setCoinSortToPrice_should_updateUserPreferencesCoinSortToPrice() =
+        testCoroutineScope.runTest {
+            val coinSort = CoinSort.Price
+
+            userPreferencesRepository.updateCoinSort(
+                coinSort = coinSort
+            )
+
+            val userPreferences = userPreferencesRepository
+                .userPreferencesFlow
+                .first()
+
+            assertThat(userPreferences.coinSort).isEqualTo(coinSort)
+        }
+
+    @Test
+    fun when_setCoinSortToPriceChange_should_updateUserPreferencesCoinSortToPriceChange() =
+        testCoroutineScope.runTest {
+            val coinSort = CoinSort.PriceChange24h
+
+            userPreferencesRepository.updateCoinSort(
+                coinSort = coinSort
+            )
+
+            val userPreferences = userPreferencesRepository
+                .userPreferencesFlow
+                .first()
+
+            assertThat(userPreferences.coinSort).isEqualTo(coinSort)
+        }
+
+    @Test
+    fun when_setCoinSortToVolume_should_updateUserPreferencesCoinSortToVolume() =
+        testCoroutineScope.runTest {
+            val coinSort = CoinSort.Volume24h
+
+            userPreferencesRepository.updateCoinSort(
+                coinSort = coinSort
+            )
+
+            val userPreferences = userPreferencesRepository
+                .userPreferencesFlow
+                .first()
+
+            assertThat(userPreferences.coinSort).isEqualTo(coinSort)
         }
 }
