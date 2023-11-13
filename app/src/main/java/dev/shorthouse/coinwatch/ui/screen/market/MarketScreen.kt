@@ -87,7 +87,7 @@ fun MarketScreen(
             viewModel.updateCurrency(currency)
         },
         onUpdateShowCurrencyBottomSheet = { showSheet ->
-            viewModel.onUpdateShowCurrencyBottomSheet(showSheet)
+            viewModel.updateShowCurrencyBottomSheet(showSheet)
         },
         onRefresh = {
             viewModel.pullRefreshCachedCoins()

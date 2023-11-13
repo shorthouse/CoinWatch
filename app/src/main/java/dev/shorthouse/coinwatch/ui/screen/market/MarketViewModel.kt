@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.ui.screen.market
 
 import androidx.annotation.StringRes
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,20 +46,6 @@ class MarketViewModel @Inject constructor(
     }
 
     fun initialiseUiState() {
-        getUserPreferencesUseCase().onEach { userPreferences ->
-            _uiState.update {
-                it.copy(
-                    coinSort = userPreferences.coinSort,
-                    currency = userPreferences.currency
-                )
-            }
-
-            refreshCachedCoins(
-                coinSort = userPreferences.coinSort,
-                currency = userPreferences.currency
-            )
-        }.launchIn(viewModelScope)
-
         getCachedCoinsUseCase().onEach { coinsResult ->
             when (coinsResult) {
                 is Result.Success -> {
@@ -84,12 +71,22 @@ class MarketViewModel @Inject constructor(
             }
         }.launchIn(viewModelScope)
 
-        getCurrentHourFlow().onEach { currentHour ->
-            val timeOfDay = when (currentHour) {
-                in 4..11 -> TimeOfDay.Morning
-                in 12..17 -> TimeOfDay.Afternoon
-                else -> TimeOfDay.Evening
+        getUserPreferencesUseCase().onEach { userPreferences ->
+            _uiState.update {
+                it.copy(
+                    coinSort = userPreferences.coinSort,
+                    currency = userPreferences.currency
+                )
             }
+
+            refreshCachedCoins(
+                coinSort = userPreferences.coinSort,
+                currency = userPreferences.currency
+            )
+        }.launchIn(viewModelScope)
+
+        getCurrentHourFlow().onEach { currentHour ->
+            val timeOfDay = calculateTimeOfDay(hour = currentHour)
 
             _uiState.update {
                 it.copy(timeOfDay = timeOfDay)
@@ -137,7 +134,7 @@ class MarketViewModel @Inject constructor(
         _uiState.update { it.copy(showCoinSortBottomSheet = showSheet) }
     }
 
-    fun onUpdateShowCurrencyBottomSheet(showSheet: Boolean) {
+    fun updateShowCurrencyBottomSheet(showSheet: Boolean) {
         if (showSheet && isAnyBottomSheetOpen()) return
 
         _uiState.update { it.copy(showCurrencyBottomSheet = showSheet) }
@@ -161,6 +158,15 @@ class MarketViewModel @Inject constructor(
             val currentHour = LocalTime.now().hour
             emit(currentHour)
             delay(5.minutes.inWholeMilliseconds)
+        }
+    }
+
+    @VisibleForTesting
+    fun calculateTimeOfDay(hour: Int): TimeOfDay {
+        return when (hour) {
+            in 4..11 -> TimeOfDay.Morning
+            in 12..17 -> TimeOfDay.Afternoon
+            else -> TimeOfDay.Evening
         }
     }
 

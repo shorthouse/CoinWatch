@@ -16,7 +16,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class CoinSearchViewModelTest {
+class SearchViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
