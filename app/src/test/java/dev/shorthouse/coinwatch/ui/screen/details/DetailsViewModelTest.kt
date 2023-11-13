@@ -30,7 +30,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class CoinDetailsViewModelTest {
+class DetailsViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
