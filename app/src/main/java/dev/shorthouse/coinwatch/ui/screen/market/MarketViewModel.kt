@@ -1,8 +1,10 @@
 package dev.shorthouse.coinwatch.ui.screen.market
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.datastore.CoinSort
 import dev.shorthouse.coinwatch.data.datastore.Currency
@@ -51,7 +53,7 @@ class MarketViewModel @Inject constructor(
                 )
             }
 
-            refreshCachedCoinsUseCase(
+            refreshCachedCoins(
                 coinSort = userPreferences.coinSort,
                 currency = userPreferences.currency
             )
@@ -65,17 +67,17 @@ class MarketViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             coins = coins,
-                            isLoading = false,
-                            errorMessage = null
+                            isLoading = false
                         )
                     }
                 }
 
                 is Result.Error -> {
                     _uiState.update {
+                        val errorMessages = it.errorMessageIds + R.string.error_local_coins
                         it.copy(
-                            isLoading = false,
-                            errorMessage = coinsResult.message
+                            errorMessageIds = errorMessages,
+                            isLoading = false
                         )
                     }
                 }
@@ -99,21 +101,19 @@ class MarketViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update {
                 it.copy(
-                    isRefreshing = true,
-                    isLoading = true
+                    isRefreshing = true
                 )
             }
 
             val userPreferences = getUserPreferencesUseCase().first()
-            refreshCachedCoinsUseCase(
+            refreshCachedCoins(
                 coinSort = userPreferences.coinSort,
                 currency = userPreferences.currency
             )
 
             _uiState.update {
                 it.copy(
-                    isRefreshing = false,
-                    isLoading = false
+                    isRefreshing = false
                 )
             }
         }
@@ -143,6 +143,15 @@ class MarketViewModel @Inject constructor(
         _uiState.update { it.copy(showCurrencyBottomSheet = showSheet) }
     }
 
+    fun onErrorDismiss(@StringRes dismissedErrorMessageId: Int) {
+        _uiState.update {
+            val errorMessageIds = it.errorMessageIds.filter { errorMessageId ->
+                errorMessageId != dismissedErrorMessageId
+            }
+            it.copy(errorMessageIds = errorMessageIds)
+        }
+    }
+
     private fun isAnyBottomSheetOpen(): Boolean {
         return _uiState.value.showCoinSortBottomSheet || _uiState.value.showCurrencyBottomSheet
     }
@@ -152,6 +161,17 @@ class MarketViewModel @Inject constructor(
             val currentHour = LocalTime.now().hour
             emit(currentHour)
             delay(5.minutes.inWholeMilliseconds)
+        }
+    }
+
+    private suspend fun refreshCachedCoins(coinSort: CoinSort, currency: Currency) {
+        val result = refreshCachedCoinsUseCase(coinSort = coinSort, currency = currency)
+
+        if (result is Result.Error) {
+            _uiState.update {
+                val errorMessages = it.errorMessageIds + R.string.error_network_coins
+                it.copy(errorMessageIds = errorMessages)
+            }
         }
     }
 }

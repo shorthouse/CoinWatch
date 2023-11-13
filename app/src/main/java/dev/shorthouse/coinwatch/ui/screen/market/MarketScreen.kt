@@ -23,12 +23,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallFloatingActionButton
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -46,7 +49,6 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.data.datastore.CoinSort
 import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
-import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.PullRefreshIndicator
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.pullRefresh
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.rememberPullRefreshState
@@ -89,6 +91,9 @@ fun MarketScreen(
         },
         onRefresh = {
             viewModel.pullRefreshCachedCoins()
+        },
+        onErrorDismiss = { errorMessageId ->
+            viewModel.onErrorDismiss(errorMessageId)
         }
     )
 }
@@ -103,6 +108,7 @@ fun MarketScreen(
     onUpdateCurrency: (Currency) -> Unit,
     onUpdateShowCurrencyBottomSheet: (Boolean) -> Unit,
     onRefresh: () -> Unit,
+    onErrorDismiss: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scope = rememberCoroutineScope()
@@ -110,6 +116,7 @@ fun MarketScreen(
     val lazyListState = rememberLazyListState()
     val coinSortSheetState = rememberModalBottomSheetState()
     val currencySheetState = rememberModalBottomSheetState()
+    val snackbarHostState = remember { SnackbarHostState() }
     val pullRefreshState = rememberPullRefreshState(
         refreshing = uiState.isRefreshing,
         onRefresh = onRefresh
@@ -127,6 +134,7 @@ fun MarketScreen(
                 scrollBehavior = scrollBehavior
             )
         },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         content = { scaffoldPadding ->
             Box(
                 contentAlignment = Alignment.TopCenter,
@@ -135,14 +143,6 @@ fun MarketScreen(
                 when {
                     uiState.isLoading -> {
                         MarketSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
-                    }
-
-                    uiState.errorMessage != null -> {
-                        ErrorState(
-                            message = uiState.errorMessage,
-                            onRetry = onRefresh,
-                            modifier = Modifier.padding(scaffoldPadding)
-                        )
                     }
 
                     else -> {
@@ -203,6 +203,18 @@ fun MarketScreen(
                     backgroundColor = MaterialTheme.colorScheme.primaryContainer,
                     modifier = Modifier.padding(scaffoldPadding)
                 )
+
+                if (uiState.errorMessageIds.isNotEmpty()) {
+                    val errorMessage = stringResource(uiState.errorMessageIds.first())
+
+                    LaunchedEffect(errorMessage, snackbarHostState) {
+                        snackbarHostState.showSnackbar(
+                            message = errorMessage
+                        )
+
+                        onErrorDismiss(uiState.errorMessageIds.first())
+                    }
+                }
             }
         },
         floatingActionButton = {
@@ -352,9 +364,10 @@ private fun MarketScreenPreview(
             onCoinClick = {},
             onUpdateCoinSort = {},
             onUpdateShowCoinSortBottomSheet = {},
-            onRefresh = {},
             onUpdateCurrency = {},
-            onUpdateShowCurrencyBottomSheet = {}
+            onUpdateShowCurrencyBottomSheet = {},
+            onRefresh = {},
+            onErrorDismiss = {}
         )
     }
 }
