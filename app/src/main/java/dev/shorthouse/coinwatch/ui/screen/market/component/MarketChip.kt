@@ -11,7 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,4 +43,15 @@ fun MarketChip(
         border = null,
         modifier = modifier
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MarketChipPreview() {
+    AppTheme {
+        MarketChip(
+            label = "Market Chip",
+            onClick = {}
+        )
+    }
 }

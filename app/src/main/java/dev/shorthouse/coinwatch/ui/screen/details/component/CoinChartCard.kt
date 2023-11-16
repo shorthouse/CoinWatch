@@ -117,3 +117,17 @@ private fun CoinChartCardPreview() {
         )
     }
 }
+
+@Preview
+@Composable
+private fun CoinChartEmptyCardPreview() {
+    AppTheme {
+        CoinChartCard(
+            currentPrice = Price("1000"),
+            prices = persistentListOf(),
+            periodPriceChangePercentage = Percentage("7.06"),
+            chartPeriod = ChartPeriod.Day,
+            onClickChartPeriod = {}
+        )
+    }
+}

@@ -208,7 +208,7 @@ private fun DrawScope.drawFillPath(
 
 @Composable
 @Preview(showBackground = true)
-private fun PriceChartPreview() {
+private fun PriceGraphPreview() {
     AppTheme {
         PriceGraph(
             prices = persistentListOf(

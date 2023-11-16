@@ -107,3 +107,16 @@ private fun ChartRangeCardPreview() {
         )
     }
 }
+
+@Preview
+@Composable
+private fun ChartRangeEmptyCardPreview() {
+    AppTheme {
+        CoinChartRangeCard(
+            currentPrice = Price(null),
+            minPrice = Price(null),
+            maxPrice = Price(null),
+            isPricesEmpty = true
+        )
+    }
+}

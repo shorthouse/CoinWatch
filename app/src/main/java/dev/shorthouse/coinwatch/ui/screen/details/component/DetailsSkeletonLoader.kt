@@ -69,7 +69,7 @@ fun DetailsSkeletonLoader(modifier: Modifier = Modifier) {
 
 @Composable
 @Preview(showBackground = true)
-private fun CoinDetailSkeletonLoaderPreview() {
+private fun DetailsSkeletonLoaderPreview() {
     AppTheme {
         DetailsSkeletonLoader()
     }
