@@ -63,4 +63,6 @@
     <string name="time_of_day_prefix_good">Good</string>
     <string name="error_network_coins">Latest coin data unavailable</string>
     <string name="error_local_coins">Saved coin data unavailable</string>
+    <string name="cd_top_app_bar_search">Search</string>
+    <string name="cd_searching">Searching</string>
 </resources>
