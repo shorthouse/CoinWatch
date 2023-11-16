@@ -43,7 +43,7 @@ class FavouritesViewModelTest {
     @Test
     fun `When ViewModel is created should have loading UI state`() {
         // Arrange
-        val expectedUiState = FavouritesUiState.Loading
+        val expectedUiState = FavouritesUiState(isLoading = true)
 
         // Act
         val uiState = viewModel.uiState.value
@@ -56,7 +56,7 @@ class FavouritesViewModelTest {
     fun `When favourite coins returns error should have error UI state`() {
         // Arrange
         val errorMessage = "Error message"
-        val expectedUiState = FavouritesUiState.Error(errorMessage)
+        val expectedUiState = FavouritesUiState(errorMessage = errorMessage)
 
         every { getFavouriteCoinsUseCase() } returns flowOf(Result.Error(errorMessage))
 
@@ -70,7 +70,7 @@ class FavouritesViewModelTest {
     @Test
     fun `When favourite coins returns success should have success UI state`() {
         // Arrange
-        val expectedUiState = FavouritesUiState.Success(
+        val expectedUiState = FavouritesUiState(
             favouriteCoins = persistentListOf()
         )
 
