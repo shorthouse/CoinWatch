@@ -26,8 +26,8 @@ import dev.shorthouse.coinwatch.ui.theme.AppTheme
 @Composable
 fun ErrorState(
     message: String?,
-    onRetry: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onRetry: (() -> Unit)? = null
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -63,18 +63,20 @@ fun ErrorState(
 
         Spacer(Modifier.height(24.dp))
 
-        Button(
-            onClick = onRetry,
-            shape = MaterialTheme.shapes.small,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.onSurface
-            )
-        ) {
-            Text(
-                text = stringResource(R.string.button_retry),
-                style = MaterialTheme.typography.titleSmall
-            )
+        onRetry?.let {
+            Button(
+                onClick = it,
+                shape = MaterialTheme.shapes.small,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                )
+            ) {
+                Text(
+                    text = stringResource(R.string.button_retry),
+                    style = MaterialTheme.typography.titleSmall
+                )
+            }
         }
     }
 }
@@ -86,6 +88,17 @@ private fun ErrorStatePreview() {
         ErrorState(
             message = "No internet connection",
             onRetry = {}
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun ErrorStateRetryPreview() {
+    AppTheme {
+        ErrorState(
+            message = "No internet connection",
+            onRetry = null
         )
     }
 }
