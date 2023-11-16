@@ -35,7 +35,7 @@ class SearchViewModel @Inject constructor(
         initialiseUiState()
     }
 
-    fun initialiseUiState() {
+    private fun initialiseUiState() {
         snapshotFlow { searchQuery }
             .debounce(350L)
             .onEach { query ->
