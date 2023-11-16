@@ -45,9 +45,7 @@ fun FavouritesScreen(
         onCoinClick = { coin ->
             onNavigateDetails(coin.id)
         },
-        onRefresh = {
-            viewModel.initialiseUiState()
-        }
+        onRefresh = { viewModel.initialiseUiState() }
     )
 }
 
@@ -63,37 +61,34 @@ fun FavouriteScreen(
 
     Scaffold(
         topBar = {
-            FavouritesTopBar(
-                scrollBehavior = scrollBehavior
-            )
-        },
-        content = { scaffoldPadding ->
-            when (uiState) {
-                is FavouritesUiState.Success -> {
-                    FavouritesContent(
-                        favouriteCoins = uiState.favouriteCoins,
-                        onCoinClick = onCoinClick,
-                        modifier = Modifier.padding(scaffoldPadding)
-                    )
-                }
-
-                is FavouritesUiState.Error -> {
-                    ErrorState(
-                        message = stringResource(R.string.error_state_favourite_coins),
-                        onRetry = onRefresh,
-                        modifier = Modifier.padding(scaffoldPadding)
-                    )
-                }
-
-                is FavouritesUiState.Loading -> {
-                    FavouritesSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
-                }
-            }
+            FavouritesTopBar(scrollBehavior = scrollBehavior)
         },
         modifier = modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection)
-    )
+    ) { scaffoldPadding ->
+        when {
+            uiState.isLoading -> {
+                FavouritesSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
+            }
+
+            uiState.errorMessage != null -> {
+                ErrorState(
+                    message = stringResource(R.string.error_state_favourite_coins),
+                    onRetry = onRefresh,
+                    modifier = Modifier.padding(scaffoldPadding)
+                )
+            }
+
+            else -> {
+                FavouritesContent(
+                    favouriteCoins = uiState.favouriteCoins,
+                    onCoinClick = onCoinClick,
+                    modifier = Modifier.padding(scaffoldPadding)
+                )
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -134,9 +129,9 @@ fun FavouritesContent(
     } else {
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 140.dp),
-            contentPadding = PaddingValues(horizontal = 12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(horizontal = 12.dp),
             modifier = modifier
         ) {
             items(

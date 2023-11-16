@@ -2,12 +2,10 @@ package dev.shorthouse.coinwatch.ui.screen.favourites
 
 import dev.shorthouse.coinwatch.model.Coin
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
-sealed interface FavouritesUiState {
-    data class Success(
-        val favouriteCoins: ImmutableList<Coin>
-    ) : FavouritesUiState
-
-    data class Error(val message: String?) : FavouritesUiState
-    object Loading : FavouritesUiState
-}
+data class FavouritesUiState(
+    val favouriteCoins: ImmutableList<Coin> = persistentListOf(),
+    val isLoading: Boolean = false,
+    val errorMessage: String? = null
+)
