@@ -3,7 +3,6 @@ package dev.shorthouse.coinwatch.ui.screen
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
-import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -26,18 +25,17 @@ class SearchScreenTest {
 
     @Test
     fun when_uiStateError_should_showErrorMessage() {
-        val uiStateError = SearchUiState(
+        val uiState = SearchUiState(
             errorMessage = "Error message"
         )
 
         composeTestRule.setContent {
             AppTheme {
                 SearchScreen(
-                    uiState = uiStateError,
+                    uiState = uiState,
                     searchQuery = "",
                     onSearchQueryChange = {},
-                    onCoinClick = {},
-                    onRefresh = {}
+                    onCoinClick = {}
                 )
             }
         }
@@ -45,50 +43,22 @@ class SearchScreenTest {
         composeTestRule.apply {
             onNodeWithText("An error has occurred").assertIsDisplayed()
             onNodeWithText("Error message").assertIsDisplayed()
-            onNodeWithText("Retry").assertIsDisplayed().assertHasClickAction()
         }
-    }
-
-    @Test
-    fun when_uiStateErrorRetryClicked_should_callOnRefresh() {
-        var onRefreshCalled = false
-        val uiStateError = SearchUiState(
-            errorMessage = "Error message"
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                SearchScreen(
-                    uiState = uiStateError,
-                    searchQuery = "",
-                    onSearchQueryChange = {},
-                    onCoinClick = {},
-                    onRefresh = { onRefreshCalled = true }
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("Retry").performClick()
-        }
-
-        assertThat(onRefreshCalled).isTrue()
     }
 
     @Test
     fun when_uiStateSearching_should_showSearchingIndicator() {
-        val uiStateSearching = SearchUiState(
+        val uiState = SearchUiState(
             isSearching = true
         )
 
         composeTestRule.setContent {
             AppTheme {
                 SearchScreen(
-                    uiState = uiStateSearching,
+                    uiState = uiState,
                     searchQuery = "",
                     onSearchQueryChange = {},
-                    onCoinClick = {},
-                    onRefresh = {}
+                    onCoinClick = {}
                 )
             }
         }
@@ -110,8 +80,7 @@ class SearchScreenTest {
                     uiState = uiState,
                     searchQuery = "",
                     onSearchQueryChange = {},
-                    onCoinClick = {},
-                    onRefresh = {}
+                    onCoinClick = {}
                 )
             }
         }
@@ -133,8 +102,7 @@ class SearchScreenTest {
                     uiState = uiState,
                     searchQuery = searchQuery,
                     onSearchQueryChange = {},
-                    onCoinClick = {},
-                    onRefresh = {}
+                    onCoinClick = {}
                 )
             }
         }
@@ -156,8 +124,7 @@ class SearchScreenTest {
                     uiState = uiState,
                     searchQuery = searchQuery,
                     onSearchQueryChange = {},
-                    onCoinClick = {},
-                    onRefresh = {}
+                    onCoinClick = {}
                 )
             }
         }
@@ -179,8 +146,7 @@ class SearchScreenTest {
                     uiState = uiState,
                     searchQuery = searchQuery.value,
                     onSearchQueryChange = { searchQuery.value = it },
-                    onCoinClick = {},
-                    onRefresh = {}
+                    onCoinClick = {}
                 )
             }
         }
@@ -204,8 +170,7 @@ class SearchScreenTest {
                     uiState = uiState,
                     searchQuery = searchQuery.value,
                     onSearchQueryChange = { searchQuery.value = it },
-                    onCoinClick = {},
-                    onRefresh = {}
+                    onCoinClick = {}
                 )
             }
         }
@@ -243,8 +208,7 @@ class SearchScreenTest {
                     uiState = uiState,
                     searchQuery = "",
                     onSearchQueryChange = {},
-                    onCoinClick = {},
-                    onRefresh = {}
+                    onCoinClick = {}
                 )
             }
         }
@@ -278,8 +242,7 @@ class SearchScreenTest {
                     uiState = uiState,
                     searchQuery = "",
                     onSearchQueryChange = {},
-                    onCoinClick = { onCoinClickCalled = true },
-                    onRefresh = {}
+                    onCoinClick = { onCoinClickCalled = true }
                 )
             }
         }
@@ -303,8 +266,7 @@ class SearchScreenTest {
                     uiState = uiState,
                     searchQuery = "abcdefghijk",
                     onSearchQueryChange = {},
-                    onCoinClick = {},
-                    onRefresh = {}
+                    onCoinClick = {}
                 )
             }
         }
