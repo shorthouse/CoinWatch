@@ -26,12 +26,14 @@ class FavouritesScreenTest {
 
     @Test
     fun when_uiStateLoading_should_showSkeletonLoader() {
-        val uiStateLoading = FavouritesUiState.Loading
+        val uiState = FavouritesUiState(
+            isLoading = true
+        )
 
         composeTestRule.setContent {
             AppTheme {
                 FavouriteScreen(
-                    uiState = uiStateLoading,
+                    uiState = uiState,
                     onCoinClick = {},
                     onRefresh = {}
                 )
@@ -45,12 +47,14 @@ class FavouritesScreenTest {
 
     @Test
     fun when_uiStateError_should_showErrorState() {
-        val uiStateError = FavouritesUiState.Error("Error message")
+        val uiState = FavouritesUiState(
+            errorMessage = "Error message"
+        )
 
         composeTestRule.setContent {
             AppTheme {
                 FavouriteScreen(
-                    uiState = uiStateError,
+                    uiState = uiState,
                     onCoinClick = {},
                     onRefresh = {}
                 )
@@ -68,12 +72,14 @@ class FavouritesScreenTest {
     @Test
     fun when_uiStateErrorRetryClicked_should_callOnRefresh() {
         var onRefreshCalled = false
-        val uiStateError = FavouritesUiState.Error("Error message")
+        val uiState = FavouritesUiState(
+            errorMessage = "Error message"
+        )
 
         composeTestRule.setContent {
             AppTheme {
                 FavouriteScreen(
-                    uiState = uiStateError,
+                    uiState = uiState,
                     onCoinClick = {},
                     onRefresh = { onRefreshCalled = true }
                 )
@@ -89,9 +95,7 @@ class FavouritesScreenTest {
 
     @Test
     fun when_uiStateSuccess_should_showExpectedContent() {
-        val uiStateSuccess = FavouritesUiState.Success(
-            favouriteCoins = persistentListOf()
-        )
+        val uiStateSuccess = FavouritesUiState()
 
         composeTestRule.setContent {
             AppTheme {
@@ -110,7 +114,7 @@ class FavouritesScreenTest {
 
     @Test
     fun when_noFavouriteCoins_should_displayEmptyState() {
-        val uiStateSuccess = FavouritesUiState.Success(
+        val uiStateSuccess = FavouritesUiState(
             favouriteCoins = persistentListOf()
         )
 
@@ -134,7 +138,7 @@ class FavouritesScreenTest {
 
     @Test
     fun when_favouriteCoinsExist_should_displayFavouriteCoins() {
-        val uiStateSuccess = FavouritesUiState.Success(
+        val uiStateSuccess = FavouritesUiState(
             favouriteCoins = persistentListOf(
                 Coin(
                     id = "bitcoin",
@@ -194,7 +198,7 @@ class FavouritesScreenTest {
     fun when_clickingCoinItem_should_callOnCoinClick() {
         var onCoinClickCalled = false
 
-        val uiStateSuccess = FavouritesUiState.Success(
+        val uiStateSuccess = FavouritesUiState(
             favouriteCoins = persistentListOf(
                 Coin(
                     id = "bitcoin",

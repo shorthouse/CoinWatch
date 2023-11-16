@@ -11,14 +11,15 @@ import kotlinx.collections.immutable.persistentListOf
 
 class FavouritesUiStatePreviewProvider : PreviewParameterProvider<FavouritesUiState> {
     override val values = sequenceOf(
-        FavouritesUiState.Success(
+        FavouritesUiState(
             favouriteCoins = favouriteCoins
         ),
-        FavouritesUiState.Success(
+        FavouritesUiState(
             favouriteCoins = persistentListOf()
         ),
-        FavouritesUiState.Error("No internet connection"),
-        FavouritesUiState.Loading
+        FavouritesUiState(
+            errorMessage = "No internet connection"
+        )
     )
 }
 
