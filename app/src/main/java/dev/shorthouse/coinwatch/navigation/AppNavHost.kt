@@ -10,7 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import dev.shorthouse.coinwatch.ui.screen.details.CoinDetailsScreen
+import dev.shorthouse.coinwatch.ui.screen.details.DetailsScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController = rememberNavController()) {
@@ -32,7 +32,7 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
             enterTransition = { fadeIn(animationSpec = tween(700)) },
             exitTransition = { fadeOut(animationSpec = tween(700)) }
         ) {
-            CoinDetailsScreen(onNavigateUp = { navController.navigateUp() })
+            DetailsScreen(onNavigateUp = { navController.navigateUp() })
         }
     }
 }

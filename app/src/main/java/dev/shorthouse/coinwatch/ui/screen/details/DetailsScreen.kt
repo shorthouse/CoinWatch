@@ -29,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -54,13 +53,13 @@ import dev.shorthouse.coinwatch.ui.screen.details.component.MarketStatsCard
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun CoinDetailsScreen(
+fun DetailsScreen(
     viewModel: DetailsViewModel = hiltViewModel(),
     onNavigateUp: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    CoinDetailsScreen(
+    DetailsScreen(
         uiState = uiState,
         onNavigateUp = onNavigateUp,
         onClickFavouriteCoin = { viewModel.toggleIsCoinFavourite() },
@@ -71,7 +70,7 @@ fun CoinDetailsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CoinDetailsScreen(
+fun DetailsScreen(
     uiState: DetailsUiState,
     onNavigateUp: () -> Unit,
     onClickFavouriteCoin: () -> Unit,
@@ -85,7 +84,7 @@ fun CoinDetailsScreen(
         topBar = {
             when (uiState) {
                 is DetailsUiState.Success -> {
-                    CoinDetailsTopBar(
+                    DetailsTopBar(
                         coinDetails = uiState.coinDetails,
                         isCoinFavourite = uiState.isCoinFavourite,
                         onNavigateUp = onNavigateUp,
@@ -104,7 +103,7 @@ fun CoinDetailsScreen(
         content = { scaffoldPadding ->
             when (uiState) {
                 is DetailsUiState.Success -> {
-                    CoinDetailsContent(
+                    DetailsContent(
                         coinDetails = uiState.coinDetails,
                         coinChart = uiState.coinChart,
                         chartPeriod = uiState.chartPeriod,
@@ -132,7 +131,7 @@ fun CoinDetailsScreen(
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun CoinDetailsTopBar(
+fun DetailsTopBar(
     coinDetails: CoinDetails,
     isCoinFavourite: Boolean,
     onNavigateUp: () -> Unit,
@@ -209,7 +208,7 @@ fun CoinDetailsTopBar(
 }
 
 @Composable
-fun CoinDetailsContent(
+fun DetailsContent(
     coinDetails: CoinDetails,
     coinChart: CoinChart,
     chartPeriod: ChartPeriod,
@@ -221,7 +220,6 @@ fun CoinDetailsContent(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(start = 12.dp, end = 12.dp, bottom = 12.dp)
-            .testTag("coin_details_content")
     ) {
         CoinChartCard(
             currentPrice = coinDetails.currentPrice,
@@ -262,11 +260,11 @@ fun CoinDetailsContent(
 
 @Composable
 @Preview
-private fun CoinDetailScreenPreview(
+private fun DetailsScreenPreview(
     @PreviewParameter(DetailsUiStatePreviewProvider::class) uiState: DetailsUiState
 ) {
     AppTheme {
-        CoinDetailsScreen(
+        DetailsScreen(
             uiState = uiState,
             onNavigateUp = {},
             onClickFavouriteCoin = {},
