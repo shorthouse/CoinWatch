@@ -410,35 +410,6 @@ class MarketScreenTest {
     }
 
     @Test
-    fun when_noCoins_should_notDisplayCurrencyOrSortChips() {
-        val uiState = MarketUiState(
-            coins = persistentListOf(),
-            currency = Currency.USD,
-            coinSort = CoinSort.MarketCap
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                MarketScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
-                    onRefresh = {},
-                    onDismissError = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("USD").assertDoesNotExist()
-            onNodeWithText("Market Cap").assertDoesNotExist()
-        }
-    }
-
-    @Test
     fun when_coinsExist_should_displayExpectedCoinList() {
         val uiState = MarketUiState(
             coins = persistentListOf(

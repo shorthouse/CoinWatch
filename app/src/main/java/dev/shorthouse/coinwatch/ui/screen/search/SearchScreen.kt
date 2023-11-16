@@ -53,8 +53,7 @@ fun SearchScreen(
         },
         onCoinClick = { coin ->
             onNavigateDetails(coin.id)
-        },
-        onRefresh = { viewModel.initialiseUiState() }
+        }
     )
 }
 
@@ -65,7 +64,6 @@ fun SearchScreen(
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
     onCoinClick: (SearchCoin) -> Unit,
-    onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -106,10 +104,7 @@ fun SearchScreen(
                 }
 
                 uiState.errorMessage != null -> {
-                    ErrorState(
-                        message = uiState.errorMessage,
-                        onRetry = onRefresh
-                    )
+                    ErrorState(message = uiState.errorMessage)
                 }
 
                 else -> {
@@ -195,8 +190,7 @@ private fun SearchScreenPreview(
             uiState = uiState,
             searchQuery = "",
             onSearchQueryChange = {},
-            onCoinClick = {},
-            onRefresh = {}
+            onCoinClick = {}
         )
     }
 }
