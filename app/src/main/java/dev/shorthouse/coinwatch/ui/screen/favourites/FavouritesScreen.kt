@@ -27,7 +27,7 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.previewdata.FavouritesUiStatePreviewProvider
-import dev.shorthouse.coinwatch.ui.screen.favourites.component.CoinFavouriteItem
+import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouriteItem
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouritesEmptyState
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouritesSkeletonLoader
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
@@ -145,7 +145,7 @@ fun FavouritesContent(
                 itemContent = { index ->
                     val favouriteCoinItem = favouriteCoins[index]
 
-                    CoinFavouriteItem(
+                    FavouriteItem(
                         coin = favouriteCoinItem,
                         onCoinClick = { onCoinClick(favouriteCoinItem) }
                     )
