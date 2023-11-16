@@ -1,7 +1,6 @@
 package dev.shorthouse.coinwatch.ui.previewdata
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
@@ -17,17 +16,6 @@ class MarketUiStatePreviewProvider : PreviewParameterProvider<MarketUiState> {
         ),
         MarketUiState(
             coins = persistentListOf()
-        ),
-        MarketUiState(
-            coins = coins,
-            showCoinSortBottomSheet = true
-        ),
-        MarketUiState(
-            coins = coins,
-            showCurrencyBottomSheet = true
-        ),
-        MarketUiState(
-            errorMessageIds = persistentListOf(R.string.error_network_coins)
         ),
         MarketUiState(
             isLoading = true
