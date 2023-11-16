@@ -9,10 +9,10 @@ import kotlinx.collections.immutable.persistentListOf
 
 data class MarketUiState(
     val coins: ImmutableList<CachedCoin> = persistentListOf(),
-    val coinSort: CoinSort = CoinSort.MarketCap,
-    val showCoinSortBottomSheet: Boolean = false,
     val currency: Currency = Currency.USD,
-    val showCurrencyBottomSheet: Boolean = false,
+    val isCurrencySheetShown: Boolean = false,
+    val coinSort: CoinSort = CoinSort.MarketCap,
+    val isCoinSortSheetShown: Boolean = false,
     val timeOfDay: TimeOfDay = TimeOfDay.Morning,
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,

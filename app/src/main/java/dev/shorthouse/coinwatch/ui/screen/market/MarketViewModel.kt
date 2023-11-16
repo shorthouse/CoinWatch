@@ -128,19 +128,19 @@ class MarketViewModel @Inject constructor(
         }
     }
 
-    fun updateShowCoinSortBottomSheet(showSheet: Boolean) {
+    fun updateIsCoinSortSheetShown(showSheet: Boolean) {
         if (showSheet && isAnyBottomSheetOpen()) return
 
-        _uiState.update { it.copy(showCoinSortBottomSheet = showSheet) }
+        _uiState.update { it.copy(isCoinSortSheetShown = showSheet) }
     }
 
-    fun updateShowCurrencyBottomSheet(showSheet: Boolean) {
+    fun updateIsCurrencySheetShown(showSheet: Boolean) {
         if (showSheet && isAnyBottomSheetOpen()) return
 
-        _uiState.update { it.copy(showCurrencyBottomSheet = showSheet) }
+        _uiState.update { it.copy(isCurrencySheetShown = showSheet) }
     }
 
-    fun onErrorDismiss(@StringRes dismissedErrorMessageId: Int) {
+    fun dismissErrorMessage(@StringRes dismissedErrorMessageId: Int) {
         _uiState.update {
             val errorMessageIds = it.errorMessageIds.filter { errorMessageId ->
                 errorMessageId != dismissedErrorMessageId
@@ -150,7 +150,7 @@ class MarketViewModel @Inject constructor(
     }
 
     private fun isAnyBottomSheetOpen(): Boolean {
-        return _uiState.value.showCoinSortBottomSheet || _uiState.value.showCurrencyBottomSheet
+        return _uiState.value.isCoinSortSheetShown || _uiState.value.isCurrencySheetShown
     }
 
     private fun getCurrentHourFlow(): Flow<Int> = flow {
