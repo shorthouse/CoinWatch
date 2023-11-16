@@ -40,10 +40,10 @@ fun DetailsEmptyTopBar(
 
 @Preview
 @Composable
-private fun DetailsEmptyTopBar() {
+private fun DetailsEmptyTopBarPreview() {
     AppTheme {
         DetailsEmptyTopBar(
-            onNavigateUp = {},
+            onNavigateUp = {}
         )
     }
 }

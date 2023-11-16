@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun EmptyState(
@@ -63,15 +64,17 @@ fun EmptyState(
 @Composable
 @Preview
 private fun EmptyStatePreview() {
-    EmptyState(
-        image = painterResource(R.drawable.empty_state_coins),
-        title = "No coins",
-        subtitle = {
-            Text(
-                text = stringResource(R.string.empty_state_coins_subtitle),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-    )
+    AppTheme {
+        EmptyState(
+            image = painterResource(R.drawable.empty_state_coins),
+            title = "No coins",
+            subtitle = {
+                Text(
+                    text = stringResource(R.string.empty_state_coins_subtitle),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        )
+    }
 }

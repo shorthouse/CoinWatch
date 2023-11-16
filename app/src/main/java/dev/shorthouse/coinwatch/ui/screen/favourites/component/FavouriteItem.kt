@@ -35,7 +35,7 @@ import dev.shorthouse.coinwatch.ui.previewdata.CoinPreviewProvider
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
-fun CoinFavouriteItem(
+fun FavouriteItem(
     coin: Coin,
     onCoinClick: (Coin) -> Unit,
     modifier: Modifier = Modifier
@@ -127,11 +127,11 @@ fun CoinFavouriteItem(
 
 @Composable
 @Preview
-private fun CoinFavouriteItemPreview(
+private fun FavouriteItemPreview(
     @PreviewParameter(CoinPreviewProvider::class) coin: Coin
 ) {
     AppTheme {
-        CoinFavouriteItem(
+        FavouriteItem(
             coin = coin,
             onCoinClick = {}
         )

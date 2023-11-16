@@ -88,7 +88,7 @@ fun ChartRangeLine(
 
 @Composable
 @Preview
-private fun PriceMinMaxLinePreview() {
+private fun ChartRangeLinePreview() {
     AppTheme {
         ChartRangeLine(
             currentPrice = Price("80.0"),

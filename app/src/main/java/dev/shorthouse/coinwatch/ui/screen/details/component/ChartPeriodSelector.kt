@@ -85,7 +85,7 @@ fun ChartPeriodSelector(
 
 @Composable
 @Preview
-private fun SegmentedButtonPreview() {
+private fun ChartPeriodSelectorPreview() {
     AppTheme {
         var selectedChartPeriod by remember { mutableStateOf(ChartPeriod.Week) }
 
