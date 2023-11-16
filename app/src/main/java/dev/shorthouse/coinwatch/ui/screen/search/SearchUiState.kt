@@ -2,13 +2,11 @@ package dev.shorthouse.coinwatch.ui.screen.search
 
 import dev.shorthouse.coinwatch.model.SearchCoin
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
-sealed interface SearchUiState {
-    data class Success(
-        val searchResults: ImmutableList<SearchCoin>,
-        val queryHasNoResults: Boolean
-    ) : SearchUiState
-
-    data class Error(val message: String?) : SearchUiState
-    object Loading : SearchUiState
-}
+data class SearchUiState(
+    val searchResults: ImmutableList<SearchCoin> = persistentListOf(),
+    val queryHasNoResults: Boolean = false,
+    val errorMessage: String? = null,
+    val isSearching: Boolean = false
+)
