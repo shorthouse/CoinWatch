@@ -42,17 +42,6 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `When ViewModel is initialised should have loading UI state`() = runTest {
-        // Arrange
-        val expectedUiState = SearchUiState.Loading
-
-        // Act
-
-        // Assert
-        assertThat(viewModel.uiState.value).isEqualTo(expectedUiState)
-    }
-
-    @Test
     fun `When ViewModel is initialised should have empty search query`() = runTest {
         // Arrange
         val expectedSearchQuery = ""
@@ -66,10 +55,7 @@ class SearchViewModelTest {
     @Test
     fun `When search query is empty should return empty search results list`() = runTest {
         // Arrange
-        val expectedUiState = SearchUiState.Success(
-            searchResults = persistentListOf(),
-            queryHasNoResults = false
-        )
+        val expectedUiState = SearchUiState()
 
         // Act
         viewModel.updateSearchQuery("")
@@ -86,8 +72,8 @@ class SearchViewModelTest {
         val searchQuery = "bit"
         val errorMessage = "Unable to fetch coin search results"
 
-        val expectedUiState = SearchUiState.Error(
-            message = errorMessage
+        val expectedUiState = SearchUiState(
+            errorMessage = errorMessage
         )
 
         coEvery { getCoinSearchResultsUseCase(searchQuery) } returns
@@ -124,9 +110,8 @@ class SearchViewModelTest {
             )
         )
 
-        val expectedUiState = SearchUiState.Success(
-            searchResults = searchResults,
-            queryHasNoResults = false
+        val expectedUiState = SearchUiState(
+            searchResults = searchResults
         )
 
         coEvery { getCoinSearchResultsUseCase(searchQuery) } returns
@@ -164,7 +149,7 @@ class SearchViewModelTest {
 
             val searchResults = persistentListOf<SearchCoin>()
 
-            val expectedUiState = SearchUiState.Success(
+            val expectedUiState = SearchUiState(
                 searchResults = searchResults,
                 queryHasNoResults = true
             )

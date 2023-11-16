@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.update
 class SearchViewModel @Inject constructor(
     private val getCoinSearchResultsUseCase: GetCoinSearchResultsUseCase
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<SearchUiState>(SearchUiState.Loading)
+    private val _uiState = MutableStateFlow(SearchUiState())
     val uiState = _uiState.asStateFlow()
 
     var searchQuery by mutableStateOf("")
@@ -40,32 +40,40 @@ class SearchViewModel @Inject constructor(
             .debounce(350L)
             .onEach { query ->
                 if (query.isNotBlank()) {
+                    _uiState.update {
+                        it.copy(isSearching = true)
+                    }
+
                     val result = getCoinSearchResultsUseCase(query)
 
                     when (result) {
                         is Result.Error -> {
                             _uiState.update {
-                                SearchUiState.Error(
-                                    message = result.message
+                                it.copy(
+                                    errorMessage = result.message,
+                                    isSearching = false
                                 )
                             }
                         }
+
                         is Result.Success -> {
                             val searchResults = result.data.toPersistentList()
 
                             _uiState.update {
-                                SearchUiState.Success(
+                                it.copy(
                                     searchResults = searchResults,
-                                    queryHasNoResults = searchResults.isEmpty()
+                                    queryHasNoResults = searchResults.isEmpty(),
+                                    isSearching = false
                                 )
                             }
                         }
                     }
                 } else {
                     _uiState.update {
-                        SearchUiState.Success(
+                        it.copy(
                             searchResults = persistentListOf(),
-                            queryHasNoResults = false
+                            queryHasNoResults = false,
+                            isSearching = false
                         )
                     }
                 }

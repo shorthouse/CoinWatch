@@ -8,18 +8,20 @@ import kotlinx.collections.immutable.persistentListOf
 
 class SearchUiStatePreviewProvider : PreviewParameterProvider<SearchUiState> {
     override val values = sequenceOf(
-        SearchUiState.Success(
+        SearchUiState(
             searchResults = searchResults,
             queryHasNoResults = false
         ),
-        SearchUiState.Success(
+        SearchUiState(
             searchResults = persistentListOf(),
             queryHasNoResults = true
         ),
-        SearchUiState.Error(
-            message = "Error searching coins"
+        SearchUiState(
+            errorMessage = "Error searching coins"
         ),
-        SearchUiState.Loading
+        SearchUiState(
+            isSearching = true
+        )
     )
 }
 

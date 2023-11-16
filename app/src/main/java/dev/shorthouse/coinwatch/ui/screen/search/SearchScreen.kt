@@ -16,13 +16,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -31,10 +31,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.SearchCoin
 import dev.shorthouse.coinwatch.ui.component.ErrorState
+import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.previewdata.SearchUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.search.component.SearchEmptyState
 import dev.shorthouse.coinwatch.ui.screen.search.component.SearchListItem
-import dev.shorthouse.coinwatch.ui.screen.search.component.SearchSkeletonLoader
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 
@@ -48,7 +48,9 @@ fun SearchScreen(
     SearchScreen(
         uiState = uiState,
         searchQuery = viewModel.searchQuery,
-        onSearchQueryChange = { viewModel.updateSearchQuery(it) },
+        onSearchQueryChange = { searchQuery ->
+            viewModel.updateSearchQuery(searchQuery)
+        },
         onCoinClick = { coin ->
             onNavigateDetails(coin.id)
         },
@@ -80,13 +82,11 @@ fun SearchScreen(
             )
         },
         leadingIcon = {
-            IconButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Rounded.Search,
-                    tint = MaterialTheme.colorScheme.onSurface,
-                    contentDescription = stringResource(R.string.cd_top_bar_back)
-                )
-            }
+            Icon(
+                imageVector = Icons.Rounded.Search,
+                tint = MaterialTheme.colorScheme.onSurface,
+                contentDescription = null
+            )
         },
         trailingIcon = {
             if (searchQuery.isNotEmpty()) {
@@ -100,38 +100,30 @@ fun SearchScreen(
             }
         },
         content = {
-            when (uiState) {
-                is SearchUiState.Success -> {
+            when {
+                uiState.isSearching -> {
+                    LoadingIndicator()
+                }
+
+                uiState.errorMessage != null -> {
+                    ErrorState(
+                        message = uiState.errorMessage,
+                        onRetry = onRefresh
+                    )
+                }
+
+                else -> {
                     SearchContent(
                         searchResults = uiState.searchResults,
                         queryHasNoResults = uiState.queryHasNoResults,
                         onCoinClick = onCoinClick
                     )
                 }
-
-                is SearchUiState.Error -> {
-                    ErrorState(
-                        message = uiState.message,
-                        onRetry = onRefresh,
-                        modifier = Modifier.padding(bottom = 10.dp)
-                    )
-                }
-
-                is SearchUiState.Loading -> {
-                    SearchSkeletonLoader()
-                }
             }
         },
         colors = SearchBarDefaults.colors(
             containerColor = MaterialTheme.colorScheme.background,
-            dividerColor = MaterialTheme.colorScheme.surface,
-            inputFieldColors = TextFieldDefaults.colors(
-                cursorColor = MaterialTheme.colorScheme.onSurface,
-                focusedIndicatorColor = MaterialTheme.colorScheme.surface,
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.surface,
-                disabledIndicatorColor = MaterialTheme.colorScheme.surface,
-                errorIndicatorColor = MaterialTheme.colorScheme.surface
-            )
+            dividerColor = MaterialTheme.colorScheme.surface
         ),
         enabled = true,
         active = true,
