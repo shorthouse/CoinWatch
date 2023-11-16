@@ -193,14 +193,14 @@ class MarketViewModelTest {
     @Test
     fun `When update show coin sort bottom sheet updates called update UI state`() {
         // Arrange
-        val currentShowSheet = viewModel.uiState.value.showCoinSortBottomSheet
+        val currentShowSheet = viewModel.uiState.value.isCoinSortSheetShown
         val newShowSheet = currentShowSheet.not()
 
         // Act
-        viewModel.updateShowCoinSortBottomSheet(newShowSheet)
+        viewModel.updateIsCoinSortSheetShown(newShowSheet)
 
         // Assert
-        assertThat(viewModel.uiState.value.showCoinSortBottomSheet).isEqualTo(newShowSheet)
+        assertThat(viewModel.uiState.value.isCoinSortSheetShown).isEqualTo(newShowSheet)
     }
 
     @Test
@@ -208,24 +208,24 @@ class MarketViewModelTest {
         // Arrange
 
         // Act
-        viewModel.updateShowCurrencyBottomSheet(true)
-        viewModel.updateShowCoinSortBottomSheet(true)
+        viewModel.updateIsCurrencySheetShown(true)
+        viewModel.updateIsCoinSortSheetShown(true)
 
         // Assert
-        assertThat(viewModel.uiState.value.showCoinSortBottomSheet).isFalse()
+        assertThat(viewModel.uiState.value.isCoinSortSheetShown).isFalse()
     }
 
     @Test
     fun `When update show coin currency bottom sheet called should update UI state`() {
         // Arrange
-        val currentShowSheet = viewModel.uiState.value.showCurrencyBottomSheet
+        val currentShowSheet = viewModel.uiState.value.isCurrencySheetShown
         val newShowSheet = currentShowSheet.not()
 
         // Act
-        viewModel.updateShowCurrencyBottomSheet(newShowSheet)
+        viewModel.updateIsCurrencySheetShown(newShowSheet)
 
         // Assert
-        assertThat(viewModel.uiState.value.showCurrencyBottomSheet).isEqualTo(newShowSheet)
+        assertThat(viewModel.uiState.value.isCurrencySheetShown).isEqualTo(newShowSheet)
     }
 
     @Test
@@ -233,11 +233,11 @@ class MarketViewModelTest {
         // Arrange
 
         // Act
-        viewModel.updateShowCoinSortBottomSheet(true)
-        viewModel.updateShowCurrencyBottomSheet(true)
+        viewModel.updateIsCoinSortSheetShown(true)
+        viewModel.updateIsCurrencySheetShown(true)
 
         // Assert
-        assertThat(viewModel.uiState.value.showCurrencyBottomSheet).isFalse()
+        assertThat(viewModel.uiState.value.isCurrencySheetShown).isFalse()
     }
 
     @Test
@@ -282,7 +282,7 @@ class MarketViewModelTest {
         viewModel.initialiseUiState()
         val errorIsInserted = viewModel.uiState.value.errorMessageIds.isNotEmpty()
         val errorMessageId = viewModel.uiState.value.errorMessageIds.first()
-        viewModel.onErrorDismiss(errorMessageId)
+        viewModel.dismissErrorMessage(errorMessageId)
 
         // Assert
         assertThat(errorIsInserted).isTrue()

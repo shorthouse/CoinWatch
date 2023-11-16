@@ -4,18 +4,16 @@ import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTouchInput
-import androidx.compose.ui.test.swipeUp
+import androidx.compose.ui.test.performScrollTo
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
-import dev.shorthouse.coinwatch.ui.screen.details.CoinDetailsScreen
+import dev.shorthouse.coinwatch.ui.screen.details.DetailsScreen
 import dev.shorthouse.coinwatch.ui.screen.details.DetailsUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import java.math.BigDecimal
@@ -23,7 +21,7 @@ import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
 import org.junit.Test
 
-class CoinDetailsScreenTest {
+class DetailsScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -34,7 +32,7 @@ class CoinDetailsScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinDetailsScreen(
+                DetailsScreen(
                     uiState = uiStateLoading,
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
@@ -57,7 +55,7 @@ class CoinDetailsScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinDetailsScreen(
+                DetailsScreen(
                     uiState = uiStateError,
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
@@ -82,7 +80,7 @@ class CoinDetailsScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinDetailsScreen(
+                DetailsScreen(
                     uiState = uiStateError,
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
@@ -106,7 +104,7 @@ class CoinDetailsScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinDetailsScreen(
+                DetailsScreen(
                     uiState = uiStateError,
                     onNavigateUp = { onNavigateUpCalled = true },
                     onClickFavouriteCoin = {},
@@ -159,7 +157,7 @@ class CoinDetailsScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinDetailsScreen(
+                DetailsScreen(
                     uiState = uiStateSuccess,
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
@@ -193,8 +191,7 @@ class CoinDetailsScreenTest {
             onNodeWithText("High").assertIsDisplayed()
             onNodeWithText("$1,922.83").assertIsDisplayed()
 
-            onNodeWithTag("coin_details_content")
-                .performTouchInput { swipeUp(durationMillis = 500) }
+            onNodeWithText("7 Aug 2015").performScrollTo()
 
             onNodeWithText("Market Stats").assertIsDisplayed()
             onNodeWithText("Market Cap Rank").assertIsDisplayed()
@@ -252,7 +249,7 @@ class CoinDetailsScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinDetailsScreen(
+                DetailsScreen(
                     uiState = uiStateSuccess,
                     onNavigateUp = { onNavigateUpCalled = true },
                     onClickFavouriteCoin = {},
@@ -307,7 +304,7 @@ class CoinDetailsScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinDetailsScreen(
+                DetailsScreen(
                     uiState = uiStateSuccess,
                     onNavigateUp = {},
                     onClickFavouriteCoin = { onClickFavouriteCoinCalled = true },
@@ -364,7 +361,7 @@ class CoinDetailsScreenTest {
 
         composeTestRule.setContent {
             AppTheme {
-                CoinDetailsScreen(
+                DetailsScreen(
                     uiState = uiStateSuccess,
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
@@ -386,6 +383,94 @@ class CoinDetailsScreenTest {
 
         onClickChartPeriodMap.values.forEach { isChartPeriodClicked ->
             assertThat(isChartPeriodClicked).isTrue()
+        }
+    }
+
+    @Test
+    fun when_coinPricesChartEmpty_should_showEmptyState() {
+        val uiStateSuccess = DetailsUiState.Success(
+            CoinDetails(
+                id = "ethereum",
+                name = "Ethereum",
+                symbol = "ETH",
+                imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
+                currentPrice = Price("1879.14"),
+                marketCap = Price("225722901094"),
+                marketCapRank = "2",
+                volume24h = "6,627,669,115",
+                circulatingSupply = "120,186,525",
+                allTimeHigh = Price("4878.26"),
+                allTimeHighDate = "10 Nov 2021",
+                listedDate = "7 Aug 2015"
+            ),
+            CoinChart(
+                prices = persistentListOf(),
+                minPrice = Price("1632.46"),
+                maxPrice = Price("1922.83"),
+                periodPriceChangePercentage = Percentage("7.06")
+            ),
+            chartPeriod = ChartPeriod.Day,
+            isCoinFavourite = true
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                DetailsScreen(
+                    uiState = uiStateSuccess,
+                    onNavigateUp = {},
+                    onClickFavouriteCoin = {},
+                    onClickChartPeriod = {},
+                    onRefresh = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("No chart data available").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_coinChartRangeEmpty_should_showEmptyState() {
+        val uiStateSuccess = DetailsUiState.Success(
+            CoinDetails(
+                id = "ethereum",
+                name = "Ethereum",
+                symbol = "ETH",
+                imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
+                currentPrice = Price("1879.14"),
+                marketCap = Price("225722901094"),
+                marketCapRank = "2",
+                volume24h = "6,627,669,115",
+                circulatingSupply = "120,186,525",
+                allTimeHigh = Price("4878.26"),
+                allTimeHighDate = "10 Nov 2021",
+                listedDate = "7 Aug 2015"
+            ),
+            CoinChart(
+                prices = persistentListOf(),
+                minPrice = Price(null),
+                maxPrice = Price(null),
+                periodPriceChangePercentage = Percentage("7.06")
+            ),
+            chartPeriod = ChartPeriod.Day,
+            isCoinFavourite = true
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                DetailsScreen(
+                    uiState = uiStateSuccess,
+                    onNavigateUp = {},
+                    onClickFavouriteCoin = {},
+                    onClickChartPeriod = {},
+                    onRefresh = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("No chart range data available").assertIsDisplayed()
         }
     }
 }

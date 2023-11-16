@@ -1,6 +1,8 @@
 package dev.shorthouse.coinwatch.ui.screen
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -17,14 +19,16 @@ import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
 import org.junit.Test
 
-class CoinSearchScreenTest {
+class SearchScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
-    fun when_uiStateLoading_should_showSkeletonLoader() {
-        val uiStateError = SearchUiState.Error("Error message")
+    fun when_uiStateError_should_showErrorMessage() {
+        val uiStateError = SearchUiState(
+            errorMessage = "Error message"
+        )
 
         composeTestRule.setContent {
             AppTheme {
@@ -41,15 +45,16 @@ class CoinSearchScreenTest {
         composeTestRule.apply {
             onNodeWithText("An error has occurred").assertIsDisplayed()
             onNodeWithText("Error message").assertIsDisplayed()
-            onNodeWithText("Retry").assertIsDisplayed()
-            onNodeWithText("Retry").assertHasClickAction()
+            onNodeWithText("Retry").assertIsDisplayed().assertHasClickAction()
         }
     }
 
     @Test
     fun when_uiStateErrorRetryClicked_should_callOnRefresh() {
         var onRefreshCalled = false
-        val uiStateError = SearchUiState.Error("Error message")
+        val uiStateError = SearchUiState(
+            errorMessage = "Error message"
+        )
 
         composeTestRule.setContent {
             AppTheme {
@@ -71,16 +76,15 @@ class CoinSearchScreenTest {
     }
 
     @Test
-    fun when_uiStateSuccess_should_showExpectedContent() {
-        val uiStateSuccess = SearchUiState.Success(
-            searchResults = persistentListOf(),
-            queryHasNoResults = false
+    fun when_uiStateSearching_should_showSearchingIndicator() {
+        val uiStateSearching = SearchUiState(
+            isSearching = true
         )
 
         composeTestRule.setContent {
             AppTheme {
                 SearchScreen(
-                    uiState = uiStateSuccess,
+                    uiState = uiStateSearching,
                     searchQuery = "",
                     onSearchQueryChange = {},
                     onCoinClick = {},
@@ -90,7 +94,29 @@ class CoinSearchScreenTest {
         }
 
         composeTestRule.apply {
-            onNodeWithContentDescription("Back").assertIsDisplayed()
+            onNode(
+                SemanticsMatcher.keyIsDefined(SemanticsProperties.ProgressBarRangeInfo)
+            ).assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_searchScreenDisplayed_should_showExpectedContent() {
+        val uiState = SearchUiState()
+
+        composeTestRule.setContent {
+            AppTheme {
+                SearchScreen(
+                    uiState = uiState,
+                    searchQuery = "",
+                    onSearchQueryChange = {},
+                    onCoinClick = {},
+                    onRefresh = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
             onNodeWithText("Search coins").assertIsDisplayed()
         }
     }
@@ -99,15 +125,12 @@ class CoinSearchScreenTest {
     fun when_searchQueryEntered_should_displaySearchQuery() {
         val searchQuery = "Bitcoin"
 
-        val uiStateSuccess = SearchUiState.Success(
-            searchResults = persistentListOf(),
-            queryHasNoResults = false
-        )
+        val uiState = SearchUiState()
 
         composeTestRule.setContent {
             AppTheme {
                 SearchScreen(
-                    uiState = uiStateSuccess,
+                    uiState = uiState,
                     searchQuery = searchQuery,
                     onSearchQueryChange = {},
                     onCoinClick = {},
@@ -125,15 +148,12 @@ class CoinSearchScreenTest {
     fun when_searchQueryEntered_should_displayClearSearchButton() {
         val searchQuery = "Bitcoin"
 
-        val uiStateSuccess = SearchUiState.Success(
-            searchResults = persistentListOf(),
-            queryHasNoResults = false
-        )
+        val uiState = SearchUiState()
 
         composeTestRule.setContent {
             AppTheme {
                 SearchScreen(
-                    uiState = uiStateSuccess,
+                    uiState = uiState,
                     searchQuery = searchQuery,
                     onSearchQueryChange = {},
                     onCoinClick = {},
@@ -151,15 +171,12 @@ class CoinSearchScreenTest {
     fun when_clearSearchClicked_should_clearSearchQuery() {
         val searchQuery = mutableStateOf("Bitcoin")
 
-        val uiStateSuccess = SearchUiState.Success(
-            searchResults = persistentListOf(),
-            queryHasNoResults = false
-        )
+        val uiState = SearchUiState()
 
         composeTestRule.setContent {
             AppTheme {
                 SearchScreen(
-                    uiState = uiStateSuccess,
+                    uiState = uiState,
                     searchQuery = searchQuery.value,
                     onSearchQueryChange = { searchQuery.value = it },
                     onCoinClick = {},
@@ -179,15 +196,12 @@ class CoinSearchScreenTest {
     fun when_typingInSearchBar_should_updateSearchQuery() {
         val searchQuery = mutableStateOf("")
 
-        val uiStateSuccess = SearchUiState.Success(
-            searchResults = persistentListOf(),
-            queryHasNoResults = false
-        )
+        val uiState = SearchUiState()
 
         composeTestRule.setContent {
             AppTheme {
                 SearchScreen(
-                    uiState = uiStateSuccess,
+                    uiState = uiState,
                     searchQuery = searchQuery.value,
                     onSearchQueryChange = { searchQuery.value = it },
                     onCoinClick = {},
@@ -206,30 +220,27 @@ class CoinSearchScreenTest {
 
     @Test
     fun when_searchResultsListDisplayed_should_displayInExpectedFormat() {
-        val searchResults = persistentListOf(
-            SearchCoin(
-                id = "Qwsogvtv82FCd",
-                symbol = "BTC",
-                name = "Bitcoin",
-                imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
-            ),
-            SearchCoin(
-                id = "ZlZpzOJo43mIo",
-                symbol = "BCH",
-                name = "Bitcoin Cash",
-                imageUrl = "https://cdn.coinranking.com/By8ziihX7/bch.svg"
+        val uiState = SearchUiState(
+            searchResults = persistentListOf(
+                SearchCoin(
+                    id = "Qwsogvtv82FCd",
+                    symbol = "BTC",
+                    name = "Bitcoin",
+                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
+                ),
+                SearchCoin(
+                    id = "ZlZpzOJo43mIo",
+                    symbol = "BCH",
+                    name = "Bitcoin Cash",
+                    imageUrl = "https://cdn.coinranking.com/By8ziihX7/bch.svg"
+                )
             )
-        )
-
-        val uiStateSuccess = SearchUiState.Success(
-            searchResults = searchResults,
-            queryHasNoResults = false
         )
 
         composeTestRule.setContent {
             AppTheme {
                 SearchScreen(
-                    uiState = uiStateSuccess,
+                    uiState = uiState,
                     searchQuery = "",
                     onSearchQueryChange = {},
                     onCoinClick = {},
@@ -250,24 +261,21 @@ class CoinSearchScreenTest {
     fun when_clickingCoinItem_should_callOnCoinClick() {
         var onCoinClickCalled = false
 
-        val searchResults = persistentListOf(
-            SearchCoin(
-                id = "Qwsogvtv82FCd",
-                symbol = "BTC",
-                name = "Bitcoin",
-                imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
+        val uiState = SearchUiState(
+            searchResults = persistentListOf(
+                SearchCoin(
+                    id = "Qwsogvtv82FCd",
+                    symbol = "BTC",
+                    name = "Bitcoin",
+                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
+                )
             )
-        )
-
-        val uiStateSuccess = SearchUiState.Success(
-            searchResults = searchResults,
-            queryHasNoResults = false
         )
 
         composeTestRule.setContent {
             AppTheme {
                 SearchScreen(
-                    uiState = uiStateSuccess,
+                    uiState = uiState,
                     searchQuery = "",
                     onSearchQueryChange = {},
                     onCoinClick = { onCoinClickCalled = true },
@@ -285,15 +293,14 @@ class CoinSearchScreenTest {
 
     @Test
     fun when_searchQueryHasNoResults_should_displaySearchEmptyState() {
-        val uiStateSuccess = SearchUiState.Success(
-            searchResults = persistentListOf(),
+        val uiState = SearchUiState(
             queryHasNoResults = true
         )
 
         composeTestRule.setContent {
             AppTheme {
                 SearchScreen(
-                    uiState = uiStateSuccess,
+                    uiState = uiState,
                     searchQuery = "abcdefghijk",
                     onSearchQueryChange = {},
                     onCoinClick = {},
