@@ -26,18 +26,18 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
     private val getCoinDetailsUseCase: GetCoinDetailsUseCase,
     private val getCoinChartUseCase: GetCoinChartUseCase,
     private val isCoinFavouriteUseCase: IsCoinFavouriteUseCase,
     private val insertFavouriteCoinUseCase: InsertFavouriteCoinUseCase,
-    private val deleteFavouriteCoinUseCase: DeleteFavouriteCoinUseCase
+    private val deleteFavouriteCoinUseCase: DeleteFavouriteCoinUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<DetailsUiState>(DetailsUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    private val chartPeriodFlow = MutableStateFlow(ChartPeriod.Day)
     private val coinId = savedStateHandle.get<String>(PARAM_COIN_ID)
+    private val chartPeriodFlow = MutableStateFlow(ChartPeriod.Day)
 
     init {
         initialiseUiState()
@@ -45,8 +45,6 @@ class DetailsViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun initialiseUiState() {
-        _uiState.update { DetailsUiState.Loading }
-
         if (coinId == null) {
             _uiState.update { DetailsUiState.Error("Invalid coin ID") }
             return
