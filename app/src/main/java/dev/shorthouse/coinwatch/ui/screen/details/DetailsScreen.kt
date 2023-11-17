@@ -63,7 +63,9 @@ fun DetailsScreen(
         uiState = uiState,
         onNavigateUp = onNavigateUp,
         onClickFavouriteCoin = { viewModel.toggleIsCoinFavourite() },
-        onClickChartPeriod = { viewModel.updateChartPeriod(it) },
+        onClickChartPeriod = { chartPeriod ->
+            viewModel.updateChartPeriod(chartPeriod)
+        },
         onRefresh = { viewModel.initialiseUiState() }
     )
 }
