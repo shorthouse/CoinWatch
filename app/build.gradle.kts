@@ -73,7 +73,7 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     // Compose
-    implementation(platform("androidx.compose:compose-bom:2023.10.00"))
+    implementation(platform("androidx.compose:compose-bom:2023.10.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
@@ -98,8 +98,8 @@ dependencies {
     // Hilt
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-android-compiler:2.48.1")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-rc01")
+    kapt("androidx.hilt:hilt-compiler:1.1.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -134,7 +134,7 @@ dependencies {
     androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test:rules:1.5.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.3")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.4")
     androidTestImplementation("com.google.truth:truth:1.1.5")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
