@@ -47,8 +47,8 @@ import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import dev.shorthouse.coinwatch.ui.previewdata.DetailsUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartRangeCard
-import dev.shorthouse.coinwatch.ui.screen.details.component.DetailsEmptyTopBar
 import dev.shorthouse.coinwatch.ui.screen.details.component.DetailsSkeletonLoader
+import dev.shorthouse.coinwatch.ui.screen.details.component.EmptyTopBar
 import dev.shorthouse.coinwatch.ui.screen.details.component.MarketStatsCard
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
@@ -65,8 +65,7 @@ fun DetailsScreen(
         onClickFavouriteCoin = { viewModel.toggleIsCoinFavourite() },
         onClickChartPeriod = { chartPeriod ->
             viewModel.updateChartPeriod(chartPeriod)
-        },
-        onRefresh = { viewModel.initialiseUiState() }
+        }
     )
 }
 
@@ -77,7 +76,6 @@ fun DetailsScreen(
     onNavigateUp: () -> Unit,
     onClickFavouriteCoin: () -> Unit,
     onClickChartPeriod: (ChartPeriod) -> Unit,
-    onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -96,7 +94,7 @@ fun DetailsScreen(
                 }
 
                 else -> {
-                    DetailsEmptyTopBar(
+                    EmptyTopBar(
                         onNavigateUp = onNavigateUp
                     )
                 }
@@ -117,7 +115,6 @@ fun DetailsScreen(
                 is DetailsUiState.Error -> {
                     ErrorState(
                         message = uiState.message,
-                        onRetry = onRefresh,
                         modifier = Modifier.padding(scaffoldPadding)
                     )
                 }
@@ -270,8 +267,7 @@ private fun DetailsScreenPreview(
             uiState = uiState,
             onNavigateUp = {},
             onClickFavouriteCoin = {},
-            onClickChartPeriod = {},
-            onRefresh = {}
+            onClickChartPeriod = {}
         )
     }
 }
