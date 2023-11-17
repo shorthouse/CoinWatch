@@ -12,6 +12,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -105,6 +109,8 @@ fun CoinChartCard(
 @Preview
 @Composable
 private fun CoinChartCardPreview() {
+    var chartPeriod by remember { mutableStateOf(ChartPeriod.Day) }
+
     AppTheme {
         CoinChartCard(
             currentPrice = Price("1000"),
@@ -113,7 +119,7 @@ private fun CoinChartCardPreview() {
             ),
             periodPriceChangePercentage = Percentage("7.06"),
             chartPeriod = ChartPeriod.Day,
-            onClickChartPeriod = {}
+            onClickChartPeriod = { chartPeriod = it }
         )
     }
 }
