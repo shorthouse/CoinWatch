@@ -36,8 +36,7 @@ class DetailsScreenTest {
                     uiState = uiStateLoading,
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
-                    onClickChartPeriod = {},
-                    onRefresh = {}
+                    onClickChartPeriod = {}
                 )
             }
         }
@@ -59,8 +58,7 @@ class DetailsScreenTest {
                     uiState = uiStateError,
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
-                    onClickChartPeriod = {},
-                    onRefresh = {}
+                    onClickChartPeriod = {}
                 )
             }
         }
@@ -74,30 +72,6 @@ class DetailsScreenTest {
     }
 
     @Test
-    fun when_uiStateErrorRetryClicked_should_callOnRefresh() {
-        var onRefreshCalled = false
-        val uiStateError = DetailsUiState.Error("Error message")
-
-        composeTestRule.setContent {
-            AppTheme {
-                DetailsScreen(
-                    uiState = uiStateError,
-                    onNavigateUp = {},
-                    onClickFavouriteCoin = {},
-                    onClickChartPeriod = {},
-                    onRefresh = { onRefreshCalled = true }
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("Retry").performClick()
-        }
-
-        assertThat(onRefreshCalled).isTrue()
-    }
-
-    @Test
     fun when_uiStateErrorBackClicked_should_callOnNavigateUp() {
         var onNavigateUpCalled = false
         val uiStateError = DetailsUiState.Error("Error message")
@@ -108,8 +82,7 @@ class DetailsScreenTest {
                     uiState = uiStateError,
                     onNavigateUp = { onNavigateUpCalled = true },
                     onClickFavouriteCoin = {},
-                    onClickChartPeriod = {},
-                    onRefresh = {}
+                    onClickChartPeriod = {}
                 )
             }
         }
@@ -161,8 +134,7 @@ class DetailsScreenTest {
                     uiState = uiStateSuccess,
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
-                    onClickChartPeriod = {},
-                    onRefresh = {}
+                    onClickChartPeriod = {}
                 )
             }
         }
@@ -253,8 +225,7 @@ class DetailsScreenTest {
                     uiState = uiStateSuccess,
                     onNavigateUp = { onNavigateUpCalled = true },
                     onClickFavouriteCoin = {},
-                    onClickChartPeriod = {},
-                    onRefresh = {}
+                    onClickChartPeriod = {}
                 )
             }
         }
@@ -308,8 +279,7 @@ class DetailsScreenTest {
                     uiState = uiStateSuccess,
                     onNavigateUp = {},
                     onClickFavouriteCoin = { onClickFavouriteCoinCalled = true },
-                    onClickChartPeriod = {},
-                    onRefresh = {}
+                    onClickChartPeriod = {}
                 )
             }
         }
@@ -365,8 +335,7 @@ class DetailsScreenTest {
                     uiState = uiStateSuccess,
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
-                    onClickChartPeriod = { onClickChartPeriodMap[it] = true },
-                    onRefresh = {}
+                    onClickChartPeriod = { onClickChartPeriodMap[it] = true }
                 )
             }
         }
@@ -419,8 +388,7 @@ class DetailsScreenTest {
                     uiState = uiStateSuccess,
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
-                    onClickChartPeriod = {},
-                    onRefresh = {}
+                    onClickChartPeriod = {}
                 )
             }
         }
@@ -463,8 +431,7 @@ class DetailsScreenTest {
                     uiState = uiStateSuccess,
                     onNavigateUp = {},
                     onClickFavouriteCoin = {},
-                    onClickChartPeriod = {},
-                    onRefresh = {}
+                    onClickChartPeriod = {}
                 )
             }
         }
