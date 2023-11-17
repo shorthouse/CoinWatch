@@ -98,22 +98,22 @@ class DetailsViewModel @Inject constructor(
     }
 
     fun toggleIsCoinFavourite() {
+        if (coinId == null) return
+
         viewModelScope.launch {
-            if (coinId != null) {
-                val isCoinFavouriteResult = isCoinFavouriteUseCase(coinId).first()
+            val isCoinFavouriteResult = isCoinFavouriteUseCase(coinId).first()
 
-                if (isCoinFavouriteResult is Result.Success) {
-                    val isCoinFavourite = isCoinFavouriteResult.data
+            if (isCoinFavouriteResult is Result.Success) {
+                val isCoinFavourite = isCoinFavouriteResult.data
 
-                    if (isCoinFavourite) {
-                        deleteFavouriteCoinUseCase(
-                            FavouriteCoin(id = coinId)
-                        )
-                    } else {
-                        insertFavouriteCoinUseCase(
-                            FavouriteCoin(id = coinId)
-                        )
-                    }
+                if (isCoinFavourite) {
+                    deleteFavouriteCoinUseCase(
+                        FavouriteCoin(id = coinId)
+                    )
+                } else {
+                    insertFavouriteCoinUseCase(
+                        FavouriteCoin(id = coinId)
+                    )
                 }
             }
         }
