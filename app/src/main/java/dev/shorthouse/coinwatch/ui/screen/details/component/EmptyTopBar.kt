@@ -17,7 +17,7 @@ import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailsEmptyTopBar(
+fun EmptyTopBar(
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -42,7 +42,7 @@ fun DetailsEmptyTopBar(
 @Composable
 private fun DetailsEmptyTopBarPreview() {
     AppTheme {
-        DetailsEmptyTopBar(
+        EmptyTopBar(
             onNavigateUp = {}
         )
     }
