@@ -10,10 +10,10 @@ data class UserPreferences(
     val currency: Currency = Currency.USD
 )
 
-enum class Currency(val symbol: String) {
-    USD("$"),
-    GBP("£"),
-    EUR("€")
+enum class Currency(val symbol: String, @StringRes val nameId: Int) {
+    USD("$", R.string.currency_usd),
+    GBP("£", R.string.currency_gbp),
+    EUR("€", R.string.currency_eur)
 }
 
 enum class CoinSort(@StringRes val nameId: Int) {
