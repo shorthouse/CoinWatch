@@ -527,22 +527,7 @@ class MarketScreenTest {
         var onCoinClickCalled = false
 
         val uiStateSuccess = MarketUiState(
-            coins = persistentListOf(
-                CachedCoin(
-                    id = "bitcoin",
-                    symbol = "BTC",
-                    name = "Bitcoin",
-                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                    currentPrice = Price("29446.336548759988"),
-                    priceChangePercentage24h = Percentage("0.76833"),
-                    prices24h = persistentListOf(
-                        BigDecimal("29390.15178296929"),
-                        BigDecimal("29428.222505493162"),
-                        BigDecimal("29475.12359313808"),
-                        BigDecimal("29471.20179209623")
-                    )
-                )
-            )
+            coins = persistentListOf(bitcoin)
         )
 
         composeTestRule.setContent {
@@ -737,22 +722,7 @@ class MarketScreenTest {
         var onRefreshCalled = false
 
         val uiState = MarketUiState(
-            coins = persistentListOf(
-                CachedCoin(
-                    id = "bitcoin",
-                    symbol = "BTC",
-                    name = "Bitcoin",
-                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                    currentPrice = Price("29446.336548759988"),
-                    priceChangePercentage24h = Percentage("0.76833"),
-                    prices24h = persistentListOf(
-                        BigDecimal("29390.15178296929"),
-                        BigDecimal("29428.222505493162"),
-                        BigDecimal("29475.12359313808"),
-                        BigDecimal("29471.20179209623")
-                    )
-                )
-            )
+            coins = persistentListOf(bitcoin)
         )
 
         composeTestRule.setContent {
@@ -804,6 +774,33 @@ class MarketScreenTest {
 
         composeTestRule.apply {
             onNodeWithText("Latest coin data unavailable").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_coinsListHasItems_should_displaySearchPromptAtBottomOfList() {
+        val uiState = MarketUiState(
+            coins = persistentListOf(bitcoin)
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                MarketScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateCoinSort = {},
+                    onUpdateIsCoinSortSheetShown = {},
+                    onRefresh = {},
+                    onDismissError = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Can't find the coin you're looking for?").assertIsDisplayed()
+            onNodeWithText("Try using the search function!").assertIsDisplayed()
         }
     }
 }
