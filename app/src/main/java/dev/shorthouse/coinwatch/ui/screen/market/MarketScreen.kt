@@ -3,13 +3,13 @@ package dev.shorthouse.coinwatch.ui.screen.market
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -49,6 +49,7 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.data.datastore.CoinSort
 import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.PullRefreshIndicator
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.pullRefresh
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.rememberPullRefreshState
@@ -59,7 +60,6 @@ import dev.shorthouse.coinwatch.ui.screen.market.component.CurrencyBottomSheet
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketChip
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketCoinItem
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketEmptyState
-import dev.shorthouse.coinwatch.ui.screen.market.component.MarketSkeletonLoader
 import dev.shorthouse.coinwatch.ui.screen.market.component.SearchPrompt
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
@@ -168,11 +168,13 @@ fun MarketScreen(
     ) { scaffoldPadding ->
         Box(
             contentAlignment = Alignment.TopCenter,
-            modifier = Modifier.pullRefresh(pullRefreshState).padding(scaffoldPadding)
+            modifier = Modifier
+                .pullRefresh(pullRefreshState)
+                .padding(scaffoldPadding)
         ) {
             when {
                 uiState.isLoading -> {
-                    MarketSkeletonLoader()
+                    LoadingIndicator()
                 }
 
                 else -> {
@@ -288,27 +290,27 @@ fun MarketContent(
             .fillMaxSize()
             .padding(horizontal = 12.dp)
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            MarketChip(
-                label = currency.name.uppercase(),
-                onClick = { onUpdateIsCurrencySheetShown(true) }
-            )
-            MarketChip(
-                label = stringResource(coinSort.nameId),
-                onClick = { onUpdateIsCoinSortSheetShown(true) }
-            )
-        }
-
         if (coins.isEmpty()) {
-            MarketEmptyState(modifier = Modifier.fillMaxSize())
+            MarketEmptyState()
         } else {
             LazyColumn(
                 state = lazyListState,
                 modifier = Modifier.fillMaxSize()
             ) {
-                // Workaround for https://issuetracker.google.com/issues/209652366
-                item(key = "0") {
-                    Spacer(Modifier.padding(1.dp))
+                item {
+                    Row {
+                        MarketChip(
+                            label = stringResource(currency.nameId),
+                            onClick = { onUpdateIsCurrencySheetShown(true) }
+                        )
+
+                        Spacer(Modifier.width(8.dp))
+
+                        MarketChip(
+                            label = stringResource(coinSort.nameId),
+                            onClick = { onUpdateIsCoinSortSheetShown(true) }
+                        )
+                    }
                 }
                 items(
                     count = coins.size,

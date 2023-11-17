@@ -26,10 +26,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.ui.component.ErrorState
+import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.previewdata.FavouritesUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouriteItem
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouritesEmptyState
-import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouritesSkeletonLoader
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 
@@ -69,7 +69,7 @@ fun FavouriteScreen(
     ) { scaffoldPadding ->
         when {
             uiState.isLoading -> {
-                FavouritesSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
+                LoadingIndicator(modifier = Modifier.padding(scaffoldPadding))
             }
 
             uiState.errorMessage != null -> {
@@ -129,9 +129,9 @@ fun FavouritesContent(
     } else {
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 140.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(horizontal = 12.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 12.dp),
             modifier = modifier
         ) {
             items(

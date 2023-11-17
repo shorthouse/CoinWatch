@@ -50,7 +50,7 @@ fun FavouriteItem(
     Surface(
         shape = MaterialTheme.shapes.medium,
         modifier = modifier
-            .height(200.dp)
+            .height(180.dp)
             .clickable { onCoinClick(coin) }
     ) {
         Column {

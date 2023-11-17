@@ -1,11 +1,12 @@
 package dev.shorthouse.coinwatch.ui.screen
 
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isSelected
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onParent
 import androidx.compose.ui.test.performClick
@@ -34,8 +35,18 @@ class MarketScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    private val bitcoin = CachedCoin(
+        id = "bitcoin",
+        symbol = "BTC",
+        name = "Bitcoin",
+        imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+        currentPrice = Price("29446.336548759988"),
+        priceChangePercentage24h = Percentage("1.76833"),
+        prices24h = persistentListOf()
+    )
+
     @Test
-    fun when_uiStateLoading_should_showSkeletonLoader() {
+    fun when_uiStateLoading_should_showLoadingIndicator() {
         val uiState = MarketUiState(
             isLoading = true
         )
@@ -56,7 +67,9 @@ class MarketScreenTest {
         }
 
         composeTestRule.apply {
-            onNodeWithTag("Loading").assertIsDisplayed()
+            onNode(
+                SemanticsMatcher.keyIsDefined(SemanticsProperties.ProgressBarRangeInfo)
+            ).assertIsDisplayed()
         }
     }
 
@@ -139,8 +152,37 @@ class MarketScreenTest {
     }
 
     @Test
+    fun when_noCoinsInList_should_notShowCurrencyOrSortChips() {
+        val uiState = MarketUiState(
+            currency = Currency.USD,
+            coinSort = CoinSort.MarketCap
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                MarketScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onUpdateCoinSort = {},
+                    onUpdateIsCoinSortSheetShown = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onRefresh = {},
+                    onDismissError = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("USD").assertDoesNotExist()
+            onNodeWithText("Market Cap").assertDoesNotExist()
+        }
+    }
+
+    @Test
     fun when_currencyUSD_should_displaySelectedCurrencyAsUSD() {
         val uiState = MarketUiState(
+            coins = persistentListOf(bitcoin),
             currency = Currency.USD
         )
 
@@ -167,7 +209,8 @@ class MarketScreenTest {
     @Test
     fun when_currencyGBP_should_displaySelectedCurrencyAsGBP() {
         val uiState = MarketUiState(
-            currency = Currency.GBP
+            currency = Currency.GBP,
+            coins = persistentListOf(bitcoin)
         )
 
         composeTestRule.setContent {
@@ -193,7 +236,8 @@ class MarketScreenTest {
     @Test
     fun when_currencyEUR_should_displaySelectedCurrencyAsEUR() {
         val uiState = MarketUiState(
-            currency = Currency.EUR
+            currency = Currency.EUR,
+            coins = persistentListOf(bitcoin)
         )
 
         composeTestRule.setContent {
@@ -220,7 +264,8 @@ class MarketScreenTest {
     fun when_clickCurrencyChip_should_callShowCurrencyBottomSheet() {
         var showCurrencyBottomSheetCalled = false
         val uiState = MarketUiState(
-            currency = Currency.USD
+            currency = Currency.USD,
+            coins = persistentListOf(bitcoin)
         )
 
         composeTestRule.setContent {
@@ -250,7 +295,8 @@ class MarketScreenTest {
     @Test
     fun when_coinSortMarketCap_should_displaySelectedCoinSortAsMarketCap() {
         val uiState = MarketUiState(
-            coinSort = CoinSort.MarketCap
+            coinSort = CoinSort.MarketCap,
+            coins = persistentListOf(bitcoin)
         )
 
         composeTestRule.setContent {
@@ -276,7 +322,8 @@ class MarketScreenTest {
     @Test
     fun when_coinSortPrice_should_displaySelectedCoinSortAsPrice() {
         val uiState = MarketUiState(
-            coinSort = CoinSort.Price
+            coinSort = CoinSort.Price,
+            coins = persistentListOf(bitcoin)
         )
 
         composeTestRule.setContent {
@@ -302,7 +349,8 @@ class MarketScreenTest {
     @Test
     fun when_coinSortPriceChange_should_displaySelectedCoinSortAsPriceChange() {
         val uiState = MarketUiState(
-            coinSort = CoinSort.PriceChange24h
+            coinSort = CoinSort.PriceChange24h,
+            coins = persistentListOf(bitcoin)
         )
 
         composeTestRule.setContent {
@@ -328,7 +376,8 @@ class MarketScreenTest {
     @Test
     fun when_coinSortVolume_should_displaySelectedCoinSortAsVolume() {
         val uiState = MarketUiState(
-            coinSort = CoinSort.Volume24h
+            coinSort = CoinSort.Volume24h,
+            coins = persistentListOf(bitcoin)
         )
 
         composeTestRule.setContent {
@@ -355,7 +404,8 @@ class MarketScreenTest {
     fun when_clickCoinSortChip_should_callShowCoinSortBottomSheet() {
         var showCoinSortBottomSheetCalled = false
         val uiState = MarketUiState(
-            coinSort = CoinSort.MarketCap
+            coinSort = CoinSort.MarketCap,
+            coins = persistentListOf(bitcoin)
         )
 
         composeTestRule.setContent {
