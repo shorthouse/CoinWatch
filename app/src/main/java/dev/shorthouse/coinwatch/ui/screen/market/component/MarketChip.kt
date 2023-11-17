@@ -40,6 +40,7 @@ fun MarketChip(
             labelColor = MaterialTheme.colorScheme.onSurface,
             iconColor = MaterialTheme.colorScheme.onSurface
         ),
+        shape = MaterialTheme.shapes.small,
         border = null,
         modifier = modifier
     )
