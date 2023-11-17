@@ -1,10 +1,11 @@
 package dev.shorthouse.coinwatch.ui.screen
 
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.google.common.truth.Truth.assertThat
@@ -25,7 +26,7 @@ class FavouritesScreenTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun when_uiStateLoading_should_showSkeletonLoader() {
+    fun when_uiStateLoading_should_showLoadingIndicator() {
         val uiState = FavouritesUiState(
             isLoading = true
         )
@@ -41,7 +42,9 @@ class FavouritesScreenTest {
         }
 
         composeTestRule.apply {
-            onNodeWithTag("Loading").assertIsDisplayed()
+            onNode(
+                SemanticsMatcher.keyIsDefined(SemanticsProperties.ProgressBarRangeInfo)
+            ).assertIsDisplayed()
         }
     }
 
