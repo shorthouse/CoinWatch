@@ -1,5 +1,7 @@
 package dev.shorthouse.coinwatch.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -86,6 +88,8 @@ private fun NavigationBarNavHost(
     NavHost(
         navController = navController,
         startDestination = NavigationBarScreen.Market.route,
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.None },
         modifier = modifier
     ) {
         composable(route = NavigationBarScreen.Market.route) {
