@@ -63,7 +63,8 @@ class SearchViewModel @Inject constructor(
                                 it.copy(
                                     searchResults = searchResults,
                                     queryHasNoResults = searchResults.isEmpty(),
-                                    isSearching = false
+                                    isSearching = false,
+                                    errorMessage = null
                                 )
                             }
                         }
@@ -73,7 +74,8 @@ class SearchViewModel @Inject constructor(
                         it.copy(
                             searchResults = persistentListOf(),
                             queryHasNoResults = false,
-                            isSearching = false
+                            isSearching = false,
+                            errorMessage = null
                         )
                     }
                 }
