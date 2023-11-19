@@ -121,11 +121,7 @@ fun FavouritesContent(
     modifier: Modifier = Modifier
 ) {
     if (favouriteCoins.isEmpty()) {
-        FavouritesEmptyState(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(12.dp)
-        )
+        FavouritesEmptyState(modifier = modifier.padding(12.dp))
     } else {
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 140.dp),
