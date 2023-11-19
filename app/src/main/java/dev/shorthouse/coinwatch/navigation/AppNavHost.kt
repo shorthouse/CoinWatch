@@ -29,8 +29,8 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
         }
         composable(
             route = Screen.Details.route + "/{coinId}",
-            enterTransition = { fadeIn(animationSpec = tween(700)) },
-            exitTransition = { fadeOut(animationSpec = tween(700)) }
+            enterTransition = { fadeIn(animationSpec = tween(500)) },
+            exitTransition = { fadeOut(animationSpec = tween(500)) }
         ) {
             DetailsScreen(onNavigateUp = { navController.navigateUp() })
         }
