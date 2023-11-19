@@ -100,32 +100,31 @@ fun DetailsScreen(
                 }
             }
         },
-        content = { scaffoldPadding ->
-            when (uiState) {
-                is DetailsUiState.Success -> {
-                    DetailsContent(
-                        coinDetails = uiState.coinDetails,
-                        coinChart = uiState.coinChart,
-                        chartPeriod = uiState.chartPeriod,
-                        onClickChartPeriod = onClickChartPeriod,
-                        modifier = Modifier.padding(scaffoldPadding)
-                    )
-                }
-
-                is DetailsUiState.Error -> {
-                    ErrorState(
-                        message = uiState.message,
-                        modifier = Modifier.padding(scaffoldPadding)
-                    )
-                }
-
-                is DetailsUiState.Loading -> {
-                    DetailsSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
-                }
-            }
-        },
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-    )
+    ) { scaffoldPadding ->
+        when (uiState) {
+            is DetailsUiState.Success -> {
+                DetailsContent(
+                    coinDetails = uiState.coinDetails,
+                    coinChart = uiState.coinChart,
+                    chartPeriod = uiState.chartPeriod,
+                    onClickChartPeriod = onClickChartPeriod,
+                    modifier = Modifier.padding(scaffoldPadding)
+                )
+            }
+
+            is DetailsUiState.Error -> {
+                ErrorState(
+                    message = uiState.message,
+                    modifier = Modifier.padding(scaffoldPadding)
+                )
+            }
+
+            is DetailsUiState.Loading -> {
+                DetailsSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
+            }
+        }
+    }
 }
 
 @Composable

@@ -97,25 +97,6 @@ fun SearchScreen(
                 }
             }
         },
-        content = {
-            when {
-                uiState.isSearching -> {
-                    LoadingIndicator()
-                }
-
-                uiState.errorMessage != null -> {
-                    ErrorState(message = uiState.errorMessage)
-                }
-
-                else -> {
-                    SearchContent(
-                        searchResults = uiState.searchResults,
-                        queryHasNoResults = uiState.queryHasNoResults,
-                        onCoinClick = onCoinClick
-                    )
-                }
-            }
-        },
         colors = SearchBarDefaults.colors(
             containerColor = MaterialTheme.colorScheme.background,
             dividerColor = MaterialTheme.colorScheme.surface
@@ -125,7 +106,25 @@ fun SearchScreen(
         onActiveChange = {},
         tonalElevation = 0.dp,
         modifier = modifier.fillMaxSize()
-    )
+    ) {
+        when {
+            uiState.isSearching -> {
+                LoadingIndicator()
+            }
+
+            uiState.errorMessage != null -> {
+                ErrorState(message = uiState.errorMessage)
+            }
+
+            else -> {
+                SearchContent(
+                    searchResults = uiState.searchResults,
+                    queryHasNoResults = uiState.queryHasNoResults,
+                    onCoinClick = onCoinClick
+                )
+            }
+        }
+    }
 }
 
 @Composable
