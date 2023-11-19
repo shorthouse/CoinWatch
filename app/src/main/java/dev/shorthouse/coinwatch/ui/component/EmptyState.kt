@@ -30,9 +30,7 @@ fun EmptyState(
     subtitle: @Composable () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(
-        modifier = modifier.background(MaterialTheme.colorScheme.background)
-    ) {
+    Box(modifier = modifier.background(MaterialTheme.colorScheme.background)) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,

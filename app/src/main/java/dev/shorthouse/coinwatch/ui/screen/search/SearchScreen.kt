@@ -136,16 +136,9 @@ fun SearchContent(
     modifier: Modifier = Modifier
 ) {
     if (queryHasNoResults) {
-        SearchEmptyState(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(12.dp)
-        )
+        SearchEmptyState(modifier = modifier.padding(12.dp))
     } else {
-        LazyColumn(
-            contentPadding = PaddingValues(12.dp),
-            modifier = modifier.fillMaxSize()
-        ) {
+        LazyColumn(contentPadding = PaddingValues(12.dp)) {
             items(
                 count = searchResults.size,
                 key = { index -> searchResults[index].id },

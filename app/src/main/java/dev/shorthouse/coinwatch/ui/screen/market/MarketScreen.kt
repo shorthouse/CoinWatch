@@ -285,18 +285,11 @@ fun MarketContent(
     lazyListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 12.dp)
-    ) {
+    Column(modifier = modifier.padding(horizontal = 12.dp)) {
         if (coins.isEmpty()) {
             MarketEmptyState()
         } else {
-            LazyColumn(
-                state = lazyListState,
-                modifier = Modifier.fillMaxSize()
-            ) {
+            LazyColumn(state = lazyListState) {
                 item {
                     Row {
                         MarketChip(
