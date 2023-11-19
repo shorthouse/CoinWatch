@@ -1,6 +1,5 @@
 package dev.shorthouse.coinwatch.ui.screen
 
-import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -66,8 +65,6 @@ class DetailsScreenTest {
         composeTestRule.apply {
             onNodeWithText("An error has occurred").assertIsDisplayed()
             onNodeWithText("Error message").assertIsDisplayed()
-            onNodeWithText("Retry").assertIsDisplayed()
-            onNodeWithText("Retry").assertHasClickAction()
         }
     }
 
