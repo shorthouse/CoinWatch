@@ -33,8 +33,8 @@ class FavouritesViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             favouriteCoins = favouriteCoinsResult.data.toImmutableList(),
-                            isLoading = false
-
+                            isLoading = false,
+                            errorMessage = null
                         )
                     }
                 }
