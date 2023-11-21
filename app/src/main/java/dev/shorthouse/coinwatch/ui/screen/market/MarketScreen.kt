@@ -15,14 +15,9 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -50,6 +45,7 @@ import dev.shorthouse.coinwatch.data.datastore.CoinSort
 import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
+import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.PullRefreshIndicator
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.pullRefresh
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.rememberPullRefreshState
@@ -113,7 +109,7 @@ fun MarketScreen(
 ) {
     val scope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val lazyListState = rememberLazyListState()
+    val listState = rememberLazyListState()
     val coinSortSheetState = rememberModalBottomSheetState()
     val currencySheetState = rememberModalBottomSheetState()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -123,7 +119,7 @@ fun MarketScreen(
     )
     val showScrollToTopFab by remember {
         derivedStateOf {
-            lazyListState.firstVisibleItemIndex > 1
+            listState.firstVisibleItemIndex > 1
         }
     }
 
@@ -141,23 +137,11 @@ fun MarketScreen(
                 enter = scaleIn(),
                 exit = scaleOut()
             ) {
-                SmallFloatingActionButton(
+                ScrollToTopFab(
                     onClick = {
                         scope.launch {
-                            scrollBehavior.state.heightOffset = 0f
-                            lazyListState.animateScrollToItem(0)
+                            listState.animateScrollToItem(0)
                         }
-                    },
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    elevation = FloatingActionButtonDefaults.elevation(
-                        defaultElevation = 12.dp
-                    ),
-                    content = {
-                        Icon(
-                            imageVector = Icons.Rounded.KeyboardDoubleArrowUp,
-                            contentDescription = stringResource(R.string.cd_list_scroll_top)
-                        )
                     }
                 )
             }
@@ -185,7 +169,7 @@ fun MarketScreen(
                         onUpdateIsCurrencySheetShown = onUpdateIsCurrencySheetShown,
                         coinSort = uiState.coinSort,
                         onUpdateIsCoinSortSheetShown = onUpdateIsCoinSortSheetShown,
-                        lazyListState = lazyListState
+                        lazyListState = listState
                     )
 
                     if (uiState.isCoinSortSheetShown) {

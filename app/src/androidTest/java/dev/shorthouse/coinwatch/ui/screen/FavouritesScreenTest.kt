@@ -7,7 +7,9 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onParent
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollToIndex
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
@@ -17,6 +19,7 @@ import dev.shorthouse.coinwatch.ui.screen.favourites.FavouritesUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import org.junit.Rule
 import org.junit.Test
 
@@ -235,5 +238,40 @@ class FavouritesScreenTest {
         }
 
         assertThat(onCoinClickCalled).isTrue()
+    }
+
+    @Test
+    fun when_scrollingFavouritesList_should_showScrollToTopFab() {
+        val favouriteCoins = (1..10).map {
+            Coin(
+                id = it.toString(),
+                symbol = "",
+                name = it.toString(),
+                imageUrl = "",
+                currentPrice = Price(null),
+                priceChangePercentage24h = Percentage(null),
+                prices24h = persistentListOf()
+            )
+        }.toPersistentList()
+
+        val uiState = FavouritesUiState(
+            favouriteCoins = favouriteCoins
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onRefresh = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithContentDescription("Scroll to top").assertDoesNotExist()
+            onNodeWithText("1").onParent().performScrollToIndex(favouriteCoins.size - 1)
+            onNodeWithContentDescription("Scroll to top").assertIsDisplayed()
+        }
     }
 }

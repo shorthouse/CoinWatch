@@ -711,7 +711,7 @@ class MarketScreenTest {
         }
 
         composeTestRule.apply {
-            onNodeWithText("Scroll to top").assertDoesNotExist()
+            onNodeWithContentDescription("Scroll to top").assertDoesNotExist()
             onNodeWithText("1").onParent().performScrollToIndex(coins.size - 1)
             onNodeWithContentDescription("Scroll to top").assertIsDisplayed()
         }

@@ -1,11 +1,16 @@
 package dev.shorthouse.coinwatch.ui.screen.favourites
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -14,7 +19,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -27,11 +35,13 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
+import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
 import dev.shorthouse.coinwatch.ui.previewdata.FavouritesUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouriteItem
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouritesEmptyState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.launch
 
 @Composable
 fun FavouritesScreen(
@@ -57,11 +67,33 @@ fun FavouriteScreen(
     onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val scope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val gridState = rememberLazyGridState()
+    val showScrollToTopFab by remember {
+        derivedStateOf {
+            gridState.firstVisibleItemIndex > 0
+        }
+    }
 
     Scaffold(
         topBar = {
             FavouritesTopBar(scrollBehavior = scrollBehavior)
+        },
+        floatingActionButton = {
+            AnimatedVisibility(
+                visible = showScrollToTopFab,
+                enter = scaleIn(),
+                exit = scaleOut()
+            ) {
+                ScrollToTopFab(
+                    onClick = {
+                        scope.launch {
+                            gridState.animateScrollToItem(0)
+                        }
+                    }
+                )
+            }
         },
         modifier = modifier
             .fillMaxSize()
@@ -84,6 +116,7 @@ fun FavouriteScreen(
                 FavouritesContent(
                     favouriteCoins = uiState.favouriteCoins,
                     onCoinClick = onCoinClick,
+                    gridState = gridState,
                     modifier = Modifier.padding(scaffoldPadding)
                 )
             }
@@ -118,12 +151,14 @@ fun FavouritesTopBar(
 fun FavouritesContent(
     favouriteCoins: ImmutableList<Coin>,
     onCoinClick: (Coin) -> Unit,
+    gridState: LazyGridState,
     modifier: Modifier = Modifier
 ) {
     if (favouriteCoins.isEmpty()) {
         FavouritesEmptyState(modifier = modifier.padding(12.dp))
     } else {
         LazyVerticalGrid(
+            state = gridState,
             columns = GridCells.Adaptive(minSize = 140.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
