@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.datastore
+package dev.shorthouse.coinwatch.data.userPreferences
 
 import androidx.datastore.core.DataStore
 import java.io.IOException
@@ -33,6 +33,14 @@ class UserPreferencesRepository @Inject constructor(
         if (coinSort != userPreferencesFlow.first().coinSort) {
             userPreferencesDataStore.updateData { currentPreferences ->
                 currentPreferences.copy(coinSort = coinSort)
+            }
+        }
+    }
+
+    suspend fun updateStartDestination(startDestination: StartDestination) {
+        if (startDestination != userPreferencesFlow.first().startDestination) {
+            userPreferencesDataStore.updateData { currentPreferences ->
+                currentPreferences.copy(startDestination = startDestination)
             }
         }
     }
