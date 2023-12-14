@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.domain
 
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.datastore.UserPreferencesRepository
+import dev.shorthouse.coinwatch.data.userPreferences.UserPreferencesRepository
 import dev.shorthouse.coinwatch.data.repository.details.CoinDetailsRepository
 import dev.shorthouse.coinwatch.model.CoinDetails
 import javax.inject.Inject

@@ -1,8 +1,8 @@
 package dev.shorthouse.coinwatch.data.repository.cachedCoin
 
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.datastore.CoinSort
-import dev.shorthouse.coinwatch.data.datastore.Currency
+import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
+import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.data.mapper.CoinMapper
 import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSource
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
