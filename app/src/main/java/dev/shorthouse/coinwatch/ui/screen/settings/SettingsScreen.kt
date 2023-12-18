@@ -7,7 +7,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,6 +32,7 @@ import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.previewdata.SettingsUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.settings.component.SettingsItem
+import dev.shorthouse.coinwatch.ui.screen.settings.component.StartDestinationDialog
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
@@ -85,7 +85,6 @@ fun SettingsScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsContent(
     startDestination: StartDestination,
@@ -107,11 +106,11 @@ fun SettingsContent(
     }
 
     if (isStartDestinationDialogOpen) {
-        AlertDialog(
+        StartDestinationDialog(
+            initialSelectedDestination = StartDestination.Favourites,
+            onOptionSelected = { onUpdateStartDestination(it) },
             onDismissRequest = { isStartDestinationDialogOpen = false }
-        ) {
-            
-        }
+        )
     }
 }
 
