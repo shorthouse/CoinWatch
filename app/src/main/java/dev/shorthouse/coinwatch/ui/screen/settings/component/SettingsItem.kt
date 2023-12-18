@@ -1,14 +1,16 @@
 package dev.shorthouse.coinwatch.ui.screen.settings.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,14 +36,16 @@ fun SettingsItem(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
+            .clickable { onClick() }
+            .padding(vertical = 8.dp, horizontal = 12.dp)
     ) {
         Icon(
             imageVector = leadingIcon,
             tint = MaterialTheme.colorScheme.onBackground,
-            contentDescription = null,
-            modifier = Modifier.padding(horizontal = 12.dp)
+            contentDescription = null
         )
+
+        Spacer(Modifier.width(12.dp))
 
         Column(modifier = Modifier.weight(1f)) {
             Text(
@@ -56,13 +60,11 @@ fun SettingsItem(
             )
         }
 
-        IconButton(onClick = onClick) {
-            Icon(
-                imageVector = trailingIcon,
-                tint = MaterialTheme.colorScheme.onBackground,
-                contentDescription = stringResource(R.string.cd_change_start_destination)
-            )
-        }
+        Icon(
+            imageVector = trailingIcon,
+            tint = MaterialTheme.colorScheme.onBackground,
+            contentDescription = stringResource(R.string.cd_change_start_destination)
+        )
     }
 }
 
