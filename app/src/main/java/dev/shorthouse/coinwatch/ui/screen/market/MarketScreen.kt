@@ -279,7 +279,10 @@ fun MarketTopBar(
             ) {
                 DropdownMenuItem(
                     text = {
-                        Text(stringResource(R.string.dropdown_option_settings))
+                        Text(
+                            text = stringResource(R.string.dropdown_option_settings),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
                     },
                     onClick = onNavigateSettings
                 )
