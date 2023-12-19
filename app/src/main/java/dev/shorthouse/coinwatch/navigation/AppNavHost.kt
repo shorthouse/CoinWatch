@@ -14,7 +14,10 @@ import dev.shorthouse.coinwatch.ui.screen.details.DetailsScreen
 import dev.shorthouse.coinwatch.ui.screen.settings.SettingsScreen
 
 @Composable
-fun AppNavHost(navController: NavHostController = rememberNavController()) {
+fun AppNavHost(
+    navigationBarStartDestination: NavigationBarScreen = NavigationBarScreen.Market,
+    navController: NavHostController = rememberNavController()
+) {
     val onNavigateDetails: (String) -> Unit = { coinId ->
         navController.navigate(Screen.Details.route + "/$coinId")
     }
@@ -31,6 +34,7 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
     ) {
         composable(route = Screen.NavigationBar.route) {
             NavigationBarScaffold(
+                startDestination = navigationBarStartDestination,
                 onNavigateDetails = onNavigateDetails,
                 onNavigateSettings = onNavigateSettings
             )
