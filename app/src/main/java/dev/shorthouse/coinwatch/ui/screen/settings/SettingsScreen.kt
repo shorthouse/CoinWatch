@@ -17,6 +17,7 @@ import androidx.compose.material.icons.rounded.Launch
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Smartphone
+import androidx.compose.material.icons.rounded.StarRate
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -165,6 +166,23 @@ fun SettingsContent(
             leadingIcon = Icons.Rounded.Lock,
             trailingIcon = Icons.Rounded.Launch,
             onClick = { uriHandler.openUri(privacyPolicyUri) }
+        )
+
+        Divider(color = MaterialTheme.colorScheme.primaryContainer)
+
+        Text(
+            text = stringResource(R.string.settings_group_feedback),
+            style = MaterialTheme.typography.labelLarge,
+            modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 4.dp)
+        )
+
+        val appListingUri = stringResource(R.string.app_listing_uri)
+        SettingsItem(
+            title = stringResource(R.string.settings_title_rate),
+            subtitle = stringResource(R.string.settings_subtitle_rate),
+            leadingIcon = Icons.Rounded.StarRate,
+            trailingIcon = Icons.Rounded.Launch,
+            onClick = { uriHandler.openUri(appListingUri) }
         )
 
         Column(
