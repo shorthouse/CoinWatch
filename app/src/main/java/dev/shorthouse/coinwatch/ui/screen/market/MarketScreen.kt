@@ -15,7 +15,13 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -29,8 +35,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -41,9 +49,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
-import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.PullRefreshIndicator
@@ -63,8 +71,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun MarketScreen(
-    viewModel: MarketViewModel = hiltViewModel(),
-    onNavigateDetails: (String) -> Unit
+    onNavigateDetails: (String) -> Unit,
+    onNavigateSettings: () -> Unit,
+    viewModel: MarketViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -73,6 +82,7 @@ fun MarketScreen(
         onCoinClick = { coin ->
             onNavigateDetails(coin.id)
         },
+        onNavigateSettings = onNavigateSettings,
         onUpdateCoinSort = { coinSort ->
             viewModel.updateCoinSort(coinSort = coinSort)
         },
@@ -99,6 +109,7 @@ fun MarketScreen(
 fun MarketScreen(
     uiState: MarketUiState,
     onCoinClick: (CachedCoin) -> Unit,
+    onNavigateSettings: () -> Unit,
     onUpdateCoinSort: (CoinSort) -> Unit,
     onUpdateIsCoinSortSheetShown: (Boolean) -> Unit,
     onUpdateCurrency: (Currency) -> Unit,
@@ -127,6 +138,7 @@ fun MarketScreen(
         topBar = {
             MarketTopBar(
                 timeOfDay = uiState.timeOfDay,
+                onNavigateSettings = onNavigateSettings,
                 scrollBehavior = scrollBehavior
             )
         },
@@ -237,9 +249,12 @@ fun MarketScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 fun MarketTopBar(
     timeOfDay: TimeOfDay,
+    onNavigateSettings: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
 ) {
+    var menuExpanded by remember { mutableStateOf(false) }
+
     TopAppBar(
         title = {
             Text(
@@ -248,6 +263,27 @@ fun MarketTopBar(
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
+        },
+        actions = {
+            IconButton(onClick = { menuExpanded = !menuExpanded }) {
+                Icon(
+                    imageVector = Icons.Rounded.MoreVert,
+                    contentDescription = stringResource(R.string.cd_more),
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
+            }
+
+            DropdownMenu(
+                expanded = menuExpanded,
+                onDismissRequest = { menuExpanded = false },
+            ) {
+                DropdownMenuItem(
+                    text = {
+                        Text(stringResource(R.string.dropdown_option_settings))
+                    },
+                    onClick = onNavigateSettings
+                )
+            }
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -334,12 +370,13 @@ private fun MarketScreenPreview(
         MarketScreen(
             uiState = uiState,
             onCoinClick = {},
+            onNavigateSettings = {},
             onUpdateCoinSort = {},
             onUpdateIsCoinSortSheetShown = {},
             onUpdateCurrency = {},
             onUpdateIsCurrencySheetShown = {},
             onRefresh = {},
-            onDismissError = {}
+            onDismissError = {},
         )
     }
 }
