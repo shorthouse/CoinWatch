@@ -1,12 +1,23 @@
 package dev.shorthouse.coinwatch.ui.screen.settings
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.ChevronRight
-import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Code
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.Launch
+import androidx.compose.material.icons.rounded.Lock
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Smartphone
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,12 +31,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.shorthouse.coinwatch.BuildConfig
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.data.userPreferences.StartDestination
 import dev.shorthouse.coinwatch.ui.component.ErrorState
@@ -37,8 +53,8 @@ import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun SettingsScreen(
-    viewModel: SettingsViewModel = hiltViewModel(),
-    onNavigateUp: () -> Unit
+    onNavigateUp: () -> Unit,
+    viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -92,23 +108,83 @@ fun SettingsContent(
     modifier: Modifier = Modifier
 ) {
     var isStartDestinationDialogOpen by remember { mutableStateOf(false) }
+    val uriHandler = LocalUriHandler.current
 
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+            .padding(horizontal = 12.dp)
+            .clip(MaterialTheme.shapes.medium)
+            .background(MaterialTheme.colorScheme.surface)
+            .verticalScroll(rememberScrollState())
+    ) {
+        Text(
+            text = stringResource(R.string.settings_group_preferences),
+            style = MaterialTheme.typography.labelLarge,
+            modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 4.dp)
+        )
+
         SettingsItem(
             title = stringResource(R.string.settings_title_start_destination),
             subtitle = startDestination.name,
-            leadingIcon = Icons.Rounded.Home,
+            leadingIcon = when (startDestination) {
+                StartDestination.Market -> Icons.Rounded.BarChart
+                StartDestination.Favourites -> Icons.Rounded.Favorite
+                StartDestination.Search -> Icons.Rounded.Search
+            },
             trailingIcon = Icons.Rounded.ChevronRight,
-            onClick = {
-                isStartDestinationDialogOpen = true
-            }
+            onClick = { isStartDestinationDialogOpen = true }
         )
+
+        Divider(color = MaterialTheme.colorScheme.primaryContainer)
+
+        Text(
+            text = stringResource(R.string.settings_group_about),
+            style = MaterialTheme.typography.labelLarge,
+            modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 4.dp)
+        )
+
+        SettingsItem(
+            title = stringResource(R.string.settings_title_version),
+            subtitle = BuildConfig.VERSION_NAME,
+            leadingIcon = Icons.Rounded.Smartphone,
+            onClick = {}
+        )
+
+        val sourceCodeUri = stringResource(R.string.source_code_uri)
+        SettingsItem(
+            title = stringResource(R.string.settings_title_source_code),
+            subtitle = stringResource(R.string.settings_subtitle_github),
+            leadingIcon = Icons.Rounded.Code,
+            trailingIcon = Icons.Rounded.Launch,
+            onClick = { uriHandler.openUri(sourceCodeUri) }
+        )
+
+        val privacyPolicyUri = stringResource(R.string.privacy_policy_uri)
+        SettingsItem(
+            title = stringResource(R.string.settings_title_privacy_policy),
+            leadingIcon = Icons.Rounded.Lock,
+            trailingIcon = Icons.Rounded.Launch,
+            onClick = { uriHandler.openUri(privacyPolicyUri) }
+        )
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.settings_author),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
     }
 
     if (isStartDestinationDialogOpen) {
         StartDestinationDialog(
-            initialSelectedDestination = StartDestination.Favourites,
-            onOptionSelected = { onUpdateStartDestination(it) },
+            initialSelectedDestination = startDestination,
+            onUpdateStartDestination = { onUpdateStartDestination(it) },
             onDismissRequest = { isStartDestinationDialogOpen = false }
         )
     }
