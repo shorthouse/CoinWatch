@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -17,27 +18,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun SettingsItem(
     title: String,
-    subtitle: String,
     leadingIcon: ImageVector,
-    trailingIcon: ImageVector,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    subtitle: String? = null,
+    trailingIcon: ImageVector? = null
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick() }
-            .padding(vertical = 8.dp, horizontal = 12.dp)
+            .padding(horizontal = 16.dp)
+            .height(80.dp)
     ) {
         Icon(
             imageVector = leadingIcon,
@@ -51,20 +51,25 @@ fun SettingsItem(
             Text(
                 text = title,
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.bodyMedium
             )
-            Text(
-                text = subtitle,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                style = MaterialTheme.typography.bodySmall
-            )
+
+            subtitle?.let {
+                Text(
+                    text = it,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
 
-        Icon(
-            imageVector = trailingIcon,
-            tint = MaterialTheme.colorScheme.onBackground,
-            contentDescription = stringResource(R.string.cd_change_start_destination)
-        )
+        trailingIcon?.let {
+            Icon(
+                imageVector = trailingIcon,
+                tint = MaterialTheme.colorScheme.onBackground,
+                contentDescription = null
+            )
+        }
     }
 }
 
