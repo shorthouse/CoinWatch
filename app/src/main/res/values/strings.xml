@@ -82,4 +82,8 @@
     <string name="privacy_policy_uri">https://github.com/shorthouse/CoinWatch/blob/main/PRIVACY%20POLICY.md</string>
     <string name="settings_group_preferences">Preferences</string>
     <string name="settings_group_about">About</string>
+    <string name="settings_title_rate">Rate CoinWatch</string>
+    <string name="settings_subtitle_rate">Leave a Play Store review</string>
+    <string name="app_listing_uri">https://play.google.com/store/apps/details?id=dev.shorthouse.coinwatch</string>
+    <string name="settings_group_feedback">Feedback</string>
 </resources>
