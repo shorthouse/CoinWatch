@@ -16,14 +16,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.data.userPreferences.StartDestination
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
@@ -31,12 +30,11 @@ import dev.shorthouse.coinwatch.ui.theme.AppTheme
 @Composable
 fun StartDestinationDialog(
     initialSelectedDestination: StartDestination,
+    onUpdateStartDestination: (StartDestination) -> Unit,
     onDismissRequest: () -> Unit,
-    onOptionSelected: (StartDestination) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val startDestinationOptions = StartDestination.values().toList()
-    val currentSelectedDestination = remember { mutableStateOf(initialSelectedDestination) }
 
     AlertDialog(
         onDismissRequest = onDismissRequest,
@@ -45,49 +43,48 @@ fun StartDestinationDialog(
                 color = MaterialTheme.colorScheme.surface,
                 shape = MaterialTheme.shapes.medium
             )
-            .padding(20.dp)
     ) {
         Column {
             Text(
-                text = "Choose start destination",
+                text = stringResource(R.string.start_destination_title),
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(20.dp)
             )
-
-            Spacer(Modifier.height(16.dp))
 
             Column(modifier = Modifier.selectableGroup()) {
                 startDestinationOptions.forEach { startDestinationOption ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .clip(MaterialTheme.shapes.extraSmall)
                             .selectable(
                                 selected = startDestinationOption == initialSelectedDestination,
-                                role = Role.RadioButton,
                                 onClick = {
-                                    currentSelectedDestination.value = startDestinationOption
-                                    onOptionSelected(startDestinationOption)
+                                    onUpdateStartDestination(startDestinationOption)
                                     onDismissRequest()
-                                }
+                                },
+                                role = Role.RadioButton
                             )
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp)
+                            .padding(horizontal = 20.dp, vertical = 16.dp)
                     ) {
                         RadioButton(
                             selected = startDestinationOption == initialSelectedDestination,
                             onClick = null
                         )
 
-                        Spacer(Modifier.width(8.dp))
+                        Spacer(Modifier.width(16.dp))
 
                         Text(
                             text = startDestinationOption.name,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onSurface,
+                            style = MaterialTheme.typography.bodyMedium
                         )
                     }
                 }
             }
+
+            Spacer(Modifier.height(16.dp))
         }
     }
 }
@@ -98,7 +95,7 @@ fun SettingsRadioDialogPreview() {
     AppTheme {
         StartDestinationDialog(
             initialSelectedDestination = StartDestination.Favourites,
-            onOptionSelected = {},
+            onUpdateStartDestination = {},
             onDismissRequest = {}
         )
     }
