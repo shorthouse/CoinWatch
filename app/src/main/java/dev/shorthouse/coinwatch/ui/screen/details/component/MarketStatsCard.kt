@@ -67,7 +67,7 @@ fun MarketStatsCard(
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 coinDetailsItems.forEachIndexed { coinDetailsIndex, coinDetailsListItem ->
                     if (coinDetailsIndex != 0) {
-                        Divider(color = MaterialTheme.colorScheme.background)
+                        Divider(color = MaterialTheme.colorScheme.primaryContainer)
                     }
 
                     Row(
