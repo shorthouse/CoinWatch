@@ -67,11 +67,11 @@
     <string name="cd_top_app_bar_search">Search</string>
     <string name="cd_searching">Searching</string>
     <string name="settings_screen">Settings</string>
-    <string name="cd_change_start_destination">Change start destination</string>
-    <string name="settings_title_start_destination">Start destination</string>
+    <string name="cd_change_start_screen">Change start screen</string>
+    <string name="settings_title_start_screen">Start screen</string>
     <string name="cd_more">More</string>
     <string name="dropdown_option_settings">Settings</string>
-    <string name="start_destination_title">Choose start destination</string>
+    <string name="start_screen_title">Choose start screen</string>
     <string name="settings_author">Made with ❤️️ by Short Labs</string>
     <string name="settings_title_version">CoinWatch version</string>
     <string name="settings_title_source_code">Source code</string>
