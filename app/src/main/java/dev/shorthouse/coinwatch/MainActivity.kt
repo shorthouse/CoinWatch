@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
                 val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
                 if (!uiState.isLoading) {
-                    AppNavHost(navigationBarStartDestination = uiState.startDestination)
+                    AppNavHost(navigationBarStartScreen = uiState.startScreen)
                 }
             }
         }

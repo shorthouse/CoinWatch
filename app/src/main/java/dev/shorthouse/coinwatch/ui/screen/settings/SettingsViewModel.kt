@@ -3,9 +3,9 @@ package dev.shorthouse.coinwatch.ui.screen.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.shorthouse.coinwatch.data.userPreferences.StartDestination
+import dev.shorthouse.coinwatch.data.userPreferences.StartScreen
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
-import dev.shorthouse.coinwatch.domain.UpdateStartDestinationUseCase
+import dev.shorthouse.coinwatch.domain.UpdateStartScreenUseCase
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
-    private val updateStartDestinationUseCase: UpdateStartDestinationUseCase
+    private val updateStartScreenUseCase: UpdateStartScreenUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SettingsUiState(isLoading = true))
     val uiState = _uiState.asStateFlow()
@@ -33,7 +33,7 @@ class SettingsViewModel @Inject constructor(
         userPreferencesFlow.onEach { userPreferences ->
             _uiState.update {
                 it.copy(
-                    startDestination = userPreferences.startDestination,
+                    startScreen = userPreferences.startScreen,
                     isLoading = false,
                     errorMessage = null
                 )
@@ -48,9 +48,9 @@ class SettingsViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun updateStartDestination(startDestination: StartDestination) {
+    fun updateStartScreen(startScreen: StartScreen) {
         viewModelScope.launch {
-            updateStartDestinationUseCase(startDestination = startDestination)
+            updateStartScreenUseCase(startScreen = startScreen)
         }
     }
 }
