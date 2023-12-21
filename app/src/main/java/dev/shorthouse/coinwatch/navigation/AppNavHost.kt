@@ -18,14 +18,6 @@ fun AppNavHost(
     navigationBarStartScreen: NavigationBarScreen = NavigationBarScreen.Market,
     navController: NavHostController = rememberNavController()
 ) {
-    val onNavigateDetails: (String) -> Unit = { coinId ->
-        navController.navigate(Screen.Details.route + "/$coinId")
-    }
-
-    val onNavigateSettings: () -> Unit = {
-        navController.navigate(Screen.Settings.route)
-    }
-
     NavHost(
         navController = navController,
         startDestination = Screen.NavigationBar.route,
@@ -35,8 +27,12 @@ fun AppNavHost(
         composable(route = Screen.NavigationBar.route) {
             NavigationBarScaffold(
                 startScreen = navigationBarStartScreen,
-                onNavigateDetails = onNavigateDetails,
-                onNavigateSettings = onNavigateSettings
+                onNavigateDetails = { coinId: String ->
+                    navController.navigate(Screen.Details.route + "/$coinId")
+                },
+                onNavigateSettings = {
+                    navController.navigate(Screen.Settings.route)
+                }
             )
         }
         composable(
