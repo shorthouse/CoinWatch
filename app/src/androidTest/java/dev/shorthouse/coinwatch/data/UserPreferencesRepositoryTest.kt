@@ -7,6 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
+import dev.shorthouse.coinwatch.data.userPreferences.StartScreen
 import dev.shorthouse.coinwatch.data.userPreferences.UserPreferencesRepository
 import dev.shorthouse.coinwatch.data.userPreferences.UserPreferencesSerializer
 import kotlinx.coroutines.Dispatchers
@@ -160,5 +161,53 @@ class UserPreferencesRepositoryTest {
                 .first()
 
             assertThat(userPreferences.coinSort).isEqualTo(coinSort)
+        }
+
+    @Test
+    fun when_setStartScreenToMarket_should_updateUserPreferencesStartScreenToMarket() =
+        testCoroutineScope.runTest {
+            val startScreen = StartScreen.Market
+
+            userPreferencesRepository.updateStartScreen(
+                startScreen = startScreen
+            )
+
+            val userPreferences = userPreferencesRepository
+                .userPreferencesFlow
+                .first()
+
+            assertThat(userPreferences.startScreen).isEqualTo(startScreen)
+        }
+
+    @Test
+    fun when_setStartScreenToFavourites_should_updateUserPreferencesStartScreenToFavourites() =
+        testCoroutineScope.runTest {
+            val startScreen = StartScreen.Favourites
+
+            userPreferencesRepository.updateStartScreen(
+                startScreen = startScreen
+            )
+
+            val userPreferences = userPreferencesRepository
+                .userPreferencesFlow
+                .first()
+
+            assertThat(userPreferences.startScreen).isEqualTo(startScreen)
+        }
+
+    @Test
+    fun when_setStartScreenToSearch_should_updateUserPreferencesStartScreenToSearch() =
+        testCoroutineScope.runTest {
+            val startScreen = StartScreen.Search
+
+            userPreferencesRepository.updateStartScreen(
+                startScreen = startScreen
+            )
+
+            val userPreferences = userPreferencesRepository
+                .userPreferencesFlow
+                .first()
+
+            assertThat(userPreferences.startScreen).isEqualTo(startScreen)
         }
 }
