@@ -3,7 +3,7 @@ package dev.shorthouse.coinwatch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.shorthouse.coinwatch.data.userPreferences.StartDestination
+import dev.shorthouse.coinwatch.data.userPreferences.StartScreen
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.navigation.NavigationBarScreen
 import javax.inject.Inject
@@ -32,10 +32,10 @@ class MainActivityViewModel @Inject constructor(
             .onEach { userPreferences ->
                 _uiState.update {
                     it.copy(
-                        startDestination = when (userPreferences.startDestination) {
-                            StartDestination.Market -> NavigationBarScreen.Market
-                            StartDestination.Favourites -> NavigationBarScreen.Favourites
-                            StartDestination.Search -> NavigationBarScreen.Search
+                        startScreen = when (userPreferences.startScreen) {
+                            StartScreen.Market -> NavigationBarScreen.Market
+                            StartScreen.Favourites -> NavigationBarScreen.Favourites
+                            StartScreen.Search -> NavigationBarScreen.Search
                         },
                         isLoading = false
                     )

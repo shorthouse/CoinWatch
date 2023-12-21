@@ -23,18 +23,18 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.userPreferences.StartDestination
+import dev.shorthouse.coinwatch.data.userPreferences.StartScreen
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StartDestinationDialog(
-    initialSelectedDestination: StartDestination,
-    onUpdateStartDestination: (StartDestination) -> Unit,
+    initialSelectedDestination: StartScreen,
+    onUpdateStartDestination: (StartScreen) -> Unit,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val startDestinationOptions = StartDestination.values().toList()
+    val startScreenOptions = StartScreen.values().toList()
 
     AlertDialog(
         onDismissRequest = onDismissRequest,
@@ -53,7 +53,7 @@ fun StartDestinationDialog(
             )
 
             Column(modifier = Modifier.selectableGroup()) {
-                startDestinationOptions.forEach { startDestinationOption ->
+                startScreenOptions.forEach { startDestinationOption ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
@@ -94,7 +94,7 @@ fun StartDestinationDialog(
 fun SettingsRadioDialogPreview() {
     AppTheme {
         StartDestinationDialog(
-            initialSelectedDestination = StartDestination.Favourites,
+            initialSelectedDestination = StartScreen.Favourites,
             onUpdateStartDestination = {},
             onDismissRequest = {}
         )
