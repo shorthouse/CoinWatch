@@ -41,12 +41,12 @@ fun StartScreenDialog(
         modifier = modifier
             .background(
                 color = MaterialTheme.colorScheme.surface,
-                shape = MaterialTheme.shapes.medium
+                shape = MaterialTheme.shapes.large
             )
     ) {
         Column {
             Text(
-                text = stringResource(R.string.start_destination_title),
+                text = stringResource(R.string.start_screen_title),
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.padding(20.dp)
@@ -59,11 +59,11 @@ fun StartScreenDialog(
                         modifier = Modifier
                             .selectable(
                                 selected = startScreenOption == initialSelectedDestination,
+                                role = Role.RadioButton,
                                 onClick = {
                                     onUpdateStartScreen(startScreenOption)
                                     onDismissRequest()
                                 },
-                                role = Role.RadioButton
                             )
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp, vertical = 16.dp)
@@ -76,7 +76,7 @@ fun StartScreenDialog(
                         Spacer(Modifier.width(16.dp))
 
                         Text(
-                            text = startScreenOption.name,
+                            text = stringResource(startScreenOption.nameId),
                             color = MaterialTheme.colorScheme.onSurface,
                             style = MaterialTheme.typography.bodyMedium
                         )
