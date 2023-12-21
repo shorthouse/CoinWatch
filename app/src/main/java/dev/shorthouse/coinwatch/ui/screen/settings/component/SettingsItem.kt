@@ -25,10 +25,10 @@ import dev.shorthouse.coinwatch.ui.theme.AppTheme
 @Composable
 fun SettingsItem(
     title: String,
-    leadingIcon: ImageVector,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     subtitle: String? = null,
+    leadingIcon: ImageVector? = null,
     trailingIcon: ImageVector? = null
 ) {
     Row(
@@ -39,13 +39,15 @@ fun SettingsItem(
             .padding(horizontal = 16.dp)
             .height(80.dp)
     ) {
-        Icon(
-            imageVector = leadingIcon,
-            tint = MaterialTheme.colorScheme.onBackground,
-            contentDescription = null
-        )
+        leadingIcon?.let {
+            Icon(
+                imageVector = leadingIcon,
+                tint = MaterialTheme.colorScheme.onBackground,
+                contentDescription = null
+            )
 
-        Spacer(Modifier.width(12.dp))
+            Spacer(Modifier.width(12.dp))
+        }
 
         Column(modifier = Modifier.weight(1f)) {
             Text(
