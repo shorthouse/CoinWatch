@@ -69,9 +69,8 @@ class MarketScreenTest {
         }
 
         composeTestRule.apply {
-            onNode(
-                SemanticsMatcher.keyIsDefined(SemanticsProperties.ProgressBarRangeInfo)
-            ).assertIsDisplayed()
+            onNode(SemanticsMatcher.keyIsDefined(SemanticsProperties.ProgressBarRangeInfo))
+                .assertIsDisplayed()
         }
     }
 
