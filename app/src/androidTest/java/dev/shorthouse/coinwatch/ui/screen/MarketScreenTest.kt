@@ -2,6 +2,7 @@ package dev.shorthouse.coinwatch.ui.screen
 
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isSelected
@@ -827,5 +828,62 @@ class MarketScreenTest {
             onNodeWithText("Can't find the coin you're looking for?").assertIsDisplayed()
             onNodeWithText("Try using the search function!").assertIsDisplayed()
         }
+    }
+
+    @Test
+    fun when_moreButtonClicked_should_toggleDropdownMenu() {
+        val uiState = MarketUiState()
+
+        composeTestRule.setContent {
+            AppTheme {
+                MarketScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onNavigateSettings = {},
+                    onUpdateCoinSort = {},
+                    onUpdateIsCoinSortSheetShown = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onRefresh = {},
+                    onDismissError = {},
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithContentDescription("More").performClick()
+            onNodeWithText("Settings").assertIsDisplayed().assertHasClickAction()
+            onNodeWithContentDescription("More").performClick()
+            onNodeWithText("Settings").assertDoesNotExist()
+        }
+    }
+
+    @Test
+    fun when_dropdownMenuSettingsClicked_should_callOnNavigateSettings() {
+        var onNavigateSettingsCalled = false
+        val uiState = MarketUiState()
+
+        composeTestRule.setContent {
+            AppTheme {
+                MarketScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onNavigateSettings = { onNavigateSettingsCalled = true },
+                    onUpdateCoinSort = {},
+                    onUpdateIsCoinSortSheetShown = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onRefresh = {},
+                    onDismissError = {},
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithContentDescription("More").performClick()
+            onNodeWithText("Settings").performClick()
+        }
+
+        assertThat(onNavigateSettingsCalled).isTrue()
     }
 }
