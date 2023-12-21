@@ -61,16 +61,16 @@ fun SettingsScreen(
 
     SettingsScreen(
         uiState = uiState,
-        onUpdateStartScreen = { viewModel.updateStartScreen(it) },
-        onNavigateUp = onNavigateUp
+        onNavigateUp = onNavigateUp,
+        onUpdateStartScreen = { viewModel.updateStartScreen(it) }
     )
 }
 
 @Composable
 fun SettingsScreen(
     uiState: SettingsUiState,
-    onUpdateStartScreen: (StartScreen) -> Unit,
     onNavigateUp: () -> Unit,
+    onUpdateStartScreen: (StartScreen) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -121,12 +121,12 @@ fun SettingsContent(
         Text(
             text = stringResource(R.string.settings_group_preferences),
             style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 4.dp)
+            modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp)
         )
 
         SettingsItem(
-            title = stringResource(R.string.settings_title_start_destination),
-            subtitle = startScreen.name,
+            title = stringResource(R.string.settings_title_start_screen),
+            subtitle = stringResource(startScreen.nameId),
             leadingIcon = when (startScreen) {
                 StartScreen.Market -> Icons.Rounded.BarChart
                 StartScreen.Favourites -> Icons.Rounded.Favorite
@@ -141,7 +141,7 @@ fun SettingsContent(
         Text(
             text = stringResource(R.string.settings_group_about),
             style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 4.dp)
+            modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp)
         )
 
         SettingsItem(
@@ -173,7 +173,7 @@ fun SettingsContent(
         Text(
             text = stringResource(R.string.settings_group_feedback),
             style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 4.dp)
+            modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp)
         )
 
         val appListingUri = stringResource(R.string.app_listing_uri)
@@ -193,8 +193,8 @@ fun SettingsContent(
         ) {
             Text(
                 text = stringResource(R.string.settings_author),
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
