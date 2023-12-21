@@ -28,9 +28,9 @@ import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StartDestinationDialog(
+fun StartScreenDialog(
     initialSelectedDestination: StartScreen,
-    onUpdateStartDestination: (StartScreen) -> Unit,
+    onUpdateStartScreen: (StartScreen) -> Unit,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -53,14 +53,14 @@ fun StartDestinationDialog(
             )
 
             Column(modifier = Modifier.selectableGroup()) {
-                startScreenOptions.forEach { startDestinationOption ->
+                startScreenOptions.forEach { startScreenOption ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .selectable(
-                                selected = startDestinationOption == initialSelectedDestination,
+                                selected = startScreenOption == initialSelectedDestination,
                                 onClick = {
-                                    onUpdateStartDestination(startDestinationOption)
+                                    onUpdateStartScreen(startScreenOption)
                                     onDismissRequest()
                                 },
                                 role = Role.RadioButton
@@ -69,14 +69,14 @@ fun StartDestinationDialog(
                             .padding(horizontal = 20.dp, vertical = 16.dp)
                     ) {
                         RadioButton(
-                            selected = startDestinationOption == initialSelectedDestination,
+                            selected = startScreenOption == initialSelectedDestination,
                             onClick = null
                         )
 
                         Spacer(Modifier.width(16.dp))
 
                         Text(
-                            text = startDestinationOption.name,
+                            text = startScreenOption.name,
                             color = MaterialTheme.colorScheme.onSurface,
                             style = MaterialTheme.typography.bodyMedium
                         )
@@ -91,11 +91,11 @@ fun StartDestinationDialog(
 
 @Composable
 @Preview
-fun SettingsRadioDialogPreview() {
+fun StartScreenDialogPreview() {
     AppTheme {
-        StartDestinationDialog(
+        StartScreenDialog(
             initialSelectedDestination = StartScreen.Favourites,
-            onUpdateStartDestination = {},
+            onUpdateStartScreen = {},
             onDismissRequest = {}
         )
     }

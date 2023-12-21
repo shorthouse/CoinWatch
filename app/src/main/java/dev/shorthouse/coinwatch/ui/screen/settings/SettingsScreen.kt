@@ -44,12 +44,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.BuildConfig
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.userPreferences.StartDestination
+import dev.shorthouse.coinwatch.data.userPreferences.StartScreen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.previewdata.SettingsUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.settings.component.SettingsItem
-import dev.shorthouse.coinwatch.ui.screen.settings.component.StartDestinationDialog
+import dev.shorthouse.coinwatch.ui.screen.settings.component.StartScreenDialog
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
@@ -61,7 +61,7 @@ fun SettingsScreen(
 
     SettingsScreen(
         uiState = uiState,
-        onUpdateStartDestination = { viewModel.updateStartDestination(it) },
+        onUpdateStartScreen = { viewModel.updateStartScreen(it) },
         onNavigateUp = onNavigateUp
     )
 }
@@ -69,7 +69,7 @@ fun SettingsScreen(
 @Composable
 fun SettingsScreen(
     uiState: SettingsUiState,
-    onUpdateStartDestination: (StartDestination) -> Unit,
+    onUpdateStartScreen: (StartScreen) -> Unit,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -93,8 +93,8 @@ fun SettingsScreen(
 
             else -> {
                 SettingsContent(
-                    startDestination = uiState.startDestination,
-                    onUpdateStartDestination = onUpdateStartDestination,
+                    startScreen = uiState.startScreen,
+                    onUpdateStartScreen = onUpdateStartScreen,
                     modifier = Modifier.padding(scaffoldPadding)
                 )
             }
@@ -104,11 +104,11 @@ fun SettingsScreen(
 
 @Composable
 fun SettingsContent(
-    startDestination: StartDestination,
-    onUpdateStartDestination: (StartDestination) -> Unit,
+    startScreen: StartScreen,
+    onUpdateStartScreen: (StartScreen) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var isStartDestinationDialogOpen by remember { mutableStateOf(false) }
+    var isStartScreenDialogOpen by remember { mutableStateOf(false) }
     val uriHandler = LocalUriHandler.current
 
     Column(
@@ -126,14 +126,14 @@ fun SettingsContent(
 
         SettingsItem(
             title = stringResource(R.string.settings_title_start_destination),
-            subtitle = startDestination.name,
-            leadingIcon = when (startDestination) {
-                StartDestination.Market -> Icons.Rounded.BarChart
-                StartDestination.Favourites -> Icons.Rounded.Favorite
-                StartDestination.Search -> Icons.Rounded.Search
+            subtitle = startScreen.name,
+            leadingIcon = when (startScreen) {
+                StartScreen.Market -> Icons.Rounded.BarChart
+                StartScreen.Favourites -> Icons.Rounded.Favorite
+                StartScreen.Search -> Icons.Rounded.Search
             },
             trailingIcon = Icons.Rounded.ChevronRight,
-            onClick = { isStartDestinationDialogOpen = true }
+            onClick = { isStartScreenDialogOpen = true }
         )
 
         Divider(color = MaterialTheme.colorScheme.primaryContainer)
@@ -199,11 +199,11 @@ fun SettingsContent(
         }
     }
 
-    if (isStartDestinationDialogOpen) {
-        StartDestinationDialog(
-            initialSelectedDestination = startDestination,
-            onUpdateStartDestination = { onUpdateStartDestination(it) },
-            onDismissRequest = { isStartDestinationDialogOpen = false }
+    if (isStartScreenDialogOpen) {
+        StartScreenDialog(
+            initialSelectedDestination = startScreen,
+            onUpdateStartScreen = { onUpdateStartScreen(it) },
+            onDismissRequest = { isStartScreenDialogOpen = false }
         )
     }
 }
@@ -246,7 +246,7 @@ private fun SettingsScreenPreview(
     AppTheme {
         SettingsScreen(
             uiState = uiState,
-            onUpdateStartDestination = {},
+            onUpdateStartScreen = {},
             onNavigateUp = {}
         )
     }

@@ -37,7 +37,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun NavigationBarScaffold(
-    startDestination: NavigationBarScreen,
+    startScreen: NavigationBarScreen,
     onNavigateDetails: (String) -> Unit,
     onNavigateSettings: () -> Unit,
     modifier: Modifier = Modifier
@@ -77,7 +77,7 @@ fun NavigationBarScaffold(
         content = { scaffoldPadding ->
             NavigationBarNavHost(
                 navController = navController,
-                startDestination = startDestination,
+                startScreen = startScreen,
                 onNavigateDetails = onNavigateDetails,
                 onNavigateSettings = onNavigateSettings,
                 modifier = Modifier.padding(scaffoldPadding)
@@ -90,14 +90,14 @@ fun NavigationBarScaffold(
 @Composable
 private fun NavigationBarNavHost(
     navController: NavHostController,
-    startDestination: NavigationBarScreen,
+    startScreen: NavigationBarScreen,
     onNavigateDetails: (String) -> Unit,
     onNavigateSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
-        startDestination = startDestination.route,
+        startDestination = startScreen.route,
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
         modifier = modifier
