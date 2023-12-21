@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 data class UserPreferences(
     val coinSort: CoinSort = CoinSort.MarketCap,
     val currency: Currency = Currency.USD,
-    val startDestination: StartDestination = StartDestination.Market
+    val startScreen: StartScreen = StartScreen.Market
 )
 
 enum class Currency(val symbol: String, @StringRes val nameId: Int) {
@@ -24,7 +24,7 @@ enum class CoinSort(@StringRes val nameId: Int) {
     Volume24h(R.string.coin_sort_volume)
 }
 
-enum class StartDestination {
+enum class StartScreen {
     Market,
     Favourites,
     Search

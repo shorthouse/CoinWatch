@@ -37,10 +37,10 @@ class UserPreferencesRepository @Inject constructor(
         }
     }
 
-    suspend fun updateStartDestination(startDestination: StartDestination) {
-        if (startDestination != userPreferencesFlow.first().startDestination) {
+    suspend fun updateStartScreen(startScreen: StartScreen) {
+        if (startScreen != userPreferencesFlow.first().startScreen) {
             userPreferencesDataStore.updateData { currentPreferences ->
-                currentPreferences.copy(startDestination = startDestination)
+                currentPreferences.copy(startScreen = startScreen)
             }
         }
     }
