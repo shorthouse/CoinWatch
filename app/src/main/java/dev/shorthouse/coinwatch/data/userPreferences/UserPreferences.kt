@@ -24,8 +24,8 @@ enum class CoinSort(@StringRes val nameId: Int) {
     Volume24h(R.string.coin_sort_volume)
 }
 
-enum class StartScreen {
-    Market,
-    Favourites,
-    Search
+enum class StartScreen(@StringRes val nameId: Int) {
+    Market(R.string.market_screen),
+    Favourites(R.string.favourites_screen),
+    Search(R.string.search_screen)
 }
