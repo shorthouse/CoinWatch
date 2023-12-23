@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.datastore.Currency
+import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.ui.component.AppBottomSheet
 import dev.shorthouse.coinwatch.ui.component.BottomSheetOption
 import dev.shorthouse.coinwatch.ui.theme.AppTheme

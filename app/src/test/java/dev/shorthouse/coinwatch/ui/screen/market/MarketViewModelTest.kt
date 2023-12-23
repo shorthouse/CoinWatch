@@ -3,10 +3,10 @@ package dev.shorthouse.coinwatch.ui.screen.market
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.datastore.CoinSort
-import dev.shorthouse.coinwatch.data.datastore.Currency
-import dev.shorthouse.coinwatch.data.datastore.UserPreferences
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
+import dev.shorthouse.coinwatch.data.userPreferences.Currency
+import dev.shorthouse.coinwatch.data.userPreferences.UserPreferences
 import dev.shorthouse.coinwatch.domain.GetCachedCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.RefreshCachedCoinsUseCase

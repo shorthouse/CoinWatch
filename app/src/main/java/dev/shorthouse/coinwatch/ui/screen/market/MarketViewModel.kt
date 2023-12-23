@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.datastore.CoinSort
-import dev.shorthouse.coinwatch.data.datastore.Currency
+import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
+import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.domain.GetCachedCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.RefreshCachedCoinsUseCase

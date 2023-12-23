@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.ui.screen.market
 
-import dev.shorthouse.coinwatch.data.datastore.CoinSort
-import dev.shorthouse.coinwatch.data.datastore.Currency
+import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
+import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import kotlinx.collections.immutable.ImmutableList

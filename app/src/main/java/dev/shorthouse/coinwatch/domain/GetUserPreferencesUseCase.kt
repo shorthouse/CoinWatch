@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.domain
 
-import dev.shorthouse.coinwatch.data.datastore.UserPreferences
-import dev.shorthouse.coinwatch.data.datastore.UserPreferencesRepository
+import dev.shorthouse.coinwatch.data.userPreferences.UserPreferences
+import dev.shorthouse.coinwatch.data.userPreferences.UserPreferencesRepository
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 

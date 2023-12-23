@@ -3,11 +3,11 @@ package dev.shorthouse.coinwatch.data.repository.chart
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.mapper.CoinChartMapper
 import dev.shorthouse.coinwatch.data.source.remote.FakeCoinApi
 import dev.shorthouse.coinwatch.data.source.remote.FakeCoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
+import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price

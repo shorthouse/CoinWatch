@@ -49,6 +49,7 @@
     <string name="search_screen">Search</string>
     <string name="favourites_screen">Favourites</string>
     <string name="error_state_favourite_coins">Unable to fetch favourite coins</string>
+    <string name="error_state_settings">Error loading settings screen</string>
     <string name="currency_usd" translatable="false">USD</string>
     <string name="currency_gbp" translatable="false">GBP</string>
     <string name="currency_eur" translatable="false">EUR</string>
@@ -57,7 +58,7 @@
     <string name="coin_sort_price_change">Price Change (24h)</string>
     <string name="coin_sort_volume">Volume (24h)</string>
     <string name="coin_sort_bottom_sheet_title">Sort coins by</string>
-    <string name="currency_bottom_sheet_title">Choose currency</string>
+    <string name="currency_bottom_sheet_title">Coin currency</string>
     <string name="top_bar_action_sort_coins">Sort coins</string>
     <string name="top_bar_action_change_currency">Change currency</string>
     <string name="time_of_day_prefix_good">Good</string>
@@ -65,4 +66,24 @@
     <string name="error_local_coins">Saved coin data unavailable</string>
     <string name="cd_top_app_bar_search">Search</string>
     <string name="cd_searching">Searching</string>
+    <string name="settings_screen">Settings</string>
+    <string name="cd_change_start_screen">Change start screen</string>
+    <string name="settings_title_start_screen">Start screen</string>
+    <string name="cd_more">More</string>
+    <string name="dropdown_option_settings">Settings</string>
+    <string name="start_screen_title">Start screen</string>
+    <string name="settings_author">Made with ❤️️ by Short Labs</string>
+    <string name="settings_title_version">CoinWatch version</string>
+    <string name="settings_title_source_code">Source code</string>
+    <string name="settings_title_privacy_policy">Privacy policy</string>
+    <string name="settings_subtitle_github">Available on GitHub</string>
+    <string name="settings_subtitle_privacy">Your privacy is important</string>
+    <string name="source_code_uri">https://github.com/shorthouse/CoinWatch</string>
+    <string name="privacy_policy_uri">https://github.com/shorthouse/CoinWatch/blob/main/PRIVACY%20POLICY.md</string>
+    <string name="settings_group_preferences">Preferences</string>
+    <string name="settings_group_about">About</string>
+    <string name="settings_title_rate">Rate CoinWatch</string>
+    <string name="settings_subtitle_rate">Leave a Play Store review</string>
+    <string name="app_listing_uri">https://play.google.com/store/apps/details?id=dev.shorthouse.coinwatch</string>
+    <string name="settings_group_feedback">Feedback</string>
 </resources>

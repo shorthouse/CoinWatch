@@ -4,6 +4,10 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.BarChart
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -33,7 +37,9 @@ import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun NavigationBarScaffold(
+    startScreen: NavigationBarScreen,
     onNavigateDetails: (String) -> Unit,
+    onNavigateSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val navController = rememberNavController()
@@ -71,7 +77,9 @@ fun NavigationBarScaffold(
         content = { scaffoldPadding ->
             NavigationBarNavHost(
                 navController = navController,
+                startScreen = startScreen,
                 onNavigateDetails = onNavigateDetails,
+                onNavigateSettings = onNavigateSettings,
                 modifier = Modifier.padding(scaffoldPadding)
             )
         },
@@ -82,18 +90,23 @@ fun NavigationBarScaffold(
 @Composable
 private fun NavigationBarNavHost(
     navController: NavHostController,
-    modifier: Modifier = Modifier,
-    onNavigateDetails: (String) -> Unit
+    startScreen: NavigationBarScreen,
+    onNavigateDetails: (String) -> Unit,
+    onNavigateSettings: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavigationBarScreen.Market.route,
+        startDestination = startScreen.route,
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
         modifier = modifier
     ) {
         composable(route = NavigationBarScreen.Market.route) {
-            MarketScreen(onNavigateDetails = onNavigateDetails)
+            MarketScreen(
+                onNavigateDetails = onNavigateDetails,
+                onNavigateSettings = onNavigateSettings
+            )
         }
         composable(route = NavigationBarScreen.Favourites.route) {
             FavouritesScreen(onNavigateDetails = onNavigateDetails)
@@ -124,7 +137,11 @@ private fun RowScope.AddNavigationBarItem(
         },
         icon = {
             Icon(
-                imageVector = screen.icon,
+                imageVector = when (screen) {
+                    NavigationBarScreen.Market -> Icons.Rounded.BarChart
+                    NavigationBarScreen.Favourites -> Icons.Rounded.Favorite
+                    NavigationBarScreen.Search -> Icons.Rounded.Search
+                },
                 contentDescription = null
             )
         },

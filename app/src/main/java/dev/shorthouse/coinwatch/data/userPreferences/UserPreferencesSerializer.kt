@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.datastore
+package dev.shorthouse.coinwatch.data.userPreferences
 
 import androidx.datastore.core.Serializer
 import java.io.InputStream

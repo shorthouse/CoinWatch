@@ -17,8 +17,8 @@ android {
         applicationId = "dev.shorthouse.coinwatch"
         minSdk = 26
         targetSdk = 34
-        versionCode = 15
-        versionName = "1.2.1"
+        versionCode = 16
+        versionName = "1.2.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -69,7 +69,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-    implementation("androidx.activity:activity-compose:1.8.1")
+    implementation("androidx.activity:activity-compose:1.8.2")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     // Compose
@@ -84,7 +84,7 @@ dependencies {
     implementation("com.google.accompanist:accompanist-placeholder-material:0.30.1")
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6")
     implementation("androidx.compose.ui:ui-tooling-preview-android:1.5.4")
-    implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation("androidx.navigation:navigation-compose:2.7.6")
     lintChecks("com.slack.lint.compose:compose-lint-checks:1.2.0")
 
     // Coroutines

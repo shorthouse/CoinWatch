@@ -1,10 +1,10 @@
 package dev.shorthouse.coinwatch.data.mapper
 
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.data.datastore.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartData
 import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
+import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
