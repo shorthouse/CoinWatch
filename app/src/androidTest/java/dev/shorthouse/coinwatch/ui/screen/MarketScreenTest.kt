@@ -593,7 +593,7 @@ class MarketScreenTest {
         }
 
         composeTestRule.apply {
-            onNodeWithText("Choose currency").assertIsDisplayed()
+            onNodeWithText("Coin currency").assertIsDisplayed()
             onNode(hasText("USD").and(isSelected())).assertIsDisplayed()
             onNodeWithText("GBP").assertIsDisplayed()
             onNodeWithText("EUR").assertIsDisplayed()
