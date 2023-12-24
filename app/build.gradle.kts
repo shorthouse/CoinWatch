@@ -19,6 +19,9 @@ android {
         targetSdk = 34
         versionCode = 16
         versionName = "1.2.2"
+        ndk {
+            debugSymbolLevel = "FULL"
+        }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
