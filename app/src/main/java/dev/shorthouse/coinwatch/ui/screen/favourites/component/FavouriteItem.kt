@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -49,9 +50,7 @@ fun FavouriteItem(
 
     Surface(
         shape = MaterialTheme.shapes.medium,
-        modifier = modifier
-            .height(180.dp)
-            .clickable { onCoinClick(coin) }
+        modifier = modifier.clickable { onCoinClick(coin) }
     ) {
         Column {
             Column(modifier = Modifier.padding(start = 12.dp, top = 12.dp, end = 12.dp)) {
@@ -106,7 +105,8 @@ fun FavouriteItem(
                     priceChangePercentage = coin.priceChangePercentage24h,
                     isGraphAnimated = false,
                     modifier = Modifier
-                        .fillMaxSize()
+                        .height(80.dp)
+                        .fillMaxWidth()
                         .testTag("priceGraph ${coin.symbol}")
                 )
             } else {
