@@ -105,7 +105,7 @@ fun FavouriteItem(
                     priceChangePercentage = coin.priceChangePercentage24h,
                     isGraphAnimated = false,
                     modifier = Modifier
-                        .height(80.dp)
+                        .height(70.dp)
                         .fillMaxWidth()
                         .testTag("priceGraph ${coin.symbol}")
                 )
