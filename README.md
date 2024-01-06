@@ -1,10 +1,10 @@
 <p align="center">
-   <img src="https://github.com/shorthouse/CoinWatch/assets/73708076/9a436bdd-28b0-4967-b335-f0970932c7fb"/>
+   <img src="https://github.com/shorthouse/CoinWatch/assets/73708076/89508a50-c56b-4d6c-a0f8-209dd313bb0b"/>
 </p>
 
 # CoinWatch
 [![Android CI Workflow Badge](https://github.com/shorthouse/CoinWatch/actions/workflows/android.yml/badge.svg)](https://github.com/shorthouse/CoinWatch/actions)
-[![Release](https://img.shields.io/badge/Release-1.1.2-1397CB)](https://github.com/shorthouse/CoinWatch/releases)
+[![Release](https://img.shields.io/badge/Release-1.2.2-1397CB)](https://github.com/shorthouse/CoinWatch/releases)
 [![License Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-%23820e82)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Medium shorthousedev](https://img.shields.io/badge/Medium-shorthousedev-%23FF5F1F)](https://medium.com/@shorthousedev)
 [![GitHub shorthouse](https://img.shields.io/badge/GitHub-shorthouse-%23D70040)](https://github.com/shorthouse)
