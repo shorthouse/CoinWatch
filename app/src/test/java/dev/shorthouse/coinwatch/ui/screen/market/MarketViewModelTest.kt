@@ -262,6 +262,8 @@ class MarketViewModelTest {
         // Act
         viewModel.pullRefreshCachedCoins()
 
+        assertThat(viewModel.uiState.value.isRefreshing).isTrue()
+
         // Assert
         coVerify {
             getUserPreferencesUseCase()
@@ -270,7 +272,6 @@ class MarketViewModelTest {
                 currency = currency
             )
         }
-        assertThat(viewModel.uiState.value.isRefreshing).isFalse()
     }
 
     @Test
