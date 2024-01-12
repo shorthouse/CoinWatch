@@ -17,6 +17,7 @@ import dev.shorthouse.coinwatch.domain.UpdateCurrencyUseCase
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import java.time.LocalTime
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
@@ -62,6 +63,7 @@ class MarketViewModel @Inject constructor(
                 is Result.Error -> {
                     _uiState.update {
                         val errorMessages = it.errorMessageIds + R.string.error_local_coins
+
                         it.copy(
                             errorMessageIds = errorMessages,
                             isLoading = false
@@ -107,6 +109,7 @@ class MarketViewModel @Inject constructor(
                 coinSort = userPreferences.coinSort,
                 currency = userPreferences.currency
             )
+            delay(250.milliseconds)
 
             _uiState.update {
                 it.copy(
