@@ -25,8 +25,11 @@ jobs:
         run: echo API_KEY=\"$API_KEY\" > ./apikey.properties
 
       - name: Access Firebase config file
-        run: echo "${{ secrets.FIREBASE_CONFIG }}" | base64 --decode > google-services.json
-  
+        env:
+          FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+        run: |
+          echo "${FIREBASE_CONFIG}" | base64 --decode > google-services.json
+
       - name: Cache Gradle and wrapper
         uses: actions/cache@v3
         with:
