@@ -24,11 +24,10 @@ jobs:
           API_KEY: ${{ secrets.API_KEY }}
         run: echo API_KEY=\"$API_KEY\" > ./apikey.properties
 
-      - name: Access Firebase config file
+      - name: Access Firebase config and create file
         env:
           FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
-        run: |
-          echo "${FIREBASE_CONFIG}" | base64 --decode > google-services.json
+        run: echo $FIREBASE_CONFIG | base64 --decode > /home/runner/work/CoinWatch/CoinWatch/app/src/google-services.json
 
       - name: Cache Gradle and wrapper
         uses: actions/cache@v3
