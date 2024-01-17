@@ -14,7 +14,8 @@ class MarketUiStatePreviewProvider : PreviewParameterProvider<MarketUiState> {
     override val values = sequenceOf(
         MarketUiState(
             coins = coins,
-            timeOfDay = TimeOfDay.Evening
+            timeOfDay = TimeOfDay.Evening,
+            marketCapChangePercentage24h = Percentage("1.3")
         ),
         MarketUiState(
             coins = persistentListOf()
