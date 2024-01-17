@@ -275,7 +275,7 @@ fun MarketTopBar(
 
             DropdownMenu(
                 expanded = menuExpanded,
-                onDismissRequest = { menuExpanded = false },
+                onDismissRequest = { menuExpanded = false }
             ) {
                 DropdownMenuItem(
                     text = {
@@ -379,7 +379,7 @@ private fun MarketScreenPreview(
             onUpdateCurrency = {},
             onUpdateIsCurrencySheetShown = {},
             onRefresh = {},
-            onDismissError = {},
+            onDismissError = {}
         )
     }
 }
