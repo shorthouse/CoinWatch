@@ -8,6 +8,7 @@ import dev.shorthouse.coinwatch.data.mapper.CoinChartMapper
 import dev.shorthouse.coinwatch.data.mapper.CoinDetailsMapper
 import dev.shorthouse.coinwatch.data.mapper.CoinMapper
 import dev.shorthouse.coinwatch.data.mapper.CoinSearchResultsMapper
+import dev.shorthouse.coinwatch.data.mapper.MarketStatsMapper
 import dev.shorthouse.coinwatch.data.repository.cachedCoin.CachedCoinRepository
 import dev.shorthouse.coinwatch.data.repository.cachedCoin.CachedCoinRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.chart.CoinChartRepository
@@ -18,6 +19,8 @@ import dev.shorthouse.coinwatch.data.repository.details.CoinDetailsRepository
 import dev.shorthouse.coinwatch.data.repository.details.CoinDetailsRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepository
 import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepositoryImpl
+import dev.shorthouse.coinwatch.data.repository.marketStats.MarketStatsRepository
+import dev.shorthouse.coinwatch.data.repository.marketStats.MarketStatsRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.searchResults.CoinSearchResultsRepository
 import dev.shorthouse.coinwatch.data.repository.searchResults.CoinSearchResultsRepositoryImpl
 import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSource
@@ -110,6 +113,18 @@ object RepositoryModule {
             coinNetworkDataSource = coinNetworkDataSource,
             coinSearchResultsMapper = coinSearchResultsMapper,
             ioDispatcher = ioDispatcher
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun providesMarketStatsRepository(
+        coinNetworkDataSource: CoinNetworkDataSource,
+        marketStatsMapper: MarketStatsMapper
+    ): MarketStatsRepository {
+        return MarketStatsRepositoryImpl(
+            coinNetworkDataSource = coinNetworkDataSource,
+            marketStatsMapper = marketStatsMapper
         )
     }
 }
