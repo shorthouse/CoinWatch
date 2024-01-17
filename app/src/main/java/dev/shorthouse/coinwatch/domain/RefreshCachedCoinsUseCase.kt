@@ -1,10 +1,10 @@
 package dev.shorthouse.coinwatch.domain
 
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
-import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.data.repository.cachedCoin.CachedCoinRepository
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
+import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import javax.inject.Inject
 
 class RefreshCachedCoinsUseCase @Inject constructor(
