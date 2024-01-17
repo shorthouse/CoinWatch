@@ -2,16 +2,19 @@ package dev.shorthouse.coinwatch.ui.screen.market
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
+import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.data.userPreferences.UserPreferences
 import dev.shorthouse.coinwatch.domain.GetCachedCoinsUseCase
+import dev.shorthouse.coinwatch.domain.GetMarketStatsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.RefreshCachedCoinsUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCoinSortUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCurrencyUseCase
+import dev.shorthouse.coinwatch.model.MarketStats
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
@@ -40,6 +43,9 @@ class MarketViewModelTest {
     private lateinit var getCachedCoinsUseCase: GetCachedCoinsUseCase
 
     @RelaxedMockK
+    private lateinit var getMarketStatsUseCase: GetMarketStatsUseCase
+
+    @RelaxedMockK
     private lateinit var refreshCachedCoinsUseCase: RefreshCachedCoinsUseCase
 
     @RelaxedMockK
@@ -57,6 +63,7 @@ class MarketViewModelTest {
 
         viewModel = MarketViewModel(
             getCachedCoinsUseCase = getCachedCoinsUseCase,
+            getMarketStatsUseCase = getMarketStatsUseCase,
             refreshCachedCoinsUseCase = refreshCachedCoinsUseCase,
             getUserPreferencesUseCase = getUserPreferencesUseCase,
             updateCoinSortUseCase = updateCoinSortUseCase,
@@ -72,7 +79,6 @@ class MarketViewModelTest {
     @Test
     fun `When ViewModel is initialised should have loading UI state`() {
         // Arrange
-        val expectedUiState = MarketUiState(isLoading = true)
 
         // Act
         viewModel.initialiseUiState()
@@ -125,7 +131,7 @@ class MarketViewModelTest {
 
         // Assert
         assertThat(viewModel.uiState.value.isLoading).isFalse()
-        assertThat(viewModel.uiState.value.errorMessageIds).hasSize(1)
+        assertThat(viewModel.uiState.value.errorMessageIds).contains(R.string.error_local_coins)
     }
 
     @Test
@@ -281,13 +287,14 @@ class MarketViewModelTest {
 
         // Act
         viewModel.initialiseUiState()
+
         val errorIsInserted = viewModel.uiState.value.errorMessageIds.isNotEmpty()
         val errorMessageId = viewModel.uiState.value.errorMessageIds.first()
         viewModel.dismissErrorMessage(errorMessageId)
 
         // Assert
         assertThat(errorIsInserted).isTrue()
-        assertThat(viewModel.uiState.value.errorMessageIds).isEmpty()
+        assertThat(viewModel.uiState.value.errorMessageIds).doesNotContain(errorMessageId)
     }
 
     @Test
@@ -342,5 +349,43 @@ class MarketViewModelTest {
         timeOfDays.forEach {
             assertThat(it).isEqualTo(expectedTimeOfDay)
         }
+    }
+
+    @Test
+    fun `Market cap change percentage 24h should have default null value before initialising`() {
+        // Arrange
+
+        // Act
+
+        // Assert
+        assertThat(viewModel.uiState.value.marketCapChangePercentage24h).isNull()
+    }
+
+    @Test
+    fun `When market stats returns success should set market cap change percentage 24h`() {
+        // Arrange
+        val expectedMarketCapChangePercentage24h = Percentage("2.0")
+        val marketStats = MarketStats(marketCapChangePercentage24h = Percentage("2.0"))
+
+        coEvery { getMarketStatsUseCase() } returns Result.Success(marketStats)
+
+        // Act
+        viewModel.initialiseUiState()
+
+        // Assert
+        assertThat(viewModel.uiState.value.marketCapChangePercentage24h)
+            .isEqualTo(expectedMarketCapChangePercentage24h)
+    }
+
+    @Test
+    fun `When market stats returns error should create error message and not populate value`() {
+        // Arrange
+        coEvery { getMarketStatsUseCase() } returns Result.Error("Market stats error")
+
+        // Act
+
+        // Assert
+        assertThat(viewModel.uiState.value.errorMessageIds).contains(R.string.error_market_stats)
+        assertThat(viewModel.uiState.value.marketCapChangePercentage24h).isNull()
     }
 }
