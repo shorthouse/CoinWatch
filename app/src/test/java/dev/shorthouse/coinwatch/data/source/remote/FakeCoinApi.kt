@@ -11,6 +11,9 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiMod
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsData
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsData
+import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsData
+import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsDataHolder
 import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
 import dev.shorthouse.coinwatch.data.source.remote.model.Supply
 import java.math.BigDecimal
@@ -280,5 +283,17 @@ class FakeCoinApi : CoinApi {
                 )
             }
         }
+    }
+
+    override suspend fun getMarketStats(): Response<MarketStatsApiModel> {
+        return Response.success(
+            MarketStatsApiModel(
+                marketStatsDataHolder = MarketStatsDataHolder(
+                    marketStatsData = MarketStatsData(
+                        marketCapChangePercentage24h = "1.2"
+                    )
+                )
+            )
+        )
     }
 }

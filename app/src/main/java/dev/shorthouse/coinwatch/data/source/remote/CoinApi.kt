@@ -4,6 +4,7 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -38,4 +39,7 @@ interface CoinApi {
         @Query("query") searchQuery: String = "",
         @Query("referenceCurrencyUuid") currencyUUID: String = "yhjMzLPhuIDl"
     ): Response<CoinSearchResultsApiModel>
+
+    @GET("stats/coins")
+    suspend fun getMarketStats(): Response<MarketStatsApiModel>
 }

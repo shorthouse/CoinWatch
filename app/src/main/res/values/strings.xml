@@ -63,6 +63,7 @@
     <string name="time_of_day_prefix_good">Good</string>
     <string name="error_network_coins">Latest coin data unavailable</string>
     <string name="error_local_coins">Saved coin data unavailable</string>
+    <string name="error_market_stats">Market change unavailable</string>
     <string name="settings_screen">Settings</string>
     <string name="settings_title_start_screen">Start screen</string>
     <string name="cd_more">More</string>
@@ -81,4 +82,7 @@
     <string name="settings_subtitle_rate">Leave a Play Store review</string>
     <string name="app_listing_uri">https://play.google.com/store/apps/details?id=dev.shorthouse.coinwatch</string>
     <string name="settings_group_feedback">Feedback</string>
+    <string name="market_is_up">Market is up</string>
+    <string name="market_is_down">Market is down</string>
+    <string name="market_is_flat">Market is flat</string>
 </resources>

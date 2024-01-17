@@ -17,6 +17,9 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material.icons.rounded.TrendingDown
+import androidx.compose.material.icons.rounded.TrendingFlat
+import androidx.compose.material.icons.rounded.TrendingUp
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -52,6 +55,7 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
+import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.PullRefreshIndicator
@@ -138,6 +142,7 @@ fun MarketScreen(
         topBar = {
             MarketTopBar(
                 timeOfDay = uiState.timeOfDay,
+                marketCapChangePercentage24h = uiState.marketCapChangePercentage24h,
                 onNavigateSettings = onNavigateSettings,
                 scrollBehavior = scrollBehavior
             )
@@ -249,6 +254,7 @@ fun MarketScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 fun MarketTopBar(
     timeOfDay: TimeOfDay,
+    marketCapChangePercentage24h: Percentage?,
     onNavigateSettings: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
@@ -257,12 +263,40 @@ fun MarketTopBar(
 
     TopAppBar(
         title = {
-            Text(
-                text = stringResource(R.string.time_of_day_prefix_good) +
-                    " " + timeOfDay.name.lowercase(),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+            Column {
+                Text(
+                    text = stringResource(R.string.time_of_day_prefix_good) +
+                        " " + timeOfDay.name.lowercase(),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+
+                marketCapChangePercentage24h?.let {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = when {
+                                it.isPositive -> stringResource(R.string.market_is_up)
+                                it.isNegative -> stringResource(R.string.market_is_down)
+                                else -> stringResource(R.string.market_is_flat)
+                            },
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+
+                        Spacer(Modifier.width(4.dp))
+
+                        Icon(
+                            imageVector = when {
+                                it.isPositive -> Icons.Rounded.TrendingUp
+                                it.isNegative -> Icons.Rounded.TrendingDown
+                                else -> Icons.Rounded.TrendingFlat
+                            },
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            contentDescription = null
+                        )
+                    }
+                }
+            }
         },
         actions = {
             IconButton(onClick = { menuExpanded = !menuExpanded }) {

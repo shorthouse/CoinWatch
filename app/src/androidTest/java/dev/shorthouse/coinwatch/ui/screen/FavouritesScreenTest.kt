@@ -242,7 +242,7 @@ class FavouritesScreenTest {
 
     @Test
     fun when_scrollingFavouritesList_should_showScrollToTopFab() {
-        val favouriteCoins = (1..10).map {
+        val favouriteCoins = (1..20).map {
             Coin(
                 id = it.toString(),
                 symbol = "",

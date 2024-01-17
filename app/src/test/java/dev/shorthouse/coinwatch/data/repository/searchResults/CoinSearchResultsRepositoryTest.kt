@@ -1,11 +1,9 @@
-package dev.shorthouse.coinwatch.data.repository.searchresults
+package dev.shorthouse.coinwatch.data.repository.searchResults
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.mapper.CoinSearchResultsMapper
-import dev.shorthouse.coinwatch.data.repository.searchResults.CoinSearchResultsRepository
-import dev.shorthouse.coinwatch.data.repository.searchResults.CoinSearchResultsRepositoryImpl
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResult
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel

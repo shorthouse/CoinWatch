@@ -10,6 +10,7 @@ import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.domain.GetCachedCoinsUseCase
+import dev.shorthouse.coinwatch.domain.GetMarketStatsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.RefreshCachedCoinsUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCoinSortUseCase
@@ -34,6 +35,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class MarketViewModel @Inject constructor(
     private val getCachedCoinsUseCase: GetCachedCoinsUseCase,
+    private val getMarketStatsUseCase: GetMarketStatsUseCase,
     private val refreshCachedCoinsUseCase: RefreshCachedCoinsUseCase,
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
     private val updateCoinSortUseCase: UpdateCoinSortUseCase,
@@ -94,6 +96,32 @@ class MarketViewModel @Inject constructor(
                 it.copy(timeOfDay = timeOfDay)
             }
         }.launchIn(viewModelScope)
+
+        viewModelScope.launch {
+            val marketStatsResult = getMarketStatsUseCase()
+
+            when (marketStatsResult) {
+                is Result.Success -> {
+                    val marketStats = marketStatsResult.data
+
+                    _uiState.update {
+                        it.copy(
+                            marketCapChangePercentage24h = marketStats.marketCapChangePercentage24h
+                        )
+                    }
+                }
+
+                is Result.Error -> {
+                    _uiState.update {
+                        val errorMessages = it.errorMessageIds + R.string.error_market_stats
+
+                        it.copy(
+                            errorMessageIds = errorMessages
+                        )
+                    }
+                }
+            }
+        }
     }
 
     fun pullRefreshCachedCoins() {
@@ -132,7 +160,7 @@ class MarketViewModel @Inject constructor(
     }
 
     fun updateIsCoinSortSheetShown(showSheet: Boolean) {
-        if (showSheet && isAnyBottomSheetOpen()) return
+        if (isAnyBottomSheetOpen() && showSheet) return
 
         _uiState.update { it.copy(isCoinSortSheetShown = showSheet) }
     }
@@ -152,6 +180,15 @@ class MarketViewModel @Inject constructor(
         }
     }
 
+    @VisibleForTesting
+    fun calculateTimeOfDay(hour: Int): TimeOfDay {
+        return when (hour) {
+            in 4..11 -> TimeOfDay.Morning
+            in 12..17 -> TimeOfDay.Afternoon
+            else -> TimeOfDay.Evening
+        }
+    }
+
     private fun isAnyBottomSheetOpen(): Boolean {
         return _uiState.value.isCoinSortSheetShown || _uiState.value.isCurrencySheetShown
     }
@@ -161,15 +198,6 @@ class MarketViewModel @Inject constructor(
             val currentHour = LocalTime.now().hour
             emit(currentHour)
             delay(5.minutes.inWholeMilliseconds)
-        }
-    }
-
-    @VisibleForTesting
-    fun calculateTimeOfDay(hour: Int): TimeOfDay {
-        return when (hour) {
-            in 4..11 -> TimeOfDay.Morning
-            in 12..17 -> TimeOfDay.Afternoon
-            else -> TimeOfDay.Evening
         }
     }
 

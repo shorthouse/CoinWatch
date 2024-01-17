@@ -63,7 +63,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -91,7 +91,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -118,7 +118,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -145,13 +145,129 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
 
         composeTestRule.apply {
             onNodeWithText("Good evening").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_marketCapChangeNull_should_notDisplayMarketText() {
+        val uiState = MarketUiState(
+            marketCapChangePercentage24h = null
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                MarketScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onNavigateSettings = {},
+                    onUpdateCoinSort = {},
+                    onUpdateIsCoinSortSheetShown = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onRefresh = {},
+                    onDismissError = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market is up").assertDoesNotExist()
+            onNodeWithText("Market is down").assertDoesNotExist()
+            onNodeWithText("Market is flat").assertDoesNotExist()
+        }
+    }
+
+    @Test
+    fun when_marketCapChangePositive_should_displayMarketUpText() {
+        val uiState = MarketUiState(
+            marketCapChangePercentage24h = Percentage("1.2")
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                MarketScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onNavigateSettings = {},
+                    onUpdateCoinSort = {},
+                    onUpdateIsCoinSortSheetShown = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onRefresh = {},
+                    onDismissError = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market is up").assertIsDisplayed()
+            onNodeWithText("Market is down").assertDoesNotExist()
+            onNodeWithText("Market is flat").assertDoesNotExist()
+        }
+    }
+
+    @Test
+    fun when_marketCapChangeNegative_should_displayMarketDownText() {
+        val uiState = MarketUiState(
+            marketCapChangePercentage24h = Percentage("-1.2")
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                MarketScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onNavigateSettings = {},
+                    onUpdateCoinSort = {},
+                    onUpdateIsCoinSortSheetShown = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onRefresh = {},
+                    onDismissError = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market is up").assertDoesNotExist()
+            onNodeWithText("Market is down").assertIsDisplayed()
+            onNodeWithText("Market is flat").assertDoesNotExist()
+        }
+    }
+
+    @Test
+    fun when_marketCapChangeZero_should_displayMarketFlatText() {
+        val uiState = MarketUiState(
+            marketCapChangePercentage24h = Percentage("0.00")
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                MarketScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onNavigateSettings = {},
+                    onUpdateCoinSort = {},
+                    onUpdateIsCoinSortSheetShown = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onRefresh = {},
+                    onDismissError = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market is up").assertDoesNotExist()
+            onNodeWithText("Market is down").assertDoesNotExist()
+            onNodeWithText("Market is flat").assertIsDisplayed()
         }
     }
 
@@ -173,7 +289,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -202,7 +318,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -230,7 +346,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -258,7 +374,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -289,7 +405,7 @@ class MarketScreenTest {
                         showCurrencyBottomSheetCalled = showCurrencyBottomSheet
                     },
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -319,7 +435,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -347,7 +463,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -375,7 +491,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -403,7 +519,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -434,7 +550,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -463,7 +579,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -520,7 +636,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -557,7 +673,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -587,7 +703,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -621,7 +737,7 @@ class MarketScreenTest {
                     },
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -651,7 +767,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -686,7 +802,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -727,7 +843,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -758,7 +874,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = { onRefreshCalled = true },
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -791,7 +907,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -818,7 +934,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -844,7 +960,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -873,7 +989,7 @@ class MarketScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
-                    onDismissError = {},
+                    onDismissError = {}
                 )
             }
         }

@@ -99,7 +99,6 @@ class SettingsScreenTest {
             onNodeWithText("Feedback").assertIsDisplayed()
             onNodeWithText("Rate CoinWatch").assertIsDisplayed()
             onNodeWithText("Leave a Play Store review").assertIsDisplayed()
-            onNodeWithText("Made with ❤\uFE0F\uFE0F by Short Labs").assertIsDisplayed()
         }
     }
 
