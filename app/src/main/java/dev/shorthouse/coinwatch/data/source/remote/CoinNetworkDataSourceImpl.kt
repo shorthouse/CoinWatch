@@ -1,11 +1,12 @@
 package dev.shorthouse.coinwatch.data.source.remote
 
-import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
-import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
+import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
+import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import javax.inject.Inject
 import retrofit2.Response
 
@@ -50,6 +51,10 @@ class CoinNetworkDataSourceImpl @Inject constructor(
         searchQuery: String
     ): Response<CoinSearchResultsApiModel> {
         return coinApi.getCoinSearchResults(searchQuery = searchQuery)
+    }
+
+    override suspend fun getMarketStats(): Response<MarketStatsApiModel> {
+        return coinApi.getMarketStats()
     }
 }
 
