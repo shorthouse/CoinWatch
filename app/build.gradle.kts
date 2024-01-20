@@ -6,8 +6,6 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
     id("com.google.devtools.ksp")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
     kotlin("plugin.serialization")
 }
 
@@ -91,10 +89,6 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview-android:1.5.4")
     implementation("androidx.navigation:navigation-compose:2.7.6")
     lintChecks("com.slack.lint.compose:compose-lint-checks:1.2.0")
-
-    // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-    implementation("com.google.firebase:firebase-crashlytics")
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
