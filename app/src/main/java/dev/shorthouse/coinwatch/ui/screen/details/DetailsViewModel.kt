@@ -54,7 +54,9 @@ class DetailsViewModel @Inject constructor(
                 chartPeriod = chartPeriod.stringName
             )
         }
-        val isCoinFavouriteFlow = isCoinFavouriteUseCase(coinId = coinId)
+        val isCoinFavouriteFlow = isCoinFavouriteUseCase(
+            favouriteCoin = FavouriteCoin(id = coinId)
+        )
 
         combine(
             coinDetailsFlow,
