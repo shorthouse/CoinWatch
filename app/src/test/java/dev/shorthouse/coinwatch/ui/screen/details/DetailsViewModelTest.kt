@@ -5,7 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Constants
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
+import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
 import dev.shorthouse.coinwatch.domain.GetCoinChartUseCase
 import dev.shorthouse.coinwatch.domain.GetCoinDetailsUseCase
 import dev.shorthouse.coinwatch.domain.IsCoinFavouriteUseCase
@@ -192,13 +192,13 @@ class DetailsViewModelTest {
     fun `When toggling coin favourite should call expected use case`() {
         // Arrange
         val coinId = "Qwsogvtv82FCd"
-        val favouriteCoin = FavouriteCoin(id = coinId)
-        coEvery { toggleIsCoinFavouriteUseCase(favouriteCoin) } just runs
+        val favouriteCoinId = FavouriteCoinId(id = coinId)
+        coEvery { toggleIsCoinFavouriteUseCase(favouriteCoinId = favouriteCoinId) } just runs
 
         // Act
         viewModel.toggleIsCoinFavourite()
 
         // Assert
-        coVerifySequence { toggleIsCoinFavouriteUseCase(favouriteCoin) }
+        coVerifySequence { toggleIsCoinFavouriteUseCase(favouriteCoinId = favouriteCoinId) }
     }
 }

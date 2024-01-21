@@ -1,8 +1,8 @@
 package dev.shorthouse.coinwatch.domain
 
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepository
-import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
+import dev.shorthouse.coinwatch.data.repository.favouriteCoinId.FavouriteCoinIdRepository
+import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -17,32 +17,32 @@ class IsCoinFavouriteUseCaseTest {
     private lateinit var isCoinFavouriteUseCase: IsCoinFavouriteUseCase
 
     @MockK
-    private lateinit var favouriteCoinRepository: FavouriteCoinRepository
+    private lateinit var favouriteCoinIdRepository: FavouriteCoinIdRepository
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
 
         isCoinFavouriteUseCase = IsCoinFavouriteUseCase(
-            favouriteCoinRepository = favouriteCoinRepository
+            favouriteCoinIdRepository = favouriteCoinIdRepository
         )
     }
 
     @Test
     fun `When use case invoked should return if coin is favourite`() {
         // Arrange
-        val favouriteCoin = FavouriteCoin(id = "Qwsogvtv82FCd")
+        val favouriteCoinId = FavouriteCoinId(id = "Qwsogvtv82FCd")
 
         every {
-            favouriteCoinRepository.isCoinFavourite(favouriteCoin = favouriteCoin)
+            favouriteCoinIdRepository.isCoinFavourite(favouriteCoinId = favouriteCoinId)
         } returns flowOf(Result.Success(true))
 
         // Act
-        isCoinFavouriteUseCase(favouriteCoin = favouriteCoin)
+        isCoinFavouriteUseCase(favouriteCoinId = favouriteCoinId)
 
         // Assert
         verifySequence {
-            favouriteCoinRepository.isCoinFavourite(favouriteCoin = favouriteCoin)
+            favouriteCoinIdRepository.isCoinFavourite(favouriteCoinId = favouriteCoinId)
         }
     }
 }

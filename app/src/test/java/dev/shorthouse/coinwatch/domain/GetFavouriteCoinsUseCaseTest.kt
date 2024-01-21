@@ -3,8 +3,8 @@ package dev.shorthouse.coinwatch.domain
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.repository.coin.CoinRepository
-import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepository
-import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
+import dev.shorthouse.coinwatch.data.repository.favouriteCoinId.FavouriteCoinIdRepository
+import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.data.userPreferences.UserPreferences
@@ -29,7 +29,7 @@ class GetFavouriteCoinsUseCaseTest {
     private lateinit var getFavouriteCoinsUseCase: GetFavouriteCoinsUseCase
 
     @MockK
-    private lateinit var favouriteCoinRepository: FavouriteCoinRepository
+    private lateinit var favouriteCoinIdRepository: FavouriteCoinIdRepository
 
     @MockK
     private lateinit var coinRepository: CoinRepository
@@ -42,7 +42,7 @@ class GetFavouriteCoinsUseCaseTest {
         MockKAnnotations.init(this)
 
         getFavouriteCoinsUseCase = GetFavouriteCoinsUseCase(
-            favouriteCoinRepository = favouriteCoinRepository,
+            favouriteCoinIdRepository = favouriteCoinIdRepository,
             coinRepository = coinRepository,
             userPreferencesRepository = userPreferencesRepository
         )
@@ -78,11 +78,11 @@ class GetFavouriteCoinsUseCaseTest {
         )
 
         every {
-            favouriteCoinRepository.getFavouriteCoins()
+            favouriteCoinIdRepository.getFavouriteCoinIds()
         } returns flowOf(
             Result.Success(
                 listOf(
-                    FavouriteCoin(id = "Qwsogvtv82FCd")
+                    FavouriteCoinId(id = "Qwsogvtv82FCd")
                 )
             )
         )
@@ -133,7 +133,7 @@ class GetFavouriteCoinsUseCaseTest {
         )
 
         every {
-            favouriteCoinRepository.getFavouriteCoins()
+            favouriteCoinIdRepository.getFavouriteCoinIds()
         } returns flowOf(Result.Error(errorMessage))
 
         // Act
@@ -152,7 +152,7 @@ class GetFavouriteCoinsUseCaseTest {
             val expectedResult = Result.Success(emptyList<Coin>())
 
             every {
-                favouriteCoinRepository.getFavouriteCoins()
+                favouriteCoinIdRepository.getFavouriteCoinIds()
             } returns flowOf(Result.Success(emptyList()))
 
             // Act
