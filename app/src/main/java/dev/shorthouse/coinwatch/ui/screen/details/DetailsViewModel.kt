@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.coinwatch.common.Constants.PARAM_COIN_ID
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
+import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
 import dev.shorthouse.coinwatch.domain.GetCoinChartUseCase
 import dev.shorthouse.coinwatch.domain.GetCoinDetailsUseCase
 import dev.shorthouse.coinwatch.domain.IsCoinFavouriteUseCase
@@ -55,7 +55,7 @@ class DetailsViewModel @Inject constructor(
             )
         }
         val isCoinFavouriteFlow = isCoinFavouriteUseCase(
-            favouriteCoin = FavouriteCoin(id = coinId)
+            favouriteCoinId = FavouriteCoinId(id = coinId)
         )
 
         combine(
@@ -100,8 +100,8 @@ class DetailsViewModel @Inject constructor(
         if (coinId == null) return
 
         viewModelScope.launch {
-            val favouriteCoin = FavouriteCoin(id = coinId)
-            toggleIsCoinFavouriteUseCase(favouriteCoin = favouriteCoin)
+            val favouriteCoinId = FavouriteCoinId(id = coinId)
+            toggleIsCoinFavouriteUseCase(favouriteCoinId = favouriteCoinId)
         }
     }
 }

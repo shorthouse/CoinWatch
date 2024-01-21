@@ -5,23 +5,23 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
+import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FavouriteCoinDao {
-    @Query("SELECT * FROM FavouriteCoin")
-    fun getFavouriteCoins(): Flow<List<FavouriteCoin>>
+    @Query("SELECT * FROM FavouriteCoinId")
+    fun getFavouriteCoinIds(): Flow<List<FavouriteCoinId>>
 
-    @Query("SELECT COUNT(1) FROM FavouriteCoin WHERE id = :coinId")
+    @Query("SELECT COUNT(1) FROM FavouriteCoinId WHERE id = :coinId")
     fun isCoinFavourite(coinId: String): Flow<Boolean>
 
-    @Query("SELECT COUNT(1) FROM FavouriteCoin WHERE id = :coinId")
+    @Query("SELECT COUNT(1) FROM FavouriteCoinId WHERE id = :coinId")
     suspend fun isCoinFavouriteOneShot(coinId: String): Boolean
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(favouriteCoin: FavouriteCoin)
+    suspend fun insert(favouriteCoinId: FavouriteCoinId)
 
     @Delete
-    suspend fun delete(favouriteCoin: FavouriteCoin)
+    suspend fun delete(favouriteCoinId: FavouriteCoinId)
 }

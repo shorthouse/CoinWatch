@@ -17,8 +17,8 @@ import dev.shorthouse.coinwatch.data.repository.coin.CoinRepository
 import dev.shorthouse.coinwatch.data.repository.coin.CoinRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.details.CoinDetailsRepository
 import dev.shorthouse.coinwatch.data.repository.details.CoinDetailsRepositoryImpl
-import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepository
-import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepositoryImpl
+import dev.shorthouse.coinwatch.data.repository.favouriteCoinId.FavouriteCoinIdRepository
+import dev.shorthouse.coinwatch.data.repository.favouriteCoinId.FavouriteCoinIdRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.marketStats.MarketStatsRepository
 import dev.shorthouse.coinwatch.data.repository.marketStats.MarketStatsRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.searchResults.CoinSearchResultsRepository
@@ -64,11 +64,11 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideFavouriteCoinRepository(
+    fun provideFavouriteCoinIdRepository(
         coinLocalDataSource: CoinLocalDataSource,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
-    ): FavouriteCoinRepository {
-        return FavouriteCoinRepositoryImpl(
+    ): FavouriteCoinIdRepository {
+        return FavouriteCoinIdRepositoryImpl(
             coinLocalDataSource = coinLocalDataSource,
             ioDispatcher = ioDispatcher
         )
