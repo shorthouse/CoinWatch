@@ -26,8 +26,8 @@ class FavouriteCoinRepositoryImpl @Inject constructor(
             .flowOn(ioDispatcher)
     }
 
-    override fun isCoinFavourite(coinId: String): Flow<Result<Boolean>> {
-        return coinLocalDataSource.isCoinFavourite(coinId)
+    override fun isCoinFavourite(favouriteCoin: FavouriteCoin): Flow<Result<Boolean>> {
+        return coinLocalDataSource.isCoinFavourite(favouriteCoin = favouriteCoin)
             .map { Result.Success(it) }
             .catch { e ->
                 Timber.e("isCoinFavourite error ${e.message}")

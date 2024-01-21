@@ -2,6 +2,7 @@ package dev.shorthouse.coinwatch.domain
 
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepository
+import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -30,18 +31,18 @@ class IsCoinFavouriteUseCaseTest {
     @Test
     fun `When use case invoked should return if coin is favourite`() {
         // Arrange
-        val coinId = "Qwsogvtv82FCd"
+        val favouriteCoin = FavouriteCoin(id = "Qwsogvtv82FCd")
 
         every {
-            favouriteCoinRepository.isCoinFavourite(coinId = coinId)
+            favouriteCoinRepository.isCoinFavourite(favouriteCoin = favouriteCoin)
         } returns flowOf(Result.Success(true))
 
         // Act
-        isCoinFavouriteUseCase(coinId = coinId)
+        isCoinFavouriteUseCase(favouriteCoin = favouriteCoin)
 
         // Assert
         verifySequence {
-            favouriteCoinRepository.isCoinFavourite(coinId = coinId)
+            favouriteCoinRepository.isCoinFavourite(favouriteCoin = favouriteCoin)
         }
     }
 }

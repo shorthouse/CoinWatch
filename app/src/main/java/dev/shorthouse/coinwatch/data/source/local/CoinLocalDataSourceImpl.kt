@@ -20,8 +20,8 @@ class CoinLocalDataSourceImpl(
         return favouriteCoinDao.getFavouriteCoins()
     }
 
-    override fun isCoinFavourite(coinId: String): Flow<Boolean> {
-        return favouriteCoinDao.isCoinFavourite(coinId = coinId)
+    override fun isCoinFavourite(favouriteCoin: FavouriteCoin): Flow<Boolean> {
+        return favouriteCoinDao.isCoinFavourite(coinId = favouriteCoin.id)
     }
 
     override suspend fun toggleIsCoinFavourite(favouriteCoin: FavouriteCoin) {

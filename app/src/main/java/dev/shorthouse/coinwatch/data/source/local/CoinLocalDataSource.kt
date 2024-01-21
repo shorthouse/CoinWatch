@@ -8,6 +8,6 @@ interface CoinLocalDataSource {
     fun getCachedCoins(): Flow<List<CachedCoin>>
     suspend fun refreshCachedCoins(coins: List<CachedCoin>)
     fun getFavouriteCoins(): Flow<List<FavouriteCoin>>
-    fun isCoinFavourite(coinId: String): Flow<Boolean>
+    fun isCoinFavourite(favouriteCoin: FavouriteCoin): Flow<Boolean>
     suspend fun toggleIsCoinFavourite(favouriteCoin: FavouriteCoin)
 }
