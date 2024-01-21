@@ -10,7 +10,6 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.unmockkAll
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -42,7 +41,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `When ViewModel is initialised should have empty search query`() = runTest {
+    fun `When ViewModel is initialised should have empty search query`() {
         // Arrange
         val expectedSearchQuery = ""
 
@@ -53,7 +52,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `When search query is empty should return empty search results list`() = runTest {
+    fun `When search query is empty should return empty search results list`() {
         // Arrange
         val expectedUiState = SearchUiState()
 
@@ -67,7 +66,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `When search query results returns error should have error UI state`() = runTest {
+    fun `When search query results returns error should have error UI state`() {
         // Arrange
         val searchQuery = "bit"
         val errorMessage = "Unable to fetch coin search results"
@@ -91,7 +90,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `When search query results returns success should have success UI state`() = runTest {
+    fun `When search query results returns success should have success UI state`() {
         // Arrange
         val searchQuery = "bit"
 
@@ -142,33 +141,32 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `When search query results returns success with empty list should set no results flag`() =
-        runTest {
-            // Arrange
-            val searchQuery = "abcdefghijk"
+    fun `When search query results returns success with empty list should set no results flag`() {
+        // Arrange
+        val searchQuery = "abcdefghijk"
 
-            val searchResults = persistentListOf<SearchCoin>()
+        val searchResults = persistentListOf<SearchCoin>()
 
-            val expectedUiState = SearchUiState(
-                searchResults = searchResults,
-                queryHasNoResults = true
-            )
+        val expectedUiState = SearchUiState(
+            searchResults = searchResults,
+            queryHasNoResults = true
+        )
 
-            coEvery {
-                getCoinSearchResultsUseCase(searchQuery)
-            } returns Result.Success(emptyList())
+        coEvery {
+            getCoinSearchResultsUseCase(searchQuery)
+        } returns Result.Success(emptyList())
 
-            // Act
-            viewModel.updateSearchQuery(searchQuery)
-            viewModel.initialiseUiState()
-            mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
+        // Act
+        viewModel.updateSearchQuery(searchQuery)
+        viewModel.initialiseUiState()
+        mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
 
-            // Assert
-            assertThat(viewModel.uiState.value).isEqualTo(expectedUiState)
-        }
+        // Assert
+        assertThat(viewModel.uiState.value).isEqualTo(expectedUiState)
+    }
 
     @Test
-    fun `When updating search query should update search query value`() = runTest {
+    fun `When updating search query should update search query value`() {
         // Arrange
         val searchQuery = "bit"
 

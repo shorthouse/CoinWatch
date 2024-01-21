@@ -7,18 +7,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.coinwatch.common.Constants.PARAM_COIN_ID
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
-import dev.shorthouse.coinwatch.domain.DeleteFavouriteCoinUseCase
 import dev.shorthouse.coinwatch.domain.GetCoinChartUseCase
 import dev.shorthouse.coinwatch.domain.GetCoinDetailsUseCase
-import dev.shorthouse.coinwatch.domain.InsertFavouriteCoinUseCase
 import dev.shorthouse.coinwatch.domain.IsCoinFavouriteUseCase
+import dev.shorthouse.coinwatch.domain.ToggleIsCoinFavouriteUseCase
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
@@ -29,8 +27,7 @@ class DetailsViewModel @Inject constructor(
     private val getCoinDetailsUseCase: GetCoinDetailsUseCase,
     private val getCoinChartUseCase: GetCoinChartUseCase,
     private val isCoinFavouriteUseCase: IsCoinFavouriteUseCase,
-    private val insertFavouriteCoinUseCase: InsertFavouriteCoinUseCase,
-    private val deleteFavouriteCoinUseCase: DeleteFavouriteCoinUseCase,
+    private val toggleIsCoinFavouriteUseCase: ToggleIsCoinFavouriteUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<DetailsUiState>(DetailsUiState.Loading)
@@ -101,21 +98,8 @@ class DetailsViewModel @Inject constructor(
         if (coinId == null) return
 
         viewModelScope.launch {
-            val isCoinFavouriteResult = isCoinFavouriteUseCase(coinId).first()
-
-            if (isCoinFavouriteResult is Result.Success) {
-                val isCoinFavourite = isCoinFavouriteResult.data
-
-                if (isCoinFavourite) {
-                    deleteFavouriteCoinUseCase(
-                        FavouriteCoin(id = coinId)
-                    )
-                } else {
-                    insertFavouriteCoinUseCase(
-                        FavouriteCoin(id = coinId)
-                    )
-                }
-            }
+            val favouriteCoin = FavouriteCoin(id = coinId)
+            toggleIsCoinFavouriteUseCase(favouriteCoin = favouriteCoin)
         }
     }
 }

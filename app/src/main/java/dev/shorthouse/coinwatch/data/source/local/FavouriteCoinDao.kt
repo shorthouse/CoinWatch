@@ -16,6 +16,9 @@ interface FavouriteCoinDao {
     @Query("SELECT COUNT(1) FROM FavouriteCoin WHERE id = :coinId")
     fun isCoinFavourite(coinId: String): Flow<Boolean>
 
+    @Query("SELECT COUNT(1) FROM FavouriteCoin WHERE id = :coinId")
+    suspend fun isCoinFavouriteOneShot(coinId: String): Boolean
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(favouriteCoin: FavouriteCoin)
 

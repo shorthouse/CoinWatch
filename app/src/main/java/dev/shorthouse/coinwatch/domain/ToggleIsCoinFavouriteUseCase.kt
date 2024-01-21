@@ -4,14 +4,14 @@ import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepos
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import javax.inject.Inject
 
-class DeleteFavouriteCoinUseCase @Inject constructor(
+class ToggleIsCoinFavouriteUseCase @Inject constructor(
     private val favouriteCoinRepository: FavouriteCoinRepository
 ) {
     suspend operator fun invoke(favouriteCoin: FavouriteCoin) {
-        return deleteFavouriteCoin(favouriteCoin = favouriteCoin)
+        return toggleIsCoinFavourite(favouriteCoin = favouriteCoin)
     }
 
-    private suspend fun deleteFavouriteCoin(favouriteCoin: FavouriteCoin) {
-        return favouriteCoinRepository.deleteFavouriteCoin(favouriteCoin = favouriteCoin)
+    private suspend fun toggleIsCoinFavourite(favouriteCoin: FavouriteCoin) {
+        return favouriteCoinRepository.toggleIsCoinFavourite(favouriteCoin = favouriteCoin)
     }
 }
