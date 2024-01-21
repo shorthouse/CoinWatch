@@ -7,7 +7,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -29,7 +28,7 @@ class IsCoinFavouriteUseCaseTest {
     }
 
     @Test
-    fun `When use case invoked should return if coin is favourite`() = runTest {
+    fun `When use case invoked should return if coin is favourite`() {
         // Arrange
         val coinId = "Qwsogvtv82FCd"
 
