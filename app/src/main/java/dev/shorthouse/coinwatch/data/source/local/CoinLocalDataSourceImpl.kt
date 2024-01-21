@@ -33,12 +33,4 @@ class CoinLocalDataSourceImpl(
             favouriteCoinDao.insert(favouriteCoin)
         }
     }
-
-    override suspend fun insertFavouriteCoin(favouriteCoin: FavouriteCoin) {
-        favouriteCoinDao.insert(favouriteCoin)
-    }
-
-    override suspend fun deleteFavouriteCoin(favouriteCoin: FavouriteCoin) {
-        favouriteCoinDao.delete(favouriteCoin)
-    }
 }
