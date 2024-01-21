@@ -26,8 +26,8 @@ import kotlinx.coroutines.launch
 class DetailsViewModel @Inject constructor(
     private val getCoinDetailsUseCase: GetCoinDetailsUseCase,
     private val getCoinChartUseCase: GetCoinChartUseCase,
-    private val toggleIsCoinFavouriteUseCase: ToggleIsCoinFavouriteUseCase,
     private val isCoinFavouriteUseCase: IsCoinFavouriteUseCase,
+    private val toggleIsCoinFavouriteUseCase: ToggleIsCoinFavouriteUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<DetailsUiState>(DetailsUiState.Loading)
