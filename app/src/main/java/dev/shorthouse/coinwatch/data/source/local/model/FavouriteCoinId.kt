@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class FavouriteCoin(
+data class FavouriteCoinId(
     @PrimaryKey
     val id: String
 )
