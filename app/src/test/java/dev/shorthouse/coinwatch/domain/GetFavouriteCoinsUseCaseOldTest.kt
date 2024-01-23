@@ -23,10 +23,10 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-class GetFavouriteCoinsUseCaseTest {
+class GetFavouriteCoinsUseCaseOldTest {
 
     // Class under test
-    private lateinit var getFavouriteCoinsUseCase: GetFavouriteCoinsUseCase
+    private lateinit var getFavouriteCoinsUseCaseOld: GetFavouriteCoinsUseCaseOld
 
     @MockK
     private lateinit var favouriteCoinIdRepository: FavouriteCoinIdRepository
@@ -41,7 +41,7 @@ class GetFavouriteCoinsUseCaseTest {
     fun setup() {
         MockKAnnotations.init(this)
 
-        getFavouriteCoinsUseCase = GetFavouriteCoinsUseCase(
+        getFavouriteCoinsUseCaseOld = GetFavouriteCoinsUseCaseOld(
             favouriteCoinIdRepository = favouriteCoinIdRepository,
             coinRepository = coinRepository,
             userPreferencesRepository = userPreferencesRepository
@@ -116,7 +116,7 @@ class GetFavouriteCoinsUseCaseTest {
         )
 
         // Act
-        val getFavouriteCoinsResult = getFavouriteCoinsUseCase().first()
+        val getFavouriteCoinsResult = getFavouriteCoinsUseCaseOld().first()
 
         // Assert
         assertThat(getFavouriteCoinsResult).isInstanceOf(Result.Success::class.java)
@@ -137,7 +137,7 @@ class GetFavouriteCoinsUseCaseTest {
         } returns flowOf(Result.Error(errorMessage))
 
         // Act
-        val getFavouriteCoinsResult = getFavouriteCoinsUseCase().first()
+        val getFavouriteCoinsResult = getFavouriteCoinsUseCaseOld().first()
 
         // Assert
         assertThat(getFavouriteCoinsResult).isInstanceOf(Result.Error::class.java)
@@ -156,7 +156,7 @@ class GetFavouriteCoinsUseCaseTest {
             } returns flowOf(Result.Success(emptyList()))
 
             // Act
-            val getFavouriteCoinsResult = getFavouriteCoinsUseCase().first()
+            val getFavouriteCoinsResult = getFavouriteCoinsUseCaseOld().first()
 
             // Assert
             assertThat(getFavouriteCoinsResult).isInstanceOf(Result.Success::class.java)

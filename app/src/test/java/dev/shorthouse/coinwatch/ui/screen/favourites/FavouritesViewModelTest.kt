@@ -3,7 +3,7 @@ package dev.shorthouse.coinwatch.ui.screen.favourites
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
+import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCaseOld
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
@@ -24,14 +24,14 @@ class FavouritesViewModelTest {
     private lateinit var viewModel: FavouritesViewModel
 
     @RelaxedMockK
-    private lateinit var getFavouriteCoinsUseCase: GetFavouriteCoinsUseCase
+    private lateinit var getFavouriteCoinsUseCaseOld: GetFavouriteCoinsUseCaseOld
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
 
         viewModel = FavouritesViewModel(
-            getFavouriteCoinsUseCase = getFavouriteCoinsUseCase
+            getFavouriteCoinsUseCaseOld = getFavouriteCoinsUseCaseOld
         )
     }
 
@@ -58,7 +58,7 @@ class FavouritesViewModelTest {
         val errorMessage = "Error message"
         val expectedUiState = FavouritesUiState(errorMessage = errorMessage)
 
-        every { getFavouriteCoinsUseCase() } returns flowOf(Result.Error(errorMessage))
+        every { getFavouriteCoinsUseCaseOld() } returns flowOf(Result.Error(errorMessage))
 
         // Act
         viewModel.initialiseUiState()
@@ -74,7 +74,7 @@ class FavouritesViewModelTest {
             favouriteCoins = persistentListOf()
         )
 
-        every { getFavouriteCoinsUseCase() } returns flowOf(Result.Success(emptyList()))
+        every { getFavouriteCoinsUseCaseOld() } returns flowOf(Result.Success(emptyList()))
 
         // Act
         viewModel.initialiseUiState()

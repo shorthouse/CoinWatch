@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
+import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCaseOld
 import javax.inject.Inject
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.update
 
 @HiltViewModel
 class FavouritesViewModel @Inject constructor(
-    private val getFavouriteCoinsUseCase: GetFavouriteCoinsUseCase
+    private val getFavouriteCoinsUseCaseOld: GetFavouriteCoinsUseCaseOld
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(FavouritesUiState(isLoading = true))
     val uiState = _uiState.asStateFlow()
@@ -25,7 +25,7 @@ class FavouritesViewModel @Inject constructor(
     }
 
     fun initialiseUiState() {
-        val favouriteCoinsFlow = getFavouriteCoinsUseCase()
+        val favouriteCoinsFlow = getFavouriteCoinsUseCaseOld()
 
         favouriteCoinsFlow.onEach { favouriteCoinsResult ->
             when (favouriteCoinsResult) {
