@@ -43,10 +43,19 @@ class FavouritesViewModel @Inject constructor(
         ) { favouriteCoinIdsResult, userPreferences ->
             when (favouriteCoinIdsResult) {
                 is Result.Success -> {
-                    updateCachedFavouriteCoinsUseCase(
+                    val updateCachedFavouriteCoinResult = updateCachedFavouriteCoinsUseCase(
                         coinIds = favouriteCoinIdsResult.data,
                         userPreferences = userPreferences
                     )
+
+                    if (updateCachedFavouriteCoinResult is Result.Error) {
+                        _uiState.update {
+                            it.copy(
+                                errorMessage = updateCachedFavouriteCoinResult.message,
+                                isLoading = false
+                            )
+                        }
+                    }
                 }
                 is Result.Error -> {
                     _uiState.update {
@@ -82,6 +91,7 @@ class FavouritesViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+
 //        val favouriteCoinsFlowOld = getFavouriteCoinsUseCaseOld()
 //
 //        favouriteCoinsFlowOld.onEach { favouriteCoinsResult ->
