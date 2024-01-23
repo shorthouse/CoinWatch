@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface FavouriteCoinRepository {
     suspend fun getRemoteFavouriteCoins(
-        coinIds: List<String> = emptyList(),
+        coinIds: List<String>,
         coinSort: CoinSort,
         currency: Currency
     ): Result<List<FavouriteCoin>>
