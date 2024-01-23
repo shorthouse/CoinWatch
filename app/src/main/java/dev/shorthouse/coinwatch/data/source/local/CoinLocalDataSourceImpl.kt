@@ -1,12 +1,17 @@
 package dev.shorthouse.coinwatch.data.source.local
 
+import dev.shorthouse.coinwatch.data.source.local.dao.CachedCoinDao
+import dev.shorthouse.coinwatch.data.source.local.dao.FavouriteCoinDao
+import dev.shorthouse.coinwatch.data.source.local.dao.FavouriteCoinIdDao
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
 import kotlinx.coroutines.flow.Flow
 
 class CoinLocalDataSourceImpl(
-    private val favouriteCoinDao: FavouriteCoinDao,
-    private val cachedCoinDao: CachedCoinDao
+    private val favouriteCoinIdDao: FavouriteCoinIdDao,
+    private val cachedCoinDao: CachedCoinDao,
+    private val favouriteCoinDao: FavouriteCoinDao
 ) : CoinLocalDataSource {
     override fun getCachedCoins(): Flow<List<CachedCoin>> {
         return cachedCoinDao.getCachedCoins()
@@ -16,21 +21,29 @@ class CoinLocalDataSourceImpl(
         cachedCoinDao.refreshCachedCoins(coins)
     }
 
+    override fun getFavouriteCoins(): Flow<List<FavouriteCoin>> {
+        return favouriteCoinDao.getFavouriteCoins()
+    }
+
+    override suspend fun updateFavouriteCoins(favouriteCoins: List<FavouriteCoin>) {
+        favouriteCoinDao.updateFavouriteCoins(favouriteCoins)
+    }
+
     override fun getFavouriteCoinIds(): Flow<List<FavouriteCoinId>> {
-        return favouriteCoinDao.getFavouriteCoinIds()
+        return favouriteCoinIdDao.getFavouriteCoinIds()
     }
 
     override fun isCoinFavourite(favouriteCoinId: FavouriteCoinId): Flow<Boolean> {
-        return favouriteCoinDao.isCoinFavourite(coinId = favouriteCoinId.id)
+        return favouriteCoinIdDao.isCoinFavourite(coinId = favouriteCoinId.id)
     }
 
     override suspend fun toggleIsCoinFavourite(favouriteCoinId: FavouriteCoinId) {
-        val isCoinFavourite = favouriteCoinDao.isCoinFavouriteOneShot(favouriteCoinId.id)
+        val isCoinFavourite = favouriteCoinIdDao.isCoinFavouriteOneShot(favouriteCoinId.id)
 
         if (isCoinFavourite) {
-            favouriteCoinDao.delete(favouriteCoinId)
+            favouriteCoinIdDao.delete(favouriteCoinId)
         } else {
-            favouriteCoinDao.insert(favouriteCoinId)
+            favouriteCoinIdDao.insert(favouriteCoinId)
         }
     }
 }
