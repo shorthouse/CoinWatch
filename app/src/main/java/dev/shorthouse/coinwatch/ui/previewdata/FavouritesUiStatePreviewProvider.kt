@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.ui.previewdata
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.shorthouse.coinwatch.model.Coin
+import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.previewdata.FavouritesPreviewData.favouriteCoins
@@ -25,7 +25,7 @@ class FavouritesUiStatePreviewProvider : PreviewParameterProvider<FavouritesUiSt
 
 private object FavouritesPreviewData {
     val favouriteCoins = persistentListOf(
-        Coin(
+        FavouriteCoin(
             id = "bitcoin",
             symbol = "BTC",
             name = "Bitcoin",
@@ -59,7 +59,7 @@ private object FavouritesPreviewData {
                 BigDecimal("29471.20179209623")
             )
         ),
-        Coin(
+        FavouriteCoin(
             id = "ethereum",
             symbol = "ETH",
             name = "Ethereum",
@@ -93,7 +93,7 @@ private object FavouritesPreviewData {
                 BigDecimal("1879.89804628163")
             )
         ),
-        Coin(
+        FavouriteCoin(
             id = "ripple",
             symbol = "XRP",
             name = "XRP",
@@ -127,7 +127,7 @@ private object FavouritesPreviewData {
                 BigDecimal("0.7078633715412483")
             )
         ),
-        Coin(
+        FavouriteCoin(
             id = "dogecoin",
             symbol = "DOGE",
             name = "Dogecoin",
@@ -161,7 +161,7 @@ private object FavouritesPreviewData {
                 BigDecimal("0.07690600228914853")
             )
         ),
-        Coin(
+        FavouriteCoin(
             id = "polygon",
             symbol = "MATIC",
             name = "Polygon",
