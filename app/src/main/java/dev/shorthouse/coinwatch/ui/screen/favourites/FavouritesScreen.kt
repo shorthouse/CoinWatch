@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.model.Coin
+import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
@@ -63,7 +63,7 @@ fun FavouritesScreen(
 @Composable
 fun FavouriteScreen(
     uiState: FavouritesUiState,
-    onCoinClick: (Coin) -> Unit,
+    onCoinClick: (FavouriteCoin) -> Unit,
     onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -149,8 +149,8 @@ fun FavouritesTopBar(
 
 @Composable
 fun FavouritesContent(
-    favouriteCoins: ImmutableList<Coin>,
-    onCoinClick: (Coin) -> Unit,
+    favouriteCoins: ImmutableList<FavouriteCoin>,
+    onCoinClick: (FavouriteCoin) -> Unit,
     gridState: LazyGridState,
     modifier: Modifier = Modifier
 ) {
@@ -172,7 +172,7 @@ fun FavouritesContent(
                     val favouriteCoinItem = favouriteCoins[index]
 
                     FavouriteItem(
-                        coin = favouriteCoinItem,
+                        favouriteCoin = favouriteCoinItem,
                         onCoinClick = { onCoinClick(favouriteCoinItem) }
                     )
                 }
