@@ -11,7 +11,7 @@ import androidx.compose.ui.test.onParent
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.model.Coin
+import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.screen.favourites.FavouriteScreen
@@ -146,7 +146,7 @@ class FavouritesScreenTest {
     fun when_favouriteCoinsExist_should_displayFavouriteCoins() {
         val uiStateSuccess = FavouritesUiState(
             favouriteCoins = persistentListOf(
-                Coin(
+                FavouriteCoin(
                     id = "bitcoin",
                     symbol = "BTC",
                     name = "Bitcoin",
@@ -160,7 +160,7 @@ class FavouritesScreenTest {
                         BigDecimal("29471.20179209623")
                     )
                 ),
-                Coin(
+                FavouriteCoin(
                     id = "ethereum",
                     symbol = "ETH",
                     name = "Ethereum",
@@ -206,7 +206,7 @@ class FavouritesScreenTest {
 
         val uiStateSuccess = FavouritesUiState(
             favouriteCoins = persistentListOf(
-                Coin(
+                FavouriteCoin(
                     id = "bitcoin",
                     symbol = "BTC",
                     name = "Bitcoin",
@@ -243,7 +243,7 @@ class FavouritesScreenTest {
     @Test
     fun when_scrollingFavouritesList_should_showScrollToTopFab() {
         val favouriteCoins = (1..20).map {
-            Coin(
+            FavouriteCoin(
                 id = it.toString(),
                 symbol = "",
                 name = it.toString(),
