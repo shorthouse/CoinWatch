@@ -4,7 +4,8 @@ import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepository
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
-import dev.shorthouse.coinwatch.data.userPreferences.UserPreferences
+import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
+import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import javax.inject.Inject
 
 class UpdateCachedFavouriteCoinsUseCase @Inject constructor(
@@ -12,19 +13,25 @@ class UpdateCachedFavouriteCoinsUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         coinIds: List<FavouriteCoinId>,
-        userPreferences: UserPreferences
+        currency: Currency,
+        coinSort: CoinSort
     ): Result<List<FavouriteCoin>> {
-        return updateCachedFavouriteCoins(coinIds = coinIds, userPreferences = userPreferences)
+        return updateCachedFavouriteCoins(
+            coinIds = coinIds,
+            currency = currency,
+            coinSort = coinSort
+        )
     }
 
     private suspend fun updateCachedFavouriteCoins(
         coinIds: List<FavouriteCoinId>,
-        userPreferences: UserPreferences
+        currency: Currency,
+        coinSort: CoinSort
     ): Result<List<FavouriteCoin>> {
         val remoteFavouriteCoinsResult = favouriteCoinRepository.getRemoteFavouriteCoins(
             coinIds = coinIds.map { it.id },
-            coinSort = userPreferences.coinSort,
-            currency = userPreferences.currency
+            coinSort = coinSort,
+            currency = currency
         )
 
         if (remoteFavouriteCoinsResult is Result.Success) {
