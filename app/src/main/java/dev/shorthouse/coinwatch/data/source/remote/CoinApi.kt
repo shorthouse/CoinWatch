@@ -24,7 +24,7 @@ interface CoinApi {
 
     @GET("coins")
     suspend fun getFavouriteCoins(
-        @Query("uuids[]") coinIds: List<String> = emptyList(),
+        @Query("uuids[]") coinIds: List<String>,
         @Query("referenceCurrencyUuid") currencyUUID: String = "yhjMzLPhuIDl",
         @Query("orderBy") orderBy: String = "marketCap",
         @Query("timePeriod") timePeriod: String = "24h",
