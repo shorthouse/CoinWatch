@@ -28,8 +28,12 @@ class FavouriteCoinRepositoryImpl @Inject constructor(
         coinIds: List<String>,
         coinSort: CoinSort,
         currency: Currency
-    ): Result<List<FavouriteCoin>> = withContext(ioDispatcher) {
-        try {
+    ): Result<List<FavouriteCoin>> {
+        if (coinIds.isEmpty()) {
+            return Result.Success(emptyList())
+        }
+
+        return try {
             val response = coinNetworkDataSource.getFavouriteCoins(
                 coinIds = coinIds,
                 coinSort = coinSort,
@@ -62,8 +66,7 @@ class FavouriteCoinRepositoryImpl @Inject constructor(
             .catch { e ->
                 Timber.e("getCachedFavouriteCoins error ${e.message}")
                 Result.Error<List<CachedCoin>>("Unable to fetch cached favourite coins")
-            }
-            .flowOn(ioDispatcher)
+            }.flowOn(ioDispatcher)
     }
 
     override suspend fun updateCachedFavouriteCoins(favouriteCoins: List<FavouriteCoin>) {
