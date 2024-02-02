@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
+import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
+import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinIdsUseCase
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
-import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCaseOld
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCachedFavouriteCoinsUseCase
 import javax.inject.Inject
@@ -23,8 +25,7 @@ class FavouritesViewModel @Inject constructor(
     private val getFavouriteCoinsUseCase: GetFavouriteCoinsUseCase,
     private val getFavouriteCoinIdsUseCase: GetFavouriteCoinIdsUseCase,
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
-    private val updateCachedFavouriteCoinsUseCase: UpdateCachedFavouriteCoinsUseCase,
-    private val getFavouriteCoinsUseCaseOld: GetFavouriteCoinsUseCaseOld
+    private val updateCachedFavouriteCoinsUseCase: UpdateCachedFavouriteCoinsUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(FavouritesUiState(isLoading = true))
     val uiState = _uiState.asStateFlow()
@@ -43,25 +44,17 @@ class FavouritesViewModel @Inject constructor(
         ) { favouriteCoinIdsResult, userPreferences ->
             when (favouriteCoinIdsResult) {
                 is Result.Success -> {
-                    val updateCachedFavouriteCoinResult = updateCachedFavouriteCoinsUseCase(
+                    updateCachedFavouriteCoins(
                         coinIds = favouriteCoinIdsResult.data,
-                        userPreferences = userPreferences
+                        currency = userPreferences.currency,
+                        coinSort = userPreferences.coinSort
                     )
-
-                    if (updateCachedFavouriteCoinResult is Result.Error) {
-                        _uiState.update {
-                            it.copy(
-                                errorMessage = updateCachedFavouriteCoinResult.message,
-                                isLoading = false
-                            )
-                        }
-                    }
                 }
+
                 is Result.Error -> {
                     _uiState.update {
                         it.copy(
-                            errorMessage = favouriteCoinIdsResult.message,
-                            isLoading = false
+                            errorMessage = favouriteCoinIdsResult.message
                         )
                     }
                 }
@@ -81,6 +74,7 @@ class FavouritesViewModel @Inject constructor(
                         )
                     }
                 }
+
                 is Result.Error -> {
                     _uiState.update {
                         it.copy(
@@ -91,30 +85,25 @@ class FavouritesViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
 
-//        val favouriteCoinsFlowOld = getFavouriteCoinsUseCaseOld()
-//
-//        favouriteCoinsFlowOld.onEach { favouriteCoinsResult ->
-//            when (favouriteCoinsResult) {
-//                is Result.Success -> {
-//                    _uiState.update {
-//                        it.copy(
-//                            favouriteCoins = favouriteCoinsResult.data.toImmutableList(),
-//                            isLoading = false,
-//                            errorMessage = null
-//                        )
-//                    }
-//                }
-//
-//                is Result.Error -> {
-//                    _uiState.update {
-//                        it.copy(
-//                            errorMessage = favouriteCoinsResult.message,
-//                            isLoading = false
-//                        )
-//                    }
-//                }
-//            }
-//        }.launchIn(viewModelScope)
+    private suspend fun updateCachedFavouriteCoins(
+        coinIds: List<FavouriteCoinId>,
+        currency: Currency,
+        coinSort: CoinSort
+    ) {
+        val updateCachedFavouriteCoinResult = updateCachedFavouriteCoinsUseCase(
+            coinIds = coinIds,
+            currency = currency,
+            coinSort = coinSort
+        )
+
+        if (updateCachedFavouriteCoinResult is Result.Error) {
+            _uiState.update {
+                it.copy(
+                    errorMessage = updateCachedFavouriteCoinResult.message
+                )
+            }
+        }
     }
 }
