@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.source.local
+package dev.shorthouse.coinwatch.data.source.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert

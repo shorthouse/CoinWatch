@@ -8,9 +8,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.shorthouse.coinwatch.common.Constants
-import dev.shorthouse.coinwatch.data.source.local.CachedCoinDao
 import dev.shorthouse.coinwatch.data.source.local.CoinDatabase
-import dev.shorthouse.coinwatch.data.source.local.FavouriteCoinDao
+import dev.shorthouse.coinwatch.data.source.local.dao.CachedCoinDao
+import dev.shorthouse.coinwatch.data.source.local.dao.FavouriteCoinDao
+import dev.shorthouse.coinwatch.data.source.local.dao.FavouriteCoinIdDao
 import javax.inject.Singleton
 
 @Module
@@ -19,14 +20,20 @@ object RoomModule {
 
     @Provides
     @Singleton
-    fun provideFavouriteCoinDao(database: CoinDatabase): FavouriteCoinDao {
-        return database.favouriteCoinDao()
+    fun provideFavouriteCoinIdDao(database: CoinDatabase): FavouriteCoinIdDao {
+        return database.favouriteCoinIdDao()
     }
 
     @Provides
     @Singleton
-    fun providedCachedCoinDao(database: CoinDatabase): CachedCoinDao {
+    fun provideCachedCoinDao(database: CoinDatabase): CachedCoinDao {
         return database.cachedCoinDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavouriteCoinDao(database: CoinDatabase): FavouriteCoinDao {
+        return database.favouriteCoinDao()
     }
 
     @Provides

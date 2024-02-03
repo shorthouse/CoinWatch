@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.source.local
+package dev.shorthouse.coinwatch.data.source.local.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -9,7 +9,7 @@ import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface FavouriteCoinDao {
+interface FavouriteCoinIdDao {
     @Query("SELECT * FROM FavouriteCoinId")
     fun getFavouriteCoinIds(): Flow<List<FavouriteCoinId>>
 

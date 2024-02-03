@@ -4,6 +4,7 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
 import retrofit2.Response
 import retrofit2.http.GET
@@ -13,13 +14,23 @@ import retrofit2.http.Query
 interface CoinApi {
     @GET("coins")
     suspend fun getCoins(
-        @Query("referenceCurrencyUuid") currencyUUID: String = "yhjMzLPhuIDl",
         @Query("uuids[]") coinIds: List<String> = emptyList(),
-        @Query("timePeriod") timePeriod: String = "24h",
+        @Query("referenceCurrencyUuid") currencyUUID: String = "yhjMzLPhuIDl",
         @Query("orderBy") orderBy: String = "marketCap",
+        @Query("timePeriod") timePeriod: String = "24h",
         @Query("orderDirection") orderDirection: String = "desc",
         @Query("limit") limit: String = "100"
     ): Response<CoinsApiModel>
+
+    @GET("coins")
+    suspend fun getFavouriteCoins(
+        @Query("uuids[]") coinIds: List<String>,
+        @Query("referenceCurrencyUuid") currencyUUID: String = "yhjMzLPhuIDl",
+        @Query("orderBy") orderBy: String = "marketCap",
+        @Query("timePeriod") timePeriod: String = "24h",
+        @Query("orderDirection") orderDirection: String = "desc",
+        @Query("limit") limit: String = "100"
+    ): Response<FavouriteCoinsApiModel>
 
     @GET("coin/{coinId}")
     suspend fun getCoinDetails(

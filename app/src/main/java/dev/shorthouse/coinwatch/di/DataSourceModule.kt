@@ -4,10 +4,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.shorthouse.coinwatch.data.source.local.CachedCoinDao
 import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSource
 import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSourceImpl
-import dev.shorthouse.coinwatch.data.source.local.FavouriteCoinDao
+import dev.shorthouse.coinwatch.data.source.local.dao.CachedCoinDao
+import dev.shorthouse.coinwatch.data.source.local.dao.FavouriteCoinDao
+import dev.shorthouse.coinwatch.data.source.local.dao.FavouriteCoinIdDao
 import dev.shorthouse.coinwatch.data.source.remote.CoinApi
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSourceImpl
@@ -26,12 +27,14 @@ object DataSourceModule {
     @Provides
     @Singleton
     fun provideCoinLocalDataSource(
-        favouriteCoinDao: FavouriteCoinDao,
-        cachedCoinDao: CachedCoinDao
+        favouriteCoinIdDao: FavouriteCoinIdDao,
+        cachedCoinDao: CachedCoinDao,
+        favouriteCoinDao: FavouriteCoinDao
     ): CoinLocalDataSource {
         return CoinLocalDataSourceImpl(
-            favouriteCoinDao = favouriteCoinDao,
-            cachedCoinDao = cachedCoinDao
+            favouriteCoinIdDao = favouriteCoinIdDao,
+            cachedCoinDao = cachedCoinDao,
+            favouriteCoinDao = favouriteCoinDao
         )
     }
 }

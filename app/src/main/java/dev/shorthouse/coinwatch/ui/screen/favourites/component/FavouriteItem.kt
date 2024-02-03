@@ -29,16 +29,16 @@ import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.model.Coin
+import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.ui.component.PercentageChange
 import dev.shorthouse.coinwatch.ui.component.PriceGraph
-import dev.shorthouse.coinwatch.ui.previewdata.CoinPreviewProvider
+import dev.shorthouse.coinwatch.ui.previewdata.FavouriteCoinPreviewProvider
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun FavouriteItem(
-    coin: Coin,
-    onCoinClick: (Coin) -> Unit,
+    favouriteCoin: FavouriteCoin,
+    onCoinClick: (FavouriteCoin) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -50,14 +50,14 @@ fun FavouriteItem(
 
     Surface(
         shape = MaterialTheme.shapes.medium,
-        modifier = modifier.clickable { onCoinClick(coin) }
+        modifier = modifier.clickable { onCoinClick(favouriteCoin) }
     ) {
         Column {
             Column(modifier = Modifier.padding(start = 12.dp, top = 12.dp, end = 12.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     AsyncImage(
                         model = imageBuilder
-                            .data(coin.imageUrl)
+                            .data(favouriteCoin.imageUrl)
                             .crossfade(true)
                             .build(),
                         contentDescription = null,
@@ -69,14 +69,14 @@ fun FavouriteItem(
 
                     Column {
                         Text(
-                            text = coin.name,
+                            text = favouriteCoin.name,
                             style = MaterialTheme.typography.bodyMedium,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
 
                         Text(
-                            text = coin.symbol,
+                            text = favouriteCoin.symbol,
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             maxLines = 1,
@@ -88,26 +88,26 @@ fun FavouriteItem(
                 Spacer(Modifier.height(8.dp))
 
                 Text(
-                    text = coin.currentPrice.formattedAmount,
+                    text = favouriteCoin.currentPrice.formattedAmount,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
 
-                PercentageChange(percentage = coin.priceChangePercentage24h)
+                PercentageChange(percentage = favouriteCoin.priceChangePercentage24h)
             }
 
-            if (coin.prices24h.isNotEmpty()) {
+            if (favouriteCoin.prices24h.isNotEmpty()) {
                 Spacer(Modifier.height(12.dp))
 
                 PriceGraph(
-                    prices = coin.prices24h,
-                    priceChangePercentage = coin.priceChangePercentage24h,
+                    prices = favouriteCoin.prices24h,
+                    priceChangePercentage = favouriteCoin.priceChangePercentage24h,
                     isGraphAnimated = false,
                     modifier = Modifier
                         .height(70.dp)
                         .fillMaxWidth()
-                        .testTag("priceGraph ${coin.symbol}")
+                        .testTag("priceGraph ${favouriteCoin.symbol}")
                 )
             } else {
                 Box(
@@ -128,11 +128,11 @@ fun FavouriteItem(
 @Composable
 @Preview
 private fun FavouriteItemPreview(
-    @PreviewParameter(CoinPreviewProvider::class) coin: Coin
+    @PreviewParameter(FavouriteCoinPreviewProvider::class) favouriteCoin: FavouriteCoin
 ) {
     AppTheme {
         FavouriteItem(
-            coin = coin,
+            favouriteCoin = favouriteCoin,
             onCoinClick = {}
         )
     }

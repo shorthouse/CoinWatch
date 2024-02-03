@@ -126,24 +126,16 @@ class MarketViewModel @Inject constructor(
 
     fun pullRefreshCachedCoins() {
         viewModelScope.launch {
-            _uiState.update {
-                it.copy(
-                    isRefreshing = true
-                )
-            }
+            _uiState.update { it.copy(isRefreshing = true) }
+            delay(250.milliseconds)
 
             val userPreferences = getUserPreferencesUseCase().first()
             refreshCachedCoins(
                 coinSort = userPreferences.coinSort,
                 currency = userPreferences.currency
             )
-            delay(250.milliseconds)
 
-            _uiState.update {
-                it.copy(
-                    isRefreshing = false
-                )
-            }
+            _uiState.update { it.copy(isRefreshing = false) }
         }
     }
 

@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,15 +15,19 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -32,10 +37,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.model.Coin
-import dev.shorthouse.coinwatch.ui.component.ErrorState
+import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
+import dev.shorthouse.coinwatch.ui.component.pullrefresh.PullRefreshIndicator
+import dev.shorthouse.coinwatch.ui.component.pullrefresh.pullRefresh
+import dev.shorthouse.coinwatch.ui.component.pullrefresh.rememberPullRefreshState
 import dev.shorthouse.coinwatch.ui.previewdata.FavouritesUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouriteItem
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouritesEmptyState
@@ -55,7 +62,12 @@ fun FavouritesScreen(
         onCoinClick = { coin ->
             onNavigateDetails(coin.id)
         },
-        onRefresh = { viewModel.initialiseUiState() }
+        onRefresh = {
+            viewModel.pullRefreshFavouriteCoins()
+        },
+        onDismissError = { errorMessageId ->
+            viewModel.dismissErrorMessage(errorMessageId)
+        }
     )
 }
 
@@ -63,13 +75,19 @@ fun FavouritesScreen(
 @Composable
 fun FavouriteScreen(
     uiState: FavouritesUiState,
-    onCoinClick: (Coin) -> Unit,
+    onCoinClick: (FavouriteCoin) -> Unit,
     onRefresh: () -> Unit,
+    onDismissError: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val gridState = rememberLazyGridState()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = uiState.isRefreshing,
+        onRefresh = onRefresh
+    )
     val showScrollToTopFab by remember {
         derivedStateOf {
             gridState.firstVisibleItemIndex > 0
@@ -80,6 +98,7 @@ fun FavouriteScreen(
         topBar = {
             FavouritesTopBar(scrollBehavior = scrollBehavior)
         },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         floatingActionButton = {
             AnimatedVisibility(
                 visible = showScrollToTopFab,
@@ -99,26 +118,39 @@ fun FavouriteScreen(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { scaffoldPadding ->
-        when {
-            uiState.isLoading -> {
-                LoadingIndicator(modifier = Modifier.padding(scaffoldPadding))
+        Box(
+            contentAlignment = Alignment.TopCenter,
+            modifier = Modifier
+                .padding(scaffoldPadding)
+                .pullRefresh(pullRefreshState)
+        ) {
+            when {
+                uiState.isLoading -> {
+                    LoadingIndicator()
+                }
+
+                else -> {
+                    FavouritesContent(
+                        favouriteCoins = uiState.favouriteCoins,
+                        onCoinClick = onCoinClick,
+                        gridState = gridState,
+                    )
+                }
             }
 
-            uiState.errorMessage != null -> {
-                ErrorState(
-                    message = stringResource(R.string.error_state_favourite_coins),
-                    onRetry = onRefresh,
-                    modifier = Modifier.padding(scaffoldPadding)
-                )
-            }
+            PullRefreshIndicator(
+                refreshing = uiState.isRefreshing,
+                state = pullRefreshState,
+                backgroundColor = MaterialTheme.colorScheme.primaryContainer
+            )
 
-            else -> {
-                FavouritesContent(
-                    favouriteCoins = uiState.favouriteCoins,
-                    onCoinClick = onCoinClick,
-                    gridState = gridState,
-                    modifier = Modifier.padding(scaffoldPadding)
-                )
+            if (uiState.errorMessageIds.isNotEmpty()) {
+                val errorMessage = stringResource(uiState.errorMessageIds.first())
+
+                LaunchedEffect(errorMessage, snackbarHostState) {
+                    snackbarHostState.showSnackbar(message = errorMessage)
+                    onDismissError(uiState.errorMessageIds.first())
+                }
             }
         }
     }
@@ -149,8 +181,8 @@ fun FavouritesTopBar(
 
 @Composable
 fun FavouritesContent(
-    favouriteCoins: ImmutableList<Coin>,
-    onCoinClick: (Coin) -> Unit,
+    favouriteCoins: ImmutableList<FavouriteCoin>,
+    onCoinClick: (FavouriteCoin) -> Unit,
     gridState: LazyGridState,
     modifier: Modifier = Modifier
 ) {
@@ -172,7 +204,7 @@ fun FavouritesContent(
                     val favouriteCoinItem = favouriteCoins[index]
 
                     FavouriteItem(
-                        coin = favouriteCoinItem,
+                        favouriteCoin = favouriteCoinItem,
                         onCoinClick = { onCoinClick(favouriteCoinItem) }
                     )
                 }
@@ -190,7 +222,8 @@ private fun FavouritesScreenPreview(
         FavouriteScreen(
             uiState = uiState,
             onCoinClick = {},
-            onRefresh = {}
+            onRefresh = {},
+            onDismissError = {}
         )
     }
 }
