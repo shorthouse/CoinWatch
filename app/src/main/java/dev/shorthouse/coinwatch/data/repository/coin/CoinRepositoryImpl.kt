@@ -21,12 +21,10 @@ class CoinRepositoryImpl @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : CoinRepository {
     override fun getCoins(
-        coinIds: List<String>,
         coinSort: CoinSort,
         currency: Currency
     ): Flow<Result<List<Coin>>> = flow {
         val response = coinNetworkDataSource.getCoins(
-            coinIds = coinIds,
             coinSort = coinSort,
             currency = currency
         )

@@ -12,7 +12,6 @@ import retrofit2.Response
 
 interface CoinNetworkDataSource {
     suspend fun getCoins(
-        coinIds: List<String>,
         coinSort: CoinSort,
         currency: Currency
     ): Response<CoinsApiModel>

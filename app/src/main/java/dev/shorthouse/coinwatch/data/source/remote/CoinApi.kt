@@ -14,7 +14,6 @@ import retrofit2.http.Query
 interface CoinApi {
     @GET("coins")
     suspend fun getCoins(
-        @Query("uuids[]") coinIds: List<String> = emptyList(),
         @Query("referenceCurrencyUuid") currencyUUID: String = "yhjMzLPhuIDl",
         @Query("orderBy") orderBy: String = "marketCap",
         @Query("timePeriod") timePeriod: String = "24h",

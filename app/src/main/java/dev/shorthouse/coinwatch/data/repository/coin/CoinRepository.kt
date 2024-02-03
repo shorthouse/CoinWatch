@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface CoinRepository {
     fun getCoins(
-        coinIds: List<String> = emptyList(),
         coinSort: CoinSort,
         currency: Currency
     ): Flow<Result<List<Coin>>>

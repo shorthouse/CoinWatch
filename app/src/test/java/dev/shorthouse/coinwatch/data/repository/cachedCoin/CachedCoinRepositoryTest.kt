@@ -69,13 +69,11 @@ class CachedCoinRepositoryTest {
     @Test
     fun `When remote coins returns valid data should return success`() = runTest {
         // Arrange
-        val coinIds = emptyList<String>()
         val coinSort = CoinSort.MarketCap
         val currency = Currency.EUR
 
         coEvery {
             coinNetworkDataSource.getCoins(
-                coinIds = coinIds,
                 coinSort = coinSort,
                 currency = currency
             )
@@ -125,7 +123,6 @@ class CachedCoinRepositoryTest {
 
         // Act
         val result = cachedCoinRepository.getRemoteCoins(
-            coinIds = coinIds,
             coinSort = coinSort,
             currency = currency
         )
@@ -139,13 +136,11 @@ class CachedCoinRepositoryTest {
     fun `When remote coins data has null values should populate with defaults and return success`() =
         runTest {
             // Arrange
-            val coinIds = emptyList<String>()
             val coinSort = CoinSort.MarketCap
             val currency = Currency.USD
 
             coEvery {
                 coinNetworkDataSource.getCoins(
-                    coinIds = coinIds,
                     coinSort = coinSort,
                     currency = currency
                 )
@@ -183,7 +178,6 @@ class CachedCoinRepositoryTest {
 
             // Act
             val result = cachedCoinRepository.getRemoteCoins(
-                coinIds = coinIds,
                 coinSort = coinSort,
                 currency = currency
             )
@@ -196,13 +190,11 @@ class CachedCoinRepositoryTest {
     @Test
     fun `When coins data is null should return error`() = runTest {
         // Arrange
-        val coinIds = emptyList<String>()
         val coinSort = CoinSort.MarketCap
         val currency = Currency.USD
 
         coEvery {
             coinNetworkDataSource.getCoins(
-                coinIds = coinIds,
                 coinSort = coinSort,
                 currency = currency
             )
@@ -218,7 +210,6 @@ class CachedCoinRepositoryTest {
 
         // Act
         val result = cachedCoinRepository.getRemoteCoins(
-            coinIds = coinIds,
             coinSort = coinSort,
             currency = currency
         )
@@ -231,14 +222,12 @@ class CachedCoinRepositoryTest {
     @Test
     fun `When retrofit response is unsuccessful should return error`() = runTest {
         // Arrange
-        val coinIds = emptyList<String>()
         val coinSort = CoinSort.MarketCap
         val currency = Currency.USD
         val errorMessage = "Unable to fetch coin search results"
 
         coEvery {
             coinNetworkDataSource.getCoins(
-                coinIds = coinIds,
                 coinSort = coinSort,
                 currency = currency
             )
@@ -253,7 +242,6 @@ class CachedCoinRepositoryTest {
 
         // Act
         val result = cachedCoinRepository.getRemoteCoins(
-            coinIds = coinIds,
             coinSort = coinSort,
             currency = currency
         )
@@ -266,13 +254,11 @@ class CachedCoinRepositoryTest {
     @Test
     fun `When mapping remote coins throws error should catch and return error`() = runTest {
         // Arrange
-        val coinIds = emptyList<String>()
         val coinSort = CoinSort.MarketCap
         val currency = Currency.USD
 
         coEvery {
             coinNetworkDataSource.getCoins(
-                coinIds = coinIds,
                 coinSort = coinSort,
                 currency = currency
             )
@@ -284,7 +270,6 @@ class CachedCoinRepositoryTest {
 
         // Act
         val result = cachedCoinRepository.getRemoteCoins(
-            coinIds = coinIds,
             coinSort = coinSort,
             currency = currency
         )

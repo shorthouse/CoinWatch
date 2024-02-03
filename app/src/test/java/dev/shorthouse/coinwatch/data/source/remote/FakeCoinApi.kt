@@ -25,14 +25,13 @@ import retrofit2.Response
 
 class FakeCoinApi : CoinApi {
     override suspend fun getCoins(
-        coinIds: List<String>,
         currencyUUID: String,
         orderBy: String,
         timePeriod: String,
         orderDirection: String,
         limit: String
     ): Response<CoinsApiModel> {
-        return when (coinIds.first()) {
+        return when ("") {
             "Qwsogvtv82FCd" -> {
                 Response.success(
                     CoinsApiModel(

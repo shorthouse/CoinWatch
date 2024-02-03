@@ -24,13 +24,11 @@ class CachedCoinRepositoryImpl @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : CachedCoinRepository {
     override suspend fun getRemoteCoins(
-        coinIds: List<String>,
         coinSort: CoinSort,
         currency: Currency
     ): Result<List<CachedCoin>> = withContext(ioDispatcher) {
         try {
             val response = coinNetworkDataSource.getCoins(
-                coinIds = coinIds,
                 coinSort = coinSort,
                 currency = currency
             )

@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface CachedCoinRepository {
     suspend fun getRemoteCoins(
-        coinIds: List<String> = emptyList(),
         coinSort: CoinSort,
         currency: Currency
     ): Result<List<CachedCoin>>

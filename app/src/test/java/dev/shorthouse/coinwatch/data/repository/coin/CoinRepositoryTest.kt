@@ -64,7 +64,6 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getCoins(
-            coinIds = listOf("Qwsogvtv82FCd"),
             coinSort = CoinSort.MarketCap,
             currency = Currency.USD
         ).first()
@@ -94,7 +93,6 @@ class CoinRepositoryTest {
 
             // Act
             val result = coinRepository.getCoins(
-                coinIds = listOf("nullValues"),
                 coinSort = CoinSort.MarketCap,
                 currency = Currency.USD
             ).first()
@@ -113,7 +111,6 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getCoins(
-            coinIds = listOf("nullCoins"),
             coinSort = CoinSort.MarketCap,
             currency = Currency.USD
         ).first()
@@ -149,7 +146,6 @@ class CoinRepositoryTest {
 
             // Act
             val result = coinRepository.getCoins(
-                coinIds = listOf("nullIds"),
                 coinSort = CoinSort.MarketCap,
                 currency = Currency.USD
             ).first()
@@ -168,7 +164,6 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getCoins(
-            coinIds = listOf(""),
             coinSort = CoinSort.MarketCap,
             currency = Currency.USD
         ).first()
@@ -187,7 +182,6 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getCoins(
-            coinIds = listOf("nullBody"),
             coinSort = CoinSort.MarketCap,
             currency = Currency.USD
         ).first()
@@ -206,7 +200,6 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getCoins(
-            coinIds = listOf("exception"),
             coinSort = CoinSort.MarketCap,
             currency = Currency.USD
         ).first()
