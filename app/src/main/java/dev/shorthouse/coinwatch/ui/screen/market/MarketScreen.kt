@@ -239,10 +239,7 @@ fun MarketScreen(
                 val errorMessage = stringResource(uiState.errorMessageIds.first())
 
                 LaunchedEffect(errorMessage, snackbarHostState) {
-                    snackbarHostState.showSnackbar(
-                        message = errorMessage
-                    )
-
+                    snackbarHostState.showSnackbar(message = errorMessage)
                     onDismissError(uiState.errorMessageIds.first())
                 }
             }
