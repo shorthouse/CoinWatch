@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class FavouriteCoinIdRepositoryImpl @Inject constructor(
@@ -37,6 +38,8 @@ class FavouriteCoinIdRepositoryImpl @Inject constructor(
     }
 
     override suspend fun toggleIsCoinFavourite(favouriteCoinId: FavouriteCoinId) {
-        coinLocalDataSource.toggleIsCoinFavourite(favouriteCoinId)
+        withContext(ioDispatcher) {
+            coinLocalDataSource.toggleIsCoinFavourite(favouriteCoinId)
+        }
     }
 }
