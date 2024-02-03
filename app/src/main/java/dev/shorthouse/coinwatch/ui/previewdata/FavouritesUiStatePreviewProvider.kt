@@ -18,7 +18,7 @@ class FavouritesUiStatePreviewProvider : PreviewParameterProvider<FavouritesUiSt
             favouriteCoins = persistentListOf()
         ),
         FavouritesUiState(
-            errorMessage = "No internet connection"
+            isLoading = true
         )
     )
 }
