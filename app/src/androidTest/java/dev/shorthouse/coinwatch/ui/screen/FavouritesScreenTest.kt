@@ -2,15 +2,18 @@ package dev.shorthouse.coinwatch.ui.screen
 
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
-import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onParent
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeDown
 import com.google.common.truth.Truth.assertThat
+import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
@@ -39,64 +42,16 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiState,
                     onCoinClick = {},
-                    onRefresh = {}
+                    onRefresh = {},
+                    onDismissError = {}
                 )
             }
         }
 
         composeTestRule.apply {
-            onNode(
-                SemanticsMatcher.keyIsDefined(SemanticsProperties.ProgressBarRangeInfo)
-            ).assertIsDisplayed()
+            onNode(SemanticsMatcher.keyIsDefined(SemanticsProperties.ProgressBarRangeInfo))
+                .assertIsDisplayed()
         }
-    }
-
-    @Test
-    fun when_uiStateError_should_showErrorState() {
-        val uiState = FavouritesUiState(
-            errorMessage = "Error message"
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                FavouriteScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onRefresh = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("An error has occurred").assertIsDisplayed()
-            onNodeWithText("Unable to fetch favourite coins").assertIsDisplayed()
-            onNodeWithText("Retry").assertIsDisplayed()
-            onNodeWithText("Retry").assertHasClickAction()
-        }
-    }
-
-    @Test
-    fun when_uiStateErrorRetryClicked_should_callOnRefresh() {
-        var onRefreshCalled = false
-        val uiState = FavouritesUiState(
-            errorMessage = "Error message"
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                FavouriteScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onRefresh = { onRefreshCalled = true }
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("Retry").performClick()
-        }
-
-        assertThat(onRefreshCalled).isTrue()
     }
 
     @Test
@@ -108,7 +63,8 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onRefresh = {}
+                    onRefresh = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -129,7 +85,8 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onRefresh = {}
+                    onRefresh = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -182,7 +139,8 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
-                    onRefresh = {}
+                    onRefresh = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -192,11 +150,13 @@ class FavouritesScreenTest {
             onNodeWithText("BTC").assertIsDisplayed()
             onNodeWithText("$29,446.34").assertIsDisplayed()
             onNodeWithText("+1.77%").assertIsDisplayed()
+            onNodeWithTag("priceGraph BTC", useUnmergedTree = true).assertIsDisplayed()
 
             onNodeWithText("Ethereum").assertIsDisplayed()
             onNodeWithText("ETH").assertIsDisplayed()
             onNodeWithText("$1,875.47").assertIsDisplayed()
             onNodeWithText("-1.84%").assertIsDisplayed()
+            onNodeWithTag("priceGraph ETH", useUnmergedTree = true).assertIsDisplayed()
         }
     }
 
@@ -228,7 +188,8 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = { onCoinClickCalled = true },
-                    onRefresh = {}
+                    onRefresh = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -263,7 +224,8 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiState,
                     onCoinClick = {},
-                    onRefresh = {}
+                    onRefresh = {},
+                    onDismissError = {}
                 )
             }
         }
@@ -272,6 +234,76 @@ class FavouritesScreenTest {
             onNodeWithContentDescription("Scroll to top").assertDoesNotExist()
             onNodeWithText("1").onParent().performScrollToIndex(favouriteCoins.size - 1)
             onNodeWithContentDescription("Scroll to top").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_pullRefreshingScreen_should_callONRefresh() {
+        var onRefreshCalled = false
+
+        val uiState = FavouritesUiState(
+            favouriteCoins = persistentListOf(
+                FavouriteCoin(
+                    id = "bitcoin",
+                    symbol = "BTC",
+                    name = "Bitcoin",
+                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+                    currentPrice = Price("29446.336548759988"),
+                    priceChangePercentage24h = Percentage("1.76833"),
+                    prices24h = persistentListOf(
+                        BigDecimal("29390.15178296929"),
+                        BigDecimal("29428.222505493162"),
+                        BigDecimal("29475.12359313808"),
+                        BigDecimal("29471.20179209623")
+                    )
+                )
+            )
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onRefresh = { onRefreshCalled = true },
+                    onDismissError = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Bitcoin")
+                .onParent()
+                .performTouchInput {
+                    swipeDown()
+                }
+        }
+
+        assertThat(onRefreshCalled).isTrue()
+    }
+
+    @Test
+    fun when_errorMessageListNotEmpty_should_showErrorMessageSnackbar() {
+        val uiState = FavouritesUiState(
+            errorMessageIds = listOf(
+                R.string.error_network_favourite_coins,
+                R.string.error_local_favourite_coins
+            )
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onRefresh = {},
+                    onDismissError = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Latest favourite coin data unavailable").assertIsDisplayed()
         }
     }
 }
