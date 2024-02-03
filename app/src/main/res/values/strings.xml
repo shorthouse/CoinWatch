@@ -64,6 +64,9 @@
     <string name="error_network_coins">Latest coin data unavailable</string>
     <string name="error_local_coins">Saved coin data unavailable</string>
     <string name="error_market_stats">Market change unavailable</string>
+    <string name="error_local_favourite_coin_ids">Saved favourite coin IDs unavailable</string>
+    <string name="error_local_favourite_coins">Saved favourite coin data unavailable</string>
+    <string name="error_network_favourite_coins">Latest favourite coin data unavailable</string>
     <string name="settings_screen">Settings</string>
     <string name="settings_title_start_screen">Start screen</string>
     <string name="cd_more">More</string>
