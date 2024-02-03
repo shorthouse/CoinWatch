@@ -42,9 +42,9 @@ class FavouriteCoinRepositoryImpl @Inject constructor(
 
             val body = response.body()
 
-            if (response.isSuccessful && body?.favouriteCoinsData != null) {
+            if (response.isSuccessful && body?.favouriteCoinsData?.favouriteCoins != null) {
                 val favouriteCoins = favouriteCoinMapper.mapApiModelToModel(
-                    body,
+                    apiModel = body,
                     currency = currency
                 )
                 Result.Success(favouriteCoins)
