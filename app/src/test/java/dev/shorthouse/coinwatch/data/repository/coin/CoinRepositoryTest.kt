@@ -166,7 +166,7 @@ class CoinRepositoryTest {
         }
 
     @Test
-    fun `When coins data is null should return empty list`() = runTest {
+    fun `When coins is null should return empty list`() = runTest {
         // Arrange
         val coinSort = CoinSort.MarketCap
         val currency = Currency.USD
@@ -273,6 +273,35 @@ class CoinRepositoryTest {
             assertThat(result).isInstanceOf(Result.Success::class.java)
             assertThat((result as Result.Success).data).isEqualTo(expectedResult.data)
         }
+
+    @Test
+    fun `When coins data is null should return error`() = runTest {
+        // Arrange
+        val coinSort = CoinSort.MarketCap
+        val currency = Currency.USD
+
+        val expectedResult = Result.Error<CoinsApiModel>(
+            message = "Unable to fetch coins list"
+        )
+
+        coEvery {
+            coinNetworkDataSource.getCoins(coinSort = coinSort, currency = currency)
+        } returns Response.success(
+            CoinsApiModel(
+                coinsData = null
+            )
+        )
+
+        // Act
+        val result = coinRepository.getCoins(
+            coinSort = CoinSort.MarketCap,
+            currency = Currency.USD
+        ).first()
+
+        // Assert
+        assertThat(result).isInstanceOf(Result.Error::class.java)
+        assertThat((result as Result.Error).message).isEqualTo(expectedResult.message)
+    }
 
     @Test
     fun `When coins returns null retrofit body should return error`() = runTest {
