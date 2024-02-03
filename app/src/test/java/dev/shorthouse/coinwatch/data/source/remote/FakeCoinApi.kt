@@ -11,6 +11,9 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiMod
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsData
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsData
+import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsData
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsData
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsDataHolder
@@ -22,10 +25,10 @@ import retrofit2.Response
 
 class FakeCoinApi : CoinApi {
     override suspend fun getCoins(
-        currencyUUID: String,
         coinIds: List<String>,
-        timePeriod: String,
+        currencyUUID: String,
         orderBy: String,
+        timePeriod: String,
         orderDirection: String,
         limit: String
     ): Response<CoinsApiModel> {
@@ -291,6 +294,39 @@ class FakeCoinApi : CoinApi {
                 marketStatsDataHolder = MarketStatsDataHolder(
                     marketStatsData = MarketStatsData(
                         marketCapChangePercentage24h = "1.2"
+                    )
+                )
+            )
+        )
+    }
+
+    override suspend fun getFavouriteCoins(
+        coinIds: List<String>,
+        currencyUUID: String,
+        orderBy: String,
+        timePeriod: String,
+        orderDirection: String,
+        limit: String
+    ): Response<FavouriteCoinsApiModel> {
+        return Response.success(
+            FavouriteCoinsApiModel(
+                favouriteCoinsData = FavouriteCoinsData(
+                    favouriteCoins = listOf(
+                        FavouriteCoinApiModel(
+                            id = "razxDUgYGNAdQ",
+                            symbol = "ETH",
+                            name = "Ethereum",
+                            imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
+                            currentPrice = "1845.7097788177032",
+                            priceChangePercentage24h = "0.42",
+                            prices24h = listOf(
+                                BigDecimal("1857.0635686120618"),
+                                BigDecimal("1852.7243420201132"),
+                                BigDecimal("1850.8054635160697"),
+                                BigDecimal("1848.197142458803"),
+                                BigDecimal("1847.2140162508354")
+                            )
+                        )
                     )
                 )
             )

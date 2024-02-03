@@ -4,6 +4,7 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
@@ -18,6 +19,18 @@ class FakeCoinNetworkDataSource(
         currency: Currency
     ): Response<CoinsApiModel> {
         return coinApi.getCoins(
+            coinIds = coinIds,
+            orderBy = coinSort.toOrderByString(),
+            currencyUUID = currency.toCurrencyUUID()
+        )
+    }
+
+    override suspend fun getFavouriteCoins(
+        coinIds: List<String>,
+        coinSort: CoinSort,
+        currency: Currency
+    ): Response<FavouriteCoinsApiModel> {
+        return coinApi.getFavouriteCoins(
             coinIds = coinIds,
             orderBy = coinSort.toOrderByString(),
             currencyUUID = currency.toCurrencyUUID()
