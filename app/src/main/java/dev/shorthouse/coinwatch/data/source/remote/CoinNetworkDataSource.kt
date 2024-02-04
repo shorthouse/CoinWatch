@@ -11,11 +11,7 @@ import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import retrofit2.Response
 
 interface CoinNetworkDataSource {
-    suspend fun getCoins(
-        coinIds: List<String>,
-        coinSort: CoinSort,
-        currency: Currency
-    ): Response<CoinsApiModel>
+    suspend fun getCoins(coinSort: CoinSort, currency: Currency): Response<CoinsApiModel>
 
     suspend fun getFavouriteCoins(
         coinIds: List<String>,
@@ -23,10 +19,7 @@ interface CoinNetworkDataSource {
         currency: Currency
     ): Response<FavouriteCoinsApiModel>
 
-    suspend fun getCoinDetails(
-        coinId: String,
-        currency: Currency
-    ): Response<CoinDetailsApiModel>
+    suspend fun getCoinDetails(coinId: String, currency: Currency): Response<CoinDetailsApiModel>
 
     suspend fun getCoinChart(
         coinId: String,

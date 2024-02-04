@@ -3,7 +3,7 @@ package dev.shorthouse.coinwatch.data.repository.favouriteCoin
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.mapper.FavouriteCoinMapper
 import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSource
-import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
@@ -65,7 +65,7 @@ class FavouriteCoinRepositoryImpl @Inject constructor(
             .map { Result.Success(it) }
             .catch { e ->
                 Timber.e("getCachedFavouriteCoins error ${e.message}")
-                Result.Error<List<CachedCoin>>("Unable to fetch cached favourite coins")
+                Result.Error<List<Coin>>("Unable to fetch cached favourite coins")
             }.flowOn(ioDispatcher)
     }
 

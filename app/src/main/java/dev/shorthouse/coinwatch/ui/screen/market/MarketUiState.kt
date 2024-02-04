@@ -1,6 +1,6 @@
 package dev.shorthouse.coinwatch.ui.screen.market
 
-import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.model.Percentage
@@ -9,7 +9,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 data class MarketUiState(
-    val coins: ImmutableList<CachedCoin> = persistentListOf(),
+    val coins: ImmutableList<Coin> = persistentListOf(),
     val currency: Currency = Currency.USD,
     val isCurrencySheetShown: Boolean = false,
     val coinSort: CoinSort = CoinSort.MarketCap,

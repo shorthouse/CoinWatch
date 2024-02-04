@@ -16,7 +16,7 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.model.Percentage
@@ -25,7 +25,6 @@ import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.screen.market.MarketScreen
 import dev.shorthouse.coinwatch.ui.screen.market.MarketUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
-import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import org.junit.Rule
@@ -36,14 +35,13 @@ class MarketScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val bitcoin = CachedCoin(
+    private val bitcoin = Coin(
         id = "bitcoin",
         symbol = "BTC",
         name = "Bitcoin",
         imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
         currentPrice = Price("29446.336548759988"),
         priceChangePercentage24h = Percentage("1.76833"),
-        prices24h = persistentListOf()
     )
 
     @Test
@@ -594,33 +592,21 @@ class MarketScreenTest {
     fun when_coinsExist_should_displayExpectedCoinList() {
         val uiState = MarketUiState(
             coins = persistentListOf(
-                CachedCoin(
+                Coin(
                     id = "bitcoin",
                     symbol = "BTC",
                     name = "Bitcoin",
                     imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                     currentPrice = Price("29446.336548759988"),
                     priceChangePercentage24h = Percentage("1.76833"),
-                    prices24h = persistentListOf(
-                        BigDecimal("29390.15178296929"),
-                        BigDecimal("29428.222505493162"),
-                        BigDecimal("29475.12359313808"),
-                        BigDecimal("29471.20179209623")
-                    )
                 ),
-                CachedCoin(
+                Coin(
                     id = "ethereum",
                     symbol = "ETH",
                     name = "Ethereum",
                     imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
                     currentPrice = Price("1875.473083380222"),
                     priceChangePercentage24h = Percentage("-1.84"),
-                    prices24h = persistentListOf(
-                        BigDecimal("1872.5227299255032"),
-                        BigDecimal("1874.813847463032"),
-                        BigDecimal("1877.1265051203513"),
-                        BigDecimal("1879.89804628163")
-                    )
                 )
             )
         )
@@ -817,14 +803,13 @@ class MarketScreenTest {
     @Test
     fun when_scrollingCoinList_should_showScrollToTopFab() {
         val coins = (1..20).map {
-            CachedCoin(
+            Coin(
                 id = it.toString(),
                 symbol = "",
                 name = it.toString(),
                 imageUrl = "",
                 currentPrice = Price(null),
                 priceChangePercentage24h = Percentage(null),
-                prices24h = persistentListOf()
             )
         }.toPersistentList()
 

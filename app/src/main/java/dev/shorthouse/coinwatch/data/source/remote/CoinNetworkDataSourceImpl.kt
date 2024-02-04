@@ -15,12 +15,10 @@ class CoinNetworkDataSourceImpl @Inject constructor(
     private val coinApi: CoinApi
 ) : CoinNetworkDataSource {
     override suspend fun getCoins(
-        coinIds: List<String>,
         coinSort: CoinSort,
         currency: Currency
     ): Response<CoinsApiModel> {
         return coinApi.getCoins(
-            coinIds = coinIds,
             orderBy = coinSort.toOrderByString(),
             currencyUUID = currency.toCurrencyUUID()
         )

@@ -52,7 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.model.Percentage
@@ -100,7 +100,7 @@ fun MarketScreen(
             viewModel.updateIsCurrencySheetShown(showSheet)
         },
         onRefresh = {
-            viewModel.pullRefreshCachedCoins()
+            viewModel.pullRefreshCoins()
         },
         onDismissError = { errorMessageId ->
             viewModel.dismissErrorMessage(errorMessageId)
@@ -112,7 +112,7 @@ fun MarketScreen(
 @Composable
 fun MarketScreen(
     uiState: MarketUiState,
-    onCoinClick: (CachedCoin) -> Unit,
+    onCoinClick: (Coin) -> Unit,
     onNavigateSettings: () -> Unit,
     onUpdateCoinSort: (CoinSort) -> Unit,
     onUpdateIsCoinSortSheetShown: (Boolean) -> Unit,
@@ -330,8 +330,8 @@ fun MarketTopBar(
 
 @Composable
 fun MarketContent(
-    coins: ImmutableList<CachedCoin>,
-    onCoinClick: (CachedCoin) -> Unit,
+    coins: ImmutableList<Coin>,
+    onCoinClick: (Coin) -> Unit,
     currency: Currency,
     onUpdateIsCurrencySheetShown: (Boolean) -> Unit,
     coinSort: CoinSort,

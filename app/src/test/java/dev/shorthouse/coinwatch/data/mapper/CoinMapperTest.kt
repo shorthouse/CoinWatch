@@ -1,16 +1,13 @@
 package dev.shorthouse.coinwatch.data.mapper
 
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsData
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
-import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
-import java.math.BigDecimal
-import kotlinx.collections.immutable.persistentListOf
 import org.junit.Test
 
 class CoinMapperTest {
@@ -70,8 +67,7 @@ class CoinMapperTest {
                         symbol = "BTC",
                         imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                         currentPrice = "29490.954785191607",
-                        priceChangePercentage24h = "2.04",
-                        prices24h = emptyList()
+                        priceChangePercentage24h = "2.04"
                     )
                 )
             )
@@ -85,7 +81,6 @@ class CoinMapperTest {
                 imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                 currentPrice = Price("29490.954785191607"),
                 priceChangePercentage24h = Percentage("2.04"),
-                prices24h = persistentListOf()
             )
         )
 
@@ -112,7 +107,6 @@ class CoinMapperTest {
                         imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                         currentPrice = "29490.954785191607",
                         priceChangePercentage24h = "2.04",
-                        prices24h = emptyList()
                     ),
                     CoinApiModel(
                         id = "Qwsogvtv82FCd",
@@ -121,7 +115,6 @@ class CoinMapperTest {
                         imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                         currentPrice = "29490.954785191607",
                         priceChangePercentage24h = "2.04",
-                        prices24h = emptyList()
                     ),
                     CoinApiModel(
                         id = null,
@@ -130,7 +123,6 @@ class CoinMapperTest {
                         imageUrl = null,
                         currentPrice = null,
                         priceChangePercentage24h = null,
-                        prices24h = null
                     )
                 )
             )
@@ -144,7 +136,6 @@ class CoinMapperTest {
                 imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                 currentPrice = Price("29490.954785191607"),
                 priceChangePercentage24h = Percentage("2.04"),
-                prices24h = persistentListOf()
             )
         )
 
@@ -171,7 +162,6 @@ class CoinMapperTest {
                         imageUrl = null,
                         currentPrice = null,
                         priceChangePercentage24h = null,
-                        prices24h = null
                     )
                 )
             )
@@ -185,7 +175,6 @@ class CoinMapperTest {
                 imageUrl = "",
                 currentPrice = Price(null),
                 priceChangePercentage24h = Percentage(null),
-                prices24h = persistentListOf()
             )
         )
 
@@ -212,11 +201,6 @@ class CoinMapperTest {
                         imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                         currentPrice = "29342.42354232",
                         priceChangePercentage24h = "-2.04",
-                        prices24h = listOf(
-                            BigDecimal("29490.954785191607"),
-                            BigDecimal("29430.31478048720"),
-                            BigDecimal("27403.23070285280752480754")
-                        )
                     )
                 )
             )
@@ -230,11 +214,6 @@ class CoinMapperTest {
                 imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                 currentPrice = Price("29342.42354232"),
                 priceChangePercentage24h = Percentage("-2.04"),
-                prices24h = persistentListOf(
-                    BigDecimal("29490.954785191607"),
-                    BigDecimal("29430.31478048720"),
-                    BigDecimal("27403.23070285280752480754")
-                )
             )
         )
 
@@ -261,7 +240,6 @@ class CoinMapperTest {
                         imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                         currentPrice = "29342.42354232",
                         priceChangePercentage24h = "-2.04",
-                        prices24h = null
                     )
                 )
             )
@@ -275,7 +253,6 @@ class CoinMapperTest {
                 imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                 currentPrice = Price("29342.42354232"),
                 priceChangePercentage24h = Percentage("-2.04"),
-                prices24h = persistentListOf()
             )
         )
 
@@ -302,16 +279,6 @@ class CoinMapperTest {
                         imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                         currentPrice = "29342.42354232",
                         priceChangePercentage24h = "-2.04",
-                        prices24h = listOf(
-                            null,
-                            null,
-                            BigDecimal("29490.954785191607"),
-                            null,
-                            BigDecimal("29430.31478048720"),
-                            null,
-                            BigDecimal("27403.23070285280752480754"),
-                            null
-                        )
                     )
                 )
             )
@@ -325,11 +292,6 @@ class CoinMapperTest {
                 imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                 currentPrice = Price("29342.42354232"),
                 priceChangePercentage24h = Percentage("-2.04"),
-                prices24h = persistentListOf(
-                    BigDecimal("29490.954785191607"),
-                    BigDecimal("29430.31478048720"),
-                    BigDecimal("27403.23070285280752480754")
-                )
             )
         )
 
@@ -356,12 +318,6 @@ class CoinMapperTest {
                         imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                         currentPrice = "29342.42354232",
                         priceChangePercentage24h = "-2.04",
-                        prices24h = listOf(
-                            BigDecimal("-29490.954785191607"),
-                            BigDecimal("-29430.31478048720"),
-                            BigDecimal("29490.954785191607"),
-                            BigDecimal("-27403.23070285280752480754")
-                        )
                     )
                 )
             )
@@ -375,9 +331,6 @@ class CoinMapperTest {
                 imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                 currentPrice = Price("29342.42354232"),
                 priceChangePercentage24h = Percentage("-2.04"),
-                prices24h = persistentListOf(
-                    BigDecimal("29490.954785191607")
-                )
             )
         )
 
@@ -406,11 +359,6 @@ class CoinMapperTest {
                         imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                         currentPrice = "29342.42354232",
                         priceChangePercentage24h = "-2.04",
-                        prices24h = listOf(
-                            BigDecimal("29490.954785191607"),
-                            BigDecimal("29430.31478048720"),
-                            BigDecimal("27403.23070285280752480754")
-                        )
                     )
                 )
             )
@@ -424,11 +372,6 @@ class CoinMapperTest {
                 imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                 currentPrice = Price("29342.42354232", currency = currency),
                 priceChangePercentage24h = Percentage("-2.04"),
-                prices24h = persistentListOf(
-                    BigDecimal("29490.954785191607"),
-                    BigDecimal("29430.31478048720"),
-                    BigDecimal("27403.23070285280752480754")
-                )
             )
         )
 
@@ -457,11 +400,6 @@ class CoinMapperTest {
                         imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                         currentPrice = "29342.42354232",
                         priceChangePercentage24h = "-2.04",
-                        prices24h = listOf(
-                            BigDecimal("29490.954785191607"),
-                            BigDecimal("29430.31478048720"),
-                            BigDecimal("27403.23070285280752480754")
-                        )
                     )
                 )
             )
@@ -475,11 +413,6 @@ class CoinMapperTest {
                 imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                 currentPrice = Price("29342.42354232", currency = currency),
                 priceChangePercentage24h = Percentage("-2.04"),
-                prices24h = persistentListOf(
-                    BigDecimal("29490.954785191607"),
-                    BigDecimal("29430.31478048720"),
-                    BigDecimal("27403.23070285280752480754")
-                )
             )
         )
 
@@ -491,54 +424,5 @@ class CoinMapperTest {
 
         // Assert
         assertThat(coins).isEqualTo(expectedCoins)
-    }
-
-    @Test
-    fun `When coins has valid values with eur currency should map to cached model`() {
-        // Arrange
-        val coinsApiModel = CoinsApiModel(
-            coinsData = CoinsData(
-                coins = listOf(
-                    CoinApiModel(
-                        id = "Qwsogvtv82FCd",
-                        name = "Bitcoin",
-                        symbol = "BTC",
-                        imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                        currentPrice = "29342.42354232",
-                        priceChangePercentage24h = "-2.04",
-                        prices24h = listOf(
-                            BigDecimal("29490.954785191607"),
-                            BigDecimal("29430.31478048720"),
-                            BigDecimal("27403.23070285280752480754")
-                        )
-                    )
-                )
-            )
-        )
-
-        val expectedCachedCoins = listOf(
-            CachedCoin(
-                id = "Qwsogvtv82FCd",
-                name = "Bitcoin",
-                symbol = "BTC",
-                imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                currentPrice = Price("29342.42354232", currency = defaultCurrency),
-                priceChangePercentage24h = Percentage("-2.04"),
-                prices24h = persistentListOf(
-                    BigDecimal("29490.954785191607"),
-                    BigDecimal("29430.31478048720"),
-                    BigDecimal("27403.23070285280752480754")
-                )
-            )
-        )
-
-        // Act
-        val cachedCoins = coinMapper.mapApiModelToCachedModel(
-            apiModel = coinsApiModel,
-            currency = defaultCurrency
-        )
-
-        // Assert
-        assertThat(cachedCoins).isEqualTo(expectedCachedCoins)
     }
 }

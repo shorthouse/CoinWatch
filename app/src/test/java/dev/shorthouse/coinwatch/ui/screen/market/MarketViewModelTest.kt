@@ -4,14 +4,14 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.data.userPreferences.UserPreferences
-import dev.shorthouse.coinwatch.domain.GetCachedCoinsUseCase
+import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetMarketStatsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
-import dev.shorthouse.coinwatch.domain.RefreshCachedCoinsUseCase
+import dev.shorthouse.coinwatch.domain.UpdateCachedCoinsUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCoinSortUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCurrencyUseCase
 import dev.shorthouse.coinwatch.model.MarketStats
@@ -40,13 +40,13 @@ class MarketViewModelTest {
     private lateinit var viewModel: MarketViewModel
 
     @RelaxedMockK
-    private lateinit var getCachedCoinsUseCase: GetCachedCoinsUseCase
+    private lateinit var getCoinsUseCase: GetCoinsUseCase
 
     @RelaxedMockK
     private lateinit var getMarketStatsUseCase: GetMarketStatsUseCase
 
     @RelaxedMockK
-    private lateinit var refreshCachedCoinsUseCase: RefreshCachedCoinsUseCase
+    private lateinit var updateCachedCoinsUseCase: UpdateCachedCoinsUseCase
 
     @RelaxedMockK
     private lateinit var getUserPreferencesUseCase: GetUserPreferencesUseCase
@@ -62,9 +62,9 @@ class MarketViewModelTest {
         MockKAnnotations.init(this)
 
         viewModel = MarketViewModel(
-            getCachedCoinsUseCase = getCachedCoinsUseCase,
+            getCoinsUseCase = getCoinsUseCase,
             getMarketStatsUseCase = getMarketStatsUseCase,
-            refreshCachedCoinsUseCase = refreshCachedCoinsUseCase,
+            updateCachedCoinsUseCase = updateCachedCoinsUseCase,
             getUserPreferencesUseCase = getUserPreferencesUseCase,
             updateCoinSortUseCase = updateCoinSortUseCase,
             updateCurrencyUseCase = updateCurrencyUseCase
@@ -90,41 +90,39 @@ class MarketViewModelTest {
     @Test
     fun `When cached coins returns success should update UI state with coins`() {
         // Arrange
-        val cachedCoins = persistentListOf(
-            CachedCoin(
+        val coins = persistentListOf(
+            Coin(
                 id = "bitcoin",
                 name = "Bitcoin",
                 symbol = "BTC",
                 imageUrl = "",
                 currentPrice = Price("200.0"),
                 priceChangePercentage24h = Percentage("1.0"),
-                prices24h = persistentListOf()
             ),
-            CachedCoin(
+            Coin(
                 id = "ethereum",
                 name = "Ethereum",
                 symbol = "ETH",
                 imageUrl = "",
                 currentPrice = Price("100.0"),
                 priceChangePercentage24h = Percentage("2.0"),
-                prices24h = persistentListOf()
             )
         )
 
-        every { getCachedCoinsUseCase() } returns flowOf(Result.Success(cachedCoins))
+        every { getCoinsUseCase() } returns flowOf(Result.Success(coins))
 
         // Act
         viewModel.initialiseUiState()
 
         // Assert
-        assertThat(viewModel.uiState.value.coins).isEqualTo(cachedCoins)
+        assertThat(viewModel.uiState.value.coins).isEqualTo(coins)
         assertThat(viewModel.uiState.value.isLoading).isFalse()
     }
 
     @Test
     fun `When cached coins returns error should update UI state with error message`() {
         // Arrange
-        every { getCachedCoinsUseCase() } returns flowOf(Result.Error("Coins error"))
+        every { getCoinsUseCase() } returns flowOf(Result.Error("Coins error"))
 
         // Act
         viewModel.initialiseUiState()
@@ -147,7 +145,7 @@ class MarketViewModelTest {
 
         every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
         coEvery {
-            refreshCachedCoinsUseCase(
+            updateCachedCoinsUseCase(
                 coinSort = coinSort,
                 currency = currency
             )
@@ -161,7 +159,7 @@ class MarketViewModelTest {
         assertThat(viewModel.uiState.value.currency).isEqualTo(currency)
         coVerify {
             getUserPreferencesUseCase()
-            refreshCachedCoinsUseCase(
+            updateCachedCoinsUseCase(
                 coinSort = coinSort,
                 currency = currency
             )
@@ -250,10 +248,10 @@ class MarketViewModelTest {
     fun `When pull refresh cached coins called should refresh cached coins with user prefs`() {
         // Arrange
         every { getUserPreferencesUseCase() } returns flowOf(UserPreferences())
-        coEvery { refreshCachedCoinsUseCase(any(), any()) } returns Result.Success(emptyList())
+        coEvery { updateCachedCoinsUseCase(any(), any()) } returns Result.Success(emptyList())
 
         // Act
-        viewModel.pullRefreshCachedCoins()
+        viewModel.pullRefreshCoins()
 
         // Assert
         assertThat(viewModel.uiState.value.isRefreshing).isTrue()
@@ -262,7 +260,7 @@ class MarketViewModelTest {
     @Test
     fun `When dismissing error should remove specified error from list`() {
         // Arrange
-        every { getCachedCoinsUseCase() } returns flowOf(Result.Error("Coins error"))
+        every { getCoinsUseCase() } returns flowOf(Result.Error("Coins error"))
 
         // Act
         viewModel.initialiseUiState()

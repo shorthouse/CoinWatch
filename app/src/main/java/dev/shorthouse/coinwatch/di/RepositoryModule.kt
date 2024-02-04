@@ -10,8 +10,6 @@ import dev.shorthouse.coinwatch.data.mapper.CoinMapper
 import dev.shorthouse.coinwatch.data.mapper.CoinSearchResultsMapper
 import dev.shorthouse.coinwatch.data.mapper.FavouriteCoinMapper
 import dev.shorthouse.coinwatch.data.mapper.MarketStatsMapper
-import dev.shorthouse.coinwatch.data.repository.cachedCoin.CachedCoinRepository
-import dev.shorthouse.coinwatch.data.repository.cachedCoin.CachedCoinRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.chart.CoinChartRepository
 import dev.shorthouse.coinwatch.data.repository.chart.CoinChartRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.coin.CoinRepository
@@ -39,25 +37,11 @@ object RepositoryModule {
     @Singleton
     fun provideCoinRepository(
         coinNetworkDataSource: CoinNetworkDataSource,
+        coinLocalDataSource: CoinLocalDataSource,
         coinMapper: CoinMapper,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
     ): CoinRepository {
         return CoinRepositoryImpl(
-            coinNetworkDataSource = coinNetworkDataSource,
-            ioDispatcher = ioDispatcher,
-            coinMapper = coinMapper
-        )
-    }
-
-    @Provides
-    @Singleton
-    fun provideCachedCoinRepository(
-        coinNetworkDataSource: CoinNetworkDataSource,
-        coinLocalDataSource: CoinLocalDataSource,
-        coinMapper: CoinMapper,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
-    ): CachedCoinRepository {
-        return CachedCoinRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
             coinLocalDataSource = coinLocalDataSource,
             coinMapper = coinMapper,

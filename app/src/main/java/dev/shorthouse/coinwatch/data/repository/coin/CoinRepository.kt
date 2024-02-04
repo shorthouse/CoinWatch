@@ -1,15 +1,13 @@
 package dev.shorthouse.coinwatch.data.repository.coin
 
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
-import dev.shorthouse.coinwatch.model.Coin
 import kotlinx.coroutines.flow.Flow
 
 interface CoinRepository {
-    fun getCoins(
-        coinIds: List<String> = emptyList(),
-        coinSort: CoinSort,
-        currency: Currency
-    ): Flow<Result<List<Coin>>>
+    suspend fun getRemoteCoins(coinSort: CoinSort, currency: Currency): Result<List<Coin>>
+    fun getCachedCoins(): Flow<Result<List<Coin>>>
+    suspend fun updateCachedCoins(coins: List<Coin>)
 }

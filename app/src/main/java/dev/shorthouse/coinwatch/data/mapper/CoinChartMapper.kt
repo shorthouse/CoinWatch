@@ -1,8 +1,8 @@
 package dev.shorthouse.coinwatch.data.mapper
 
 import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrNull
-import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
+import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
