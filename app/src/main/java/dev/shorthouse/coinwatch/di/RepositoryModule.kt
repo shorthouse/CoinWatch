@@ -14,8 +14,6 @@ import dev.shorthouse.coinwatch.data.repository.cachedCoin.CachedCoinRepository
 import dev.shorthouse.coinwatch.data.repository.cachedCoin.CachedCoinRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.chart.CoinChartRepository
 import dev.shorthouse.coinwatch.data.repository.chart.CoinChartRepositoryImpl
-import dev.shorthouse.coinwatch.data.repository.coin.CoinRepository
-import dev.shorthouse.coinwatch.data.repository.coin.CoinRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.details.CoinDetailsRepository
 import dev.shorthouse.coinwatch.data.repository.details.CoinDetailsRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepository
@@ -34,20 +32,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
-
-    @Provides
-    @Singleton
-    fun provideCoinRepository(
-        coinNetworkDataSource: CoinNetworkDataSource,
-        coinMapper: CoinMapper,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
-    ): CoinRepository {
-        return CoinRepositoryImpl(
-            coinNetworkDataSource = coinNetworkDataSource,
-            ioDispatcher = ioDispatcher,
-            coinMapper = coinMapper
-        )
-    }
 
     @Provides
     @Singleton

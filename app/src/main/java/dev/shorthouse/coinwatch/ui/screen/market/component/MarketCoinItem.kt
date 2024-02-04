@@ -25,10 +25,8 @@ import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
-import dev.shorthouse.coinwatch.model.Coin
 import dev.shorthouse.coinwatch.ui.component.PercentageChange
 import dev.shorthouse.coinwatch.ui.previewdata.CachedCoinPreviewProvider
-import dev.shorthouse.coinwatch.ui.previewdata.CoinPreviewProvider
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
