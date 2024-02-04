@@ -5,9 +5,7 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
-import java.math.BigDecimal
 import javax.inject.Inject
-import kotlinx.collections.immutable.toPersistentList
 
 class CoinMapper @Inject constructor() {
     fun mapApiModelToModel(apiModel: CoinsApiModel, currency: Currency): List<Coin> {
@@ -24,11 +22,6 @@ class CoinMapper @Inject constructor() {
                 imageUrl = coinApiModel.imageUrl.orEmpty(),
                 currentPrice = Price(coinApiModel.currentPrice, currency = currency),
                 priceChangePercentage24h = Percentage(coinApiModel.priceChangePercentage24h),
-                prices24h = coinApiModel.prices24h
-                    .orEmpty()
-                    .filterNotNull()
-                    .filter { price -> price.compareTo(BigDecimal.ZERO) >= 0 }
-                    .toPersistentList()
             )
         }
     }

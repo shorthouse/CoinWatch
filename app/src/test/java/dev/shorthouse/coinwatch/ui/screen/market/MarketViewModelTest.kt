@@ -98,7 +98,6 @@ class MarketViewModelTest {
                 imageUrl = "",
                 currentPrice = Price("200.0"),
                 priceChangePercentage24h = Percentage("1.0"),
-                prices24h = persistentListOf()
             ),
             Coin(
                 id = "ethereum",
@@ -107,7 +106,6 @@ class MarketViewModelTest {
                 imageUrl = "",
                 currentPrice = Price("100.0"),
                 priceChangePercentage24h = Percentage("2.0"),
-                prices24h = persistentListOf()
             )
         )
 

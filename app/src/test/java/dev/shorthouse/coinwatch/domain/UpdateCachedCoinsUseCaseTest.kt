@@ -14,8 +14,6 @@ import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import java.math.BigDecimal
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -52,13 +50,6 @@ class UpdateCachedCoinsUseCaseTest {
                     imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                     currentPrice = Price("29490.954785191607", currency = currency),
                     priceChangePercentage24h = Percentage("-0.96"),
-                    prices24h = persistentListOf(
-                        BigDecimal("29790.15810429195"),
-                        BigDecimal("29782.07714670252"),
-                        BigDecimal("29436.47984833588"),
-                        BigDecimal("29510.92753539824"),
-                        BigDecimal("29482.564008512305")
-                    )
                 )
             )
         )

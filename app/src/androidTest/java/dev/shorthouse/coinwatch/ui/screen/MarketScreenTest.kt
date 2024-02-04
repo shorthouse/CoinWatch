@@ -25,7 +25,6 @@ import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.screen.market.MarketScreen
 import dev.shorthouse.coinwatch.ui.screen.market.MarketUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
-import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import org.junit.Rule
@@ -43,7 +42,6 @@ class MarketScreenTest {
         imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
         currentPrice = Price("29446.336548759988"),
         priceChangePercentage24h = Percentage("1.76833"),
-        prices24h = persistentListOf()
     )
 
     @Test
@@ -601,12 +599,6 @@ class MarketScreenTest {
                     imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
                     currentPrice = Price("29446.336548759988"),
                     priceChangePercentage24h = Percentage("1.76833"),
-                    prices24h = persistentListOf(
-                        BigDecimal("29390.15178296929"),
-                        BigDecimal("29428.222505493162"),
-                        BigDecimal("29475.12359313808"),
-                        BigDecimal("29471.20179209623")
-                    )
                 ),
                 Coin(
                     id = "ethereum",
@@ -615,12 +607,6 @@ class MarketScreenTest {
                     imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
                     currentPrice = Price("1875.473083380222"),
                     priceChangePercentage24h = Percentage("-1.84"),
-                    prices24h = persistentListOf(
-                        BigDecimal("1872.5227299255032"),
-                        BigDecimal("1874.813847463032"),
-                        BigDecimal("1877.1265051203513"),
-                        BigDecimal("1879.89804628163")
-                    )
                 )
             )
         )
@@ -824,7 +810,6 @@ class MarketScreenTest {
                 imageUrl = "",
                 currentPrice = Price(null),
                 priceChangePercentage24h = Percentage(null),
-                prices24h = persistentListOf()
             )
         }.toPersistentList()
 
