@@ -100,7 +100,7 @@ fun MarketScreen(
             viewModel.updateIsCurrencySheetShown(showSheet)
         },
         onRefresh = {
-            viewModel.pullRefreshCachedCoins()
+            viewModel.pullRefreshCoins()
         },
         onDismissError = { errorMessageId ->
             viewModel.dismissErrorMessage(errorMessageId)

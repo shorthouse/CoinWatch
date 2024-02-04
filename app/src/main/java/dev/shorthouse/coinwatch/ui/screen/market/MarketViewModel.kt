@@ -124,7 +124,7 @@ class MarketViewModel @Inject constructor(
         }
     }
 
-    fun pullRefreshCachedCoins() {
+    fun pullRefreshCoins() {
         viewModelScope.launch {
             _uiState.update { it.copy(isRefreshing = true) }
             delay(250.milliseconds)

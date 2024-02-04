@@ -253,7 +253,7 @@ class MarketViewModelTest {
         coEvery { updateCachedCoinsUseCase(any(), any()) } returns Result.Success(emptyList())
 
         // Act
-        viewModel.pullRefreshCachedCoins()
+        viewModel.pullRefreshCoins()
 
         // Assert
         assertThat(viewModel.uiState.value.isRefreshing).isTrue()
