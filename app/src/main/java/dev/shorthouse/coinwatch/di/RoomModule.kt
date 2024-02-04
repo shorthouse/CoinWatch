@@ -20,13 +20,7 @@ object RoomModule {
 
     @Provides
     @Singleton
-    fun provideFavouriteCoinIdDao(database: CoinDatabase): FavouriteCoinIdDao {
-        return database.favouriteCoinIdDao()
-    }
-
-    @Provides
-    @Singleton
-    fun provideCachedCoinDao(database: CoinDatabase): CoinDao {
+    fun provideCoinDao(database: CoinDatabase): CoinDao {
         return database.coinDao()
     }
 
@@ -34,6 +28,12 @@ object RoomModule {
     @Singleton
     fun provideFavouriteCoinDao(database: CoinDatabase): FavouriteCoinDao {
         return database.favouriteCoinDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavouriteCoinIdDao(database: CoinDatabase): FavouriteCoinIdDao {
+        return database.favouriteCoinIdDao()
     }
 
     @Provides
