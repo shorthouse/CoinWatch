@@ -9,10 +9,10 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
-import dev.shorthouse.coinwatch.domain.GetCachedCoinsUseCase
+import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetMarketStatsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
-import dev.shorthouse.coinwatch.domain.RefreshCachedCoinsUseCase
+import dev.shorthouse.coinwatch.domain.UpdateCachedCoinsUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCoinSortUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCurrencyUseCase
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
@@ -34,9 +34,9 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MarketViewModel @Inject constructor(
-    private val getCachedCoinsUseCase: GetCachedCoinsUseCase,
+    private val getCoinsUseCase: GetCoinsUseCase,
     private val getMarketStatsUseCase: GetMarketStatsUseCase,
-    private val refreshCachedCoinsUseCase: RefreshCachedCoinsUseCase,
+    private val updateCachedCoinsUseCase: UpdateCachedCoinsUseCase,
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
     private val updateCoinSortUseCase: UpdateCoinSortUseCase,
     private val updateCurrencyUseCase: UpdateCurrencyUseCase
@@ -49,7 +49,7 @@ class MarketViewModel @Inject constructor(
     }
 
     fun initialiseUiState() {
-        getCachedCoinsUseCase().onEach { coinsResult ->
+        getCoinsUseCase().onEach { coinsResult ->
             when (coinsResult) {
                 is Result.Success -> {
                     val coins = coinsResult.data.toImmutableList()
@@ -83,7 +83,7 @@ class MarketViewModel @Inject constructor(
                 )
             }
 
-            refreshCachedCoins(
+            updateCachedCoins(
                 coinSort = userPreferences.coinSort,
                 currency = userPreferences.currency
             )
@@ -130,7 +130,7 @@ class MarketViewModel @Inject constructor(
             delay(250.milliseconds)
 
             val userPreferences = getUserPreferencesUseCase().first()
-            refreshCachedCoins(
+            updateCachedCoins(
                 coinSort = userPreferences.coinSort,
                 currency = userPreferences.currency
             )
@@ -193,8 +193,8 @@ class MarketViewModel @Inject constructor(
         }
     }
 
-    private suspend fun refreshCachedCoins(coinSort: CoinSort, currency: Currency) {
-        val result = refreshCachedCoinsUseCase(coinSort = coinSort, currency = currency)
+    private suspend fun updateCachedCoins(coinSort: CoinSort, currency: Currency) {
+        val result = updateCachedCoinsUseCase(coinSort = coinSort, currency = currency)
 
         if (result is Result.Error) {
             _uiState.update {

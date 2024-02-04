@@ -10,10 +10,10 @@ import dev.shorthouse.coinwatch.data.mapper.CoinMapper
 import dev.shorthouse.coinwatch.data.mapper.CoinSearchResultsMapper
 import dev.shorthouse.coinwatch.data.mapper.FavouriteCoinMapper
 import dev.shorthouse.coinwatch.data.mapper.MarketStatsMapper
-import dev.shorthouse.coinwatch.data.repository.cachedCoin.CachedCoinRepository
-import dev.shorthouse.coinwatch.data.repository.cachedCoin.CachedCoinRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.chart.CoinChartRepository
 import dev.shorthouse.coinwatch.data.repository.chart.CoinChartRepositoryImpl
+import dev.shorthouse.coinwatch.data.repository.coin.CoinRepository
+import dev.shorthouse.coinwatch.data.repository.coin.CoinRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.details.CoinDetailsRepository
 import dev.shorthouse.coinwatch.data.repository.details.CoinDetailsRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepository
@@ -35,13 +35,13 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideCachedCoinRepository(
+    fun provideCoinRepository(
         coinNetworkDataSource: CoinNetworkDataSource,
         coinLocalDataSource: CoinLocalDataSource,
         coinMapper: CoinMapper,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
-    ): CachedCoinRepository {
-        return CachedCoinRepositoryImpl(
+    ): CoinRepository {
+        return CoinRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
             coinLocalDataSource = coinLocalDataSource,
             coinMapper = coinMapper,

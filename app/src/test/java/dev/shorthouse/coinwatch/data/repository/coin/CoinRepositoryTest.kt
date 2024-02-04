@@ -35,13 +35,13 @@ import org.junit.Rule
 import org.junit.Test
 import retrofit2.Response
 
-class CachedCoinRepositoryTest {
+class CoinRepositoryTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
     // Class under test
-    private lateinit var cachedCoinRepository: CachedCoinRepository
+    private lateinit var coinRepository: CoinRepository
 
     @MockK
     private lateinit var coinNetworkDataSource: CoinNetworkDataSource
@@ -53,7 +53,7 @@ class CachedCoinRepositoryTest {
     fun setup() {
         MockKAnnotations.init(this)
 
-        cachedCoinRepository = CachedCoinRepositoryImpl(
+        coinRepository = CoinRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
             coinLocalDataSource = coinLocalDataSource,
             coinMapper = CoinMapper(),
@@ -122,7 +122,7 @@ class CachedCoinRepositoryTest {
         )
 
         // Act
-        val result = cachedCoinRepository.getRemoteCoins(
+        val result = coinRepository.getRemoteCoins(
             coinSort = coinSort,
             currency = currency
         )
@@ -177,7 +177,7 @@ class CachedCoinRepositoryTest {
             )
 
             // Act
-            val result = cachedCoinRepository.getRemoteCoins(
+            val result = coinRepository.getRemoteCoins(
                 coinSort = coinSort,
                 currency = currency
             )
@@ -209,7 +209,7 @@ class CachedCoinRepositoryTest {
         )
 
         // Act
-        val result = cachedCoinRepository.getRemoteCoins(
+        val result = coinRepository.getRemoteCoins(
             coinSort = coinSort,
             currency = currency
         )
@@ -241,7 +241,7 @@ class CachedCoinRepositoryTest {
         )
 
         // Act
-        val result = cachedCoinRepository.getRemoteCoins(
+        val result = coinRepository.getRemoteCoins(
             coinSort = coinSort,
             currency = currency
         )
@@ -269,7 +269,7 @@ class CachedCoinRepositoryTest {
         )
 
         // Act
-        val result = cachedCoinRepository.getRemoteCoins(
+        val result = coinRepository.getRemoteCoins(
             coinSort = coinSort,
             currency = currency
         )
@@ -323,7 +323,7 @@ class CachedCoinRepositoryTest {
         )
 
         // Act
-        val result = cachedCoinRepository.getCachedCoins().first()
+        val result = coinRepository.getCachedCoins().first()
 
         // Assert
         assertThat(result).isInstanceOf(Result.Success::class.java)
@@ -354,7 +354,7 @@ class CachedCoinRepositoryTest {
         coEvery { coinLocalDataSource.updateCoins(coins) } just runs
 
         // Act
-        cachedCoinRepository.refreshCachedCoins(coins)
+        coinRepository.updateCachedCoins(coins)
 
         // Assert
         coVerifySequence {

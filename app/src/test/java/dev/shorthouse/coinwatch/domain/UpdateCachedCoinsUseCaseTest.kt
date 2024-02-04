@@ -2,7 +2,7 @@ package dev.shorthouse.coinwatch.domain
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.repository.cachedCoin.CachedCoinRepository
+import dev.shorthouse.coinwatch.data.repository.coin.CoinRepository
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
@@ -20,20 +20,20 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-class RefreshCachedCoinsUseCaseTest {
+class UpdateCachedCoinsUseCaseTest {
 
     // Class under test
-    private lateinit var refreshCachedCoinsUseCase: RefreshCachedCoinsUseCase
+    private lateinit var updateCachedCoinsUseCase: UpdateCachedCoinsUseCase
 
     @MockK
-    private lateinit var cachedCoinRepository: CachedCoinRepository
+    private lateinit var coinRepository: CoinRepository
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
 
-        refreshCachedCoinsUseCase = RefreshCachedCoinsUseCase(
-            cachedCoinRepository = cachedCoinRepository
+        updateCachedCoinsUseCase = UpdateCachedCoinsUseCase(
+            coinRepository = coinRepository
         )
     }
 
@@ -64,18 +64,18 @@ class RefreshCachedCoinsUseCaseTest {
         )
 
         coEvery {
-            cachedCoinRepository.getRemoteCoins(
+            coinRepository.getRemoteCoins(
                 coinSort = coinSort,
                 currency = currency
             )
         } returns remoteCoinsResult
 
         coEvery {
-            cachedCoinRepository.refreshCachedCoins(remoteCoinsResult.data)
+            coinRepository.updateCachedCoins(remoteCoinsResult.data)
         } just Runs
 
         // Act
-        val refreshCachedCoinResult = refreshCachedCoinsUseCase(
+        val refreshCachedCoinResult = updateCachedCoinsUseCase(
             coinSort = coinSort,
             currency = currency
         )
@@ -86,11 +86,11 @@ class RefreshCachedCoinsUseCaseTest {
             .isEqualTo(remoteCoinsResult.data)
 
         coVerifySequence {
-            cachedCoinRepository.getRemoteCoins(
+            coinRepository.getRemoteCoins(
                 coinSort = coinSort,
                 currency = currency
             )
-            cachedCoinRepository.refreshCachedCoins(remoteCoinsResult.data)
+            coinRepository.updateCachedCoins(remoteCoinsResult.data)
         }
     }
 
@@ -105,14 +105,14 @@ class RefreshCachedCoinsUseCaseTest {
         )
 
         coEvery {
-            cachedCoinRepository.getRemoteCoins(
+            coinRepository.getRemoteCoins(
                 coinSort = coinSort,
                 currency = currency
             )
         } returns remoteCoinsResult
 
         // Act
-        val refreshCachedCoinResult = refreshCachedCoinsUseCase(
+        val refreshCachedCoinResult = updateCachedCoinsUseCase(
             coinSort = coinSort,
             currency = currency
         )
@@ -123,7 +123,7 @@ class RefreshCachedCoinsUseCaseTest {
             .isEqualTo(remoteCoinsResult.message)
 
         coVerifySequence {
-            cachedCoinRepository.getRemoteCoins(
+            coinRepository.getRemoteCoins(
                 coinSort = coinSort,
                 currency = currency
             )

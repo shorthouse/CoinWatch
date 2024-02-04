@@ -17,12 +17,12 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-class CachedCoinRepositoryImpl @Inject constructor(
+class CoinRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,
     private val coinLocalDataSource: CoinLocalDataSource,
     private val coinMapper: CoinMapper,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
-) : CachedCoinRepository {
+) : CoinRepository {
     override suspend fun getRemoteCoins(
         coinSort: CoinSort,
         currency: Currency
@@ -36,7 +36,7 @@ class CachedCoinRepositoryImpl @Inject constructor(
             val body = response.body()
 
             if (response.isSuccessful && body?.coinsData != null) {
-                val coins = coinMapper.mapApiModelToCachedModel(body, currency = currency)
+                val coins = coinMapper.mapApiModelToModel(body, currency = currency)
                 Result.Success(coins)
             } else {
                 Timber.e("getRemoteCoins unsuccessful retrofit response ${response.message()}")
@@ -58,7 +58,7 @@ class CachedCoinRepositoryImpl @Inject constructor(
             .flowOn(ioDispatcher)
     }
 
-    override suspend fun refreshCachedCoins(coins: List<CachedCoin>) {
+    override suspend fun updateCachedCoins(coins: List<CachedCoin>) {
         withContext(ioDispatcher) {
             coinLocalDataSource.updateCoins(coins)
         }

@@ -10,7 +10,7 @@ import javax.inject.Inject
 import kotlinx.collections.immutable.toPersistentList
 
 class CoinMapper @Inject constructor() {
-    fun mapApiModelToCachedModel(apiModel: CoinsApiModel, currency: Currency): List<CachedCoin> {
+    fun mapApiModelToModel(apiModel: CoinsApiModel, currency: Currency): List<CachedCoin> {
         val validCoins = apiModel.coinsData?.coins
             .orEmpty()
             .filterNotNull()

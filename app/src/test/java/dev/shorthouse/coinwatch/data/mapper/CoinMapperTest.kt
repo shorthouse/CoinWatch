@@ -27,7 +27,7 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToCachedModel(
+        val coins = coinMapper.mapApiModelToModel(
             apiModel = coinsApiModel,
             currency = defaultCurrency
         )
@@ -46,7 +46,7 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToCachedModel(
+        val coins = coinMapper.mapApiModelToModel(
             apiModel = coinsApiModel,
             currency = defaultCurrency
         )
@@ -89,7 +89,7 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToCachedModel(
+        val coins = coinMapper.mapApiModelToModel(
             apiModel = coinsApiModel,
             currency = defaultCurrency
         )
@@ -148,7 +148,7 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToCachedModel(
+        val coins = coinMapper.mapApiModelToModel(
             apiModel = coinsApiModel,
             currency = defaultCurrency
         )
@@ -189,7 +189,7 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToCachedModel(
+        val coins = coinMapper.mapApiModelToModel(
             apiModel = coinsApiModel,
             currency = defaultCurrency
         )
@@ -238,7 +238,7 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToCachedModel(
+        val coins = coinMapper.mapApiModelToModel(
             apiModel = coinsApiModel,
             currency = defaultCurrency
         )
@@ -279,7 +279,7 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToCachedModel(
+        val coins = coinMapper.mapApiModelToModel(
             apiModel = coinsApiModel,
             currency = defaultCurrency
         )
@@ -333,7 +333,7 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToCachedModel(
+        val coins = coinMapper.mapApiModelToModel(
             apiModel = coinsApiModel,
             currency = defaultCurrency
         )
@@ -381,7 +381,7 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToCachedModel(
+        val coins = coinMapper.mapApiModelToModel(
             apiModel = coinsApiModel,
             currency = defaultCurrency
         )
@@ -432,7 +432,7 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToCachedModel(
+        val coins = coinMapper.mapApiModelToModel(
             apiModel = coinsApiModel,
             currency = currency
         )
@@ -483,7 +483,7 @@ class CoinMapperTest {
         )
 
         // Act
-        val coins = coinMapper.mapApiModelToCachedModel(
+        val coins = coinMapper.mapApiModelToModel(
             apiModel = coinsApiModel,
             currency = currency
         )
