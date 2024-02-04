@@ -1,6 +1,6 @@
 package dev.shorthouse.coinwatch.data.source.local
 
-import dev.shorthouse.coinwatch.data.source.local.dao.CachedCoinDao
+import dev.shorthouse.coinwatch.data.source.local.dao.CoinDao
 import dev.shorthouse.coinwatch.data.source.local.dao.FavouriteCoinDao
 import dev.shorthouse.coinwatch.data.source.local.dao.FavouriteCoinIdDao
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
@@ -9,16 +9,16 @@ import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
 import kotlinx.coroutines.flow.Flow
 
 class CoinLocalDataSourceImpl(
-    private val favouriteCoinIdDao: FavouriteCoinIdDao,
-    private val cachedCoinDao: CachedCoinDao,
-    private val favouriteCoinDao: FavouriteCoinDao
+    private val coinDao: CoinDao,
+    private val favouriteCoinDao: FavouriteCoinDao,
+    private val favouriteCoinIdDao: FavouriteCoinIdDao
 ) : CoinLocalDataSource {
-    override fun getCachedCoins(): Flow<List<CachedCoin>> {
-        return cachedCoinDao.getCachedCoins()
+    override fun getCoins(): Flow<List<CachedCoin>> {
+        return coinDao.getCoins()
     }
 
-    override suspend fun refreshCachedCoins(coins: List<CachedCoin>) {
-        cachedCoinDao.refreshCachedCoins(coins)
+    override suspend fun updateCoins(coins: List<CachedCoin>) {
+        coinDao.updateCoins(coins)
     }
 
     override fun getFavouriteCoins(): Flow<List<FavouriteCoin>> {

@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSource
 import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSourceImpl
-import dev.shorthouse.coinwatch.data.source.local.dao.CachedCoinDao
+import dev.shorthouse.coinwatch.data.source.local.dao.CoinDao
 import dev.shorthouse.coinwatch.data.source.local.dao.FavouriteCoinDao
 import dev.shorthouse.coinwatch.data.source.local.dao.FavouriteCoinIdDao
 import dev.shorthouse.coinwatch.data.source.remote.CoinApi
@@ -28,12 +28,12 @@ object DataSourceModule {
     @Singleton
     fun provideCoinLocalDataSource(
         favouriteCoinIdDao: FavouriteCoinIdDao,
-        cachedCoinDao: CachedCoinDao,
+        coinDao: CoinDao,
         favouriteCoinDao: FavouriteCoinDao
     ): CoinLocalDataSource {
         return CoinLocalDataSourceImpl(
             favouriteCoinIdDao = favouriteCoinIdDao,
-            cachedCoinDao = cachedCoinDao,
+            coinDao = coinDao,
             favouriteCoinDao = favouriteCoinDao
         )
     }

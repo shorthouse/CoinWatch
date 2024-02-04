@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.repository.cachedCoin
+package dev.shorthouse.coinwatch.data.repository.coin
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
@@ -282,7 +282,7 @@ class CachedCoinRepositoryTest {
     @Test
     fun `When get cached coins with valid data should return success`() = runTest {
         // Arrange
-        every { coinLocalDataSource.getCachedCoins() } returns flowOf(
+        every { coinLocalDataSource.getCoins() } returns flowOf(
             listOf(
                 CachedCoin(
                     id = "Qwsogvtv82FCd",
@@ -351,14 +351,14 @@ class CachedCoinRepositoryTest {
             )
         )
 
-        coEvery { coinLocalDataSource.refreshCachedCoins(coins) } just runs
+        coEvery { coinLocalDataSource.updateCoins(coins) } just runs
 
         // Act
         cachedCoinRepository.refreshCachedCoins(coins)
 
         // Assert
         coVerifySequence {
-            coinLocalDataSource.refreshCachedCoins(coins)
+            coinLocalDataSource.updateCoins(coins)
         }
     }
 }

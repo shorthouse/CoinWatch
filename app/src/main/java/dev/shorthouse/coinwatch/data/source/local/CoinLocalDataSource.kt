@@ -6,8 +6,8 @@ import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
 import kotlinx.coroutines.flow.Flow
 
 interface CoinLocalDataSource {
-    fun getCachedCoins(): Flow<List<CachedCoin>>
-    suspend fun refreshCachedCoins(coins: List<CachedCoin>)
+    fun getCoins(): Flow<List<CachedCoin>>
+    suspend fun updateCoins(coins: List<CachedCoin>)
     fun getFavouriteCoins(): Flow<List<FavouriteCoin>>
     suspend fun updateFavouriteCoins(favouriteCoins: List<FavouriteCoin>)
     fun getFavouriteCoinIds(): Flow<List<FavouriteCoinId>>

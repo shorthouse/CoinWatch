@@ -9,19 +9,19 @@ import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface CachedCoinDao {
+interface CoinDao {
     @Query("SELECT * FROM CachedCoin")
-    fun getCachedCoins(): Flow<List<CachedCoin>>
+    fun getCoins(): Flow<List<CachedCoin>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCachedCoins(coins: List<CachedCoin>)
+    fun insertCoins(coins: List<CachedCoin>)
 
     @Query("DELETE FROM CachedCoin")
-    fun deleteAllCachedCoins()
+    fun deleteAllCoins()
 
     @Transaction
-    fun refreshCachedCoins(coins: List<CachedCoin>) {
-        deleteAllCachedCoins()
-        insertCachedCoins(coins)
+    fun updateCoins(coins: List<CachedCoin>) {
+        deleteAllCoins()
+        insertCoins(coins)
     }
 }

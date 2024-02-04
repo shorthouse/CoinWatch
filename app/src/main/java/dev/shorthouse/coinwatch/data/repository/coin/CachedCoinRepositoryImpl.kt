@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.repository.cachedCoin
+package dev.shorthouse.coinwatch.data.repository.coin
 
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.mapper.CoinMapper
@@ -49,7 +49,7 @@ class CachedCoinRepositoryImpl @Inject constructor(
     }
 
     override fun getCachedCoins(): Flow<Result<List<CachedCoin>>> {
-        return coinLocalDataSource.getCachedCoins()
+        return coinLocalDataSource.getCoins()
             .map { Result.Success(it) }
             .catch { e ->
                 Timber.e("getCachedCoins error ${e.message}")
@@ -60,7 +60,7 @@ class CachedCoinRepositoryImpl @Inject constructor(
 
     override suspend fun refreshCachedCoins(coins: List<CachedCoin>) {
         withContext(ioDispatcher) {
-            coinLocalDataSource.refreshCachedCoins(coins)
+            coinLocalDataSource.updateCoins(coins)
         }
     }
 }

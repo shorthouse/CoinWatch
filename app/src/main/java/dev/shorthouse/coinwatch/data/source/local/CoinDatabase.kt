@@ -9,7 +9,7 @@ import androidx.room.migration.AutoMigrationSpec
 import dev.shorthouse.coinwatch.data.source.local.converters.ImmutableListTypeConverter
 import dev.shorthouse.coinwatch.data.source.local.converters.PercentageTypeConverter
 import dev.shorthouse.coinwatch.data.source.local.converters.PriceTypeConverter
-import dev.shorthouse.coinwatch.data.source.local.dao.CachedCoinDao
+import dev.shorthouse.coinwatch.data.source.local.dao.CoinDao
 import dev.shorthouse.coinwatch.data.source.local.dao.FavouriteCoinDao
 import dev.shorthouse.coinwatch.data.source.local.dao.FavouriteCoinIdDao
 import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
@@ -18,7 +18,7 @@ import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
 
 @Database(
     version = 4,
-    entities = [FavouriteCoinId::class, CachedCoin::class, FavouriteCoin::class],
+    entities = [CachedCoin::class, FavouriteCoin::class, FavouriteCoinId::class],
     autoMigrations = [
         AutoMigration(from = 1, to = 2),
         AutoMigration(from = 2, to = 3, spec = CoinDatabase.Migration2to3::class),
@@ -31,9 +31,9 @@ import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
     ImmutableListTypeConverter::class
 )
 abstract class CoinDatabase : RoomDatabase() {
-    abstract fun favouriteCoinIdDao(): FavouriteCoinIdDao
-    abstract fun cachedCoinDao(): CachedCoinDao
+    abstract fun coinDao(): CoinDao
     abstract fun favouriteCoinDao(): FavouriteCoinDao
+    abstract fun favouriteCoinIdDao(): FavouriteCoinIdDao
 
     @RenameTable(fromTableName = "FavouriteCoin", toTableName = "FavouriteCoinId")
     internal class Migration2to3 : AutoMigrationSpec
