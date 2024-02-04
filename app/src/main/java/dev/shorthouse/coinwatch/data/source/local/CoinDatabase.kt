@@ -2,6 +2,7 @@ package dev.shorthouse.coinwatch.data.source.local
 
 import androidx.room.AutoMigration
 import androidx.room.Database
+import androidx.room.DeleteColumn
 import androidx.room.RenameTable
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -17,13 +18,14 @@ import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
 
 @Database(
-    version = 5,
+    version = 6,
     entities = [Coin::class, FavouriteCoin::class, FavouriteCoinId::class],
     autoMigrations = [
         AutoMigration(from = 1, to = 2),
         AutoMigration(from = 2, to = 3, spec = CoinDatabase.Migration2to3::class),
         AutoMigration(from = 3, to = 4),
-        AutoMigration(from = 4, to = 5, spec = CoinDatabase.Migration4to5::class)
+        AutoMigration(from = 4, to = 5, spec = CoinDatabase.Migration4to5::class),
+        AutoMigration(from = 5, to = 6, spec = CoinDatabase.Migration5to6::class)
     ]
 )
 @TypeConverters(
@@ -41,4 +43,7 @@ abstract class CoinDatabase : RoomDatabase() {
 
     @RenameTable(fromTableName = "CachedCoin", toTableName = "Coin")
     internal class Migration4to5 : AutoMigrationSpec
+
+    @DeleteColumn(tableName = "Coin", columnName = "prices24h")
+    internal class Migration5to6 : AutoMigrationSpec
 }
