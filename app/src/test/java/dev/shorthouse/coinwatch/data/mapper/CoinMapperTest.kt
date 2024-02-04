@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.data.mapper
 
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsData
@@ -77,7 +77,7 @@ class CoinMapperTest {
         )
 
         val expectedCoins = listOf(
-            CachedCoin(
+            Coin(
                 id = "Qwsogvtv82FCd",
                 name = "Bitcoin",
                 symbol = "BTC",
@@ -136,7 +136,7 @@ class CoinMapperTest {
         )
 
         val expectedCoins = listOf(
-            CachedCoin(
+            Coin(
                 id = "Qwsogvtv82FCd",
                 name = "Bitcoin",
                 symbol = "BTC",
@@ -177,7 +177,7 @@ class CoinMapperTest {
         )
 
         val expectedCoins = listOf(
-            CachedCoin(
+            Coin(
                 id = "Qwsogvtv82FCd",
                 name = "",
                 symbol = "",
@@ -222,7 +222,7 @@ class CoinMapperTest {
         )
 
         val expectedCoins = listOf(
-            CachedCoin(
+            Coin(
                 id = "Qwsogvtv82FCd",
                 name = "Bitcoin",
                 symbol = "BTC",
@@ -267,7 +267,7 @@ class CoinMapperTest {
         )
 
         val expectedCoins = listOf(
-            CachedCoin(
+            Coin(
                 id = "Qwsogvtv82FCd",
                 name = "Bitcoin",
                 symbol = "BTC",
@@ -317,7 +317,7 @@ class CoinMapperTest {
         )
 
         val expectedCoins = listOf(
-            CachedCoin(
+            Coin(
                 id = "Qwsogvtv82FCd",
                 name = "Bitcoin",
                 symbol = "BTC",
@@ -367,7 +367,7 @@ class CoinMapperTest {
         )
 
         val expectedCoins = listOf(
-            CachedCoin(
+            Coin(
                 id = "Qwsogvtv82FCd",
                 name = "Bitcoin",
                 symbol = "BTC",
@@ -416,7 +416,7 @@ class CoinMapperTest {
         )
 
         val expectedCoins = listOf(
-            CachedCoin(
+            Coin(
                 id = "Qwsogvtv82FCd",
                 name = "Bitcoin",
                 symbol = "BTC",
@@ -467,7 +467,7 @@ class CoinMapperTest {
         )
 
         val expectedCoins = listOf(
-            CachedCoin(
+            Coin(
                 id = "Qwsogvtv82FCd",
                 name = "Bitcoin",
                 symbol = "BTC",

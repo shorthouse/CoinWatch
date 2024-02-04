@@ -5,7 +5,7 @@ import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.mapper.CoinMapper
 import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSource
-import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
@@ -103,7 +103,7 @@ class CoinRepositoryTest {
 
         val expectedResult = Result.Success(
             listOf(
-                CachedCoin(
+                Coin(
                     id = "Qwsogvtv82FCd",
                     name = "Bitcoin",
                     symbol = "BTC",
@@ -164,7 +164,7 @@ class CoinRepositoryTest {
 
             val expectedResult = Result.Success(
                 listOf(
-                    CachedCoin(
+                    Coin(
                         id = "Qwsogvtv82FCd",
                         name = "",
                         symbol = "",
@@ -204,7 +204,7 @@ class CoinRepositoryTest {
             )
         )
 
-        val expectedResult = Result.Error<List<CachedCoin>>(
+        val expectedResult = Result.Error<List<Coin>>(
             message = "Unable to fetch network coins list"
         )
 
@@ -236,7 +236,7 @@ class CoinRepositoryTest {
             errorMessage.toResponseBody(null)
         )
 
-        val expectedResult = Result.Error<List<CachedCoin>>(
+        val expectedResult = Result.Error<List<Coin>>(
             message = "Unable to fetch network coins list"
         )
 
@@ -264,7 +264,7 @@ class CoinRepositoryTest {
             )
         } throws IOException()
 
-        val expectedResult = Result.Error<List<CachedCoin>>(
+        val expectedResult = Result.Error<List<Coin>>(
             message = "Unable to fetch network coins list"
         )
 
@@ -284,7 +284,7 @@ class CoinRepositoryTest {
         // Arrange
         every { coinLocalDataSource.getCoins() } returns flowOf(
             listOf(
-                CachedCoin(
+                Coin(
                     id = "Qwsogvtv82FCd",
                     name = "Bitcoin",
                     symbol = "BTC",
@@ -304,7 +304,7 @@ class CoinRepositoryTest {
 
         val expectedResult = Result.Success(
             listOf(
-                CachedCoin(
+                Coin(
                     id = "Qwsogvtv82FCd",
                     name = "Bitcoin",
                     symbol = "BTC",
@@ -334,7 +334,7 @@ class CoinRepositoryTest {
     fun `When refreshing cached coins should call refresh cache coins`() = runTest {
         // Arrange
         val coins = listOf(
-            CachedCoin(
+            Coin(
                 id = "Qwsogvtv82FCd",
                 name = "Bitcoin",
                 symbol = "BTC",

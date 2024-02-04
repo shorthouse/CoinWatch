@@ -3,7 +3,7 @@ package dev.shorthouse.coinwatch.domain
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.repository.coin.CoinRepository
-import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.model.Percentage
@@ -45,7 +45,7 @@ class UpdateCachedCoinsUseCaseTest {
 
         val remoteCoinsResult = Result.Success(
             listOf(
-                CachedCoin(
+                Coin(
                     id = "Qwsogvtv82FCd",
                     name = "Bitcoin",
                     symbol = "BTC",
@@ -100,7 +100,7 @@ class UpdateCachedCoinsUseCaseTest {
         val coinSort = CoinSort.PriceChange24h
         val currency = Currency.EUR
 
-        val remoteCoinsResult = Result.Error<List<CachedCoin>>(
+        val remoteCoinsResult = Result.Error<List<Coin>>(
             "Error message"
         )
 

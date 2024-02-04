@@ -16,7 +16,7 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.model.Percentage
@@ -36,7 +36,7 @@ class MarketScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val bitcoin = CachedCoin(
+    private val bitcoin = Coin(
         id = "bitcoin",
         symbol = "BTC",
         name = "Bitcoin",
@@ -594,7 +594,7 @@ class MarketScreenTest {
     fun when_coinsExist_should_displayExpectedCoinList() {
         val uiState = MarketUiState(
             coins = persistentListOf(
-                CachedCoin(
+                Coin(
                     id = "bitcoin",
                     symbol = "BTC",
                     name = "Bitcoin",
@@ -608,7 +608,7 @@ class MarketScreenTest {
                         BigDecimal("29471.20179209623")
                     )
                 ),
-                CachedCoin(
+                Coin(
                     id = "ethereum",
                     symbol = "ETH",
                     name = "Ethereum",
@@ -817,7 +817,7 @@ class MarketScreenTest {
     @Test
     fun when_scrollingCoinList_should_showScrollToTopFab() {
         val coins = (1..20).map {
-            CachedCoin(
+            Coin(
                 id = it.toString(),
                 symbol = "",
                 name = it.toString(),

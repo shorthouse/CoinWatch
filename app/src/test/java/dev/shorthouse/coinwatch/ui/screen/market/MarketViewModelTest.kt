@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.data.userPreferences.UserPreferences
@@ -90,8 +90,8 @@ class MarketViewModelTest {
     @Test
     fun `When cached coins returns success should update UI state with coins`() {
         // Arrange
-        val cachedCoins = persistentListOf(
-            CachedCoin(
+        val coins = persistentListOf(
+            Coin(
                 id = "bitcoin",
                 name = "Bitcoin",
                 symbol = "BTC",
@@ -100,7 +100,7 @@ class MarketViewModelTest {
                 priceChangePercentage24h = Percentage("1.0"),
                 prices24h = persistentListOf()
             ),
-            CachedCoin(
+            Coin(
                 id = "ethereum",
                 name = "Ethereum",
                 symbol = "ETH",
@@ -111,13 +111,13 @@ class MarketViewModelTest {
             )
         )
 
-        every { getCoinsUseCase() } returns flowOf(Result.Success(cachedCoins))
+        every { getCoinsUseCase() } returns flowOf(Result.Success(coins))
 
         // Act
         viewModel.initialiseUiState()
 
         // Assert
-        assertThat(viewModel.uiState.value.coins).isEqualTo(cachedCoins)
+        assertThat(viewModel.uiState.value.coins).isEqualTo(coins)
         assertThat(viewModel.uiState.value.isLoading).isFalse()
     }
 
