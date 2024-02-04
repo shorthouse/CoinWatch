@@ -8,7 +8,7 @@ import java.math.BigDecimal
 import kotlinx.collections.immutable.ImmutableList
 
 @Entity
-data class CachedCoin(
+data class Coin(
     @PrimaryKey
     val id: String,
     val name: String,

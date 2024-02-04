@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.ui.previewdata
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
@@ -28,7 +28,7 @@ class MarketUiStatePreviewProvider : PreviewParameterProvider<MarketUiState> {
 
 private object CoinListPreviewData {
     val coins = persistentListOf(
-        CachedCoin(
+        Coin(
             id = "bitcoin",
             symbol = "BTC",
             name = "Bitcoin",
@@ -62,7 +62,7 @@ private object CoinListPreviewData {
                 BigDecimal("29471.20179209623")
             )
         ),
-        CachedCoin(
+        Coin(
             id = "ethereum",
             symbol = "ETH",
             name = "Ethereum",
@@ -96,7 +96,7 @@ private object CoinListPreviewData {
                 BigDecimal("1859.4549720388395")
             )
         ),
-        CachedCoin(
+        Coin(
             id = "tether",
             symbol = "USDT",
             name = "Tether USD",
@@ -130,7 +130,7 @@ private object CoinListPreviewData {
                 BigDecimal("1.00")
             )
         ),
-        CachedCoin(
+        Coin(
             id = "binancecoin",
             symbol = "BNB",
             name = "BNB",
@@ -164,7 +164,7 @@ private object CoinListPreviewData {
                 BigDecimal("241.82729323371586")
             )
         ),
-        CachedCoin(
+        Coin(
             id = "ripple",
             symbol = "XRP",
             name = "XRP",
@@ -198,7 +198,7 @@ private object CoinListPreviewData {
                 BigDecimal("0.7186324625859829")
             )
         ),
-        CachedCoin(
+        Coin(
             id = "usdc",
             symbol = "USDC",
             name = "USDC",
@@ -232,7 +232,7 @@ private object CoinListPreviewData {
                 BigDecimal("1.0000408611481826")
             )
         ),
-        CachedCoin(
+        Coin(
             id = "polkadot",
             symbol = "DOT",
             name = "Polkadot",
@@ -266,7 +266,7 @@ private object CoinListPreviewData {
                 BigDecimal("4.421437665534955")
             )
         ),
-        CachedCoin(
+        Coin(
             id = "solana",
             symbol = "SOL",
             name = "Solana",
@@ -300,7 +300,7 @@ private object CoinListPreviewData {
                 BigDecimal("49.82294581650404")
             )
         ),
-        CachedCoin(
+        Coin(
             id = "dogecoin",
             symbol = "DOGE",
             name = "Dogecoin",
@@ -334,7 +334,7 @@ private object CoinListPreviewData {
                 BigDecimal("0.07362674127459982")
             )
         ),
-        CachedCoin(
+        Coin(
             id = "tron",
             symbol = "TRX",
             name = "TRON",
@@ -368,7 +368,7 @@ private object CoinListPreviewData {
                 BigDecimal("0.10495869158173274")
             )
         ),
-        CachedCoin(
+        Coin(
             id = "chainlink",
             symbol = "LINK",
             name = "Chainlink",
@@ -402,7 +402,7 @@ private object CoinListPreviewData {
                 BigDecimal("14.994725659236384")
             )
         ),
-        CachedCoin(
+        Coin(
             id = "polygon",
             symbol = "MATIC",
             name = "Polygon",

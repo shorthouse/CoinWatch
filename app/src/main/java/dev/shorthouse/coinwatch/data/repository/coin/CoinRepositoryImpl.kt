@@ -3,7 +3,7 @@ package dev.shorthouse.coinwatch.data.repository.coin
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.mapper.CoinMapper
 import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSource
-import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
@@ -26,7 +26,7 @@ class CoinRepositoryImpl @Inject constructor(
     override suspend fun getRemoteCoins(
         coinSort: CoinSort,
         currency: Currency
-    ): Result<List<CachedCoin>> = withContext(ioDispatcher) {
+    ): Result<List<Coin>> = withContext(ioDispatcher) {
         try {
             val response = coinNetworkDataSource.getCoins(
                 coinSort = coinSort,
@@ -48,17 +48,17 @@ class CoinRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getCachedCoins(): Flow<Result<List<CachedCoin>>> {
+    override fun getCachedCoins(): Flow<Result<List<Coin>>> {
         return coinLocalDataSource.getCoins()
             .map { Result.Success(it) }
             .catch { e ->
                 Timber.e("getCachedCoins error ${e.message}")
-                Result.Error<List<CachedCoin>>("Unable to fetch cached coins")
+                Result.Error<List<Coin>>("Unable to fetch cached coins")
             }
             .flowOn(ioDispatcher)
     }
 
-    override suspend fun updateCachedCoins(coins: List<CachedCoin>) {
+    override suspend fun updateCachedCoins(coins: List<Coin>) {
         withContext(ioDispatcher) {
             coinLocalDataSource.updateCoins(coins)
         }

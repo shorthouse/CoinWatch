@@ -1,15 +1,15 @@
 package dev.shorthouse.coinwatch.ui.previewdata
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
 
-class CachedCoinPreviewProvider : PreviewParameterProvider<CachedCoin> {
+class CoinPreviewProvider : PreviewParameterProvider<Coin> {
     override val values = sequenceOf(
-        CachedCoin(
+        Coin(
             id = "bitcoin",
             symbol = "BTC",
             name = "Bitcoin",
@@ -43,7 +43,7 @@ class CachedCoinPreviewProvider : PreviewParameterProvider<CachedCoin> {
                 BigDecimal("29471.20179209623")
             )
         ),
-        CachedCoin(
+        Coin(
             id = "ethereum",
             symbol = "ETH",
             name = "Ethereum",
@@ -77,7 +77,7 @@ class CachedCoinPreviewProvider : PreviewParameterProvider<CachedCoin> {
                 BigDecimal("1859.4549720388395")
             )
         ),
-        CachedCoin(
+        Coin(
             id = "tether",
             symbol = "USDT",
             name = "Tether",

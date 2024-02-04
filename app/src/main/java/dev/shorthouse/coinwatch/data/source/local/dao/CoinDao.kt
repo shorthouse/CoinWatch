@@ -5,22 +5,22 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import dev.shorthouse.coinwatch.data.source.local.model.CachedCoin
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CoinDao {
-    @Query("SELECT * FROM CachedCoin")
-    fun getCoins(): Flow<List<CachedCoin>>
+    @Query("SELECT * FROM Coin")
+    fun getCoins(): Flow<List<Coin>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCoins(coins: List<CachedCoin>)
+    fun insertCoins(coins: List<Coin>)
 
-    @Query("DELETE FROM CachedCoin")
+    @Query("DELETE FROM Coin")
     fun deleteAllCoins()
 
     @Transaction
-    fun updateCoins(coins: List<CachedCoin>) {
+    fun updateCoins(coins: List<Coin>) {
         deleteAllCoins()
         insertCoins(coins)
     }
