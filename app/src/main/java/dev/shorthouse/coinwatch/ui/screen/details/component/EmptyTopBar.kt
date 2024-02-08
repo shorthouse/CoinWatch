@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.ui.screen.details.component
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -25,7 +26,7 @@ fun EmptyTopBar(
         navigationIcon = {
             IconButton(onClick = onNavigateUp) {
                 Icon(
-                    imageVector = Icons.Rounded.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                     contentDescription = stringResource(R.string.cd_top_bar_back)
                 )
             }
