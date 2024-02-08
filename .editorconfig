@@ -6,11 +6,10 @@ indent_size = 4
 indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
-
-[{*.kt,*.kts}]
-ktlint_code_style = android
-multiline-expression-wrapping = disabled
 multiline-expression-wrapping = false
+
+[{\*.kt,\*.kts}]
+ktlint_code_style = android
 ij_kotlin_allow_trailing_comma = false
 ij_kotlin_allow_trailing_comma_on_call_site = false
 ktlint_function_naming_ignore_when_annotated_with = Composable
