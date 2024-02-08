@@ -2,6 +2,7 @@ package dev.shorthouse.coinwatch.ui.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -17,7 +18,7 @@ fun ScrollToTopFab(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    SmallFloatingActionButton(
+    FloatingActionButton(
         onClick = onClick,
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer,

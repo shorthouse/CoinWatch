@@ -16,6 +16,9 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.TrendingDown
+import androidx.compose.material.icons.automirrored.rounded.TrendingFlat
+import androidx.compose.material.icons.automirrored.rounded.TrendingUp
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.TrendingDown
 import androidx.compose.material.icons.rounded.TrendingFlat
@@ -284,9 +287,9 @@ fun MarketTopBar(
 
                         Icon(
                             imageVector = when {
-                                it.isPositive -> Icons.Rounded.TrendingUp
-                                it.isNegative -> Icons.Rounded.TrendingDown
-                                else -> Icons.Rounded.TrendingFlat
+                                it.isPositive -> Icons.AutoMirrored.Rounded.TrendingUp
+                                it.isNegative -> Icons.AutoMirrored.Rounded.TrendingDown
+                                else -> Icons.AutoMirrored.Rounded.TrendingFlat
                             },
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
                             contentDescription = null

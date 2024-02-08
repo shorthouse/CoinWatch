@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
@@ -43,11 +44,11 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.ui.component.ErrorState
+import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import dev.shorthouse.coinwatch.ui.previewdata.DetailsUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartRangeCard
-import dev.shorthouse.coinwatch.ui.screen.details.component.DetailsSkeletonLoader
 import dev.shorthouse.coinwatch.ui.screen.details.component.EmptyTopBar
 import dev.shorthouse.coinwatch.ui.screen.details.component.MarketStatsCard
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
@@ -121,7 +122,7 @@ fun DetailsScreen(
             }
 
             is DetailsUiState.Loading -> {
-                DetailsSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
+                LoadingIndicator()
             }
         }
     }
@@ -148,7 +149,7 @@ fun DetailsTopBar(
         navigationIcon = {
             IconButton(onClick = onNavigateUp) {
                 Icon(
-                    imageVector = Icons.Rounded.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                     contentDescription = stringResource(R.string.cd_top_bar_back)
                 )
             }

@@ -9,17 +9,17 @@ sealed class NavigationBarScreen(
 ) {
     object Market : NavigationBarScreen(
         route = "market_screen",
-        nameResourceId = R.string.market_screen,
+        nameResourceId = R.string.market_screen
     )
 
     object Favourites : NavigationBarScreen(
         route = "favourites_screen",
-        nameResourceId = R.string.favourites_screen,
+        nameResourceId = R.string.favourites_screen
     )
 
     object Search : NavigationBarScreen(
         route = "search_screen",
-        nameResourceId = R.string.search_screen,
+        nameResourceId = R.string.search_screen
     )
 }
 
