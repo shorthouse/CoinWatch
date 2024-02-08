@@ -44,11 +44,11 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.ui.component.ErrorState
+import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import dev.shorthouse.coinwatch.ui.previewdata.DetailsUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartRangeCard
-import dev.shorthouse.coinwatch.ui.screen.details.component.DetailsSkeletonLoader
 import dev.shorthouse.coinwatch.ui.screen.details.component.EmptyTopBar
 import dev.shorthouse.coinwatch.ui.screen.details.component.MarketStatsCard
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
@@ -122,7 +122,7 @@ fun DetailsScreen(
             }
 
             is DetailsUiState.Loading -> {
-                DetailsSkeletonLoader(modifier = Modifier.padding(scaffoldPadding))
+                LoadingIndicator()
             }
         }
     }

@@ -1,5 +1,7 @@
 package dev.shorthouse.coinwatch.ui.screen
 
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -26,7 +28,7 @@ class DetailsScreenTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun when_uiStateLoading_should_showSkeletonLoader() {
+    fun when_uiStateLoading_should_showLoadingIndicator() {
         val uiStateLoading = DetailsUiState.Loading
 
         composeTestRule.setContent {
@@ -42,8 +44,8 @@ class DetailsScreenTest {
 
         composeTestRule.apply {
             onNodeWithContentDescription("Back").assertIsDisplayed()
-            onNodeWithText("Chart Range").assertIsDisplayed()
-            onNodeWithText("Market Stats").assertExists()
+            onNode(SemanticsMatcher.keyIsDefined(SemanticsProperties.ProgressBarRangeInfo))
+                .assertIsDisplayed()
         }
     }
 
