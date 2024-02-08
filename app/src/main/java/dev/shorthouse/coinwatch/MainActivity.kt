@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.shorthouse.coinwatch.navigation.AppNavHost
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
@@ -18,12 +19,17 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         setContent {
-            AppTheme {
+            val navController = rememberNavController()
+
+            AppTheme(navController = navController) {
                 val viewModel: MainActivityViewModel = hiltViewModel()
                 val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
                 if (!uiState.isLoading) {
-                    AppNavHost(navigationBarStartScreen = uiState.startScreen)
+                    AppNavHost(
+                        navController = navController,
+                        navigationBarStartScreen = uiState.startScreen
+                    )
                 }
             }
         }
