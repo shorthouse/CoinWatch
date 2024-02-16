@@ -79,7 +79,7 @@ private data class CurrencyOption(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun CurrencyBottomSheetPreview() {
+private fun CurrencyBottomSheetPreview() {
     AppTheme {
         var selectedCurrency by remember { mutableStateOf(Currency.USD) }
 

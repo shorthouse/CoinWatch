@@ -85,7 +85,7 @@ private data class CoinSortOption(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun CoinSortBottomSheetPreview() {
+private fun CoinSortBottomSheetPreview() {
     AppTheme {
         var selectedCoinSort by remember { mutableStateOf(CoinSort.MarketCap) }
 
