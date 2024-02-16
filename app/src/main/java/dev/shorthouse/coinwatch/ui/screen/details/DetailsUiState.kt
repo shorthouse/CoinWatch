@@ -13,5 +13,5 @@ sealed interface DetailsUiState {
     ) : DetailsUiState
 
     data class Error(val message: String?) : DetailsUiState
-    object Loading : DetailsUiState
+    data object Loading : DetailsUiState
 }

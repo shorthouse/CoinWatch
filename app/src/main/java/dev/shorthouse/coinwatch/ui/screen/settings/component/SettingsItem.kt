@@ -77,7 +77,7 @@ fun SettingsItem(
 
 @Composable
 @Preview(showBackground = true)
-fun SettingsItemPreview() {
+private fun SettingsItemPreview() {
     AppTheme {
         SettingsItem(
             title = "Start destination",
