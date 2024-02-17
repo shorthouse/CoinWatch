@@ -20,11 +20,11 @@ import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.screen.favourites.FavouriteScreen
 import dev.shorthouse.coinwatch.ui.screen.favourites.FavouritesUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
-import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import org.junit.Rule
 import org.junit.Test
+import java.math.BigDecimal
 
 class FavouritesScreenTest {
 
@@ -42,8 +42,9 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiState,
                     onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
                     onRefresh = {},
-                    onDismissError = {}
+                    onDismissError = {},
                 )
             }
         }
@@ -63,8 +64,9 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
                     onRefresh = {},
-                    onDismissError = {}
+                    onDismissError = {},
                 )
             }
         }
@@ -85,8 +87,9 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
                     onRefresh = {},
-                    onDismissError = {}
+                    onDismissError = {},
                 )
             }
         }
@@ -139,8 +142,9 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
                     onRefresh = {},
-                    onDismissError = {}
+                    onDismissError = {},
                 )
             }
         }
@@ -188,8 +192,9 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = { onCoinClickCalled = true },
+                    onUpdateIsFavouritesCondensed = {},
                     onRefresh = {},
-                    onDismissError = {}
+                    onDismissError = {},
                 )
             }
         }
@@ -199,6 +204,31 @@ class FavouritesScreenTest {
         }
 
         assertThat(onCoinClickCalled).isTrue()
+    }
+
+    @Test
+    fun when_clickingToggleFavouritesCondensed_should_callOnUpdateIsFavouritesCondensed() {
+        var onUpdateIsFavouritesCondensedCalled = false
+
+        val uiStateSuccess = FavouritesUiState()
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiStateSuccess,
+                    onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = { onUpdateIsFavouritesCondensedCalled = true },
+                    onRefresh = {},
+                    onDismissError = {},
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithContentDescription("Condense favourites list").performClick()
+        }
+
+        assertThat(onUpdateIsFavouritesCondensedCalled).isTrue()
     }
 
     @Test
@@ -224,8 +254,9 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiState,
                     onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
                     onRefresh = {},
-                    onDismissError = {}
+                    onDismissError = {},
                 )
             }
         }
@@ -265,8 +296,9 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiState,
                     onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
                     onRefresh = { onRefreshCalled = true },
-                    onDismissError = {}
+                    onDismissError = {},
                 )
             }
         }
@@ -296,8 +328,9 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiState,
                     onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
                     onRefresh = {},
-                    onDismissError = {}
+                    onDismissError = {},
                 )
             }
         }
