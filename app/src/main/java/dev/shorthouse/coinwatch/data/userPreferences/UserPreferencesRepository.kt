@@ -1,12 +1,12 @@
 package dev.shorthouse.coinwatch.data.userPreferences
 
 import androidx.datastore.core.DataStore
-import java.io.IOException
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
+import java.io.IOException
+import javax.inject.Inject
 
 class UserPreferencesRepository @Inject constructor(
     private val userPreferencesDataStore: DataStore<UserPreferences>
@@ -42,6 +42,12 @@ class UserPreferencesRepository @Inject constructor(
             userPreferencesDataStore.updateData { currentPreferences ->
                 currentPreferences.copy(startScreen = startScreen)
             }
+        }
+    }
+
+    suspend fun updateIsFavouritesCondensed(isCondensed: Boolean) {
+        userPreferencesDataStore.updateData { currentPreferences ->
+            currentPreferences.copy(isFavouritesCondensed = isCondensed)
         }
     }
 }

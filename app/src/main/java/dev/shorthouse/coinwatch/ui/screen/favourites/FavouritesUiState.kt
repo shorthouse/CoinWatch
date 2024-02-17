@@ -6,6 +6,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 data class FavouritesUiState(
     val favouriteCoins: ImmutableList<FavouriteCoin> = persistentListOf(),
+    val isFavouritesCondensed: Boolean = false,
     val isRefreshing: Boolean = false,
     val isLoading: Boolean = false,
     val errorMessageIds: List<Int> = persistentListOf()

@@ -13,8 +13,7 @@ import dev.shorthouse.coinwatch.domain.GetFavouriteCoinIdsUseCase
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCachedFavouriteCoinsUseCase
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.milliseconds
+import dev.shorthouse.coinwatch.domain.UpdateIsFavouritesCondensedUseCase
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,13 +24,16 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class FavouritesViewModel @Inject constructor(
     private val getFavouriteCoinsUseCase: GetFavouriteCoinsUseCase,
     private val updateCachedFavouriteCoinsUseCase: UpdateCachedFavouriteCoinsUseCase,
     private val getFavouriteCoinIdsUseCase: GetFavouriteCoinIdsUseCase,
-    private val getUserPreferencesUseCase: GetUserPreferencesUseCase
+    private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
+    private val updateIsFavouritesCondensedUseCase: UpdateIsFavouritesCondensedUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(FavouritesUiState())
     val uiState = _uiState.asStateFlow()
@@ -62,6 +64,14 @@ class FavouritesViewModel @Inject constructor(
                 is Result.Error -> {
                     addErrorMessage(R.string.error_local_favourite_coin_ids)
                 }
+            }
+        }.launchIn(viewModelScope)
+
+        getUserPreferencesUseCase().onEach { userPreferences ->
+            _uiState.update {
+                it.copy(
+                    isFavouritesCondensed = userPreferences.isFavouritesCondensed,
+                )
             }
         }.launchIn(viewModelScope)
 
@@ -100,6 +110,7 @@ class FavouritesViewModel @Inject constructor(
                         coinSort = userPreferences.coinSort
                     )
                 }
+
                 is Result.Error -> {
                     addErrorMessage(R.string.error_local_favourite_coin_ids)
                 }
@@ -115,6 +126,12 @@ class FavouritesViewModel @Inject constructor(
                 errorMessageId == dismissedErrorMessageId
             }
             it.copy(errorMessageIds = errorMessageIds)
+        }
+    }
+
+    fun updateIsFavouritesCondensed(isCondensed: Boolean) {
+        viewModelScope.launch {
+            updateIsFavouritesCondensedUseCase(isCondensed = isCondensed)
         }
     }
 

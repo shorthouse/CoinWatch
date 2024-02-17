@@ -88,4 +88,6 @@
     <string name="market_is_up">Market is up</string>
     <string name="market_is_down">Market is down</string>
     <string name="market_is_flat">Market is flat</string>
+    <string name="cd_expand_favourites">Expand favourites list</string>
+    <string name="cd_condense_favourites">Condense favourites list</string>
 </resources>
