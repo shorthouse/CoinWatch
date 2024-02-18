@@ -11,6 +11,7 @@ import dev.shorthouse.coinwatch.domain.GetFavouriteCoinIdsUseCase
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCachedFavouriteCoinsUseCase
+import dev.shorthouse.coinwatch.domain.UpdateIsFavouritesCondensedUseCase
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import io.mockk.MockKAnnotations
@@ -20,7 +21,6 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.unmockkAll
-import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,6 +31,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.math.BigDecimal
 
 class FavouritesViewModelTest {
 
@@ -52,6 +53,9 @@ class FavouritesViewModelTest {
     @RelaxedMockK
     private lateinit var getUserPreferencesUseCase: GetUserPreferencesUseCase
 
+    @RelaxedMockK
+    private lateinit var updateIsFavouritesCondensedUseCase: UpdateIsFavouritesCondensedUseCase
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
@@ -60,7 +64,8 @@ class FavouritesViewModelTest {
             getFavouriteCoinsUseCase = getFavouriteCoinsUseCase,
             updateCachedFavouriteCoinsUseCase = updateCachedFavouriteCoinsUseCase,
             getFavouriteCoinIdsUseCase = getFavouriteCoinIdsUseCase,
-            getUserPreferencesUseCase = getUserPreferencesUseCase
+            getUserPreferencesUseCase = getUserPreferencesUseCase,
+            updateIsFavouritesCondensedUseCase = updateIsFavouritesCondensedUseCase
         )
     }
 
@@ -198,53 +203,55 @@ class FavouritesViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `When pull refreshing favourite coins with coin ids error should add error message`() = runTest {
-        // Arrange
-        every {
-            getFavouriteCoinIdsUseCase()
-        } returns flowOf(Result.Error("Favourite coin IDs error"))
-        every { getUserPreferencesUseCase() } returns flowOf(UserPreferences())
+    fun `When pull refreshing favourite coins with coin ids error should add error message`() =
+        runTest {
+            // Arrange
+            every {
+                getFavouriteCoinIdsUseCase()
+            } returns flowOf(Result.Error("Favourite coin IDs error"))
+            every { getUserPreferencesUseCase() } returns flowOf(UserPreferences())
 
-        // Act
-        viewModel.pullRefreshFavouriteCoins()
+            // Act
+            viewModel.pullRefreshFavouriteCoins()
 
-        // Assert
-        assertThat(viewModel.uiState.value.isRefreshing).isTrue()
-        advanceUntilIdle()
-        assertThat(viewModel.uiState.value.isRefreshing).isFalse()
+            // Assert
+            assertThat(viewModel.uiState.value.isRefreshing).isTrue()
+            advanceUntilIdle()
+            assertThat(viewModel.uiState.value.isRefreshing).isFalse()
 
-        assertThat(viewModel.uiState.value.errorMessageIds)
-            .contains(R.string.error_local_favourite_coin_ids)
-    }
+            assertThat(viewModel.uiState.value.errorMessageIds)
+                .contains(R.string.error_local_favourite_coin_ids)
+        }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `When pull refreshing favourite coins with success should call update cached favourite coins`() = runTest {
-        // Arrange
-        val favouriteCoinIds = listOf(FavouriteCoinId("Bitcoin"))
-        val userPreferences = UserPreferences()
+    fun `When pull refreshing favourite coins with success should call update cached favourite coins`() =
+        runTest {
+            // Arrange
+            val favouriteCoinIds = listOf(FavouriteCoinId("Bitcoin"))
+            val userPreferences = UserPreferences()
 
-        every { getFavouriteCoinIdsUseCase() } returns flowOf(Result.Success(favouriteCoinIds))
-        every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
+            every { getFavouriteCoinIdsUseCase() } returns flowOf(Result.Success(favouriteCoinIds))
+            every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
 
-        // Act
-        viewModel.pullRefreshFavouriteCoins()
+            // Act
+            viewModel.pullRefreshFavouriteCoins()
 
-        // Assert
-        assertThat(viewModel.uiState.value.isRefreshing).isTrue()
-        advanceUntilIdle()
-        assertThat(viewModel.uiState.value.isRefreshing).isFalse()
+            // Assert
+            assertThat(viewModel.uiState.value.isRefreshing).isTrue()
+            advanceUntilIdle()
+            assertThat(viewModel.uiState.value.isRefreshing).isFalse()
 
-        coVerify {
-            updateCachedFavouriteCoinsUseCase(
-                coinIds = favouriteCoinIds,
-                currency = userPreferences.currency,
-                coinSort = userPreferences.coinSort
-            )
+            coVerify {
+                updateCachedFavouriteCoinsUseCase(
+                    coinIds = favouriteCoinIds,
+                    currency = userPreferences.currency,
+                    coinSort = userPreferences.coinSort
+                )
+            }
+
+            confirmVerified(updateCachedFavouriteCoinsUseCase)
         }
-
-        confirmVerified(updateCachedFavouriteCoinsUseCase)
-    }
 
     @Test
     fun `When dismissing error should remove specified error from list`() {
