@@ -4,20 +4,28 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.mapper.CoinChartMapper
-import dev.shorthouse.coinwatch.data.source.remote.FakeCoinApi
-import dev.shorthouse.coinwatch.data.source.remote.FakeCoinNetworkDataSource
+import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartData
+import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
 import dev.shorthouse.coinwatch.data.userPreferences.Currency
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
-import java.math.BigDecimal
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
+import io.mockk.unmockkAll
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import okhttp3.ResponseBody.Companion.toResponseBody
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import retrofit2.Response
+import java.math.BigDecimal
 
 class CoinChartRepositoryTest {
 
@@ -27,15 +35,23 @@ class CoinChartRepositoryTest {
     // Class under test
     private lateinit var coinChartRepository: CoinChartRepository
 
+    @MockK
+    private lateinit var coinNetworkDataSource: CoinNetworkDataSource
+
     @Before
     fun setup() {
+        MockKAnnotations.init(this)
+
         coinChartRepository = CoinChartRepositoryImpl(
-            coinNetworkDataSource = FakeCoinNetworkDataSource(
-                coinApi = FakeCoinApi()
-            ),
+            coinNetworkDataSource = coinNetworkDataSource,
             coinChartMapper = CoinChartMapper(),
             ioDispatcher = mainDispatcherRule.testDispatcher
         )
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 
     @Test
@@ -59,6 +75,27 @@ class CoinChartRepositoryTest {
             )
         )
 
+        coEvery {
+            coinNetworkDataSource.getCoinChart(
+                coinId = coinId,
+                chartPeriod = chartPeriod,
+                currency = currency
+            )
+        } returns Response.success(
+            CoinChartApiModel(
+                coinChartData = CoinChartData(
+                    priceChangePercentage = "-0.97",
+                    pastPrices = listOf(
+                        PastPrice(amount = "20000.20"),
+                        PastPrice(amount = "30000.47"),
+                        PastPrice(amount = null),
+                        PastPrice(amount = "25000.89"),
+                        PastPrice(amount = "27000.44")
+                    )
+                )
+            )
+        )
+
         // Act
         val result = coinChartRepository.getCoinChart(
             coinId = coinId,
@@ -75,7 +112,7 @@ class CoinChartRepositoryTest {
     fun `When coin chart data has null values should populate these with default values and return success`() =
         runTest {
             // Arrange
-            val coinId = "nullValues"
+            val coinId = "Qwsogvtv82FCd"
             val chartPeriod = "1d"
             val currency = Currency.USD
 
@@ -83,6 +120,21 @@ class CoinChartRepositoryTest {
             val expectedMinPriceAmount = BigDecimal.ZERO
             val expectedMaxPriceAmount = BigDecimal.ZERO
             val expectedPeriodPriceChangePercentageAmount = BigDecimal.ZERO
+
+            coEvery {
+                coinNetworkDataSource.getCoinChart(
+                    coinId = coinId,
+                    chartPeriod = chartPeriod,
+                    currency = currency
+                )
+            } returns Response.success(
+                CoinChartApiModel(
+                    coinChartData = CoinChartData(
+                        priceChangePercentage = null,
+                        pastPrices = null
+                    )
+                )
+            )
 
             // Act
             val result = coinChartRepository.getCoinChart(
@@ -106,13 +158,34 @@ class CoinChartRepositoryTest {
     fun `When coin chart has null prices should ignore these prices and return success`() =
         runTest {
             // Arrange
-            val coinId = "nullPrices"
+            val coinId = "Qwsogvtv82FCd"
             val chartPeriod = "1d"
             val currency = Currency.USD
 
             val expectedPrices = listOf(
                 BigDecimal("25000.89"),
                 BigDecimal("30000.47")
+            )
+
+            coEvery {
+                coinNetworkDataSource.getCoinChart(
+                    coinId = coinId,
+                    chartPeriod = chartPeriod,
+                    currency = currency
+                )
+            } returns Response.success(
+                CoinChartApiModel(
+                    coinChartData = CoinChartData(
+                        priceChangePercentage = null,
+                        pastPrices = listOf(
+                            PastPrice(amount = "30000.47"),
+                            null,
+                            PastPrice(amount = null),
+                            PastPrice(amount = "25000.89"),
+                            null
+                        )
+                    )
+                )
             )
 
             // Act
@@ -136,6 +209,17 @@ class CoinChartRepositoryTest {
 
         val expectedResult = Result.Error<CoinChartApiModel>(
             message = "Unable to fetch coin chart"
+        )
+
+        coEvery {
+            coinNetworkDataSource.getCoinChart(
+                coinId = coinId,
+                chartPeriod = chartPeriod,
+                currency = currency
+            )
+        } returns Response.error(
+            404,
+            "Chart not found".toResponseBody(null)
         )
 
         // Act
