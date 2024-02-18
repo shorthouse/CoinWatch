@@ -32,7 +32,6 @@
     <string name="empty_state_favourite_coins_subtitle_end">to favourite a coin</string>
     <string name="empty_state_coins_title">No coins</string>
     <string name="empty_state_coins_subtitle">Please try again later</string>
-    <string name="button_retry">Retry</string>
     <string name="error_occurred">An error has occurred</string>
     <string name="cd_clear_search">Clear search</string>
     <string name="search_coins_hint">Search coins</string>
@@ -48,7 +47,6 @@
     <string name="market_screen">Market</string>
     <string name="search_screen">Search</string>
     <string name="favourites_screen">Favourites</string>
-    <string name="error_state_favourite_coins">Unable to fetch favourite coins</string>
     <string name="error_state_settings">Error loading settings screen</string>
     <string name="currency_usd" translatable="false">USD</string>
     <string name="currency_gbp" translatable="false">GBP</string>
