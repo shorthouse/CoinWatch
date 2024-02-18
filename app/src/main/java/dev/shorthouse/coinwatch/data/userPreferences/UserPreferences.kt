@@ -8,7 +8,8 @@ import kotlinx.serialization.Serializable
 data class UserPreferences(
     val coinSort: CoinSort = CoinSort.MarketCap,
     val currency: Currency = Currency.USD,
-    val startScreen: StartScreen = StartScreen.Market
+    val startScreen: StartScreen = StartScreen.Market,
+    val isFavouritesCondensed: Boolean = false
 )
 
 enum class Currency(val symbol: String, @StringRes val nameId: Int) {

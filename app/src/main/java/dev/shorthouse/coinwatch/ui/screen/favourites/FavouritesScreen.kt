@@ -8,11 +8,21 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.GridView
+import androidx.compose.material.icons.rounded.ViewStream
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -44,6 +54,7 @@ import dev.shorthouse.coinwatch.ui.component.pullrefresh.PullRefreshIndicator
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.pullRefresh
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.rememberPullRefreshState
 import dev.shorthouse.coinwatch.ui.previewdata.FavouritesUiStatePreviewProvider
+import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouriteCondensedItem
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouriteItem
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouritesEmptyState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
@@ -62,6 +73,9 @@ fun FavouritesScreen(
         onCoinClick = { coin ->
             onNavigateDetails(coin.id)
         },
+        onUpdateIsFavouritesCondensed = { isCondensed ->
+            viewModel.updateIsFavouritesCondensed(isCondensed = isCondensed)
+        },
         onRefresh = {
             viewModel.pullRefreshFavouriteCoins()
         },
@@ -76,12 +90,14 @@ fun FavouritesScreen(
 fun FavouriteScreen(
     uiState: FavouritesUiState,
     onCoinClick: (FavouriteCoin) -> Unit,
+    onUpdateIsFavouritesCondensed: (Boolean) -> Unit,
     onRefresh: () -> Unit,
     onDismissError: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val listState = rememberLazyListState()
     val gridState = rememberLazyGridState()
     val snackbarHostState = remember { SnackbarHostState() }
     val pullRefreshState = rememberPullRefreshState(
@@ -90,13 +106,26 @@ fun FavouriteScreen(
     )
     val showScrollToTopFab by remember {
         derivedStateOf {
-            gridState.firstVisibleItemIndex > 0
+            gridState.firstVisibleItemIndex > 0 || listState.firstVisibleItemIndex > 0
+        }
+    }
+
+    LaunchedEffect(uiState.isFavouritesCondensed) {
+        if (uiState.isFavouritesCondensed) {
+            gridState.scrollToItem(0)
+        } else {
+            listState.scrollToItem(0)
         }
     }
 
     Scaffold(
         topBar = {
-            FavouritesTopBar(scrollBehavior = scrollBehavior)
+            FavouritesTopBar(
+                isFavouritesCondensed = uiState.isFavouritesCondensed,
+                onUpdateIsFavouritesCondensed = onUpdateIsFavouritesCondensed,
+                isLoading = uiState.isLoading,
+                scrollBehavior = scrollBehavior
+            )
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         floatingActionButton = {
@@ -108,7 +137,11 @@ fun FavouriteScreen(
                 ScrollToTopFab(
                     onClick = {
                         scope.launch {
-                            gridState.animateScrollToItem(0)
+                            if (uiState.isFavouritesCondensed) {
+                                listState.animateScrollToItem(0)
+                            } else {
+                                gridState.animateScrollToItem(0)
+                            }
                         }
                     }
                 )
@@ -133,7 +166,9 @@ fun FavouriteScreen(
                     FavouritesContent(
                         favouriteCoins = uiState.favouriteCoins,
                         onCoinClick = onCoinClick,
+                        isFavouritesCondensed = uiState.isFavouritesCondensed,
                         gridState = gridState,
+                        listState = listState
                     )
                 }
             }
@@ -159,6 +194,9 @@ fun FavouriteScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavouritesTopBar(
+    isFavouritesCondensed: Boolean,
+    onUpdateIsFavouritesCondensed: (Boolean) -> Unit,
+    isLoading: Boolean,
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
 ) {
@@ -169,6 +207,25 @@ fun FavouritesTopBar(
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
+        },
+        actions = {
+            if (!isLoading) {
+                IconButton(onClick = { onUpdateIsFavouritesCondensed(!isFavouritesCondensed) }) {
+                    Icon(
+                        imageVector = if (isFavouritesCondensed) {
+                            Icons.Rounded.GridView
+                        } else {
+                            Icons.Rounded.ViewStream
+                        },
+                        contentDescription = if (isFavouritesCondensed) {
+                            stringResource(R.string.cd_expand_favourites)
+                        } else {
+                            stringResource(R.string.cd_condense_favourites)
+                        },
+                        tint = MaterialTheme.colorScheme.onBackground
+                    )
+                }
+            }
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -183,33 +240,105 @@ fun FavouritesTopBar(
 fun FavouritesContent(
     favouriteCoins: ImmutableList<FavouriteCoin>,
     onCoinClick: (FavouriteCoin) -> Unit,
+    isFavouritesCondensed: Boolean,
+    gridState: LazyGridState,
+    listState: LazyListState,
+    modifier: Modifier = Modifier
+) {
+    when {
+        favouriteCoins.isEmpty() -> {
+            FavouritesEmptyState(modifier = modifier.padding(12.dp))
+        }
+
+        isFavouritesCondensed -> {
+            FavouritesCondensedList(
+                favouriteCoins = favouriteCoins,
+                onCoinClick = onCoinClick,
+                listState = listState
+            )
+        }
+
+        else -> {
+            FavouritesList(
+                favouriteCoins = favouriteCoins,
+                onCoinClick = onCoinClick,
+                gridState = gridState
+            )
+        }
+    }
+}
+
+@Composable
+fun FavouritesList(
+    favouriteCoins: ImmutableList<FavouriteCoin>,
+    onCoinClick: (FavouriteCoin) -> Unit,
     gridState: LazyGridState,
     modifier: Modifier = Modifier
 ) {
-    if (favouriteCoins.isEmpty()) {
-        FavouritesEmptyState(modifier = modifier.padding(12.dp))
-    } else {
-        LazyVerticalGrid(
-            state = gridState,
-            columns = GridCells.Adaptive(minSize = 140.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 12.dp),
-            modifier = modifier
-        ) {
-            items(
-                count = favouriteCoins.size,
-                key = { favouriteCoins[it].id },
-                itemContent = { index ->
-                    val favouriteCoinItem = favouriteCoins[index]
+    LazyVerticalGrid(
+        state = gridState,
+        columns = GridCells.Adaptive(minSize = 140.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 12.dp),
+        modifier = modifier
+    ) {
+        items(
+            count = favouriteCoins.size,
+            key = { favouriteCoins[it].id },
+            itemContent = { index ->
+                val favouriteCoinItem = favouriteCoins[index]
 
-                    FavouriteItem(
-                        favouriteCoin = favouriteCoinItem,
-                        onCoinClick = { onCoinClick(favouriteCoinItem) }
+                FavouriteItem(
+                    favouriteCoin = favouriteCoinItem,
+                    onCoinClick = { onCoinClick(favouriteCoinItem) }
+                )
+            }
+        )
+    }
+}
+
+@Composable
+fun FavouritesCondensedList(
+    favouriteCoins: ImmutableList<FavouriteCoin>,
+    onCoinClick: (FavouriteCoin) -> Unit,
+    listState: LazyListState,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        state = listState,
+        contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 12.dp),
+        modifier = modifier
+    ) {
+        items(
+            count = favouriteCoins.size,
+            key = { favouriteCoins[it].id },
+            itemContent = { index ->
+                val favouriteCoinItem = favouriteCoins[index]
+
+                val cardShape = when {
+                    favouriteCoins.size == 1 -> MaterialTheme.shapes.medium
+
+                    index == 0 -> MaterialTheme.shapes.medium.copy(
+                        bottomStart = CornerSize(0.dp),
+                        bottomEnd = CornerSize(0.dp)
                     )
+
+                    index == favouriteCoins.lastIndex -> MaterialTheme.shapes.medium.copy(
+                        topStart = CornerSize(0.dp),
+                        topEnd = CornerSize(0.dp)
+                    )
+
+                    else -> RoundedCornerShape(0.dp)
                 }
-            )
-        }
+
+                FavouriteCondensedItem(
+                    favouriteCoin = favouriteCoinItem,
+                    onCoinClick = { onCoinClick(favouriteCoinItem) },
+                    cardShape = cardShape
+                )
+            }
+        )
     }
 }
 
@@ -222,8 +351,9 @@ private fun FavouritesScreenPreview(
         FavouriteScreen(
             uiState = uiState,
             onCoinClick = {},
+            onUpdateIsFavouritesCondensed = {},
             onRefresh = {},
-            onDismissError = {}
+            onDismissError = {},
         )
     }
 }

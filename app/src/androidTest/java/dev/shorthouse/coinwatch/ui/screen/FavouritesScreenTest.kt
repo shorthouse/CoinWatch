@@ -20,11 +20,11 @@ import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.screen.favourites.FavouriteScreen
 import dev.shorthouse.coinwatch.ui.screen.favourites.FavouritesUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
-import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import org.junit.Rule
 import org.junit.Test
+import java.math.BigDecimal
 
 class FavouritesScreenTest {
 
@@ -42,8 +42,9 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiState,
                     onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
                     onRefresh = {},
-                    onDismissError = {}
+                    onDismissError = {},
                 )
             }
         }
@@ -63,8 +64,9 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
                     onRefresh = {},
-                    onDismissError = {}
+                    onDismissError = {},
                 )
             }
         }
@@ -85,8 +87,9 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
                     onRefresh = {},
-                    onDismissError = {}
+                    onDismissError = {},
                 )
             }
         }
@@ -139,8 +142,9 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
                     onRefresh = {},
-                    onDismissError = {}
+                    onDismissError = {},
                 )
             }
         }
@@ -157,6 +161,69 @@ class FavouritesScreenTest {
             onNodeWithText("$1,875.47").assertIsDisplayed()
             onNodeWithText("-1.84%").assertIsDisplayed()
             onNodeWithTag("priceGraph ETH", useUnmergedTree = true).assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_favouriteCoinsExistAndListCondensed_should_displayCondensedFavouriteCoins() {
+        val uiStateSuccess = FavouritesUiState(
+            isFavouritesCondensed = true,
+            favouriteCoins = persistentListOf(
+                FavouriteCoin(
+                    id = "bitcoin",
+                    symbol = "BTC",
+                    name = "Bitcoin",
+                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+                    currentPrice = Price("29446.336548759988"),
+                    priceChangePercentage24h = Percentage("1.76833"),
+                    prices24h = persistentListOf(
+                        BigDecimal("29390.15178296929"),
+                        BigDecimal("29428.222505493162"),
+                        BigDecimal("29475.12359313808"),
+                        BigDecimal("29471.20179209623")
+                    )
+                ),
+                FavouriteCoin(
+                    id = "ethereum",
+                    symbol = "ETH",
+                    name = "Ethereum",
+                    imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
+                    currentPrice = Price("1875.473083380222"),
+                    priceChangePercentage24h = Percentage("-1.84"),
+                    prices24h = persistentListOf(
+                        BigDecimal("1872.5227299255032"),
+                        BigDecimal("1874.813847463032"),
+                        BigDecimal("1877.1265051203513"),
+                        BigDecimal("1879.89804628163")
+                    )
+                )
+            )
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiStateSuccess,
+                    onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
+                    onRefresh = {},
+                    onDismissError = {},
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Bitcoin").assertIsDisplayed()
+            onNodeWithText("BTC").assertIsDisplayed()
+            onNodeWithText("$29,446.34").assertIsDisplayed()
+            onNodeWithText("+1.77%").assertIsDisplayed()
+            onNodeWithTag("priceGraph BTC", useUnmergedTree = true).assertDoesNotExist()
+
+            onNodeWithText("Ethereum").assertIsDisplayed()
+            onNodeWithText("ETH").assertIsDisplayed()
+            onNodeWithText("$1,875.47").assertIsDisplayed()
+            onNodeWithText("-1.84%").assertIsDisplayed()
+            onNodeWithTag("priceGraph ETH", useUnmergedTree = true).assertDoesNotExist()
         }
     }
 
@@ -188,8 +255,9 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiStateSuccess,
                     onCoinClick = { onCoinClickCalled = true },
+                    onUpdateIsFavouritesCondensed = {},
                     onRefresh = {},
-                    onDismissError = {}
+                    onDismissError = {},
                 )
             }
         }
@@ -199,6 +267,31 @@ class FavouritesScreenTest {
         }
 
         assertThat(onCoinClickCalled).isTrue()
+    }
+
+    @Test
+    fun when_clickingToggleFavouritesCondensed_should_callOnUpdateIsFavouritesCondensed() {
+        var onUpdateIsFavouritesCondensedCalled = false
+
+        val uiStateSuccess = FavouritesUiState()
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiStateSuccess,
+                    onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = { onUpdateIsFavouritesCondensedCalled = true },
+                    onRefresh = {},
+                    onDismissError = {},
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithContentDescription("Condense favourites list").performClick()
+        }
+
+        assertThat(onUpdateIsFavouritesCondensedCalled).isTrue()
     }
 
     @Test
@@ -224,8 +317,47 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiState,
                     onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
                     onRefresh = {},
-                    onDismissError = {}
+                    onDismissError = {},
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithContentDescription("Scroll to top").assertDoesNotExist()
+            onNodeWithText("1").onParent().performScrollToIndex(favouriteCoins.size - 1)
+            onNodeWithContentDescription("Scroll to top").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_scrollingFavouritesCondensedList_should_showScrollToTopFab() {
+        val favouriteCoins = (1..20).map {
+            FavouriteCoin(
+                id = it.toString(),
+                symbol = "",
+                name = it.toString(),
+                imageUrl = "",
+                currentPrice = Price(null),
+                priceChangePercentage24h = Percentage(null),
+                prices24h = persistentListOf()
+            )
+        }.toPersistentList()
+
+        val uiState = FavouritesUiState(
+            favouriteCoins = favouriteCoins,
+            isFavouritesCondensed = true
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
+                    onRefresh = {},
+                    onDismissError = {},
                 )
             }
         }
@@ -265,8 +397,9 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiState,
                     onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
                     onRefresh = { onRefreshCalled = true },
-                    onDismissError = {}
+                    onDismissError = {},
                 )
             }
         }
@@ -296,8 +429,9 @@ class FavouritesScreenTest {
                 FavouriteScreen(
                     uiState = uiState,
                     onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
                     onRefresh = {},
-                    onDismissError = {}
+                    onDismissError = {},
                 )
             }
         }
