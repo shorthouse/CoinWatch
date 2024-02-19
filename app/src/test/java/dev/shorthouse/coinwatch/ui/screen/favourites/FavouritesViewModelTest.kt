@@ -269,4 +269,30 @@ class FavouritesViewModelTest {
         assertThat(errorIsInserted).isTrue()
         assertThat(viewModel.uiState.value.errorMessageIds).doesNotContain(errorMessageId)
     }
+
+    @Test
+    fun `When user preferences returns favourites condensed should update UI state`() {
+        // Arrange
+        val userPreferences = UserPreferences(isFavouritesCondensed = true)
+        every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
+
+        // Act
+        viewModel.initialiseUiState()
+
+        // Assert
+        assertThat(viewModel.uiState.value.isFavouritesCondensed).isTrue()
+    }
+
+    @Test
+    fun `When user preferences returns favourites not condensed should update UI state`() {
+        // Arrange
+        val userPreferences = UserPreferences(isFavouritesCondensed = false)
+        every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
+
+        // Act
+        viewModel.initialiseUiState()
+
+        // Assert
+        assertThat(viewModel.uiState.value.isFavouritesCondensed).isFalse()
+    }
 }
