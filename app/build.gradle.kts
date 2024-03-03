@@ -85,7 +85,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6")
-    implementation("androidx.compose.ui:ui-tooling-preview-android:1.6.1")
+    implementation("androidx.compose.ui:ui-tooling-preview-android:1.6.2")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     lintChecks("com.slack.lint.compose:compose-lint-checks:1.3.1")
 
@@ -100,8 +100,8 @@ dependencies {
     // Hilt
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-android-compiler:2.48.1")
-    kapt("androidx.hilt:hilt-compiler:1.1.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    kapt("androidx.hilt:hilt-compiler:1.2.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -136,7 +136,7 @@ dependencies {
     androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test:rules:1.5.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.6.1")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.6.2")
     androidTestImplementation("com.google.truth:truth:1.1.5")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
