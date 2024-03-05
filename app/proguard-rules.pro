@@ -19,3 +19,8 @@
 -keep public enum dev.shorthouse.coinwatch.data.userPreferences.**{
     *;
 }
+
+# Resolve strange R8 / Proguard issue of small ImmutableList
+# (Less than 30 items uses SmallPersistentVector)
+# converting from ImmutableList<BigDecimal> to ImmutableList<Double>.
+-keep,allowobfuscation,allowshrinking class kotlinx.collections.immutable.ImmutableList
