@@ -24,6 +24,3 @@
 # (Less than 30 items uses SmallPersistentVector)
 # converting from ImmutableList<BigDecimal> to ImmutableList<Double>.
 -keep,allowobfuscation,allowshrinking class kotlinx.collections.immutable.ImmutableList
-
--dontwarn java.lang.reflect.AnnotatedType
--dontwarn javax.lang.model.element.Modifier
