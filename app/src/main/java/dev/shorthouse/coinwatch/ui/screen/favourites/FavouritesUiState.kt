@@ -8,6 +8,7 @@ data class FavouritesUiState(
     val favouriteCoins: ImmutableList<FavouriteCoin> = persistentListOf(),
     val isFavouritesCondensed: Boolean = false,
     val isRefreshing: Boolean = false,
+    val isFavouriteCoinsEmpty: Boolean = true,
     val isLoading: Boolean = false,
     val errorMessageIds: List<Int> = persistentListOf()
 )
