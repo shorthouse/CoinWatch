@@ -3,6 +3,8 @@ package dev.shorthouse.coinwatch.ui.screen.favourites
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -32,6 +34,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -123,6 +126,7 @@ fun FavouriteScreen(
             FavouritesTopBar(
                 isFavouritesCondensed = uiState.isFavouritesCondensed,
                 onUpdateIsFavouritesCondensed = onUpdateIsFavouritesCondensed,
+                isFavouritesListEmpty = uiState.isFavouriteCoinsEmpty,
                 isLoading = uiState.isLoading,
                 scrollBehavior = scrollBehavior
             )
@@ -196,6 +200,7 @@ fun FavouriteScreen(
 fun FavouritesTopBar(
     isFavouritesCondensed: Boolean,
     onUpdateIsFavouritesCondensed: (Boolean) -> Unit,
+    isFavouritesListEmpty: Boolean,
     isLoading: Boolean,
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
@@ -209,7 +214,7 @@ fun FavouritesTopBar(
             )
         },
         actions = {
-            if (!isLoading) {
+            if (!isLoading && !isFavouritesListEmpty) {
                 IconButton(onClick = { onUpdateIsFavouritesCondensed(!isFavouritesCondensed) }) {
                     Icon(
                         imageVector = if (isFavouritesCondensed) {
@@ -236,6 +241,7 @@ fun FavouritesTopBar(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FavouritesContent(
     favouriteCoins: ImmutableList<FavouriteCoin>,
@@ -245,25 +251,27 @@ fun FavouritesContent(
     listState: LazyListState,
     modifier: Modifier = Modifier
 ) {
-    when {
-        favouriteCoins.isEmpty() -> {
-            FavouritesEmptyState(modifier = modifier.padding(12.dp))
-        }
+    CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
+        when {
+            favouriteCoins.isEmpty() -> {
+                FavouritesEmptyState(modifier = modifier.padding(12.dp))
+            }
 
-        isFavouritesCondensed -> {
-            FavouritesCondensedList(
-                favouriteCoins = favouriteCoins,
-                onCoinClick = onCoinClick,
-                listState = listState
-            )
-        }
+            isFavouritesCondensed -> {
+                FavouritesCondensedList(
+                    favouriteCoins = favouriteCoins,
+                    onCoinClick = onCoinClick,
+                    listState = listState
+                )
+            }
 
-        else -> {
-            FavouritesList(
-                favouriteCoins = favouriteCoins,
-                onCoinClick = onCoinClick,
-                gridState = gridState
-            )
+            else -> {
+                FavouritesList(
+                    favouriteCoins = favouriteCoins,
+                    onCoinClick = onCoinClick,
+                    gridState = gridState
+                )
+            }
         }
     }
 }
