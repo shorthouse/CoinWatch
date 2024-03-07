@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.ui.screen.market
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Box
@@ -260,7 +261,7 @@ fun MarketTopBar(
 
     TopAppBar(
         title = {
-            Column {
+            Column(modifier = Modifier.animateContentSize()) {
                 Text(
                     text = stringResource(R.string.time_of_day_prefix_good) +
                         " " + timeOfDay.name.lowercase(),
