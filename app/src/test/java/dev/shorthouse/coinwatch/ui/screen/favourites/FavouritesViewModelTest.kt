@@ -189,6 +189,7 @@ class FavouritesViewModelTest {
 
         val expectedUiState = FavouritesUiState(
             favouriteCoins = favouriteCoins.toPersistentList(),
+            isFavouriteCoinsEmpty = false,
             isLoading = false,
         )
 

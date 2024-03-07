@@ -273,7 +273,9 @@ class FavouritesScreenTest {
     fun when_clickingToggleFavouritesCondensed_should_callOnUpdateIsFavouritesCondensed() {
         var onUpdateIsFavouritesCondensedCalled = false
 
-        val uiStateSuccess = FavouritesUiState()
+        val uiStateSuccess = FavouritesUiState(
+            isFavouriteCoinsEmpty = false
+        )
 
         composeTestRule.setContent {
             AppTheme {
@@ -438,6 +440,53 @@ class FavouritesScreenTest {
 
         composeTestRule.apply {
             onNodeWithText("Latest favourite coin data unavailable").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_favouriteCoinsListEmpty_should_notShowCondenseListButton() {
+        val uiState = FavouritesUiState(
+            isFavouriteCoinsEmpty = true
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
+                    onRefresh = {},
+                    onDismissError = {},
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithContentDescription("Condense favourites list").assertDoesNotExist()
+            onNodeWithContentDescription("Expand favourites list").assertDoesNotExist()
+        }
+    }
+
+    @Test
+    fun when_favouriteCoinsListNotEmpty_should_showCondenseListButton() {
+        val uiState = FavouritesUiState(
+            isFavouriteCoinsEmpty = false
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
+                    onRefresh = {},
+                    onDismissError = {},
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithContentDescription("Condense favourites list").assertIsDisplayed()
         }
     }
 }
