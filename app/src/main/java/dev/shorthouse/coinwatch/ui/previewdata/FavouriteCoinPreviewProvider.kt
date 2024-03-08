@@ -110,6 +110,15 @@ class FavouriteCoinPreviewProvider : PreviewParameterProvider<FavouriteCoin> {
                 BigDecimal("1.00"),
                 BigDecimal("1.00")
             )
+        ),
+        FavouriteCoin(
+            id = "tether",
+            symbol = "USDT",
+            name = "Tether",
+            imageUrl = "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg",
+            currentPrice = Price(null),
+            priceChangePercentage24h = Percentage(null),
+            prices24h = persistentListOf()
         )
     )
 }

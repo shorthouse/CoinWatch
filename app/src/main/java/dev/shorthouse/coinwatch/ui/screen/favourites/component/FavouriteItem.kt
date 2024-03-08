@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -97,9 +96,9 @@ fun FavouriteItem(
                 PercentageChange(percentage = favouriteCoin.priceChangePercentage24h)
             }
 
-            if (favouriteCoin.prices24h.isNotEmpty()) {
-                Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(12.dp))
 
+            if (favouriteCoin.prices24h.isNotEmpty()) {
                 PriceGraph(
                     prices = favouriteCoin.prices24h,
                     priceChangePercentage = favouriteCoin.priceChangePercentage24h,
@@ -112,7 +111,9 @@ fun FavouriteItem(
             } else {
                 Box(
                     contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .height(70.dp)
+                        .fillMaxWidth()
                 ) {
                     Text(
                         text = stringResource(R.string.empty_chart_message_short),
