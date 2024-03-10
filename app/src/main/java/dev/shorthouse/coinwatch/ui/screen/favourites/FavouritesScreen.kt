@@ -8,6 +8,7 @@ import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -289,7 +290,7 @@ fun FavouritesList(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 12.dp),
-        modifier = modifier
+        modifier = modifier.fillMaxHeight()
     ) {
         items(
             count = favouriteCoins.size,
@@ -316,7 +317,7 @@ fun FavouritesCondensedList(
     LazyColumn(
         state = listState,
         contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 12.dp),
-        modifier = modifier
+        modifier = modifier.fillMaxHeight()
     ) {
         items(
             count = favouriteCoins.size,
