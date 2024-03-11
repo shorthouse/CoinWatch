@@ -6,16 +6,15 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
 import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
 import dev.shorthouse.coinwatch.data.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinIdsUseCase
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
+import dev.shorthouse.coinwatch.domain.GetFavouritesPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCachedFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.domain.UpdateIsFavouritesCondensedUseCase
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,6 +25,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class FavouritesViewModel @Inject constructor(
@@ -33,6 +34,7 @@ class FavouritesViewModel @Inject constructor(
     private val updateCachedFavouriteCoinsUseCase: UpdateCachedFavouriteCoinsUseCase,
     private val getFavouriteCoinIdsUseCase: GetFavouriteCoinIdsUseCase,
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
+    private val getFavouritesPreferencesUseCase: GetFavouritesPreferencesUseCase,
     private val updateIsFavouritesCondensedUseCase: UpdateIsFavouritesCondensedUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(FavouritesUiState())
@@ -67,10 +69,10 @@ class FavouritesViewModel @Inject constructor(
             }
         }.launchIn(viewModelScope)
 
-        getUserPreferencesUseCase().onEach { userPreferences ->
+        getFavouritesPreferencesUseCase().onEach { favouritesPreferences ->
             _uiState.update {
                 it.copy(
-                    isFavouritesCondensed = userPreferences.isFavouritesCondensed,
+                    isFavouritesCondensed = favouritesPreferences.isFavouritesCondensed
                 )
             }
         }.launchIn(viewModelScope)
