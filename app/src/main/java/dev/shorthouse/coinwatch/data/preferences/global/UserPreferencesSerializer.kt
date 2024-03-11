@@ -1,31 +1,8 @@
 package dev.shorthouse.coinwatch.data.preferences.global
 
-import androidx.datastore.core.Serializer
-import kotlinx.serialization.SerializationException
-import kotlinx.serialization.json.Json
-import timber.log.Timber
-import java.io.InputStream
-import java.io.OutputStream
+import dev.shorthouse.coinwatch.data.preferences.BasePreferencesSerializer
 
-object UserPreferencesSerializer : Serializer<UserPreferences> {
-    override val defaultValue = UserPreferences()
-
-    override suspend fun readFrom(input: InputStream): UserPreferences {
-        return try {
-            Json.decodeFromString(
-                deserializer = UserPreferences.serializer(),
-                string = input.readBytes().decodeToString()
-            )
-        } catch (exception: SerializationException) {
-            Timber.e("Error serializing user preferences", exception)
-            defaultValue
-        }
-    }
-
-    override suspend fun writeTo(t: UserPreferences, output: OutputStream) {
-        output.write(
-            Json.encodeToString(serializer = UserPreferences.serializer(), value = t)
-                .encodeToByteArray()
-        )
-    }
-}
+object UserPreferencesSerializer : BasePreferencesSerializer<UserPreferences>(
+    defaultInstance = { UserPreferences() },
+    serializer = UserPreferences.serializer(),
+)
