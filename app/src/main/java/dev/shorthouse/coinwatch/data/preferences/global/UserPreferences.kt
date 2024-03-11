@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.userPreferences
+package dev.shorthouse.coinwatch.data.preferences.global
 
 import androidx.annotation.StringRes
 import dev.shorthouse.coinwatch.R
@@ -9,7 +9,6 @@ data class UserPreferences(
     val coinSort: CoinSort = CoinSort.MarketCap,
     val currency: Currency = Currency.USD,
     val startScreen: StartScreen = StartScreen.Market,
-    val isFavouritesCondensed: Boolean = false
 )
 
 enum class Currency(val symbol: String, @StringRes val nameId: Int) {

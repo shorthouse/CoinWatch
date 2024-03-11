@@ -14,7 +14,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.BuildConfig
-import dev.shorthouse.coinwatch.data.userPreferences.StartScreen
+import dev.shorthouse.coinwatch.data.preferences.global.StartScreen
 import dev.shorthouse.coinwatch.ui.screen.settings.SettingsScreen
 import dev.shorthouse.coinwatch.ui.screen.settings.SettingsUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme

@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.userPreferences
+package dev.shorthouse.coinwatch.data.preferences.global
 
 import androidx.datastore.core.DataStore
 import kotlinx.coroutines.flow.Flow
@@ -42,12 +42,6 @@ class UserPreferencesRepository @Inject constructor(
             userPreferencesDataStore.updateData { currentPreferences ->
                 currentPreferences.copy(startScreen = startScreen)
             }
-        }
-    }
-
-    suspend fun updateIsFavouritesCondensed(isCondensed: Boolean) {
-        userPreferencesDataStore.updateData { currentPreferences ->
-            currentPreferences.copy(isFavouritesCondensed = isCondensed)
         }
     }
 }

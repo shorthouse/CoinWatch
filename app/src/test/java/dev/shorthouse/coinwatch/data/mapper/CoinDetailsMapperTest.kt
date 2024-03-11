@@ -6,7 +6,7 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsData
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsDataHolder
 import dev.shorthouse.coinwatch.data.source.remote.model.Supply
-import dev.shorthouse.coinwatch.data.userPreferences.Currency
+import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.model.Price
 import org.junit.Test

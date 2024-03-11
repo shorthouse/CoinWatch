@@ -2,8 +2,8 @@ package dev.shorthouse.coinwatch.ui.screen.settings
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
-import dev.shorthouse.coinwatch.data.userPreferences.StartScreen
-import dev.shorthouse.coinwatch.data.userPreferences.UserPreferences
+import dev.shorthouse.coinwatch.data.preferences.global.StartScreen
+import dev.shorthouse.coinwatch.data.preferences.global.UserPreferences
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.UpdateStartScreenUseCase
 import io.mockk.MockKAnnotations

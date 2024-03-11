@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.domain
 
-import dev.shorthouse.coinwatch.data.userPreferences.Currency
-import dev.shorthouse.coinwatch.data.userPreferences.UserPreferencesRepository
+import dev.shorthouse.coinwatch.data.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.preferences.global.UserPreferencesRepository
 import javax.inject.Inject
 
 class UpdateCurrencyUseCase @Inject constructor(

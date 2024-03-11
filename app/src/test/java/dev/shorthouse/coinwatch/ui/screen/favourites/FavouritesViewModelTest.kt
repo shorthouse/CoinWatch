@@ -4,11 +4,13 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.preferences.favourites.FavouritesPreferences
+import dev.shorthouse.coinwatch.data.preferences.global.UserPreferences
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
-import dev.shorthouse.coinwatch.data.userPreferences.UserPreferences
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinIdsUseCase
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
+import dev.shorthouse.coinwatch.domain.GetFavouritesPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCachedFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.domain.UpdateIsFavouritesCondensedUseCase
@@ -54,6 +56,9 @@ class FavouritesViewModelTest {
     private lateinit var getUserPreferencesUseCase: GetUserPreferencesUseCase
 
     @RelaxedMockK
+    private lateinit var getFavouritesPreferencesUseCase: GetFavouritesPreferencesUseCase
+
+    @RelaxedMockK
     private lateinit var updateIsFavouritesCondensedUseCase: UpdateIsFavouritesCondensedUseCase
 
     @Before
@@ -65,6 +70,7 @@ class FavouritesViewModelTest {
             updateCachedFavouriteCoinsUseCase = updateCachedFavouriteCoinsUseCase,
             getFavouriteCoinIdsUseCase = getFavouriteCoinIdsUseCase,
             getUserPreferencesUseCase = getUserPreferencesUseCase,
+            getFavouritesPreferencesUseCase = getFavouritesPreferencesUseCase,
             updateIsFavouritesCondensedUseCase = updateIsFavouritesCondensedUseCase
         )
     }
@@ -272,10 +278,10 @@ class FavouritesViewModelTest {
     }
 
     @Test
-    fun `When user preferences returns favourites condensed should update UI state`() {
+    fun `When favourites preferences returns favourites condensed should update UI state`() {
         // Arrange
-        val userPreferences = UserPreferences(isFavouritesCondensed = true)
-        every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
+        val favouritesPreferences = FavouritesPreferences(isFavouritesCondensed = true)
+        every { getFavouritesPreferencesUseCase() } returns flowOf(favouritesPreferences)
 
         // Act
         viewModel.initialiseUiState()
@@ -285,10 +291,10 @@ class FavouritesViewModelTest {
     }
 
     @Test
-    fun `When user preferences returns favourites not condensed should update UI state`() {
+    fun `When favourites preferences returns favourites not condensed should update UI state`() {
         // Arrange
-        val userPreferences = UserPreferences(isFavouritesCondensed = false)
-        every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
+        val favouritesPreferences = FavouritesPreferences(isFavouritesCondensed = false)
+        every { getFavouritesPreferencesUseCase() } returns flowOf(favouritesPreferences)
 
         // Act
         viewModel.initialiseUiState()
