@@ -1,13 +1,12 @@
 package dev.shorthouse.coinwatch.data.preferences
 
 import androidx.datastore.core.Serializer
-import dev.shorthouse.coinwatch.data.preferences.global.UserPreferences
-import java.io.InputStream
-import java.io.OutputStream
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import timber.log.Timber
+import java.io.InputStream
+import java.io.OutputStream
 
 abstract class BasePreferencesSerializer<T>(
     private val defaultInstance: () -> T,
@@ -21,7 +20,7 @@ abstract class BasePreferencesSerializer<T>(
         return try {
             Json.decodeFromString(serializer, input.readBytes().decodeToString())
         } catch (exception: SerializationException) {
-            Timber.e("Error serializing $serializer preferences}", exception)
+            Timber.e("Error serializing preferences with ${serializer.descriptor}", exception)
             defaultValue
         }
     }
@@ -30,8 +29,3 @@ abstract class BasePreferencesSerializer<T>(
         output.write(Json.encodeToString(serializer, t).encodeToByteArray())
     }
 }
-
-object UserPreferencesSerializer : BasePreferencesSerializer<UserPreferences>(
-    defaultInstance = { UserPreferences() },
-    serializer = UserPreferences.serializer(),
-)
