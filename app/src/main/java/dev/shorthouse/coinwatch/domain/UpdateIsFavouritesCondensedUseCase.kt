@@ -1,16 +1,16 @@
 package dev.shorthouse.coinwatch.domain
 
-import dev.shorthouse.coinwatch.data.preferences.global.UserPreferencesRepository
+import dev.shorthouse.coinwatch.data.preferences.favourites.FavouritesPreferencesRepository
 import javax.inject.Inject
 
 class UpdateIsFavouritesCondensedUseCase @Inject constructor(
-    private val userPreferencesRepository: UserPreferencesRepository
+    private val favouritesPreferencesRepository: FavouritesPreferencesRepository
 ) {
     suspend operator fun invoke(isCondensed: Boolean) {
-        userPreferencesRepository.updateIsFavouritesCondensed(isCondensed = isCondensed)
+        updateIsFavouritesCondensed(isCondensed = isCondensed)
     }
 
     private suspend fun updateIsFavouritesCondensed(isCondensed: Boolean) {
-        userPreferencesRepository.updateIsFavouritesCondensed(isCondensed = isCondensed)
+        favouritesPreferencesRepository.updateIsFavouritesCondensed(isCondensed = isCondensed)
     }
 }
