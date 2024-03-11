@@ -18,7 +18,10 @@ abstract class BasePreferencesSerializer<T>(
 
     override suspend fun readFrom(input: InputStream): T {
         return try {
-            Json.decodeFromString(serializer, input.readBytes().decodeToString())
+            Json.decodeFromString(
+                deserializer = serializer,
+                string = input.readBytes().decodeToString()
+            )
         } catch (exception: SerializationException) {
             Timber.e("Error serializing preferences with ${serializer.descriptor}", exception)
             defaultValue
@@ -26,6 +29,11 @@ abstract class BasePreferencesSerializer<T>(
     }
 
     override suspend fun writeTo(t: T, output: OutputStream) {
-        output.write(Json.encodeToString(serializer, t).encodeToByteArray())
+        output.write(
+            Json.encodeToString(
+                serializer = serializer,
+                value = t
+            ).encodeToByteArray()
+        )
     }
 }
