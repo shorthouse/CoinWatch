@@ -16,7 +16,7 @@
 -keep class * extends com.google.gson.reflect.TypeToken
 
 # Keep user preferences enums
--keep public enum dev.shorthouse.coinwatch.data.userPreferences.**{
+-keep public enum dev.shorthouse.coinwatch.data.preferences.global.**{
     *;
 }
 
