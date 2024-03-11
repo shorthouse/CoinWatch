@@ -44,10 +44,4 @@ class UserPreferencesRepository @Inject constructor(
             }
         }
     }
-
-    suspend fun updateIsFavouritesCondensed(isCondensed: Boolean) {
-        userPreferencesDataStore.updateData { currentPreferences ->
-            currentPreferences.copy(isFavouritesCondensed = isCondensed)
-        }
-    }
 }
