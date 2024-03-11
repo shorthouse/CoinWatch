@@ -7,8 +7,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
-import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
-import dev.shorthouse.coinwatch.data.userPreferences.Currency
+import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
+import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinIdsUseCase
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase

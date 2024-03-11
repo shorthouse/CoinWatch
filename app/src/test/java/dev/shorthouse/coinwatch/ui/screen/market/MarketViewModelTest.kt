@@ -5,9 +5,9 @@ import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.source.local.model.Coin
-import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
-import dev.shorthouse.coinwatch.data.userPreferences.Currency
-import dev.shorthouse.coinwatch.data.userPreferences.UserPreferences
+import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
+import dev.shorthouse.coinwatch.data.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.preferences.global.UserPreferences
 import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetMarketStatsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase

@@ -1,6 +1,6 @@
 package dev.shorthouse.coinwatch.ui.screen.settings
 
-import dev.shorthouse.coinwatch.data.userPreferences.StartScreen
+import dev.shorthouse.coinwatch.data.preferences.global.StartScreen
 
 data class SettingsUiState(
     val startScreen: StartScreen = StartScreen.Market,

@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.userPreferences
+package dev.shorthouse.coinwatch.data.preferences.global
 
 import androidx.datastore.core.DataStore
 import kotlinx.coroutines.flow.Flow

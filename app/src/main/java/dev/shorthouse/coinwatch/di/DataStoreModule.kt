@@ -10,8 +10,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.shorthouse.coinwatch.data.userPreferences.UserPreferences
-import dev.shorthouse.coinwatch.data.userPreferences.UserPreferencesSerializer
+import dev.shorthouse.coinwatch.data.preferences.global.UserPreferences
+import dev.shorthouse.coinwatch.data.preferences.global.UserPreferencesSerializer
 import javax.inject.Singleton
 
 @Module

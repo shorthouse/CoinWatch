@@ -1,11 +1,11 @@
-package dev.shorthouse.coinwatch.data.userPreferences
+package dev.shorthouse.coinwatch.data.preferences.global
 
 import androidx.datastore.core.Serializer
-import java.io.InputStream
-import java.io.OutputStream
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import timber.log.Timber
+import java.io.InputStream
+import java.io.OutputStream
 
 object UserPreferencesSerializer : Serializer<UserPreferences> {
     override val defaultValue = UserPreferences()

@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.domain
 
-import dev.shorthouse.coinwatch.data.userPreferences.CoinSort
-import dev.shorthouse.coinwatch.data.userPreferences.UserPreferencesRepository
+import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
+import dev.shorthouse.coinwatch.data.preferences.global.UserPreferencesRepository
 import javax.inject.Inject
 
 class UpdateCoinSortUseCase @Inject constructor(

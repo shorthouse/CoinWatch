@@ -6,7 +6,7 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
-import dev.shorthouse.coinwatch.data.userPreferences.UserPreferences
+import dev.shorthouse.coinwatch.data.preferences.global.UserPreferences
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinIdsUseCase
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
