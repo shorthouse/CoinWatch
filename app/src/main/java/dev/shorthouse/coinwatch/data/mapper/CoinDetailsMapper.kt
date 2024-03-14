@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.data.mapper
 
-import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.model.Price
 import java.text.NumberFormat
@@ -34,7 +34,8 @@ class CoinDetailsMapper @Inject constructor() {
             marketCapRank = coinDetails?.marketCapRank.orEmpty(),
             volume24h = formatNumberOrEmpty(coinDetails?.volume24h),
             circulatingSupply = formatNumberOrEmpty(coinDetails?.supply?.circulatingSupply),
-            allTimeHigh = Price(coinDetails?.allTimeHigh?.price, currency = currency),
+            // API only support ATH in USD
+            allTimeHigh = Price(coinDetails?.allTimeHigh?.price, currency = Currency.USD),
             allTimeHighDate = epochToDateOrEmpty(coinDetails?.allTimeHigh?.timestamp),
             listedDate = epochToDateOrEmpty(coinDetails?.listedAt)
         )
