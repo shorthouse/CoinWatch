@@ -1,12 +1,12 @@
 package dev.shorthouse.coinwatch.data.mapper
 
 import com.google.common.truth.Truth.assertThat
+import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.AllTimeHigh
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsData
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsDataHolder
 import dev.shorthouse.coinwatch.data.source.remote.model.Supply
-import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.model.Price
 import org.junit.Test
@@ -321,7 +321,7 @@ class CoinDetailsMapperTest {
             marketCapRank = "1",
             volume24h = "9,294,621,082.274",
             circulatingSupply = "19,508,368",
-            allTimeHigh = Price("68763.41083248306", currency = currency),
+            allTimeHigh = Price("68763.41083248306", currency = Currency.USD),
             allTimeHighDate = "10 Nov 2021",
             listedDate = "26 Feb 2012"
         )
@@ -374,7 +374,7 @@ class CoinDetailsMapperTest {
             marketCapRank = "1",
             volume24h = "9,294,621,082.274",
             circulatingSupply = "19,508,368",
-            allTimeHigh = Price("68763.41083248306", currency = currency),
+            allTimeHigh = Price("68763.41083248306", currency = Currency.USD),
             allTimeHighDate = "10 Nov 2021",
             listedDate = "26 Feb 2012"
         )
