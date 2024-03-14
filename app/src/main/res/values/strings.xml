@@ -89,4 +89,5 @@
     <string name="market_is_flat">Market is flat</string>
     <string name="cd_expand_favourites">Expand favourites list</string>
     <string name="cd_condense_favourites">Condense favourites list</string>
+    <string name="settings_title_currency">Currency</string>
 </resources>

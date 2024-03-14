@@ -10,9 +10,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.Launch
+import androidx.compose.material.icons.rounded.AttachMoney
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.Code
+import androidx.compose.material.icons.rounded.CurrencyPound
+import androidx.compose.material.icons.rounded.Euro
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Search
@@ -27,10 +30,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,13 +49,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.BuildConfig
 import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.preferences.global.StartScreen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.previewdata.SettingsUiStatePreviewProvider
+import dev.shorthouse.coinwatch.ui.screen.market.component.CurrencyBottomSheet
 import dev.shorthouse.coinwatch.ui.screen.settings.component.SettingsItem
 import dev.shorthouse.coinwatch.ui.screen.settings.component.StartScreenDialog
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsScreen(
@@ -62,17 +70,29 @@ fun SettingsScreen(
     SettingsScreen(
         uiState = uiState,
         onNavigateUp = onNavigateUp,
+        onUpdateCurrency = { currency ->
+            viewModel.updateCurrency(currency)
+        },
+        onUpdateIsCurrencySheetShown = { showSheet ->
+            viewModel.updateIsCurrencySheetShown(showSheet)
+        },
         onUpdateStartScreen = { viewModel.updateStartScreen(it) }
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     uiState: SettingsUiState,
     onNavigateUp: () -> Unit,
+    onUpdateCurrency: (Currency) -> Unit,
+    onUpdateIsCurrencySheetShown: (Boolean) -> Unit,
     onUpdateStartScreen: (StartScreen) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val currencySheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
+
     Scaffold(
         topBar = {
             SettingsTopBar(onNavigateUp = onNavigateUp)
@@ -93,10 +113,31 @@ fun SettingsScreen(
 
             else -> {
                 SettingsContent(
+                    currency = uiState.currency,
+                    onUpdateIsCurrencySheetShown = onUpdateIsCurrencySheetShown,
                     startScreen = uiState.startScreen,
                     onUpdateStartScreen = onUpdateStartScreen,
                     modifier = Modifier.padding(scaffoldPadding)
                 )
+
+                if (uiState.isCurrencySheetShown) {
+                    CurrencyBottomSheet(
+                        sheetState = currencySheetState,
+                        selectedCurrency = uiState.currency,
+                        onCurrencySelected = { currency ->
+                            onUpdateCurrency(currency)
+
+                            scope.launch {
+                                currencySheetState.hide()
+                            }.invokeOnCompletion {
+                                if (!currencySheetState.isVisible) {
+                                    onUpdateIsCurrencySheetShown(false)
+                                }
+                            }
+                        },
+                        onDismissRequest = { onUpdateIsCurrencySheetShown(false) }
+                    )
+                }
             }
         }
     }
@@ -104,6 +145,8 @@ fun SettingsScreen(
 
 @Composable
 fun SettingsContent(
+    currency: Currency,
+    onUpdateIsCurrencySheetShown: (Boolean) -> Unit,
     startScreen: StartScreen,
     onUpdateStartScreen: (StartScreen) -> Unit,
     modifier: Modifier = Modifier
@@ -122,6 +165,18 @@ fun SettingsContent(
             text = stringResource(R.string.settings_group_preferences),
             style = MaterialTheme.typography.labelLarge,
             modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp)
+        )
+
+        SettingsItem(
+            title = stringResource(R.string.settings_title_currency),
+            subtitle = stringResource(currency.nameId),
+            leadingIcon = when (currency) {
+                Currency.USD -> Icons.Rounded.AttachMoney
+                Currency.GBP -> Icons.Rounded.CurrencyPound
+                Currency.EUR -> Icons.Rounded.Euro
+            },
+            trailingIcon = Icons.Rounded.ChevronRight,
+            onClick = { onUpdateIsCurrencySheetShown(true) }
         )
 
         SettingsItem(
@@ -246,8 +301,10 @@ private fun SettingsScreenPreview(
     AppTheme {
         SettingsScreen(
             uiState = uiState,
-            onUpdateStartScreen = {},
-            onNavigateUp = {}
+            onNavigateUp = {},
+            onUpdateCurrency = {},
+            onUpdateIsCurrencySheetShown = {},
+            onUpdateStartScreen = {}
         )
     }
 }

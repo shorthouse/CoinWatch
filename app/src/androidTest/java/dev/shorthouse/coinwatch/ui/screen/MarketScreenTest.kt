@@ -16,9 +16,8 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
-import dev.shorthouse.coinwatch.data.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
@@ -58,8 +57,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -86,8 +83,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -113,8 +108,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -140,8 +133,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -167,8 +158,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -196,8 +185,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -225,8 +212,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -254,8 +239,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -272,7 +255,6 @@ class MarketScreenTest {
     @Test
     fun when_noCoinsInList_should_notShowCurrencyOrSortChips() {
         val uiState = MarketUiState(
-            currency = Currency.USD,
             coinSort = CoinSort.MarketCap
         )
 
@@ -284,8 +266,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -296,123 +276,6 @@ class MarketScreenTest {
             onNodeWithText("USD").assertDoesNotExist()
             onNodeWithText("Market Cap").assertDoesNotExist()
         }
-    }
-
-    @Test
-    fun when_currencyUSD_should_displaySelectedCurrencyAsUSD() {
-        val uiState = MarketUiState(
-            coins = persistentListOf(bitcoin),
-            currency = Currency.USD
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                MarketScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onNavigateSettings = {},
-                    onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
-                    onRefresh = {},
-                    onDismissError = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("USD").assertIsDisplayed()
-        }
-    }
-
-    @Test
-    fun when_currencyGBP_should_displaySelectedCurrencyAsGBP() {
-        val uiState = MarketUiState(
-            currency = Currency.GBP,
-            coins = persistentListOf(bitcoin)
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                MarketScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onNavigateSettings = {},
-                    onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
-                    onRefresh = {},
-                    onDismissError = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("GBP").assertIsDisplayed()
-        }
-    }
-
-    @Test
-    fun when_currencyEUR_should_displaySelectedCurrencyAsEUR() {
-        val uiState = MarketUiState(
-            currency = Currency.EUR,
-            coins = persistentListOf(bitcoin)
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                MarketScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onNavigateSettings = {},
-                    onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
-                    onRefresh = {},
-                    onDismissError = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("EUR").assertIsDisplayed()
-        }
-    }
-
-    @Test
-    fun when_clickCurrencyChip_should_callShowCurrencyBottomSheet() {
-        var showCurrencyBottomSheetCalled = false
-        val uiState = MarketUiState(
-            currency = Currency.USD,
-            coins = persistentListOf(bitcoin)
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                MarketScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onNavigateSettings = {},
-                    onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = { showCurrencyBottomSheet ->
-                        showCurrencyBottomSheetCalled = showCurrencyBottomSheet
-                    },
-                    onRefresh = {},
-                    onDismissError = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("USD").performClick()
-        }
-
-        assertThat(showCurrencyBottomSheetCalled).isTrue()
     }
 
     @Test
@@ -430,8 +293,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -458,8 +319,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -486,8 +345,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -514,8 +371,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -545,8 +400,6 @@ class MarketScreenTest {
                     onUpdateIsCoinSortSheetShown = { showSheet ->
                         showCoinSortBottomSheetCalled = showSheet
                     },
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -574,8 +427,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -619,8 +470,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -656,8 +505,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -669,70 +516,6 @@ class MarketScreenTest {
         }
 
         assertThat(onCoinClickCalled).isTrue()
-    }
-
-    @Test
-    fun when_showCurrencyBottomSheetTrue_should_showBottomSheet() {
-        val uiState = MarketUiState(
-            isCurrencySheetShown = true,
-            currency = Currency.USD
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                MarketScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onNavigateSettings = {},
-                    onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
-                    onRefresh = {},
-                    onDismissError = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("Coin currency").assertIsDisplayed()
-            onNode(hasText("USD").and(isSelected())).assertIsDisplayed()
-            onNodeWithText("GBP").assertIsDisplayed()
-            onNodeWithText("EUR").assertIsDisplayed()
-        }
-    }
-
-    @Test
-    fun when_chooseCurrencyBottomSheetOption_should_callUpdateCurrency() {
-        var updateCurrencyCalled = false
-        val uiState = MarketUiState(
-            currency = Currency.USD,
-            isCurrencySheetShown = true
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                MarketScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onNavigateSettings = {},
-                    onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = { currency ->
-                        updateCurrencyCalled = currency == Currency.GBP
-                    },
-                    onUpdateIsCurrencySheetShown = {},
-                    onRefresh = {},
-                    onDismissError = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("GBP").performClick()
-        }
-
-        assertThat(updateCurrencyCalled).isTrue()
     }
 
     @Test
@@ -750,8 +533,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -785,8 +566,6 @@ class MarketScreenTest {
                         updateCoinSortCalled = coinSort == CoinSort.Price
                     },
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -825,8 +604,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -856,8 +633,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = { onRefreshCalled = true },
                     onDismissError = {}
                 )
@@ -889,8 +664,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -916,8 +689,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -942,8 +713,6 @@ class MarketScreenTest {
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -971,8 +740,6 @@ class MarketScreenTest {
                     onNavigateSettings = { onNavigateSettingsCalled = true },
                     onUpdateCoinSort = {},
                     onUpdateIsCoinSortSheetShown = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
