@@ -8,10 +8,10 @@ class UpdateCurrencyUseCase @Inject constructor(
     private val userPreferencesRepository: UserPreferencesRepository
 ) {
     suspend operator fun invoke(currency: Currency) {
-        updateCoinSort(currency = currency)
+        updateCurrency(currency = currency)
     }
 
-    private suspend fun updateCoinSort(currency: Currency) {
+    private suspend fun updateCurrency(currency: Currency) {
         userPreferencesRepository.updateCurrency(currency = currency)
     }
 }

@@ -8,12 +8,15 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotSelected
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.isNotSelected
+import androidx.compose.ui.test.isSelected
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.BuildConfig
+import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.preferences.global.StartScreen
 import dev.shorthouse.coinwatch.ui.screen.settings.SettingsScreen
 import dev.shorthouse.coinwatch.ui.screen.settings.SettingsUiState
@@ -37,6 +40,8 @@ class SettingsScreenTest {
                 SettingsScreen(
                     uiState = uiState,
                     onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
                     onUpdateStartScreen = {}
                 )
             }
@@ -60,6 +65,8 @@ class SettingsScreenTest {
                 SettingsScreen(
                     uiState = uiState,
                     onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
                     onUpdateStartScreen = {}
                 )
             }
@@ -79,6 +86,8 @@ class SettingsScreenTest {
                 SettingsScreen(
                     uiState = uiState,
                     onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
                     onUpdateStartScreen = {}
                 )
             }
@@ -88,6 +97,8 @@ class SettingsScreenTest {
             onNodeWithContentDescription("Back").assertIsDisplayed()
             onNodeWithText("Settings").assertIsDisplayed()
             onNodeWithText("Preferences").assertIsDisplayed()
+            onNodeWithText("Currency").assertIsDisplayed()
+            onNodeWithText("USD").assertIsDisplayed()
             onNodeWithText("Start screen").assertIsDisplayed()
             onNodeWithText("Market").assertIsDisplayed()
             onNodeWithText("About").assertIsDisplayed()
@@ -113,6 +124,8 @@ class SettingsScreenTest {
                 SettingsScreen(
                     uiState = uiState,
                     onNavigateUp = { onNavigateUpCalled = true },
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
                     onUpdateStartScreen = {}
                 )
             }
@@ -134,6 +147,8 @@ class SettingsScreenTest {
                 SettingsScreen(
                     uiState = uiState,
                     onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
                     onUpdateStartScreen = {}
                 )
             }
@@ -165,6 +180,8 @@ class SettingsScreenTest {
                 SettingsScreen(
                     uiState = uiState,
                     onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
                     onUpdateStartScreen = { startScreen ->
                         onUpdateStartScreenCalled = startScreen == StartScreen.Search
                     }
@@ -191,6 +208,8 @@ class SettingsScreenTest {
                 SettingsScreen(
                     uiState = uiState,
                     onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
                     onUpdateStartScreen = {}
                 )
             }
@@ -224,6 +243,8 @@ class SettingsScreenTest {
                 SettingsScreen(
                     uiState = uiState,
                     onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
                     onUpdateStartScreen = {}
                 )
             }
@@ -257,6 +278,8 @@ class SettingsScreenTest {
                 SettingsScreen(
                     uiState = uiState,
                     onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
                     onUpdateStartScreen = {}
                 )
             }
@@ -277,5 +300,208 @@ class SettingsScreenTest {
             onNode(hasText("Search").and(radioButtonMatcher))
                 .assertIsDisplayed().assertIsSelected()
         }
+    }
+
+    @Test
+    fun when_currencyIsUsd_should_displayCurrencyAsUsd() {
+        val uiState = SettingsUiState(
+            currency = Currency.USD
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Currency").assertIsDisplayed()
+            onNodeWithText("USD").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_currencyIsGbp_should_displayCurrencyAsGbp() {
+        val uiState = SettingsUiState(
+            currency = Currency.GBP
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Currency").assertIsDisplayed()
+            onNodeWithText("GBP").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_currencyIsEur_should_displayCurrencyAsEur() {
+        val uiState = SettingsUiState(
+            currency = Currency.EUR
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Currency").assertIsDisplayed()
+            onNodeWithText("EUR").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_currencySettingsClicked_should_callShowCurrencyBottomSheet() {
+        var showCurrencyBottomSheet = false
+        val uiState = SettingsUiState()
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = { showCurrencyBottomSheet = true },
+                    onUpdateStartScreen = {}
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithText("Currency").performClick()
+        assertThat(showCurrencyBottomSheet).isTrue()
+    }
+
+    @Test
+    fun when_currencyIsUsd_should_haveUsdSelectedInCurrencyBottomSheet() {
+        val uiState = SettingsUiState(
+            currency = Currency.USD,
+            isCurrencySheetShown = true
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Coin currency").assertIsDisplayed()
+            onNode(hasText("USD").and(isSelected())).assertIsDisplayed()
+            onNode(hasText("GBP").and(isNotSelected())).assertIsDisplayed()
+            onNode(hasText("EUR").and(isNotSelected())).assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_currencyIsGbp_should_haveGbpSelectedInCurrencyBottomSheet() {
+        val uiState = SettingsUiState(
+            currency = Currency.GBP,
+            isCurrencySheetShown = true
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Coin currency").assertIsDisplayed()
+            onNode(hasText("USD").and(isNotSelected())).assertIsDisplayed()
+            onNode(hasText("GBP").and(isSelected())).assertIsDisplayed()
+            onNode(hasText("EUR").and(isNotSelected())).assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_currencyIsEur_should_haveEurSelectedInCurrencyBottomSheet() {
+        val uiState = SettingsUiState(
+            currency = Currency.EUR,
+            isCurrencySheetShown = true
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Coin currency").assertIsDisplayed()
+            onNode(hasText("USD").and(isNotSelected())).assertIsDisplayed()
+            onNode(hasText("GBP").and(isNotSelected())).assertIsDisplayed()
+            onNode(hasText("EUR").and(isSelected())).assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_chooseCurrencyBottomSheetOption_should_callUpdateCurrency() {
+        var updateCurrencyCalled = false
+        val uiState = SettingsUiState(
+            currency = Currency.USD,
+            isCurrencySheetShown = true
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = { currency ->
+                        updateCurrencyCalled = currency == Currency.GBP
+                    },
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("GBP").performClick()
+        }
+
+        assertThat(updateCurrencyCalled).isTrue()
     }
 }

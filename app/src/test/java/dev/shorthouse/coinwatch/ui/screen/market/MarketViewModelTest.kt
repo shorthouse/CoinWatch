@@ -4,16 +4,15 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
 import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.preferences.global.UserPreferences
+import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetMarketStatsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCachedCoinsUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCoinSortUseCase
-import dev.shorthouse.coinwatch.domain.UpdateCurrencyUseCase
 import dev.shorthouse.coinwatch.model.MarketStats
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
@@ -54,9 +53,6 @@ class MarketViewModelTest {
     @RelaxedMockK
     private lateinit var updateCoinSortUseCase: UpdateCoinSortUseCase
 
-    @RelaxedMockK
-    private lateinit var updateCurrencyUseCase: UpdateCurrencyUseCase
-
     @Before
     fun setup() {
         MockKAnnotations.init(this)
@@ -66,8 +62,7 @@ class MarketViewModelTest {
             getMarketStatsUseCase = getMarketStatsUseCase,
             updateCachedCoinsUseCase = updateCachedCoinsUseCase,
             getUserPreferencesUseCase = getUserPreferencesUseCase,
-            updateCoinSortUseCase = updateCoinSortUseCase,
-            updateCurrencyUseCase = updateCurrencyUseCase
+            updateCoinSortUseCase = updateCoinSortUseCase
         )
     }
 
@@ -156,7 +151,6 @@ class MarketViewModelTest {
 
         // Assert
         assertThat(viewModel.uiState.value.coinSort).isEqualTo(coinSort)
-        assertThat(viewModel.uiState.value.currency).isEqualTo(currency)
         coVerify {
             getUserPreferencesUseCase()
             updateCachedCoinsUseCase(
@@ -181,20 +175,6 @@ class MarketViewModelTest {
     }
 
     @Test
-    fun `When currency updates should call use case`() {
-        // Arrange
-        val currency = Currency.GBP
-
-        // Act
-        viewModel.updateCurrency(currency)
-
-        // Assert
-        coVerify {
-            updateCurrencyUseCase(currency)
-        }
-    }
-
-    @Test
     fun `When update show coin sort bottom sheet updates called update UI state`() {
         // Arrange
         val currentShowSheet = viewModel.uiState.value.isCoinSortSheetShown
@@ -205,43 +185,6 @@ class MarketViewModelTest {
 
         // Assert
         assertThat(viewModel.uiState.value.isCoinSortSheetShown).isEqualTo(newShowSheet)
-    }
-
-    @Test
-    fun `When showing coin sort sheet with another sheet already open should not show sheet`() {
-        // Arrange
-
-        // Act
-        viewModel.updateIsCurrencySheetShown(true)
-        viewModel.updateIsCoinSortSheetShown(true)
-
-        // Assert
-        assertThat(viewModel.uiState.value.isCoinSortSheetShown).isFalse()
-    }
-
-    @Test
-    fun `When update show coin currency bottom sheet called should update UI state`() {
-        // Arrange
-        val currentShowSheet = viewModel.uiState.value.isCurrencySheetShown
-        val newShowSheet = currentShowSheet.not()
-
-        // Act
-        viewModel.updateIsCurrencySheetShown(newShowSheet)
-
-        // Assert
-        assertThat(viewModel.uiState.value.isCurrencySheetShown).isEqualTo(newShowSheet)
-    }
-
-    @Test
-    fun `When showing currency sheet with another sheet already open should not show sheet`() {
-        // Arrange
-
-        // Act
-        viewModel.updateIsCoinSortSheetShown(true)
-        viewModel.updateIsCurrencySheetShown(true)
-
-        // Assert
-        assertThat(viewModel.uiState.value.isCurrencySheetShown).isFalse()
     }
 
     @Test
