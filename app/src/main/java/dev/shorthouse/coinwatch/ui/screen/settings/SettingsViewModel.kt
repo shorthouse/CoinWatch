@@ -58,29 +58,25 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun updateIsCurrencySheetShown(showSheet: Boolean) {
-        _uiState.update { it.copy(isCurrencySheetShown = showSheet) }
-    }
-
-//    fun updateIsCoinSortSheetShown(showSheet: Boolean) {
-//        if (isAnyBottomSheetOpen() && showSheet) return
-//
-//        _uiState.update { it.copy(isCoinSortSheetShown = showSheet) }
-//    }
-
-//    fun updateIsCurrencySheetShown(showSheet: Boolean) {
-//        if (showSheet && isAnyBottomSheetOpen()) return
-//
-//        _uiState.update { it.copy(isCurrencySheetShown = showSheet) }
-//    }
-
-//    private fun isAnyBottomSheetOpen(): Boolean {
-//        return _uiState.value.isCoinSortSheetShown || _uiState.value.isCurrencySheetShown
-//    }
-
     fun updateStartScreen(startScreen: StartScreen) {
         viewModelScope.launch {
             updateStartScreenUseCase(startScreen = startScreen)
         }
+    }
+
+    fun updateIsCurrencySheetShown(showSheet: Boolean) {
+        if (isAnyBottomSheetOpen() && showSheet) return
+
+        _uiState.update { it.copy(isCurrencySheetShown = showSheet) }
+    }
+
+    fun updateIsStartScreenSheetShown(showSheet: Boolean) {
+        if (isAnyBottomSheetOpen() && showSheet) return
+
+        _uiState.update { it.copy(isStartScreenSheetShown = showSheet) }
+    }
+
+    private fun isAnyBottomSheetOpen(): Boolean {
+        return _uiState.value.isCurrencySheetShown || _uiState.value.isStartScreenSheetShown
     }
 }
