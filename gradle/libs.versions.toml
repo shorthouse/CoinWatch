@@ -1,7 +1,7 @@
 [versions]
 accompanist-systemuicontroller = "0.34.0"
 activity-compose = "1.8.2"
-android-gradle = "8.2.2"
+android-gradle = "8.3.0"
 androidx-junit = "1.1.5"
 coil = "2.6.0"
 compose-bom = "2024.02.02"
