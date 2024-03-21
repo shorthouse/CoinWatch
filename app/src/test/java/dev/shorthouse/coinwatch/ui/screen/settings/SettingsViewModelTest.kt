@@ -154,17 +154,46 @@ class SettingsViewModelTest {
         assertThat(viewModel.uiState.value.isCurrencySheetShown).isEqualTo(newShowSheet)
     }
 
-//    @Test
-//    fun `When showing currency sheet with another sheet already open should not show sheet`() {
-//        // Arrange
-//
-//        // Act
-//        viewModel.updateIsCoinSortSheetShown(true)
-//        viewModel.updateIsCurrencySheetShown(true)
-//
-//        // Assert
-//        assertThat(viewModel.uiState.value.isCurrencySheetShown).isFalse()
-//    }
-    
-    //TODO do the same test for new start screen sheet
+    @Test
+    fun `When update show start screen bottom sheet called should update UI state`() {
+        // Arrange
+        val currentShowSheet = viewModel.uiState.value.isStartScreenSheetShown
+        val newShowSheet = currentShowSheet.not()
+
+        // Act
+        viewModel.updateIsStartScreenSheetShown(newShowSheet)
+
+        // Assert
+        assertThat(viewModel.uiState.value.isStartScreenSheetShown).isEqualTo(newShowSheet)
+    }
+
+    @Test
+    fun `When show currency sheet with another sheet already open should not show sheet`() {
+        // Arrange
+
+        // Act
+        viewModel.updateIsStartScreenSheetShown(false)
+        viewModel.updateIsCurrencySheetShown(false)
+
+        viewModel.updateIsStartScreenSheetShown(true)
+        viewModel.updateIsCurrencySheetShown(true)
+
+        // Assert
+        assertThat(viewModel.uiState.value.isCurrencySheetShown).isFalse()
+    }
+
+    @Test
+    fun `When show start screen sheet with another sheet already open should not show sheet`() {
+        // Arrange
+
+        // Act
+        viewModel.updateIsCurrencySheetShown(false)
+        viewModel.updateIsStartScreenSheetShown(false)
+
+        viewModel.updateIsCurrencySheetShown(true)
+        viewModel.updateIsStartScreenSheetShown(true)
+
+        // Assert
+        assertThat(viewModel.uiState.value.isStartScreenSheetShown).isFalse()
+    }
 }
