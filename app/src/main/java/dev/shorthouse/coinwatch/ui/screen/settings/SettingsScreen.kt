@@ -3,7 +3,6 @@ package dev.shorthouse.coinwatch.ui.screen.settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -33,11 +32,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalUriHandler
@@ -54,9 +49,9 @@ import dev.shorthouse.coinwatch.data.preferences.global.StartScreen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.previewdata.SettingsUiStatePreviewProvider
-import dev.shorthouse.coinwatch.ui.screen.market.component.CurrencyBottomSheet
+import dev.shorthouse.coinwatch.ui.screen.settings.component.CurrencyBottomSheet
 import dev.shorthouse.coinwatch.ui.screen.settings.component.SettingsItem
-import dev.shorthouse.coinwatch.ui.screen.settings.component.StartScreenDialog
+import dev.shorthouse.coinwatch.ui.screen.settings.component.StartScreenBottomSheet
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.coroutines.launch
 
@@ -76,7 +71,12 @@ fun SettingsScreen(
         onUpdateIsCurrencySheetShown = { showSheet ->
             viewModel.updateIsCurrencySheetShown(showSheet)
         },
-        onUpdateStartScreen = { viewModel.updateStartScreen(it) }
+        onUpdateStartScreen = { startScreen ->
+            viewModel.updateStartScreen(startScreen)
+        },
+        onUpdateIsStartScreenSheetShown = { showSheet ->
+            viewModel.updateIsStartScreenSheetShown(showSheet)
+        }
     )
 }
 
@@ -88,9 +88,11 @@ fun SettingsScreen(
     onUpdateCurrency: (Currency) -> Unit,
     onUpdateIsCurrencySheetShown: (Boolean) -> Unit,
     onUpdateStartScreen: (StartScreen) -> Unit,
+    onUpdateIsStartScreenSheetShown: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val currencySheetState = rememberModalBottomSheetState()
+    val startScreenSheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
 
     Scaffold(
@@ -116,7 +118,7 @@ fun SettingsScreen(
                     currency = uiState.currency,
                     onUpdateIsCurrencySheetShown = onUpdateIsCurrencySheetShown,
                     startScreen = uiState.startScreen,
-                    onUpdateStartScreen = onUpdateStartScreen,
+                    onUpdateIsStartScreenSheetShown = onUpdateIsStartScreenSheetShown,
                     modifier = Modifier.padding(scaffoldPadding)
                 )
 
@@ -138,6 +140,24 @@ fun SettingsScreen(
                         onDismissRequest = { onUpdateIsCurrencySheetShown(false) }
                     )
                 }
+
+                if (uiState.isStartScreenSheetShown) {
+                    StartScreenBottomSheet(
+                        sheetState = startScreenSheetState,
+                        selectedStartScreen = uiState.startScreen,
+                        onStartScreenSelected = { startScreen ->
+                            onUpdateStartScreen(startScreen)
+
+                            scope.launch {
+                                startScreenSheetState.hide()
+                            }.invokeOnCompletion {
+                                if (!startScreenSheetState.isVisible) {
+                                    onUpdateIsStartScreenSheetShown(false)
+                                }
+                            }
+                        },
+                        onDismissRequest = { onUpdateIsStartScreenSheetShown(false) })
+                }
             }
         }
     }
@@ -148,10 +168,9 @@ fun SettingsContent(
     currency: Currency,
     onUpdateIsCurrencySheetShown: (Boolean) -> Unit,
     startScreen: StartScreen,
-    onUpdateStartScreen: (StartScreen) -> Unit,
+    onUpdateIsStartScreenSheetShown: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var isStartScreenDialogOpen by remember { mutableStateOf(false) }
     val uriHandler = LocalUriHandler.current
 
     Column(
@@ -188,7 +207,7 @@ fun SettingsContent(
                 StartScreen.Search -> Icons.Rounded.Search
             },
             trailingIcon = Icons.Rounded.ChevronRight,
-            onClick = { isStartScreenDialogOpen = true }
+            onClick = { onUpdateIsStartScreenSheetShown(true) }
         )
 
         HorizontalDivider(color = MaterialTheme.colorScheme.primaryContainer)
@@ -239,27 +258,6 @@ fun SettingsContent(
             trailingIcon = Icons.AutoMirrored.Rounded.Launch,
             onClick = { uriHandler.openUri(appListingUri) }
         )
-
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp)
-        ) {
-            Text(
-                text = stringResource(R.string.settings_author),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        }
-    }
-
-    if (isStartScreenDialogOpen) {
-        StartScreenDialog(
-            initialSelectedDestination = startScreen,
-            onUpdateStartScreen = { onUpdateStartScreen(it) },
-            onDismissRequest = { isStartScreenDialogOpen = false }
-        )
     }
 }
 
@@ -304,7 +302,8 @@ private fun SettingsScreenPreview(
             onNavigateUp = {},
             onUpdateCurrency = {},
             onUpdateIsCurrencySheetShown = {},
-            onUpdateStartScreen = {}
+            onUpdateStartScreen = {},
+            onUpdateIsStartScreenSheetShown = {}
         )
     }
 }
