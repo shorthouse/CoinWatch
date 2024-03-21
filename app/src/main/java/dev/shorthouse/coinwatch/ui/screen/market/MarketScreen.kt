@@ -6,6 +6,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -64,9 +65,9 @@ import dev.shorthouse.coinwatch.ui.component.pullrefresh.rememberPullRefreshStat
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.previewdata.MarketUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.market.component.CoinSortBottomSheet
+import dev.shorthouse.coinwatch.ui.screen.market.component.CoinsEmptyState
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketChip
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketCoinItem
-import dev.shorthouse.coinwatch.ui.screen.market.component.MarketEmptyState
 import dev.shorthouse.coinwatch.ui.screen.market.component.SearchPrompt
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
@@ -306,48 +307,50 @@ fun MarketContent(
     lazyListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier.padding(horizontal = 12.dp)) {
-        if (coins.isEmpty()) {
-            MarketEmptyState()
-        } else {
-            LazyColumn(state = lazyListState) {
-                item {
-                    MarketChip(
-                        label = stringResource(coinSort.nameId),
-                        onClick = { onUpdateIsCoinSortSheetShown(true) }
+    if (coins.isEmpty()) {
+        CoinsEmptyState()
+    } else {
+        LazyColumn(
+            state = lazyListState,
+            contentPadding = PaddingValues(start = 12.dp, end = 12.dp),
+            modifier = modifier
+        ) {
+            item {
+                MarketChip(
+                    label = stringResource(coinSort.nameId),
+                    onClick = { onUpdateIsCoinSortSheetShown(true) }
+                )
+            }
+            items(
+                count = coins.size,
+                key = { coins[it].id },
+                itemContent = { index ->
+                    val coinListItem = coins[index]
+
+                    val cardShape = when (index) {
+                        0 -> MaterialTheme.shapes.medium.copy(
+                            bottomStart = CornerSize(0.dp),
+                            bottomEnd = CornerSize(0.dp)
+                        )
+
+                        coins.lastIndex -> MaterialTheme.shapes.medium.copy(
+                            topStart = CornerSize(0.dp),
+                            topEnd = CornerSize(0.dp)
+                        )
+
+                        else -> RoundedCornerShape(0.dp)
+                    }
+
+                    MarketCoinItem(
+                        coin = coinListItem,
+                        onCoinClick = { onCoinClick(coinListItem) },
+                        cardShape = cardShape
                     )
                 }
-                items(
-                    count = coins.size,
-                    key = { coins[it].id },
-                    itemContent = { index ->
-                        val coinListItem = coins[index]
+            )
 
-                        val cardShape = when (index) {
-                            0 -> MaterialTheme.shapes.medium.copy(
-                                bottomStart = CornerSize(0.dp),
-                                bottomEnd = CornerSize(0.dp)
-                            )
-
-                            coins.lastIndex -> MaterialTheme.shapes.medium.copy(
-                                topStart = CornerSize(0.dp),
-                                topEnd = CornerSize(0.dp)
-                            )
-
-                            else -> RoundedCornerShape(0.dp)
-                        }
-
-                        MarketCoinItem(
-                            coin = coinListItem,
-                            onCoinClick = { onCoinClick(coinListItem) },
-                            cardShape = cardShape
-                        )
-                    }
-                )
-
-                item {
-                    SearchPrompt(modifier = Modifier.padding(vertical = 12.dp))
-                }
+            item {
+                SearchPrompt(modifier = Modifier.padding(vertical = 12.dp))
             }
         }
     }
