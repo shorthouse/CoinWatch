@@ -1,16 +1,14 @@
 <p align="center">
-   <img src="https://github.com/shorthouse/CoinWatch/assets/73708076/89508a50-c56b-4d6c-a0f8-209dd313bb0b"/>
+   <img src="https://github.com/shorthouse/CoinWatch/assets/73708076/be37cf58-f562-4fb5-a02f-cd8156c88d3c"/>
 </p>
 
 # CoinWatch
 [![Android CI Workflow Badge](https://github.com/shorthouse/CoinWatch/actions/workflows/android.yml/badge.svg)](https://github.com/shorthouse/CoinWatch/actions)
-[![Release](https://img.shields.io/badge/Release-1.2.2-1397CB)](https://github.com/shorthouse/CoinWatch/releases)
+[![Release](https://img.shields.io/badge/Release-1.2.4-1397CB)](https://github.com/shorthouse/CoinWatch/releases)
 [![License Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-%23820e82)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Medium shorthousedev](https://img.shields.io/badge/Medium-shorthousedev-%23FF5F1F)](https://medium.com/@shorthousedev)
 [![GitHub shorthouse](https://img.shields.io/badge/GitHub-shorthouse-%23D70040)](https://github.com/shorthouse)
 [![ktlint](https://img.shields.io/badge/ktlint%20code--style-%E2%9D%A4-FF4081)](https://pinterest.github.io/ktlint/)
-
-
 
 **CoinWatch** is a cryptocurrency app providing real-time coin prices, price histories, and market data.
 
