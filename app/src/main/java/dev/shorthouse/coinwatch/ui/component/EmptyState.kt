@@ -7,11 +7,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,16 +36,16 @@ fun EmptyState(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.9f)
+                .fillMaxHeight(0.70f)
                 .padding(12.dp)
         ) {
             Image(
                 painter = image,
                 contentDescription = null,
-                modifier = Modifier.size(250.dp)
+                modifier = Modifier.height(180.dp)
             )
 
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(24.dp))
 
             Text(
                 text = title,
@@ -63,7 +61,7 @@ fun EmptyState(
 }
 
 @Composable
-@Preview
+@Preview(heightDp = 400)
 private fun EmptyStatePreview() {
     AppTheme {
         EmptyState(
