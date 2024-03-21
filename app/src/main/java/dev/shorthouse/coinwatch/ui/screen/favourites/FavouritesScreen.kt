@@ -255,14 +255,15 @@ fun FavouritesContent(
     CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
         when {
             favouriteCoins.isEmpty() -> {
-                FavouritesEmptyState(modifier = modifier.padding(12.dp))
+                FavouritesEmptyState()
             }
 
             isFavouritesCondensed -> {
                 FavouritesCondensedList(
                     favouriteCoins = favouriteCoins,
                     onCoinClick = onCoinClick,
-                    listState = listState
+                    listState = listState,
+                    modifier = modifier
                 )
             }
 
@@ -270,7 +271,8 @@ fun FavouritesContent(
                 FavouritesList(
                     favouriteCoins = favouriteCoins,
                     onCoinClick = onCoinClick,
-                    gridState = gridState
+                    gridState = gridState,
+                    modifier = modifier
                 )
             }
         }
