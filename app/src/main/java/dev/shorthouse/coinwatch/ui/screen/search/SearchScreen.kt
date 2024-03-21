@@ -18,11 +18,9 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -33,8 +31,9 @@ import dev.shorthouse.coinwatch.model.SearchCoin
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.previewdata.SearchUiStatePreviewProvider
-import dev.shorthouse.coinwatch.ui.screen.search.component.SearchEmptyState
 import dev.shorthouse.coinwatch.ui.screen.search.component.SearchListItem
+import dev.shorthouse.coinwatch.ui.screen.search.component.SearchQueryEmptyState
+import dev.shorthouse.coinwatch.ui.screen.search.component.SearchResultsEmptyState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 
@@ -57,7 +56,7 @@ fun SearchScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     uiState: SearchUiState,
@@ -113,11 +112,15 @@ fun SearchScreen(
             }
 
             uiState.errorMessage != null -> {
-                ErrorState(message = uiState.errorMessage)
+                ErrorState(
+                    message = uiState.errorMessage,
+                    modifier = Modifier.padding(bottom = 12.dp)
+                )
             }
 
             else -> {
                 SearchContent(
+                    searchQuery = searchQuery,
                     searchResults = uiState.searchResults,
                     queryHasNoResults = uiState.queryHasNoResults,
                     onCoinClick = onCoinClick
@@ -129,45 +132,57 @@ fun SearchScreen(
 
 @Composable
 fun SearchContent(
+    searchQuery: String,
     searchResults: ImmutableList<SearchCoin>,
     queryHasNoResults: Boolean,
     onCoinClick: (SearchCoin) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (queryHasNoResults) {
-        SearchEmptyState(modifier = modifier.padding(12.dp))
-    } else {
-        LazyColumn(contentPadding = PaddingValues(12.dp)) {
-            items(
-                count = searchResults.size,
-                key = { index -> searchResults[index].id },
-                itemContent = { index ->
-                    val searchCoin = searchResults[index]
+    when {
+        searchQuery.isEmpty() -> {
+            SearchQueryEmptyState()
+        }
 
-                    val cardShape = when {
-                        searchResults.size == 1 -> MaterialTheme.shapes.medium
+        queryHasNoResults -> {
+            SearchResultsEmptyState()
+        }
 
-                        index == 0 -> MaterialTheme.shapes.medium.copy(
-                            bottomStart = CornerSize(0.dp),
-                            bottomEnd = CornerSize(0.dp)
-                        )
+        else -> {
+            LazyColumn(
+                contentPadding = PaddingValues(12.dp),
+                modifier = modifier
+            ) {
+                items(
+                    count = searchResults.size,
+                    key = { index -> searchResults[index].id },
+                    itemContent = { index ->
+                        val searchCoin = searchResults[index]
 
-                        index == searchResults.lastIndex ->
-                            MaterialTheme.shapes.medium.copy(
-                                topStart = CornerSize(0.dp),
-                                topEnd = CornerSize(0.dp)
+                        val cardShape = when {
+                            searchResults.size == 1 -> MaterialTheme.shapes.medium
+
+                            index == 0 -> MaterialTheme.shapes.medium.copy(
+                                bottomStart = CornerSize(0.dp),
+                                bottomEnd = CornerSize(0.dp)
                             )
 
-                        else -> RoundedCornerShape(0.dp)
-                    }
+                            index == searchResults.lastIndex ->
+                                MaterialTheme.shapes.medium.copy(
+                                    topStart = CornerSize(0.dp),
+                                    topEnd = CornerSize(0.dp)
+                                )
 
-                    SearchListItem(
-                        searchCoin = searchCoin,
-                        onCoinClick = onCoinClick,
-                        cardShape = cardShape
-                    )
-                }
-            )
+                            else -> RoundedCornerShape(0.dp)
+                        }
+
+                        SearchListItem(
+                            searchCoin = searchCoin,
+                            onCoinClick = onCoinClick,
+                            cardShape = cardShape
+                        )
+                    }
+                )
+            }
         }
     }
 }

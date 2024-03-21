@@ -1,12 +1,8 @@
 package dev.shorthouse.coinwatch.ui.screen
 
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
-import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertIsNotSelected
-import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isNotSelected
 import androidx.compose.ui.test.isSelected
@@ -42,7 +38,8 @@ class SettingsScreenTest {
                     onNavigateUp = {},
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
-                    onUpdateStartScreen = {}
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
                 )
             }
         }
@@ -67,7 +64,8 @@ class SettingsScreenTest {
                     onNavigateUp = {},
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
-                    onUpdateStartScreen = {}
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
                 )
             }
         }
@@ -88,7 +86,8 @@ class SettingsScreenTest {
                     onNavigateUp = {},
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
-                    onUpdateStartScreen = {}
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
                 )
             }
         }
@@ -126,7 +125,8 @@ class SettingsScreenTest {
                     onNavigateUp = { onNavigateUpCalled = true },
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
-                    onUpdateStartScreen = {}
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
                 )
             }
         }
@@ -136,170 +136,6 @@ class SettingsScreenTest {
         }
 
         assertThat(onNavigateUpCalled).isTrue()
-    }
-
-    @Test
-    fun when_startScreenClicked_should_openStartScreenDialog() {
-        val uiState = SettingsUiState()
-
-        composeTestRule.setContent {
-            AppTheme {
-                SettingsScreen(
-                    uiState = uiState,
-                    onNavigateUp = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
-                    onUpdateStartScreen = {}
-                )
-            }
-        }
-
-        val radioButtonMatcher = SemanticsMatcher.expectValue(
-            SemanticsProperties.Role,
-            Role.RadioButton
-        )
-        composeTestRule.apply {
-            onNodeWithText("Start screen").performClick()
-            onNode(hasText("Market").and(radioButtonMatcher))
-                .assertIsDisplayed().assertHasClickAction()
-            onNode(hasText("Favourites").and(radioButtonMatcher))
-                .assertIsDisplayed().assertHasClickAction()
-            onNode(hasText("Search").and(radioButtonMatcher))
-                .assertIsDisplayed().assertHasClickAction()
-        }
-    }
-
-    @Test
-    fun when_startScreenDialogOptionClicked_should_callOnUpdateStartScreen() {
-        val uiState = SettingsUiState()
-
-        var onUpdateStartScreenCalled = false
-
-        composeTestRule.setContent {
-            AppTheme {
-                SettingsScreen(
-                    uiState = uiState,
-                    onNavigateUp = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
-                    onUpdateStartScreen = { startScreen ->
-                        onUpdateStartScreenCalled = startScreen == StartScreen.Search
-                    }
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("Start screen").performClick()
-            onNodeWithText("Search").performClick()
-        }
-
-        assertThat(onUpdateStartScreenCalled).isTrue()
-    }
-
-    @Test
-    fun when_startScreenIsMarket_should_haveMarketOptionSelected() {
-        val uiState = SettingsUiState(
-            startScreen = StartScreen.Market
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                SettingsScreen(
-                    uiState = uiState,
-                    onNavigateUp = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
-                    onUpdateStartScreen = {}
-                )
-            }
-        }
-
-        val radioButtonMatcher = SemanticsMatcher.expectValue(
-            SemanticsProperties.Role,
-            Role.RadioButton
-        )
-        composeTestRule.apply {
-            onNodeWithText("Market").assertIsDisplayed()
-            onNodeWithText("Start screen").performClick()
-
-            onNode(hasText("Market").and(radioButtonMatcher))
-                .assertIsDisplayed().assertIsSelected()
-            onNode(hasText("Favourites").and(radioButtonMatcher))
-                .assertIsDisplayed().assertIsNotSelected()
-            onNode(hasText("Search").and(radioButtonMatcher))
-                .assertIsDisplayed().assertIsNotSelected()
-        }
-    }
-
-    @Test
-    fun when_startScreenIsFavourites_should_haveFavouritesOptionSelected() {
-        val uiState = SettingsUiState(
-            startScreen = StartScreen.Favourites
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                SettingsScreen(
-                    uiState = uiState,
-                    onNavigateUp = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
-                    onUpdateStartScreen = {}
-                )
-            }
-        }
-
-        val radioButtonMatcher = SemanticsMatcher.expectValue(
-            SemanticsProperties.Role,
-            Role.RadioButton
-        )
-        composeTestRule.apply {
-            onNodeWithText("Favourites").assertIsDisplayed()
-            onNodeWithText("Start screen").performClick()
-
-            onNode(hasText("Market").and(radioButtonMatcher))
-                .assertIsDisplayed().assertIsNotSelected()
-            onNode(hasText("Favourites").and(radioButtonMatcher))
-                .assertIsDisplayed().assertIsSelected()
-            onNode(hasText("Search").and(radioButtonMatcher))
-                .assertIsDisplayed().assertIsNotSelected()
-        }
-    }
-
-    @Test
-    fun when_startScreenIsSearch_should_haveSearchOptionSelected() {
-        val uiState = SettingsUiState(
-            startScreen = StartScreen.Search
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                SettingsScreen(
-                    uiState = uiState,
-                    onNavigateUp = {},
-                    onUpdateCurrency = {},
-                    onUpdateIsCurrencySheetShown = {},
-                    onUpdateStartScreen = {}
-                )
-            }
-        }
-
-        val radioButtonMatcher = SemanticsMatcher.expectValue(
-            SemanticsProperties.Role,
-            Role.RadioButton
-        )
-        composeTestRule.apply {
-            onNodeWithText("Search").assertIsDisplayed()
-            onNodeWithText("Start screen").performClick()
-
-            onNode(hasText("Market").and(radioButtonMatcher))
-                .assertIsDisplayed().assertIsNotSelected()
-            onNode(hasText("Favourites").and(radioButtonMatcher))
-                .assertIsDisplayed().assertIsNotSelected()
-            onNode(hasText("Search").and(radioButtonMatcher))
-                .assertIsDisplayed().assertIsSelected()
-        }
     }
 
     @Test
@@ -315,7 +151,8 @@ class SettingsScreenTest {
                     onNavigateUp = {},
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
-                    onUpdateStartScreen = {}
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
                 )
             }
         }
@@ -339,7 +176,8 @@ class SettingsScreenTest {
                     onNavigateUp = {},
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
-                    onUpdateStartScreen = {}
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
                 )
             }
         }
@@ -363,7 +201,8 @@ class SettingsScreenTest {
                     onNavigateUp = {},
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
-                    onUpdateStartScreen = {}
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
                 )
             }
         }
@@ -386,7 +225,8 @@ class SettingsScreenTest {
                     onNavigateUp = {},
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = { showCurrencyBottomSheet = true },
-                    onUpdateStartScreen = {}
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
                 )
             }
         }
@@ -409,7 +249,8 @@ class SettingsScreenTest {
                     onNavigateUp = {},
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
-                    onUpdateStartScreen = {}
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
                 )
             }
         }
@@ -436,7 +277,8 @@ class SettingsScreenTest {
                     onNavigateUp = {},
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
-                    onUpdateStartScreen = {}
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
                 )
             }
         }
@@ -463,7 +305,8 @@ class SettingsScreenTest {
                     onNavigateUp = {},
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
-                    onUpdateStartScreen = {}
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
                 )
             }
         }
@@ -493,7 +336,8 @@ class SettingsScreenTest {
                         updateCurrencyCalled = currency == Currency.GBP
                     },
                     onUpdateIsCurrencySheetShown = {},
-                    onUpdateStartScreen = {}
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
                 )
             }
         }
@@ -503,5 +347,219 @@ class SettingsScreenTest {
         }
 
         assertThat(updateCurrencyCalled).isTrue()
+    }
+
+    @Test
+    fun when_startScreenIsMarket_should_displayStartScreenAsMarket() {
+        val uiState = SettingsUiState(
+            startScreen = StartScreen.Market
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Start screen").assertIsDisplayed()
+            onNodeWithText("Market").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_startScreenIsFavourites_should_displayStartScreenAsFavourites() {
+        val uiState = SettingsUiState(
+            startScreen = StartScreen.Favourites
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Start screen").assertIsDisplayed()
+            onNodeWithText("Favourites").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_startScreenIsSearch_should_displayStartScreenAsSearch() {
+        val uiState = SettingsUiState(
+            startScreen = StartScreen.Search
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Start screen").assertIsDisplayed()
+            onNodeWithText("Search").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_startScreenSettingsClicked_should_callShowStartScreenBottomSheet() {
+        val uiState = SettingsUiState()
+        var showStartScreenBottomSheet = false
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = { showStartScreenBottomSheet = true }
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Start screen").performClick()
+        }
+
+        assertThat(showStartScreenBottomSheet).isTrue()
+    }
+
+    @Test
+    fun when_startScreenIsMarket_should_haveMarketSelectedInStartScreenBottomSheet() {
+        val uiState = SettingsUiState(
+            startScreen = StartScreen.Market,
+            isStartScreenSheetShown = true
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("App start screen").assertIsDisplayed()
+            onNode(hasText("Market").and(isSelected())).assertIsDisplayed()
+            onNode(hasText("Favourites").and(isNotSelected())).assertIsDisplayed()
+            onNode(hasText("Search").and(isNotSelected())).assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_startScreenIsFavourites_should_haveFavouritesSelectedInStartScreenBottomSheet() {
+        val uiState = SettingsUiState(
+            startScreen = StartScreen.Favourites,
+            isStartScreenSheetShown = true
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("App start screen").assertIsDisplayed()
+            onNode(hasText("Market").and(isNotSelected())).assertIsDisplayed()
+            onNode(hasText("Favourites").and(isSelected())).assertIsDisplayed()
+            onNode(hasText("Search").and(isNotSelected())).assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_startScreenIsSearch_should_haveSearchSelectedInStartScreenBottomSheet() {
+        val uiState = SettingsUiState(
+            startScreen = StartScreen.Search,
+            isStartScreenSheetShown = true
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("App start screen").assertIsDisplayed()
+            onNode(hasText("Market").and(isNotSelected())).assertIsDisplayed()
+            onNode(hasText("Favourites").and(isNotSelected())).assertIsDisplayed()
+            onNode(hasText("Search").and(isSelected())).assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_chooseStartScreenBottomSheetOption_should_callUpdateStartScreen() {
+        var updateStartScreenCalled = false
+        val uiState = SettingsUiState(
+            startScreen = StartScreen.Market,
+            isStartScreenSheetShown = true,
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = { startScreen ->
+                        updateStartScreenCalled = startScreen == StartScreen.Favourites
+                    },
+                    onUpdateIsStartScreenSheetShown = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Favourites").performClick()
+        }
+
+        assertThat(updateStartScreenCalled).isTrue()
     }
 }

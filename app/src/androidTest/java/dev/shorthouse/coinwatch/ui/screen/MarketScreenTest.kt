@@ -434,8 +434,8 @@ class MarketScreenTest {
         }
 
         composeTestRule.apply {
-            onNodeWithText("No coins").assertIsDisplayed()
-            onNodeWithText("Please try again later").assertIsDisplayed()
+            onNodeWithText("Couldn't load coins").assertIsDisplayed()
+            onNodeWithText("Check your internet connection").assertIsDisplayed()
         }
     }
 

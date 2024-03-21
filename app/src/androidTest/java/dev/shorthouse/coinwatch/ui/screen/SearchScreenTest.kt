@@ -26,7 +26,7 @@ class SearchScreenTest {
     @Test
     fun when_uiStateError_should_showErrorMessage() {
         val uiState = SearchUiState(
-            errorMessage = "Error message"
+            errorMessage = "Unable to fetch coin search results"
         )
 
         composeTestRule.setContent {
@@ -42,7 +42,7 @@ class SearchScreenTest {
 
         composeTestRule.apply {
             onNodeWithText("An error has occurred").assertIsDisplayed()
-            onNodeWithText("Error message").assertIsDisplayed()
+            onNodeWithText("Unable to fetch coin search results").assertIsDisplayed()
         }
     }
 
@@ -91,6 +91,27 @@ class SearchScreenTest {
     }
 
     @Test
+    fun when_searchQueryIsEmpty_should_displayQueryEmptyState() {
+        val uiState = SearchUiState()
+
+        composeTestRule.setContent {
+            AppTheme {
+                SearchScreen(
+                    uiState = uiState,
+                    searchQuery = "",
+                    onSearchQueryChange = {},
+                    onCoinClick = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Explore coins").assertIsDisplayed()
+            onNodeWithText("Search by name or symbol").assertIsDisplayed()
+        }
+    }
+
+    @Test
     fun when_searchQueryEntered_should_displaySearchQuery() {
         val searchQuery = "Bitcoin"
 
@@ -131,6 +152,28 @@ class SearchScreenTest {
 
         composeTestRule.apply {
             onNodeWithContentDescription("Clear search").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_searchQueryEmpty_should_notDisplayClearSearchButton() {
+        val searchQuery = ""
+
+        val uiState = SearchUiState()
+
+        composeTestRule.setContent {
+            AppTheme {
+                SearchScreen(
+                    uiState = uiState,
+                    searchQuery = searchQuery,
+                    onSearchQueryChange = {},
+                    onCoinClick = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithContentDescription("Clear search").assertDoesNotExist()
         }
     }
 
@@ -206,7 +249,7 @@ class SearchScreenTest {
             AppTheme {
                 SearchScreen(
                     uiState = uiState,
-                    searchQuery = "",
+                    searchQuery = "Bit",
                     onSearchQueryChange = {},
                     onCoinClick = {}
                 )
@@ -240,7 +283,7 @@ class SearchScreenTest {
             AppTheme {
                 SearchScreen(
                     uiState = uiState,
-                    searchQuery = "",
+                    searchQuery = "Bit",
                     onSearchQueryChange = {},
                     onCoinClick = { onCoinClickCalled = true }
                 )
