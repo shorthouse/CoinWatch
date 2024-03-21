@@ -2,7 +2,6 @@ package dev.shorthouse.coinwatch.ui.component
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import org.junit.Rule
@@ -24,7 +23,6 @@ class ErrorStateTest {
         }
 
         composeTestRule.apply {
-            onNodeWithContentDescription("Error").assertIsDisplayed()
             onNodeWithText("An error has occurred").assertIsDisplayed()
         }
     }
@@ -40,6 +38,7 @@ class ErrorStateTest {
         }
 
         composeTestRule.apply {
+            onNodeWithText("An error has occurred").assertIsDisplayed()
             onNodeWithText("Error message").assertIsDisplayed()
         }
     }
