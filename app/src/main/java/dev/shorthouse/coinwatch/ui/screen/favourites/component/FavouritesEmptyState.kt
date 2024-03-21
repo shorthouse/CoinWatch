@@ -22,7 +22,7 @@ import dev.shorthouse.coinwatch.ui.theme.AppTheme
 @Composable
 fun FavouritesEmptyState(modifier: Modifier = Modifier) {
     EmptyState(
-        image = painterResource(R.drawable.empty_state_favourite_coins),
+        image = painterResource(R.drawable.empty_state_favourites),
         title = stringResource(R.string.empty_state_favourite_coins_title),
         subtitle = {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -38,7 +38,7 @@ fun FavouritesEmptyState(modifier: Modifier = Modifier) {
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier
                         .size(22.dp)
-                        .padding(start = 2.dp, top = 2.dp, end = 2.dp)
+                        .padding(start = 4.dp, top = 2.dp, end = 4.dp)
                 )
 
                 Text(
@@ -53,7 +53,7 @@ fun FavouritesEmptyState(modifier: Modifier = Modifier) {
 }
 
 @Composable
-@Preview
+@Preview(heightDp = 400)
 private fun FavouritesEmptyStatePreview() {
     AppTheme {
         FavouritesEmptyState()
