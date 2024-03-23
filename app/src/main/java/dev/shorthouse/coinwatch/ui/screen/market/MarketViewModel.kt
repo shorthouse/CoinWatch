@@ -39,7 +39,7 @@ class MarketViewModel @Inject constructor(
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
     private val updateCoinSortUseCase: UpdateCoinSortUseCase,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(MarketUiState(isLoading = true))
+    private val _uiState = MutableStateFlow(MarketUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
@@ -47,14 +47,14 @@ class MarketViewModel @Inject constructor(
     }
 
     fun initialiseUiState() {
+        _uiState.update { it.copy(isLoading = true) }
+
         getCoinsUseCase().onEach { coinsResult ->
             when (coinsResult) {
                 is Result.Success -> {
-                    val coins = coinsResult.data.toImmutableList()
-
                     _uiState.update {
                         it.copy(
-                            coins = coins,
+                            coins = coinsResult.data.toImmutableList(),
                             isLoading = false
                         )
                     }
