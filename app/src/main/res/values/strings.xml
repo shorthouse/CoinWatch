@@ -98,4 +98,5 @@
     <string name="market_coin_sort_losers">Losers</string>
     <string name="market_coin_sort_popular">Popular</string>
     <string name="market_coin_sort_newest">Newest</string>
+    <string name="cd_change_favourites_order">Change favourites order</string>
 </resources>
