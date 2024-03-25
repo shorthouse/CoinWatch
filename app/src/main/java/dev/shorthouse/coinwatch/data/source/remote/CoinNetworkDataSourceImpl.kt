@@ -1,13 +1,14 @@
 package dev.shorthouse.coinwatch.data.source.remote
 
+import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
+import dev.shorthouse.coinwatch.data.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.preferences.market.MarketCoinSort
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
-import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
-import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import javax.inject.Inject
 import retrofit2.Response
 
@@ -15,11 +16,12 @@ class CoinNetworkDataSourceImpl @Inject constructor(
     private val coinApi: CoinApi
 ) : CoinNetworkDataSource {
     override suspend fun getCoins(
-        coinSort: CoinSort,
+        marketCoinSort: MarketCoinSort,
         currency: Currency
     ): Response<CoinsApiModel> {
         return coinApi.getCoins(
-            orderBy = coinSort.toOrderByString(),
+            orderBy = marketCoinSort.getOrderBy(),
+            orderDirection = marketCoinSort.getOrderDirection(),
             currencyUUID = currency.toCurrencyUUID()
         )
     }
@@ -83,5 +85,25 @@ private fun Currency.toCurrencyUUID(): String {
         Currency.USD -> "yhjMzLPhuIDl"
         Currency.GBP -> "Hokyui45Z38f"
         Currency.EUR -> "5k-_VTxqtCEI"
+    }
+}
+
+private fun MarketCoinSort.getOrderBy(): String {
+    return when (this) {
+        MarketCoinSort.MarketCap -> "marketCap"
+        MarketCoinSort.Popular -> "24hVolume"
+        MarketCoinSort.Gainers -> "change"
+        MarketCoinSort.Losers -> "change"
+        MarketCoinSort.Newest -> "listedAt"
+    }
+}
+
+private fun MarketCoinSort.getOrderDirection(): String {
+    return when (this) {
+        MarketCoinSort.MarketCap -> "desc"
+        MarketCoinSort.Popular -> "desc"
+        MarketCoinSort.Gainers -> "desc"
+        MarketCoinSort.Losers -> "asc"
+        MarketCoinSort.Newest -> "desc"
     }
 }

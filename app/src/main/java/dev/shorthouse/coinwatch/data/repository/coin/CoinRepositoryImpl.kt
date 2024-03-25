@@ -2,11 +2,11 @@ package dev.shorthouse.coinwatch.data.repository.coin
 
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.mapper.CoinMapper
+import dev.shorthouse.coinwatch.data.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.preferences.market.MarketCoinSort
 import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSource
 import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
-import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
-import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.di.IoDispatcher
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -24,12 +24,12 @@ class CoinRepositoryImpl @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : CoinRepository {
     override suspend fun getRemoteCoins(
-        coinSort: CoinSort,
+        marketCoinSort: MarketCoinSort,
         currency: Currency
     ): Result<List<Coin>> = withContext(ioDispatcher) {
         try {
             val response = coinNetworkDataSource.getCoins(
-                coinSort = coinSort,
+                marketCoinSort = marketCoinSort,
                 currency = currency
             )
 
