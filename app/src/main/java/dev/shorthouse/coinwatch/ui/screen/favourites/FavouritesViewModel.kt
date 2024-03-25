@@ -14,7 +14,10 @@ import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetFavouritesPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCachedFavouriteCoinsUseCase
+import dev.shorthouse.coinwatch.domain.UpdateCoinSortUseCase
 import dev.shorthouse.coinwatch.domain.UpdateIsFavouritesCondensedUseCase
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,8 +28,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class FavouritesViewModel @Inject constructor(
@@ -35,7 +36,8 @@ class FavouritesViewModel @Inject constructor(
     private val getFavouriteCoinIdsUseCase: GetFavouriteCoinIdsUseCase,
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
     private val getFavouritesPreferencesUseCase: GetFavouritesPreferencesUseCase,
-    private val updateIsFavouritesCondensedUseCase: UpdateIsFavouritesCondensedUseCase
+    private val updateIsFavouritesCondensedUseCase: UpdateIsFavouritesCondensedUseCase,
+    private val updateCoinSortUseCase: UpdateCoinSortUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(FavouritesUiState())
     val uiState = _uiState.asStateFlow()
@@ -61,6 +63,12 @@ class FavouritesViewModel @Inject constructor(
                         currency = userPreferences.currency,
                         coinSort = userPreferences.coinSort
                     )
+
+                    _uiState.update {
+                        it.copy(
+                            coinSort = userPreferences.coinSort,
+                        )
+                    }
                 }
 
                 is Result.Error -> {
@@ -72,7 +80,7 @@ class FavouritesViewModel @Inject constructor(
         getFavouritesPreferencesUseCase().onEach { favouritesPreferences ->
             _uiState.update {
                 it.copy(
-                    isFavouritesCondensed = favouritesPreferences.isFavouritesCondensed
+                    isFavouritesCondensed = favouritesPreferences.isFavouritesCondensed,
                 )
             }
         }.launchIn(viewModelScope)
@@ -136,6 +144,16 @@ class FavouritesViewModel @Inject constructor(
         viewModelScope.launch {
             updateIsFavouritesCondensedUseCase(isCondensed = isCondensed)
         }
+    }
+
+    fun updateCoinSort(coinSort: CoinSort) {
+        viewModelScope.launch {
+            updateCoinSortUseCase(coinSort = coinSort)
+        }
+    }
+
+    fun updateIsCoinSortSheetShown(showSheet: Boolean) {
+        _uiState.update { it.copy(isCoinSortSheetShown = showSheet) }
     }
 
     private suspend fun updateCachedFavouriteCoins(

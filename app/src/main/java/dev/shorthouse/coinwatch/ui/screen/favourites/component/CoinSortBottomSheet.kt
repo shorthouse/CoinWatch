@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.screen.market.component
+package dev.shorthouse.coinwatch.ui.screen.favourites.component
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
