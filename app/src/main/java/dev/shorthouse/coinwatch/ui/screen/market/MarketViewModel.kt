@@ -10,10 +10,12 @@ import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
 import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
+import dev.shorthouse.coinwatch.domain.GetMarketPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.GetMarketStatsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCachedCoinsUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCoinSortUseCase
+import dev.shorthouse.coinwatch.domain.UpdateMarketCoinSortUseCase
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
@@ -38,6 +40,8 @@ class MarketViewModel @Inject constructor(
     private val updateCachedCoinsUseCase: UpdateCachedCoinsUseCase,
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
     private val updateCoinSortUseCase: UpdateCoinSortUseCase,
+    private val getMarketPreferencesUseCase: GetMarketPreferencesUseCase,
+    private val updateMarketCoinSortUseCase: UpdateMarketCoinSortUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(MarketUiState())
     val uiState = _uiState.asStateFlow()
