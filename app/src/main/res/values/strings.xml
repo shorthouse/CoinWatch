@@ -26,7 +26,7 @@
     <string name="list_item_ath">All Time High</string>
     <string name="list_item_ath_dollar_only">All Time High ($)</string>
     <string name="list_item_ath_date">All Time High Date</string>
-    <string name="list_item_volume_24h">Volume 24h</string>
+    <string name="list_item_volume_24h">Volume (24h)</string>
     <string name="list_item_listed_date">Listed Date</string>
     <string name="empty_state_favourite_coins_title">No favourite coins</string>
     <string name="empty_state_favourite_coins_subtitle_start">Tap the</string>

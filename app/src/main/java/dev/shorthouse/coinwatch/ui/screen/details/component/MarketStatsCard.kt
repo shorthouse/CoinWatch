@@ -51,7 +51,7 @@ fun MarketStatsCard(
             ),
             CoinDetailsListItem(
                 nameId = R.string.list_item_volume_24h,
-                value = coinDetails.volume24h
+                value = coinDetails.volume24h.formattedAmount
             ),
             CoinDetailsListItem(
                 nameId = R.string.list_item_circulating_supply,
@@ -115,7 +115,7 @@ private fun MarketStatsCardPreview() {
                 currentPrice = Price("1879.14"),
                 marketCap = Price("225722901094"),
                 marketCapRank = "2",
-                volume24h = "6,627,669,115",
+                volume24h = Price("6,627,669,115"),
                 circulatingSupply = "120,186,525",
                 allTimeHigh = Price("4878.26"),
                 allTimeHighDate = "10 Nov 2021",
@@ -138,7 +138,7 @@ private fun MarketStatsCardPreviewNotDollar() {
                 currentPrice = Price("1879.14", currency = Currency.GBP),
                 marketCap = Price("225722901094", currency = Currency.GBP),
                 marketCapRank = "2",
-                volume24h = "6,627,669,115",
+                volume24h = Price("6,627,669,115"),
                 circulatingSupply = "120,186,525",
                 allTimeHigh = Price("4878.26", currency = Currency.USD),
                 allTimeHighDate = "10 Nov 2021",
