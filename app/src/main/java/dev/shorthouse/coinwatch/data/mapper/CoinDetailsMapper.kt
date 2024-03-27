@@ -32,9 +32,9 @@ class CoinDetailsMapper @Inject constructor() {
             currentPrice = Price(coinDetails?.currentPrice, currency = currency),
             marketCap = Price(coinDetails?.marketCap, currency = currency),
             marketCapRank = coinDetails?.marketCapRank.orEmpty(),
-            volume24h = formatNumberOrEmpty(coinDetails?.volume24h),
+            volume24h = Price(coinDetails?.volume24h, currency = currency),
             circulatingSupply = formatNumberOrEmpty(coinDetails?.supply?.circulatingSupply),
-            // API only support ATH in USD
+            // API only supports ATH in USD
             allTimeHigh = Price(coinDetails?.allTimeHigh?.price, currency = Currency.USD),
             allTimeHighDate = epochToDateOrEmpty(coinDetails?.allTimeHigh?.timestamp),
             listedDate = epochToDateOrEmpty(coinDetails?.listedAt)

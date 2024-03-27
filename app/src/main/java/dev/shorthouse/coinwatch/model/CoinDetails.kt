@@ -8,7 +8,7 @@ data class CoinDetails(
     val currentPrice: Price,
     val marketCap: Price,
     val marketCapRank: String,
-    val volume24h: String,
+    val volume24h: Price,
     val circulatingSupply: String,
     val allTimeHigh: Price,
     val allTimeHighDate: String,

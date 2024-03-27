@@ -105,7 +105,7 @@ class DetailsScreenTest {
                 currentPrice = Price("1879.14"),
                 marketCap = Price("225722901094"),
                 marketCapRank = "2",
-                volume24h = "6,627,669,115",
+                volume24h = Price("6627669115"),
                 circulatingSupply = "120,186,525",
                 allTimeHigh = Price("4878.26"),
                 allTimeHighDate = "10 Nov 2021",
@@ -170,8 +170,8 @@ class DetailsScreenTest {
             onNodeWithText("2").assertIsDisplayed()
             onNodeWithText("Market Cap").assertIsDisplayed()
             onNodeWithText("$225,722,901,094.00").assertIsDisplayed()
-            onNodeWithText("Volume 24h").assertIsDisplayed()
-            onNodeWithText("6,627,669,115").assertIsDisplayed()
+            onNodeWithText("Volume (24h)").assertIsDisplayed()
+            onNodeWithText("$6,627,669,115.00").assertIsDisplayed()
             onNodeWithText("Circulating Supply").assertIsDisplayed()
             onNodeWithText("120,186,525").assertIsDisplayed()
             onNodeWithText("All Time High").assertIsDisplayed()
@@ -196,7 +196,7 @@ class DetailsScreenTest {
                 currentPrice = Price("1879.14"),
                 marketCap = Price("225722901094"),
                 marketCapRank = "2",
-                volume24h = "6,627,669,115",
+                volume24h = Price("6627669115"),
                 circulatingSupply = "120,186,525",
                 allTimeHigh = Price("4878.26"),
                 allTimeHighDate = "10 Nov 2021",
@@ -250,7 +250,7 @@ class DetailsScreenTest {
                 currentPrice = Price("1879.14"),
                 marketCap = Price("225722901094"),
                 marketCapRank = "2",
-                volume24h = "6,627,669,115",
+                volume24h = Price("6627669115"),
                 circulatingSupply = "120,186,525",
                 allTimeHigh = Price("4878.26"),
                 allTimeHighDate = "10 Nov 2021",
@@ -306,7 +306,7 @@ class DetailsScreenTest {
                 currentPrice = Price("1879.14"),
                 marketCap = Price("225722901094"),
                 marketCapRank = "2",
-                volume24h = "6,627,669,115",
+                volume24h = Price("6627669115"),
                 circulatingSupply = "120,186,525",
                 allTimeHigh = Price("4878.26"),
                 allTimeHighDate = "10 Nov 2021",
@@ -366,7 +366,7 @@ class DetailsScreenTest {
                 currentPrice = Price("1879.14"),
                 marketCap = Price("225722901094"),
                 marketCapRank = "2",
-                volume24h = "6,627,669,115",
+                volume24h = Price("6627669115"),
                 circulatingSupply = "120,186,525",
                 allTimeHigh = Price("4878.26"),
                 allTimeHighDate = "10 Nov 2021",
@@ -409,7 +409,7 @@ class DetailsScreenTest {
                 currentPrice = Price("1879.14"),
                 marketCap = Price("225722901094"),
                 marketCapRank = "2",
-                volume24h = "6,627,669,115",
+                volume24h = Price("6627669115"),
                 circulatingSupply = "120,186,525",
                 allTimeHigh = Price("4878.26"),
                 allTimeHighDate = "10 Nov 2021",
@@ -454,7 +454,7 @@ class DetailsScreenTest {
                 currentPrice = Price("1879.14", currency = currency),
                 marketCap = Price("225722901094", currency = currency),
                 marketCapRank = "2",
-                volume24h = "6,627,669,115",
+                volume24h = Price("6627669115"),
                 circulatingSupply = "120,186,525",
                 allTimeHigh = Price("4878.26"),
                 allTimeHighDate = "10 Nov 2021",
@@ -519,8 +519,8 @@ class DetailsScreenTest {
             onNodeWithText("2").assertIsDisplayed()
             onNodeWithText("Market Cap").assertIsDisplayed()
             onNodeWithText("£225,722,901,094.00").assertIsDisplayed()
-            onNodeWithText("Volume 24h").assertIsDisplayed()
-            onNodeWithText("6,627,669,115").assertIsDisplayed()
+            onNodeWithText("Volume (24h)").assertIsDisplayed()
+            onNodeWithText("$6,627,669,115.00").assertIsDisplayed()
             onNodeWithText("Circulating Supply").assertIsDisplayed()
             onNodeWithText("120,186,525").assertIsDisplayed()
             onNodeWithText("All Time High ($)").assertIsDisplayed()
