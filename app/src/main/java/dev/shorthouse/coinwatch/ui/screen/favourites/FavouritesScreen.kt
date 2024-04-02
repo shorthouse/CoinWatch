@@ -291,7 +291,7 @@ fun FavouritesList(
         columns = GridCells.Adaptive(minSize = 140.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 12.dp),
+        contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 80.dp),
         modifier = modifier.fillMaxHeight()
     ) {
         items(
@@ -318,7 +318,7 @@ fun FavouritesCondensedList(
 ) {
     LazyColumn(
         state = listState,
-        contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 12.dp),
+        contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 80.dp),
         modifier = modifier.fillMaxHeight()
     ) {
         items(
