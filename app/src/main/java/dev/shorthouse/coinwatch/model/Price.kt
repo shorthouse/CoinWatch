@@ -12,28 +12,28 @@ import java.util.Currency as CurrencyCode
 data class Price(val price: String?, val currency: Currency = Currency.USD) : Comparable<Price> {
     val amount: BigDecimal = price.toSanitisedBigDecimalOrZero()
 
-    private val currencyFormat by lazy {
-        val currencyFormat = DecimalFormat.getCurrencyInstance(Locale.US) as DecimalFormat
-
-        val decimalPlaces = if (amount in belowOneThreshold) 6 else 2
-        val currencyCode = try {
-            CurrencyCode.getInstance(currency.name)
-        } catch (e: IllegalArgumentException) {
-            CurrencyCode.getInstance(Currency.USD.name)
-        }
-
-        currencyFormat.minimumFractionDigits = decimalPlaces
-        currencyFormat.maximumFractionDigits = decimalPlaces
-        currencyFormat.currency = currencyCode
-
-        currencyFormat
-    }
+    private val currencyFormat: DecimalFormat = getCurrencyFormat()
 
     val formattedAmount: String = when {
         price.isNullOrBlank() -> "${currency.symbol}--"
         amount in belowOneThreshold -> currencyFormat.format(amount)
         amount in smallThreshold -> currencyFormat.format(amount)
         else -> formatLargeAmount()
+    }
+
+    private fun getCurrencyFormat(): DecimalFormat {
+        val currencyFormat = DecimalFormat.getCurrencyInstance(Locale.US) as DecimalFormat
+        val decimalPlaces = if (amount in belowOneThreshold) 6 else 2
+        val currencyCode = try {
+            CurrencyCode.getInstance(currency.name)
+        } catch (e: IllegalArgumentException) {
+            CurrencyCode.getInstance(Currency.USD.name)
+        }
+        currencyFormat.minimumFractionDigits = decimalPlaces
+        currencyFormat.maximumFractionDigits = decimalPlaces
+        currencyFormat.currency = currencyCode
+
+        return currencyFormat
     }
 
     private fun formatLargeAmount(): String {
