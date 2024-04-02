@@ -29,13 +29,11 @@ data class Price(val price: String?, val currency: Currency = Currency.USD) : Co
         currencyFormat
     }
 
-    val formattedAmount: String by lazy {
-        when {
-            price.isNullOrBlank() -> "${currency.symbol}--"
-            amount in belowOneThreshold -> currencyFormat.format(amount)
-            amount in smallThreshold -> currencyFormat.format(amount)
-            else -> formatLargeAmount()
-        }
+    val formattedAmount: String = when {
+        price.isNullOrBlank() -> "${currency.symbol}--"
+        amount in belowOneThreshold -> currencyFormat.format(amount)
+        amount in smallThreshold -> currencyFormat.format(amount)
+        else -> formatLargeAmount()
     }
 
     private fun formatLargeAmount(): String {
