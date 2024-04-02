@@ -29,32 +29,36 @@ data class Price(val price: String?, val currency: Currency = Currency.USD) : Co
         currencyFormat
     }
 
-    val formattedAmount: String = when {
-        price.isNullOrBlank() -> "${currency.symbol}--"
-        amount in belowOneThreshold || amount in smallThreshold -> currencyFormat.format(amount)
-        else -> {
-            val roundedAmount = amount.round(MathContext(5, RoundingMode.HALF_EVEN))
-
-            val divisor = when (roundedAmount) {
-                in millionThreshold -> million
-                in billionThreshold -> billion
-                in trillionThreshold -> trillion
-                in quadrillionThreshold -> quadrillion
-                else -> BigDecimal.ONE
-            }
-
-            val symbol = when (roundedAmount) {
-                in millionThreshold -> "M"
-                in billionThreshold -> "B"
-                in trillionThreshold -> "T"
-                in quadrillionThreshold -> "Q"
-                else -> ""
-            }
-
-            val shortenedAmount = amount.divide(divisor, 2, RoundingMode.HALF_EVEN)
-
-            currencyFormat.format(shortenedAmount) + symbol
+    val formattedAmount: String by lazy {
+        when {
+            price.isNullOrBlank() -> "${currency.symbol}--"
+            amount in belowOneThreshold -> currencyFormat.format(amount)
+            amount in smallThreshold -> currencyFormat.format(amount)
+            else -> formatLargeAmount()
         }
+    }
+
+    private fun formatLargeAmount(): String {
+        val roundedAmount = amount.round(MathContext(5, roundingMode))
+
+        val divisor = when (roundedAmount) {
+            in millionThreshold -> million
+            in billionThreshold -> billion
+            in trillionThreshold -> trillion
+            in quadrillionThreshold -> quadrillion
+            else -> BigDecimal.ONE
+        }
+
+        val symbol = when (roundedAmount) {
+            in millionThreshold -> "M"
+            in billionThreshold -> "B"
+            in trillionThreshold -> "T"
+            in quadrillionThreshold -> "Q"
+            else -> ""
+        }
+
+        val shortenedAmount = amount.divide(divisor, 2, roundingMode)
+        return currencyFormat.format(shortenedAmount) + symbol
     }
 
     override fun compareTo(other: Price) = amount.compareTo(other.amount)
@@ -72,5 +76,7 @@ data class Price(val price: String?, val currency: Currency = Currency.USD) : Co
         private val billionThreshold = billion..<trillion
         private val trillionThreshold = trillion..<quadrillion
         private val quadrillionThreshold = quadrillion..<quintillion
+
+        val roundingMode = RoundingMode.HALF_EVEN
     }
 }
