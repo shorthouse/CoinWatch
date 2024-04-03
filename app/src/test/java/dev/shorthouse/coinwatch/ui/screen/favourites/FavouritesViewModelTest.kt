@@ -13,6 +13,7 @@ import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetFavouritesPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCachedFavouriteCoinsUseCase
+import dev.shorthouse.coinwatch.domain.UpdateCoinSortUseCase
 import dev.shorthouse.coinwatch.domain.UpdateIsFavouritesCondensedUseCase
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
@@ -61,6 +62,9 @@ class FavouritesViewModelTest {
     @RelaxedMockK
     private lateinit var updateIsFavouritesCondensedUseCase: UpdateIsFavouritesCondensedUseCase
 
+    @RelaxedMockK
+    private lateinit var updateCoinSortUseCase: UpdateCoinSortUseCase
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
@@ -71,7 +75,8 @@ class FavouritesViewModelTest {
             getFavouriteCoinIdsUseCase = getFavouriteCoinIdsUseCase,
             getUserPreferencesUseCase = getUserPreferencesUseCase,
             getFavouritesPreferencesUseCase = getFavouritesPreferencesUseCase,
-            updateIsFavouritesCondensedUseCase = updateIsFavouritesCondensedUseCase
+            updateIsFavouritesCondensedUseCase = updateIsFavouritesCondensedUseCase,
+            updateCoinSortUseCase = updateCoinSortUseCase
         )
     }
 
