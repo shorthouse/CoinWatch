@@ -15,20 +15,23 @@ data class Price(val price: String?, val currency: Currency = Currency.USD) : Co
     private val currencyFormat: DecimalFormat = getCurrencyFormat()
 
     val formattedAmount: String = when {
+        // Must be checked in this order
         price.isNullOrBlank() -> "${currency.symbol}--"
-        amount in belowOneThreshold -> currencyFormat.format(amount)
-        amount in smallThreshold -> currencyFormat.format(amount)
+        amount in belowOneRange -> currencyFormat.format(amount)
+        amount in belowMillionRange -> currencyFormat.format(amount)
         else -> formatLargeAmount()
     }
 
     private fun getCurrencyFormat(): DecimalFormat {
         val currencyFormat = DecimalFormat.getCurrencyInstance(Locale.US) as DecimalFormat
-        val decimalPlaces = if (amount in belowOneThreshold) 6 else 2
+
+        val decimalPlaces = if (amount in belowOneRange) 6 else 2
         val currencyCode = try {
             CurrencyCode.getInstance(currency.name)
         } catch (e: IllegalArgumentException) {
             CurrencyCode.getInstance(Currency.USD.name)
         }
+
         currencyFormat.minimumFractionDigits = decimalPlaces
         currencyFormat.maximumFractionDigits = decimalPlaces
         currencyFormat.currency = currencyCode
@@ -40,18 +43,18 @@ data class Price(val price: String?, val currency: Currency = Currency.USD) : Co
         val roundedAmount = amount.round(MathContext(5, roundingMode))
 
         val divisor = when (roundedAmount) {
-            in millionThreshold -> million
-            in billionThreshold -> billion
-            in trillionThreshold -> trillion
-            in quadrillionThreshold -> quadrillion
+            in millionRange -> million
+            in billionRange -> billion
+            in trillionRange -> trillion
+            in quadrillionRange -> quadrillion
             else -> BigDecimal.ONE
         }
 
         val symbol = when (roundedAmount) {
-            in millionThreshold -> "M"
-            in billionThreshold -> "B"
-            in trillionThreshold -> "T"
-            in quadrillionThreshold -> "Q"
+            in millionRange -> "M"
+            in billionRange -> "B"
+            in trillionRange -> "T"
+            in quadrillionRange -> "Q"
             else -> ""
         }
 
@@ -68,12 +71,12 @@ data class Price(val price: String?, val currency: Currency = Currency.USD) : Co
         private val quadrillion = BigDecimal("1000000000000000")
         private val quintillion = BigDecimal("1000000000000000000")
 
-        private val belowOneThreshold = BigDecimal("-1.00")..BigDecimal("1.00")
-        private val smallThreshold = BigDecimal("1.00")..<million
-        private val millionThreshold = million..<billion
-        private val billionThreshold = billion..<trillion
-        private val trillionThreshold = trillion..<quadrillion
-        private val quadrillionThreshold = quadrillion..<quintillion
+        private val belowOneRange = BigDecimal("-1.00")..BigDecimal("1.00")
+        private val belowMillionRange = BigDecimal("1.00")..<million
+        private val millionRange = million..<billion
+        private val billionRange = billion..<trillion
+        private val trillionRange = trillion..<quadrillion
+        private val quadrillionRange = quadrillion..<quintillion
 
         val roundingMode = RoundingMode.HALF_EVEN
     }
