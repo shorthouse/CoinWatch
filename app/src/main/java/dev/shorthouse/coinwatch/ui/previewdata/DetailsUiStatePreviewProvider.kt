@@ -7,8 +7,8 @@ import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import dev.shorthouse.coinwatch.ui.screen.details.DetailsUiState
-import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
+import java.math.BigDecimal
 
 class DetailsUiStatePreviewProvider : PreviewParameterProvider<DetailsUiState> {
     override val values = sequenceOf(
@@ -21,7 +21,7 @@ class DetailsUiStatePreviewProvider : PreviewParameterProvider<DetailsUiState> {
                 currentPrice = Price("1879.14"),
                 marketCap = Price("225722901094"),
                 marketCapRank = "2",
-                volume24h = "6,627,669,115",
+                volume24h = Price("6,627,669,115"),
                 circulatingSupply = "120,186,525",
                 allTimeHigh = Price("4878.26"),
                 allTimeHighDate = "10 Nov 2021",
@@ -159,7 +159,7 @@ class DetailsUiStatePreviewProvider : PreviewParameterProvider<DetailsUiState> {
                     BigDecimal("1737.76"),
                     BigDecimal("1739.52"),
                     BigDecimal("1742.98"),
-                    BigDecimal("1738.36") // ktlint-disable argument-list-wrapping
+                    BigDecimal("1738.36")
                 ),
                 minPrice = Price("1632.46"),
                 maxPrice = Price("1922.83"),
