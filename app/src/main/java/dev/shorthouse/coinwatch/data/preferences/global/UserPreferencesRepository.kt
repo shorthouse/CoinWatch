@@ -29,14 +29,6 @@ class UserPreferencesRepository @Inject constructor(
         }
     }
 
-    suspend fun updateCoinSort(coinSort: CoinSort) {
-        if (coinSort != userPreferencesFlow.first().coinSort) {
-            userPreferencesDataStore.updateData { currentPreferences ->
-                currentPreferences.copy(coinSort = coinSort)
-            }
-        }
-    }
-
     suspend fun updateStartScreen(startScreen: StartScreen) {
         if (startScreen != userPreferencesFlow.first().startScreen) {
             userPreferencesDataStore.updateData { currentPreferences ->

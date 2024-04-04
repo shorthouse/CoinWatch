@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.data.preferences.favourites
 
 import androidx.datastore.core.DataStore
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -25,6 +26,14 @@ class FavouritesPreferencesRepository @Inject constructor(
         if (isCondensed != favouritesPreferencesFlow.first().isFavouritesCondensed) {
             favouritesPreferencesDataStore.updateData { currentPreferences ->
                 currentPreferences.copy(isFavouritesCondensed = isCondensed)
+            }
+        }
+    }
+
+    suspend fun updateCoinSort(coinSort: CoinSort) {
+        if (coinSort != favouritesPreferencesFlow.first().coinSort) {
+            favouritesPreferencesDataStore.updateData { currentPreferences ->
+                currentPreferences.copy(coinSort = coinSort)
             }
         }
     }
