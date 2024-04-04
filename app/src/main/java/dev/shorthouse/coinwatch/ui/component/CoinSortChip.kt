@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.screen.market.component
+package dev.shorthouse.coinwatch.ui.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.TrendingDown
@@ -15,27 +15,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import dev.shorthouse.coinwatch.data.preferences.market.MarketCoinSort
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
+
 @Composable
-fun MarketCoinSortChip(
-    marketCoinSort: MarketCoinSort,
+fun CoinSortChip(
+    coinSort: CoinSort,
     selected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     FilterChip(
-        label = { Text(text = stringResource(marketCoinSort.nameId)) },
+        label = { Text(text = stringResource(coinSort.nameId)) },
         onClick = onClick,
         selected = selected,
         leadingIcon = {
-            val imageVector = when (marketCoinSort) {
-                MarketCoinSort.MarketCap -> Icons.Rounded.BarChart
-                MarketCoinSort.Popular -> Icons.Rounded.Whatshot
-                MarketCoinSort.Gainers -> Icons.AutoMirrored.Rounded.TrendingUp
-                MarketCoinSort.Losers -> Icons.AutoMirrored.Rounded.TrendingDown
-                MarketCoinSort.Newest -> Icons.Rounded.MoreTime
+            val imageVector = when (coinSort) {
+                CoinSort.MarketCap -> Icons.Rounded.BarChart
+                CoinSort.Popular -> Icons.Rounded.Whatshot
+                CoinSort.Gainers -> Icons.AutoMirrored.Rounded.TrendingUp
+                CoinSort.Losers -> Icons.AutoMirrored.Rounded.TrendingDown
+                CoinSort.Newest -> Icons.Rounded.MoreTime
             }
 
             Icon(
@@ -62,10 +63,10 @@ fun MarketCoinSortChip(
 
 @Preview(showBackground = true)
 @Composable
-private fun MarketCoinSortChipUnselectedPreview() {
+private fun CoinSortChipUnselectedPreview() {
     AppTheme {
-        MarketCoinSortChip(
-            marketCoinSort = MarketCoinSort.MarketCap,
+        CoinSortChip(
+            coinSort = CoinSort.MarketCap,
             selected = false,
             onClick = {}
         )
@@ -74,10 +75,10 @@ private fun MarketCoinSortChipUnselectedPreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun MarketCoinSortChipSelectedPreview() {
+private fun CoinSortChipSelectedPreview() {
     AppTheme {
-        MarketCoinSortChip(
-            marketCoinSort = MarketCoinSort.Gainers,
+        CoinSortChip(
+            coinSort = CoinSort.Gainers,
             selected = true,
             onClick = {}
         )
