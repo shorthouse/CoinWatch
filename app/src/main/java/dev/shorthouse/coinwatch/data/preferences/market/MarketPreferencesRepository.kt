@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.data.preferences.market
 
 import androidx.datastore.core.DataStore
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -21,10 +22,10 @@ class MarketPreferencesRepository @Inject constructor(
             }
         }
 
-    suspend fun updateMarketCoinSort(marketCoinSort: MarketCoinSort) {
-        if (marketCoinSort != marketPreferencesFlow.first().marketCoinSort) {
+    suspend fun updateCoinSort(coinSort: CoinSort) {
+        if (coinSort != marketPreferencesFlow.first().coinSort) {
             marketPreferencesDataStore.updateData { currentPreferences ->
-                currentPreferences.copy(marketCoinSort = marketCoinSort)
+                currentPreferences.copy(coinSort = coinSort)
             }
         }
     }

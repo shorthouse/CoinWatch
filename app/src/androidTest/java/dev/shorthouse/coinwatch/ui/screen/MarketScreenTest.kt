@@ -17,7 +17,7 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.preferences.market.MarketCoinSort
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
@@ -56,7 +56,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -81,7 +81,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -105,7 +105,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -129,7 +129,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -153,7 +153,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -179,7 +179,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -205,7 +205,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -231,7 +231,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -257,7 +257,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -282,7 +282,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -310,7 +310,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -329,7 +329,7 @@ class MarketScreenTest {
     @Test
     fun when_coinSortMarketCap_should_haveMarketCapChipSelected() {
         val uiState = MarketUiState(
-            marketCoinSort = MarketCoinSort.MarketCap,
+            coinSort = CoinSort.MarketCap,
             coins = persistentListOf(bitcoin)
         )
 
@@ -339,7 +339,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -358,7 +358,7 @@ class MarketScreenTest {
     @Test
     fun when_coinSortPopular_should_displaySelectedCoinSortAsPopular() {
         val uiState = MarketUiState(
-            marketCoinSort = MarketCoinSort.Popular,
+            coinSort = CoinSort.Popular,
             coins = persistentListOf(bitcoin)
         )
 
@@ -368,7 +368,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -387,7 +387,7 @@ class MarketScreenTest {
     @Test
     fun when_coinSortGainers_should_displaySelectedCoinSortAsGainers() {
         val uiState = MarketUiState(
-            marketCoinSort = MarketCoinSort.Gainers,
+            coinSort = CoinSort.Gainers,
             coins = persistentListOf(bitcoin)
         )
 
@@ -397,7 +397,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -416,7 +416,7 @@ class MarketScreenTest {
     @Test
     fun when_coinSortLosers_should_displaySelectedCoinSortAsLosers() {
         val uiState = MarketUiState(
-            marketCoinSort = MarketCoinSort.Losers,
+            coinSort = CoinSort.Losers,
             coins = persistentListOf(bitcoin)
         )
 
@@ -426,7 +426,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -445,7 +445,7 @@ class MarketScreenTest {
     @Test
     fun when_coinSortNewest_should_displaySelectedCoinSortAsNewest() {
         val uiState = MarketUiState(
-            marketCoinSort = MarketCoinSort.Newest,
+            coinSort = CoinSort.Newest,
             coins = persistentListOf(bitcoin)
         )
 
@@ -455,7 +455,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -472,8 +472,8 @@ class MarketScreenTest {
     }
 
     @Test
-    fun when_coinSortClicked_should_callUpdateMarketCoinSort() {
-        val onClickCoinSortMap = MarketCoinSort.entries
+    fun when_coinSortClicked_should_callUpdateCoinSort() {
+        val onClickCoinSortMap = CoinSort.entries
             .associateWith { false }
             .toMutableMap()
 
@@ -487,7 +487,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = { onClickCoinSortMap[it] = true },
+                    onUpdateCoinSort = { onClickCoinSortMap[it] = true },
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -536,7 +536,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -570,7 +570,7 @@ class MarketScreenTest {
                     uiState = uiStateSuccess,
                     onCoinClick = { onCoinClickCalled = true },
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -607,7 +607,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -635,7 +635,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = { onRefreshCalled = true },
                     onDismissError = {}
                 )
@@ -665,7 +665,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -689,7 +689,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -712,7 +712,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = {},
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -738,7 +738,7 @@ class MarketScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onNavigateSettings = { onNavigateSettingsCalled = true },
-                    onUpdateMarketCoinSort = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
