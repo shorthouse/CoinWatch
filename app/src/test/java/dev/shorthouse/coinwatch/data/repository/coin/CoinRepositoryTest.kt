@@ -4,8 +4,8 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.mapper.CoinMapper
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.preferences.global.Currency
-import dev.shorthouse.coinwatch.data.preferences.market.MarketCoinSort
 import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSource
 import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
@@ -67,12 +67,12 @@ class CoinRepositoryTest {
     @Test
     fun `When remote coins returns valid data should return success`() = runTest {
         // Arrange
-        val marketCoinSort = MarketCoinSort.MarketCap
+        val coinSort = CoinSort.MarketCap
         val currency = Currency.EUR
 
         coEvery {
             coinNetworkDataSource.getCoins(
-                marketCoinSort = marketCoinSort,
+                coinSort = coinSort,
                 currency = currency
             )
         } returns Response.success(
@@ -107,7 +107,7 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getRemoteCoins(
-            marketCoinSort = marketCoinSort,
+            coinSort = coinSort,
             currency = currency
         )
 
@@ -120,12 +120,12 @@ class CoinRepositoryTest {
     fun `When remote coins data has null values should populate with defaults and return success`() =
         runTest {
             // Arrange
-            val marketCoinSort = MarketCoinSort.MarketCap
+            val coinSort = CoinSort.MarketCap
             val currency = Currency.USD
 
             coEvery {
                 coinNetworkDataSource.getCoins(
-                    marketCoinSort = marketCoinSort,
+                    coinSort = coinSort,
                     currency = currency
                 )
             } returns Response.success(
@@ -160,7 +160,7 @@ class CoinRepositoryTest {
 
             // Act
             val result = coinRepository.getRemoteCoins(
-                marketCoinSort = marketCoinSort,
+                coinSort = coinSort,
                 currency = currency
             )
 
@@ -172,12 +172,12 @@ class CoinRepositoryTest {
     @Test
     fun `When coins data is null should return error`() = runTest {
         // Arrange
-        val marketCoinSort = MarketCoinSort.MarketCap
+        val coinSort = CoinSort.MarketCap
         val currency = Currency.USD
 
         coEvery {
             coinNetworkDataSource.getCoins(
-                marketCoinSort = marketCoinSort,
+                coinSort = coinSort,
                 currency = currency
             )
         } returns Response.success(
@@ -192,7 +192,7 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getRemoteCoins(
-            marketCoinSort = marketCoinSort,
+            coinSort = coinSort,
             currency = currency
         )
 
@@ -204,13 +204,13 @@ class CoinRepositoryTest {
     @Test
     fun `When retrofit response is unsuccessful should return error`() = runTest {
         // Arrange
-        val marketCoinSort = MarketCoinSort.MarketCap
+        val coinSort = CoinSort.MarketCap
         val currency = Currency.USD
         val errorMessage = "Unable to fetch coin search results"
 
         coEvery {
             coinNetworkDataSource.getCoins(
-                marketCoinSort = marketCoinSort,
+                coinSort = coinSort,
                 currency = currency
             )
         } returns Response.error(
@@ -224,7 +224,7 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getRemoteCoins(
-            marketCoinSort = marketCoinSort,
+            coinSort = coinSort,
             currency = currency
         )
 
@@ -236,12 +236,12 @@ class CoinRepositoryTest {
     @Test
     fun `When mapping remote coins throws error should catch and return error`() = runTest {
         // Arrange
-        val marketCoinSort = MarketCoinSort.MarketCap
+        val coinSort = CoinSort.MarketCap
         val currency = Currency.USD
 
         coEvery {
             coinNetworkDataSource.getCoins(
-                marketCoinSort = marketCoinSort,
+                coinSort = coinSort,
                 currency = currency
             )
         } throws IOException()
@@ -252,7 +252,7 @@ class CoinRepositoryTest {
 
         // Act
         val result = coinRepository.getRemoteCoins(
-            marketCoinSort = marketCoinSort,
+            coinSort = coinSort,
             currency = currency
         )
 

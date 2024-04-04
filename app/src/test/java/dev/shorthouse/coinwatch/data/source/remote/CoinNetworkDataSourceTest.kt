@@ -1,9 +1,10 @@
 package dev.shorthouse.coinwatch.data.source.remote
 
 import dev.shorthouse.coinwatch.MainDispatcherRule
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.preferences.global.Currency
-import dev.shorthouse.coinwatch.data.preferences.market.MarketCoinSort
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsApiModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -44,7 +45,7 @@ class CoinNetworkDataSourceTest {
     @Test
     fun `When get coins should call API with expected queries`() = runTest {
         // Arrange
-        val marketCoinSort = MarketCoinSort.Gainers
+        val coinSort = CoinSort.Gainers
         val currency = Currency.EUR
 
         coEvery { coinApi.getCoins(any(), any(), any()) } returns
@@ -52,7 +53,7 @@ class CoinNetworkDataSourceTest {
 
         // Act
         coinNetworkDataSource.getCoins(
-            marketCoinSort = marketCoinSort,
+            coinSort = coinSort,
             currency = currency
         )
 
@@ -62,6 +63,34 @@ class CoinNetworkDataSourceTest {
                 orderBy = "change",
                 orderDirection = "desc",
                 currencyUUID = "5k-_VTxqtCEI"
+            )
+        }
+    }
+
+    @Test
+    fun `When get favourite coins should call API with expected queries`() = runTest {
+        // Arrange
+        val coinIds = listOf("Qwsogvtv82FCd")
+        val coinSort = CoinSort.MarketCap
+        val currency = Currency.USD
+
+        coEvery { coinApi.getFavouriteCoins(any(), any(), any()) } returns
+            Response.success(FavouriteCoinsApiModel(null))
+
+        // Act
+        coinNetworkDataSource.getFavouriteCoins(
+            coinIds = coinIds,
+            coinSort = coinSort,
+            currency = currency
+        )
+
+        // Assert
+        coVerify(exactly = 1) {
+            coinApi.getFavouriteCoins(
+                coinIds = coinIds,
+                orderBy = "marketCap",
+                orderDirection = "desc",
+                currencyUUID = "yhjMzLPhuIDl"
             )
         }
     }

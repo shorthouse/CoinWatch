@@ -2,8 +2,8 @@ package dev.shorthouse.coinwatch.domain
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.preferences.global.Currency
-import dev.shorthouse.coinwatch.data.preferences.market.MarketCoinSort
 import dev.shorthouse.coinwatch.data.repository.coin.CoinRepository
 import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
@@ -38,7 +38,7 @@ class UpdateCachedCoinsUseCaseTest {
     @Test
     fun `When remote coins success should refresh cached coins and return success`() = runTest {
         // Arrange
-        val marketCoinSort = MarketCoinSort.Gainers
+        val coinSort = CoinSort.Gainers
         val currency = Currency.EUR
 
         val remoteCoinsResult = Result.Success(
@@ -56,7 +56,7 @@ class UpdateCachedCoinsUseCaseTest {
 
         coEvery {
             coinRepository.getRemoteCoins(
-                marketCoinSort = marketCoinSort,
+                coinSort = coinSort,
                 currency = currency
             )
         } returns remoteCoinsResult
@@ -67,7 +67,7 @@ class UpdateCachedCoinsUseCaseTest {
 
         // Act
         val refreshCachedCoinResult = updateCachedCoinsUseCase(
-            marketCoinSort = marketCoinSort,
+            coinSort = coinSort,
             currency = currency
         )
 
@@ -78,7 +78,7 @@ class UpdateCachedCoinsUseCaseTest {
 
         coVerifySequence {
             coinRepository.getRemoteCoins(
-                marketCoinSort = marketCoinSort,
+                coinSort = coinSort,
                 currency = currency
             )
             coinRepository.updateCachedCoins(remoteCoinsResult.data)
@@ -88,7 +88,7 @@ class UpdateCachedCoinsUseCaseTest {
     @Test
     fun `When remote coins error should not call refresh and should return error`() = runTest {
         // Arrange
-        val marketCoinSort = MarketCoinSort.Gainers
+        val coinSort = CoinSort.Gainers
         val currency = Currency.EUR
 
         val remoteCoinsResult = Result.Error<List<Coin>>(
@@ -97,14 +97,14 @@ class UpdateCachedCoinsUseCaseTest {
 
         coEvery {
             coinRepository.getRemoteCoins(
-                marketCoinSort = marketCoinSort,
+                coinSort = coinSort,
                 currency = currency
             )
         } returns remoteCoinsResult
 
         // Act
         val refreshCachedCoinResult = updateCachedCoinsUseCase(
-            marketCoinSort = marketCoinSort,
+            coinSort = coinSort,
             currency = currency
         )
 
@@ -115,7 +115,7 @@ class UpdateCachedCoinsUseCaseTest {
 
         coVerifySequence {
             coinRepository.getRemoteCoins(
-                marketCoinSort = marketCoinSort,
+                coinSort = coinSort,
                 currency = currency
             )
         }

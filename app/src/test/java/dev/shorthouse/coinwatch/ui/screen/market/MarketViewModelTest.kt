@@ -4,9 +4,9 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.preferences.global.UserPreferences
-import dev.shorthouse.coinwatch.data.preferences.market.MarketCoinSort
 import dev.shorthouse.coinwatch.data.preferences.market.MarketPreferences
 import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
@@ -142,17 +142,17 @@ class MarketViewModelTest {
             currency = currency
         )
 
-        val marketCoinSort = MarketCoinSort.Newest
+        val coinSort = CoinSort.Newest
 
         val marketPreferences = MarketPreferences(
-            marketCoinSort = marketCoinSort
+            coinSort = coinSort
         )
 
         every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
         every { getMarketPreferencesUseCase() } returns flowOf(marketPreferences)
         coEvery {
             updateCachedCoinsUseCase(
-                marketCoinSort = marketCoinSort,
+                coinSort = coinSort,
                 currency = currency
             )
         } returns Result.Success(emptyList())
@@ -164,7 +164,7 @@ class MarketViewModelTest {
         coVerify {
             getUserPreferencesUseCase()
             updateCachedCoinsUseCase(
-                marketCoinSort = marketCoinSort,
+                coinSort = coinSort,
                 currency = currency
             )
         }
@@ -179,17 +179,17 @@ class MarketViewModelTest {
             currency = currency
         )
 
-        val marketCoinSort = MarketCoinSort.Gainers
+        val coinSort = CoinSort.Gainers
 
         val marketPreferences = MarketPreferences(
-            marketCoinSort = marketCoinSort
+            coinSort = coinSort
         )
 
         every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
         every { getMarketPreferencesUseCase() } returns flowOf(marketPreferences)
         coEvery {
             updateCachedCoinsUseCase(
-                marketCoinSort = marketCoinSort,
+                coinSort = coinSort,
                 currency = currency
             )
         } returns Result.Success(emptyList())
@@ -201,38 +201,38 @@ class MarketViewModelTest {
         coVerify {
             getMarketPreferencesUseCase()
             updateCachedCoinsUseCase(
-                marketCoinSort = marketCoinSort,
+                coinSort = coinSort,
                 currency = currency
             )
         }
-        assertThat(viewModel.uiState.value.marketCoinSort).isEqualTo(marketCoinSort)
+        assertThat(viewModel.uiState.value.coinSort).isEqualTo(coinSort)
     }
 
     @Test
-    fun `When market coin sort updates should call use case`() {
+    fun `When coin sort updates should call use case`() {
         // Arrange
-        val marketCoinSort = MarketCoinSort.Popular
+        val coinSort = CoinSort.Popular
 
         // Act
-        viewModel.updateMarketCoinSort(marketCoinSort)
+        viewModel.updateCoinSort(coinSort)
 
         // Assert
         coVerify {
-            updateMarketCoinSortUseCase(marketCoinSort)
+            updateMarketCoinSortUseCase(coinSort)
         }
     }
 
     @Test
     fun `When pull refresh cached coins called should refresh cached coins with user prefs`() {
         // Arrange
-        val marketCoinSort = MarketCoinSort.Gainers
+        val coinSort = CoinSort.Gainers
         val currency = Currency.USD
 
         every { getUserPreferencesUseCase() } returns flowOf(
             UserPreferences(currency = currency)
         )
         every { getMarketPreferencesUseCase() } returns flowOf(
-            MarketPreferences(marketCoinSort = marketCoinSort)
+            MarketPreferences(coinSort = coinSort)
         )
         coEvery { updateCachedCoinsUseCase(any(), any()) } returns Result.Success(emptyList())
 
