@@ -1,6 +1,6 @@
 package dev.shorthouse.coinwatch.ui.screen.market
 
-import dev.shorthouse.coinwatch.data.preferences.market.MarketCoinSort
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
@@ -11,7 +11,7 @@ data class MarketUiState(
     val coins: ImmutableList<Coin> = persistentListOf(),
     val timeOfDay: TimeOfDay = TimeOfDay.Morning,
     val marketCapChangePercentage24h: Percentage? = null,
-    val marketCoinSort: MarketCoinSort = MarketCoinSort.MarketCap,
+    val coinSort: CoinSort = CoinSort.MarketCap,
     val isRefreshing: Boolean = false,
     val isLoading: Boolean = false,
     val errorMessageIds: List<Int> = persistentListOf()

@@ -51,9 +51,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.preferences.market.MarketCoinSort
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
+import dev.shorthouse.coinwatch.ui.component.CoinSortChip
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.PullRefreshIndicator
@@ -63,7 +64,6 @@ import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.previewdata.MarketUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.market.component.CoinsEmptyState
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketCoinItem
-import dev.shorthouse.coinwatch.ui.screen.market.component.MarketCoinSortChip
 import dev.shorthouse.coinwatch.ui.screen.market.component.SearchPrompt
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
@@ -83,8 +83,8 @@ fun MarketScreen(
             onNavigateDetails(coin.id)
         },
         onNavigateSettings = onNavigateSettings,
-        onUpdateMarketCoinSort = { marketCoinSort ->
-            viewModel.updateMarketCoinSort(marketCoinSort)
+        onUpdateCoinSort = { coinSort ->
+            viewModel.updateCoinSort(coinSort)
         },
         onRefresh = {
             viewModel.pullRefreshCoins()
@@ -101,7 +101,7 @@ fun MarketScreen(
     uiState: MarketUiState,
     onCoinClick: (Coin) -> Unit,
     onNavigateSettings: () -> Unit,
-    onUpdateMarketCoinSort: (MarketCoinSort) -> Unit,
+    onUpdateCoinSort: (CoinSort) -> Unit,
     onRefresh: () -> Unit,
     onDismissError: (Int) -> Unit,
     modifier: Modifier = Modifier
@@ -164,8 +164,8 @@ fun MarketScreen(
                     MarketContent(
                         coins = uiState.coins,
                         onCoinClick = onCoinClick,
-                        marketCoinSort = uiState.marketCoinSort,
-                        onUpdateMarketCoinSort = onUpdateMarketCoinSort,
+                        coinSort = uiState.coinSort,
+                        onUpdateCoinSort = onUpdateCoinSort,
                         lazyListState = listState
                     )
                 }
@@ -260,8 +260,8 @@ fun MarketTopBar(
 fun MarketContent(
     coins: ImmutableList<Coin>,
     onCoinClick: (Coin) -> Unit,
-    marketCoinSort: MarketCoinSort,
-    onUpdateMarketCoinSort: (MarketCoinSort) -> Unit,
+    coinSort: CoinSort,
+    onUpdateCoinSort: (CoinSort) -> Unit,
     lazyListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
@@ -276,13 +276,15 @@ fun MarketContent(
             item {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.horizontalScroll(rememberScrollState()),
+                    modifier = Modifier
+                        .horizontalScroll(rememberScrollState())
+                        .padding(bottom = 8.dp)
                 ) {
-                    MarketCoinSort.entries.forEach { marketCoinSortEntry ->
-                        MarketCoinSortChip(
-                            marketCoinSort = marketCoinSortEntry,
-                            selected = marketCoinSortEntry == marketCoinSort,
-                            onClick = { onUpdateMarketCoinSort(marketCoinSortEntry) }
+                    CoinSort.entries.forEach { coinSortEntry ->
+                        CoinSortChip(
+                            coinSort = coinSortEntry,
+                            selected = coinSortEntry == coinSort,
+                            onClick = { onUpdateCoinSort(coinSortEntry) }
                         )
                     }
                 }
@@ -332,7 +334,7 @@ private fun MarketScreenPreview(
             uiState = uiState,
             onCoinClick = {},
             onNavigateSettings = {},
-            onUpdateMarketCoinSort = {},
+            onUpdateCoinSort = {},
             onRefresh = {},
             onDismissError = {}
         )

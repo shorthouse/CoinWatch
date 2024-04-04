@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.preferences.global.Currency
-import dev.shorthouse.coinwatch.data.preferences.market.MarketCoinSort
 import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetMarketPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.GetMarketStatsUseCase
@@ -16,10 +16,6 @@ import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCachedCoinsUseCase
 import dev.shorthouse.coinwatch.domain.UpdateMarketCoinSortUseCase
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
-import java.time.LocalTime
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.minutes
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -31,6 +27,10 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalTime
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
 
 @HiltViewModel
 class MarketViewModel @Inject constructor(
@@ -77,7 +77,7 @@ class MarketViewModel @Inject constructor(
 
         getUserPreferencesUseCase().onEach { userPreferences ->
             updateCachedCoins(
-                marketCoinSort = getMarketPreferencesUseCase().first().marketCoinSort,
+                coinSort = getMarketPreferencesUseCase().first().coinSort,
                 currency = userPreferences.currency
             )
         }.launchIn(viewModelScope)
@@ -85,12 +85,12 @@ class MarketViewModel @Inject constructor(
         getMarketPreferencesUseCase().onEach { marketPreferences ->
             _uiState.update {
                 it.copy(
-                    marketCoinSort = marketPreferences.marketCoinSort
+                    coinSort = marketPreferences.coinSort
                 )
             }
 
             updateCachedCoins(
-                marketCoinSort = marketPreferences.marketCoinSort,
+                coinSort = marketPreferences.coinSort,
                 currency = getUserPreferencesUseCase().first().currency
             )
         }.launchIn(viewModelScope)
@@ -139,7 +139,7 @@ class MarketViewModel @Inject constructor(
             val marketPreferences = getMarketPreferencesUseCase().first()
 
             updateCachedCoins(
-                marketCoinSort = marketPreferences.marketCoinSort,
+                coinSort = marketPreferences.coinSort,
                 currency = userPreferences.currency
             )
 
@@ -147,9 +147,9 @@ class MarketViewModel @Inject constructor(
         }
     }
 
-    fun updateMarketCoinSort(marketCoinSort: MarketCoinSort) {
+    fun updateCoinSort(coinSort: CoinSort) {
         viewModelScope.launch {
-            updateMarketCoinSortUseCase(marketCoinSort = marketCoinSort)
+            updateMarketCoinSortUseCase(coinSort = coinSort)
         }
     }
 
@@ -179,8 +179,8 @@ class MarketViewModel @Inject constructor(
         }
     }
 
-    private suspend fun updateCachedCoins(marketCoinSort: MarketCoinSort, currency: Currency) {
-        val result = updateCachedCoinsUseCase(marketCoinSort = marketCoinSort, currency = currency)
+    private suspend fun updateCachedCoins(coinSort: CoinSort, currency: Currency) {
+        val result = updateCachedCoinsUseCase(coinSort = coinSort, currency = currency)
 
         if (result is Result.Error) {
             _uiState.update {

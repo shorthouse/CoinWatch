@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
 import dev.shorthouse.coinwatch.domain.GetFavouriteCoinIdsUseCase
@@ -14,10 +14,8 @@ import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetFavouritesPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCachedFavouriteCoinsUseCase
-import dev.shorthouse.coinwatch.domain.UpdateCoinSortUseCase
+import dev.shorthouse.coinwatch.domain.UpdateFavouritesCoinSortUseCase
 import dev.shorthouse.coinwatch.domain.UpdateIsFavouritesCondensedUseCase
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,6 +26,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class FavouritesViewModel @Inject constructor(
@@ -37,7 +37,7 @@ class FavouritesViewModel @Inject constructor(
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
     private val getFavouritesPreferencesUseCase: GetFavouritesPreferencesUseCase,
     private val updateIsFavouritesCondensedUseCase: UpdateIsFavouritesCondensedUseCase,
-    private val updateCoinSortUseCase: UpdateCoinSortUseCase
+    private val updateFavouritesCoinSortUseCase: UpdateFavouritesCoinSortUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(FavouritesUiState())
     val uiState = _uiState.asStateFlow()
@@ -51,24 +51,20 @@ class FavouritesViewModel @Inject constructor(
 
         val favouriteCoinIdsFlow = getFavouriteCoinIdsUseCase()
         val userPreferencesFlow = getUserPreferencesUseCase()
+        val favouritesPreferencesFlow = getFavouritesPreferencesUseCase()
 
         combine(
             favouriteCoinIdsFlow,
-            userPreferencesFlow
-        ) { favouriteCoinIdsResult, userPreferences ->
+            userPreferencesFlow,
+            favouritesPreferencesFlow
+        ) { favouriteCoinIdsResult, userPreferences, favouritesPreferences ->
             when (favouriteCoinIdsResult) {
                 is Result.Success -> {
                     updateCachedFavouriteCoins(
                         coinIds = favouriteCoinIdsResult.data,
                         currency = userPreferences.currency,
-                        coinSort = userPreferences.coinSort
+                        coinSort = favouritesPreferences.coinSort
                     )
-
-                    _uiState.update {
-                        it.copy(
-                            coinSort = userPreferences.coinSort,
-                        )
-                    }
                 }
 
                 is Result.Error -> {
@@ -81,6 +77,7 @@ class FavouritesViewModel @Inject constructor(
             _uiState.update {
                 it.copy(
                     isFavouritesCondensed = favouritesPreferences.isFavouritesCondensed,
+                    coinSort = favouritesPreferences.coinSort
                 )
             }
         }.launchIn(viewModelScope)
@@ -112,13 +109,14 @@ class FavouritesViewModel @Inject constructor(
 
             val favouriteCoinIdsResult = getFavouriteCoinIdsUseCase().first()
             val userPreferences = getUserPreferencesUseCase().first()
+            val favouritesPreferences = getFavouritesPreferencesUseCase().first()
 
             when (favouriteCoinIdsResult) {
                 is Result.Success -> {
                     updateCachedFavouriteCoins(
                         coinIds = favouriteCoinIdsResult.data,
                         currency = userPreferences.currency,
-                        coinSort = userPreferences.coinSort
+                        coinSort = favouritesPreferences.coinSort
                     )
                 }
 
@@ -148,12 +146,8 @@ class FavouritesViewModel @Inject constructor(
 
     fun updateCoinSort(coinSort: CoinSort) {
         viewModelScope.launch {
-            updateCoinSortUseCase(coinSort = coinSort)
+            updateFavouritesCoinSortUseCase(coinSort = coinSort)
         }
-    }
-
-    fun updateIsCoinSortSheetShown(showSheet: Boolean) {
-        _uiState.update { it.copy(isCoinSortSheetShown = showSheet) }
     }
 
     private suspend fun updateCachedFavouriteCoins(
