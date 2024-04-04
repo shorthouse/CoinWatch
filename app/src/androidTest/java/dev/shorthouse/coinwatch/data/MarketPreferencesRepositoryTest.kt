@@ -5,7 +5,7 @@ import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.data.preferences.market.MarketCoinSort
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.preferences.market.MarketPreferencesRepository
 import dev.shorthouse.coinwatch.data.preferences.market.MarketPreferencesSerializer
 import kotlinx.coroutines.Dispatchers
@@ -50,49 +50,49 @@ class MarketPreferencesRepositoryTest {
     }
 
     @Test
-    fun when_marketCoinSortMarketCap_should_updateMarketPreferences() = testCoroutineScope.runTest {
-        val marketCoinSort = MarketCoinSort.MarketCap
+    fun when_coinSortMarketCap_should_updateMarketPreferences() = testCoroutineScope.runTest {
+        val coinSort = CoinSort.MarketCap
 
-        marketPreferencesRepository.updateMarketCoinSort(marketCoinSort = marketCoinSort)
+        marketPreferencesRepository.updateCoinSort(coinSort = coinSort)
 
         val marketPreferences = marketPreferencesRepository
             .marketPreferencesFlow
             .first()
 
-        assertThat(marketPreferences.marketCoinSort).isEqualTo(marketCoinSort)
+        assertThat(marketPreferences.coinSort).isEqualTo(coinSort)
     }
 
     @Test
-    fun when_marketCoinSortPopular_should_updateMarketPreferences() = testCoroutineScope.runTest {
-        val marketCoinSort = MarketCoinSort.Popular
+    fun when_coinSortPopular_should_updateMarketPreferences() = testCoroutineScope.runTest {
+        val coinSort = CoinSort.Popular
 
-        marketPreferencesRepository.updateMarketCoinSort(marketCoinSort = marketCoinSort)
+        marketPreferencesRepository.updateCoinSort(coinSort = coinSort)
 
         val marketPreferences = marketPreferencesRepository
             .marketPreferencesFlow
             .first()
 
-        assertThat(marketPreferences.marketCoinSort).isEqualTo(marketCoinSort)
+        assertThat(marketPreferences.coinSort).isEqualTo(coinSort)
     }
 
     @Test
-    fun when_marketCoinSortGainers_should_updateMarketPreferences() = testCoroutineScope.runTest {
-        val marketCoinSort = MarketCoinSort.Gainers
+    fun when_coinSortGainers_should_updateMarketPreferences() = testCoroutineScope.runTest {
+        val coinSort = CoinSort.Gainers
 
-        marketPreferencesRepository.updateMarketCoinSort(marketCoinSort = marketCoinSort)
+        marketPreferencesRepository.updateCoinSort(coinSort = coinSort)
 
         val marketPreferences = marketPreferencesRepository
             .marketPreferencesFlow
             .first()
 
-        assertThat(marketPreferences.marketCoinSort).isEqualTo(marketCoinSort)
+        assertThat(marketPreferences.coinSort).isEqualTo(coinSort)
     }
 
     @Test
-    fun when_marketCoinSortLosers_should_updateMarketPreferences() = testCoroutineScope.runTest {
-        val marketCoinSort = MarketCoinSort.Losers
+    fun when_coinSortLosers_should_updateMarketPreferences() = testCoroutineScope.runTest {
+        val coinSort = CoinSort.Losers
 
-        marketPreferencesRepository.updateMarketCoinSort(marketCoinSort = marketCoinSort)
+        marketPreferencesRepository.updateCoinSort(coinSort = coinSort)
 
         val marketPreferences = marketPreferencesRepository
             .marketPreferencesFlow
@@ -100,15 +100,15 @@ class MarketPreferencesRepositoryTest {
     }
 
     @Test
-    fun when_marketCoinSortNewest_should_updateMarketPreferences() = testCoroutineScope.runTest {
-        val marketCoinSort = MarketCoinSort.Newest
+    fun when_coinSortNewest_should_updateMarketPreferences() = testCoroutineScope.runTest {
+        val coinSort = CoinSort.Newest
 
-        marketPreferencesRepository.updateMarketCoinSort(marketCoinSort = marketCoinSort)
+        marketPreferencesRepository.updateCoinSort(coinSort = coinSort)
 
         val marketPreferences = marketPreferencesRepository
             .marketPreferencesFlow
             .first()
 
-        assertThat(marketPreferences.marketCoinSort).isEqualTo(marketCoinSort)
+        assertThat(marketPreferences.coinSort).isEqualTo(coinSort)
     }
 }
