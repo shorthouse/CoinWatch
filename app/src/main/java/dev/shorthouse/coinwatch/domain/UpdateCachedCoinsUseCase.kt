@@ -1,8 +1,8 @@
 package dev.shorthouse.coinwatch.domain
 
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.preferences.global.Currency
-import dev.shorthouse.coinwatch.data.preferences.market.MarketCoinSort
 import dev.shorthouse.coinwatch.data.repository.coin.CoinRepository
 import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import javax.inject.Inject
@@ -11,18 +11,18 @@ class UpdateCachedCoinsUseCase @Inject constructor(
     private val coinRepository: CoinRepository
 ) {
     suspend operator fun invoke(
-        marketCoinSort: MarketCoinSort,
+        coinSort: CoinSort,
         currency: Currency
     ): Result<List<Coin>> {
-        return refreshCachedCoins(marketCoinSort = marketCoinSort, currency = currency)
+        return refreshCachedCoins(coinSort = coinSort, currency = currency)
     }
 
     private suspend fun refreshCachedCoins(
-        marketCoinSort: MarketCoinSort,
+        coinSort: CoinSort,
         currency: Currency
     ): Result<List<Coin>> {
         val remoteCoinsResult = coinRepository.getRemoteCoins(
-            marketCoinSort = marketCoinSort,
+            coinSort = coinSort,
             currency = currency
         )
 
