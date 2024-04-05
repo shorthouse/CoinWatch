@@ -34,16 +34,16 @@ fun MarketStatsCard(
                 value = coinDetails.marketCapRank
             ),
             CoinDetailsListItem(
+                nameId = R.string.list_item_market_cap,
+                value = coinDetails.marketCap.formattedAmount
+            ),
+            CoinDetailsListItem(
                 nameId = if (coinDetails.currentPrice.currency == Currency.USD) {
                     R.string.list_item_ath
                 } else {
                     R.string.list_item_ath_dollar_only
                 },
                 value = coinDetails.allTimeHigh.formattedAmount
-            ),
-            CoinDetailsListItem(
-                nameId = R.string.list_item_market_cap,
-                value = coinDetails.marketCap.formattedAmount
             ),
             CoinDetailsListItem(
                 nameId = R.string.list_item_ath_date,
