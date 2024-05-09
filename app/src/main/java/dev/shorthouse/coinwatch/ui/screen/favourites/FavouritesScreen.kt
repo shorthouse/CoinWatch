@@ -274,7 +274,7 @@ fun FavouritesContent(
             }
 
             isFavouritesCondensed -> {
-                FavouritesCondensedList(
+                FavouritesList(
                     favouriteCoins = favouriteCoins,
                     onCoinClick = onCoinClick,
                     coinSort = coinSort,
@@ -285,7 +285,7 @@ fun FavouritesContent(
             }
 
             else -> {
-                FavouritesList(
+                FavouritesGrid(
                     favouriteCoins = favouriteCoins,
                     onCoinClick = onCoinClick,
                     coinSort = coinSort,
@@ -299,7 +299,7 @@ fun FavouritesContent(
 }
 
 @Composable
-fun FavouritesList(
+fun FavouritesGrid(
     favouriteCoins: ImmutableList<FavouriteCoin>,
     onCoinClick: (FavouriteCoin) -> Unit,
     coinSort: CoinSort,
@@ -351,7 +351,7 @@ fun FavouritesList(
 }
 
 @Composable
-fun FavouritesCondensedList(
+fun FavouritesList(
     favouriteCoins: ImmutableList<FavouriteCoin>,
     onCoinClick: (FavouriteCoin) -> Unit,
     coinSort: CoinSort,
