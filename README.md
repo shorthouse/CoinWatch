@@ -40,6 +40,13 @@ The app is built using the latest [Android architecture components](https://deve
 - Material Design 3
 - Static code analysis using Ktlint
 
+# 🧬 Testing 
+CoinWatch features an extensive test suite, using the following:
+ - JUnit for local tests
+ - Jetpack Compose testing APIs for instrumented tests
+ - Truth for assertions
+ - MockK for mocks
+
 # 🧱 Architecture 
 The design of CoinWatch follows a few key principles:
 1. Unidirectional Data Flow (UDF) - State flows in one direction, and events that modify the data flow in the opposite direction.
@@ -51,14 +58,6 @@ A high-level overview of the app's architecture is displayed below. The architec
 <p align="center">
    <img src="https://github.com/shorthouse/CoinWatch/assets/73708076/d931301f-80da-4cb7-9824-bdf1d4cdfaa3" width="750">
 </p>
-
-# 🧬 Testing 
-To facilitate testing of the app, CoinWatch uses the following:
- - JUnit for local tests
- - Jetpack Compose testing APIs for instrumented tests
- - Truth for assertions
- - MockK for mocks
-
 
 # 🤝 Contributing 
 Contributions to the project are welcome and highly encouraged! To get started, please check out the [contributing guidelines](https://github.com/shorthouse/CoinWatch/blob/main/CONTRIBUTING.md).
