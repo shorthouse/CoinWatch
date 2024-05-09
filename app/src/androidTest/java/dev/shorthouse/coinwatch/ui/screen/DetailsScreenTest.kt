@@ -395,6 +395,13 @@ class DetailsScreenTest {
 
         composeTestRule.apply {
             onNodeWithText("No chart data available").assertIsDisplayed()
+            onNodeWithText("1H").assertIsDisplayed()
+            onNodeWithText("1D").assertIsDisplayed()
+            onNodeWithText("1W").assertIsDisplayed()
+            onNodeWithText("1M").assertIsDisplayed()
+            onNodeWithText("3M").assertIsDisplayed()
+            onNodeWithText("1Y").assertIsDisplayed()
+            onNodeWithText("5Y").assertIsDisplayed()
         }
     }
 

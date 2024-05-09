@@ -83,7 +83,7 @@ fun CoinChartRangeCard(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(91.dp)
+                    .height(86.dp)
             ) {
                 Text(
                     text = stringResource(R.string.empty_chart_range_message),

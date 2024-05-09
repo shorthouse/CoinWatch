@@ -28,9 +28,9 @@ import dev.shorthouse.coinwatch.ui.component.PercentageChangeChip
 import dev.shorthouse.coinwatch.ui.component.PriceGraph
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
-import java.math.BigDecimal
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import java.math.BigDecimal
 
 @Composable
 fun CoinChartCard(
@@ -80,20 +80,12 @@ fun CoinChartCard(
                         .fillMaxWidth()
                         .height(200.dp)
                 )
-
-                Spacer(Modifier.height(12.dp))
-
-                ChartPeriodSelector(
-                    selectedChartPeriod = chartPeriod,
-                    onChartPeriodSelected = onClickChartPeriod,
-                    modifier = Modifier.padding(horizontal = 12.dp)
-                )
             } else {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(278.dp)
+                        .height(200.dp)
                 ) {
                     Text(
                         text = stringResource(R.string.empty_chart_message),
@@ -102,6 +94,14 @@ fun CoinChartCard(
                     )
                 }
             }
+
+            Spacer(Modifier.height(12.dp))
+
+            ChartPeriodSelector(
+                selectedChartPeriod = chartPeriod,
+                onChartPeriodSelected = onClickChartPeriod,
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
         }
     }
 }
