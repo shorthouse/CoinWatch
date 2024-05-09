@@ -1,15 +1,15 @@
 package dev.shorthouse.coinwatch.data.source.remote
 
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
+import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
-import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
-import dev.shorthouse.coinwatch.data.preferences.global.Currency
-import javax.inject.Inject
 import retrofit2.Response
+import javax.inject.Inject
 
 class CoinNetworkDataSourceImpl @Inject constructor(
     private val coinApi: CoinApi
@@ -19,7 +19,8 @@ class CoinNetworkDataSourceImpl @Inject constructor(
         currency: Currency
     ): Response<CoinsApiModel> {
         return coinApi.getCoins(
-            orderBy = coinSort.toOrderByString(),
+            orderBy = coinSort.getOrderBy(),
+            orderDirection = coinSort.getOrderDirection(),
             currencyUUID = currency.toCurrencyUUID()
         )
     }
@@ -31,7 +32,8 @@ class CoinNetworkDataSourceImpl @Inject constructor(
     ): Response<FavouriteCoinsApiModel> {
         return coinApi.getFavouriteCoins(
             coinIds = coinIds,
-            orderBy = coinSort.toOrderByString(),
+            orderBy = coinSort.getOrderBy(),
+            orderDirection = coinSort.getOrderDirection(),
             currencyUUID = currency.toCurrencyUUID()
         )
     }
@@ -69,19 +71,30 @@ class CoinNetworkDataSourceImpl @Inject constructor(
     }
 }
 
-private fun CoinSort.toOrderByString(): String {
-    return when (this) {
-        CoinSort.MarketCap -> "marketCap"
-        CoinSort.Price -> "price"
-        CoinSort.PriceChange24h -> "change"
-        CoinSort.Volume24h -> "24hVolume"
-    }
-}
-
 private fun Currency.toCurrencyUUID(): String {
     return when (this) {
         Currency.USD -> "yhjMzLPhuIDl"
         Currency.GBP -> "Hokyui45Z38f"
         Currency.EUR -> "5k-_VTxqtCEI"
+    }
+}
+
+private fun CoinSort.getOrderBy(): String {
+    return when (this) {
+        CoinSort.MarketCap -> "marketCap"
+        CoinSort.Popular -> "24hVolume"
+        CoinSort.Gainers -> "change"
+        CoinSort.Losers -> "change"
+        CoinSort.Newest -> "listedAt"
+    }
+}
+
+private fun CoinSort.getOrderDirection(): String {
+    return when (this) {
+        CoinSort.MarketCap -> "desc"
+        CoinSort.Popular -> "desc"
+        CoinSort.Gainers -> "desc"
+        CoinSort.Losers -> "asc"
+        CoinSort.Newest -> "desc"
     }
 }

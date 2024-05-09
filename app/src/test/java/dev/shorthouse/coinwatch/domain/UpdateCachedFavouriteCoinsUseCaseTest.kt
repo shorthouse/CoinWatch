@@ -2,11 +2,11 @@ package dev.shorthouse.coinwatch.domain
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
+import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepository
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
-import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
-import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import io.mockk.MockKAnnotations
@@ -16,11 +16,11 @@ import io.mockk.coVerify
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import java.math.BigDecimal
 
 class UpdateCachedFavouriteCoinsUseCaseTest {
 
@@ -35,7 +35,7 @@ class UpdateCachedFavouriteCoinsUseCaseTest {
         MockKAnnotations.init(this)
 
         updateCachedFavouriteCoinsUseCase = UpdateCachedFavouriteCoinsUseCase(
-            favouriteCoinRepository = favouriteCoinRepository,
+            favouriteCoinRepository = favouriteCoinRepository
         )
     }
 
@@ -46,7 +46,7 @@ class UpdateCachedFavouriteCoinsUseCaseTest {
             val coinIds = listOf(FavouriteCoinId("Qwsogvtv82FCd"))
             val rawCoinIds = listOf("Qwsogvtv82FCd")
             val currency = Currency.USD
-            val coinSort = CoinSort.Volume24h
+            val coinSort = CoinSort.Popular
             val errorMessage = "Unable to fetch network favourite coins list"
 
             coEvery {
@@ -88,7 +88,7 @@ class UpdateCachedFavouriteCoinsUseCaseTest {
             val coinIds = listOf(FavouriteCoinId("Qwsogvtv82FCd"))
             val rawCoinIds = listOf("Qwsogvtv82FCd")
             val currency = Currency.USD
-            val coinSort = CoinSort.Volume24h
+            val coinSort = CoinSort.MarketCap
             val favouriteCoins = listOf(
                 FavouriteCoin(
                     id = "Qwsogvtv82FCd",

@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.preferences.favourites.FavouritesPreferences
 import dev.shorthouse.coinwatch.data.preferences.global.UserPreferences
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
@@ -13,6 +14,7 @@ import dev.shorthouse.coinwatch.domain.GetFavouriteCoinsUseCase
 import dev.shorthouse.coinwatch.domain.GetFavouritesPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCachedFavouriteCoinsUseCase
+import dev.shorthouse.coinwatch.domain.UpdateFavouritesCoinSortUseCase
 import dev.shorthouse.coinwatch.domain.UpdateIsFavouritesCondensedUseCase
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
@@ -61,6 +63,9 @@ class FavouritesViewModelTest {
     @RelaxedMockK
     private lateinit var updateIsFavouritesCondensedUseCase: UpdateIsFavouritesCondensedUseCase
 
+    @RelaxedMockK
+    private lateinit var updateFavouritesCoinSortUseCase: UpdateFavouritesCoinSortUseCase
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
@@ -71,7 +76,8 @@ class FavouritesViewModelTest {
             getFavouriteCoinIdsUseCase = getFavouriteCoinIdsUseCase,
             getUserPreferencesUseCase = getUserPreferencesUseCase,
             getFavouritesPreferencesUseCase = getFavouritesPreferencesUseCase,
-            updateIsFavouritesCondensedUseCase = updateIsFavouritesCondensedUseCase
+            updateIsFavouritesCondensedUseCase = updateIsFavouritesCondensedUseCase,
+            updateFavouritesCoinSortUseCase = updateFavouritesCoinSortUseCase
         )
     }
 
@@ -95,11 +101,15 @@ class FavouritesViewModelTest {
     @Test
     fun `When favourite coin ids returns error should add error message`() {
         // Arrange
+        val userPreferences = UserPreferences()
+        val favouritesPreferences = FavouritesPreferences()
+
         every {
             getFavouriteCoinIdsUseCase()
         } returns flowOf(Result.Error("Favourite coin IDs error"))
 
-        every { getUserPreferencesUseCase() } returns flowOf(UserPreferences())
+        every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
+        every { getFavouritesPreferencesUseCase() } returns flowOf(favouritesPreferences)
 
         // Act
         viewModel.initialiseUiState()
@@ -114,14 +124,16 @@ class FavouritesViewModelTest {
         // Arrange
         val favouriteCoinIds = listOf(FavouriteCoinId("Bitcoin"))
         val userPreferences = UserPreferences()
+        val favouritesPreferences = FavouritesPreferences()
 
         every { getFavouriteCoinIdsUseCase() } returns flowOf(Result.Success(favouriteCoinIds))
         every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
+        every { getFavouritesPreferencesUseCase() } returns flowOf(favouritesPreferences)
         coEvery {
             updateCachedFavouriteCoinsUseCase(
                 coinIds = favouriteCoinIds,
                 currency = userPreferences.currency,
-                coinSort = userPreferences.coinSort
+                coinSort = favouritesPreferences.coinSort
             )
         } returns Result.Error("Update cached favourite coins error")
 
@@ -138,6 +150,7 @@ class FavouritesViewModelTest {
         // Arrange
         val favouriteCoinIds = listOf(FavouriteCoinId("Bitcoin"))
         val userPreferences = UserPreferences()
+        val favouritesPreferences = FavouritesPreferences()
 
         every { getFavouriteCoinIdsUseCase() } returns flowOf(Result.Success(favouriteCoinIds))
         every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
@@ -145,7 +158,7 @@ class FavouritesViewModelTest {
             updateCachedFavouriteCoinsUseCase(
                 coinIds = favouriteCoinIds,
                 currency = userPreferences.currency,
-                coinSort = userPreferences.coinSort
+                coinSort = favouritesPreferences.coinSort
             )
         } returns Result.Success(emptyList())
 
@@ -217,6 +230,7 @@ class FavouritesViewModelTest {
                 getFavouriteCoinIdsUseCase()
             } returns flowOf(Result.Error("Favourite coin IDs error"))
             every { getUserPreferencesUseCase() } returns flowOf(UserPreferences())
+            every { getFavouritesPreferencesUseCase() } returns flowOf(FavouritesPreferences())
 
             // Act
             viewModel.pullRefreshFavouriteCoins()
@@ -237,9 +251,11 @@ class FavouritesViewModelTest {
             // Arrange
             val favouriteCoinIds = listOf(FavouriteCoinId("Bitcoin"))
             val userPreferences = UserPreferences()
+            val favouritesPreferences = FavouritesPreferences()
 
             every { getFavouriteCoinIdsUseCase() } returns flowOf(Result.Success(favouriteCoinIds))
             every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
+            every { getFavouritesPreferencesUseCase() } returns flowOf(favouritesPreferences)
 
             // Act
             viewModel.pullRefreshFavouriteCoins()
@@ -253,7 +269,7 @@ class FavouritesViewModelTest {
                 updateCachedFavouriteCoinsUseCase(
                     coinIds = favouriteCoinIds,
                     currency = userPreferences.currency,
-                    coinSort = userPreferences.coinSort
+                    coinSort = favouritesPreferences.coinSort
                 )
             }
 
@@ -301,5 +317,32 @@ class FavouritesViewModelTest {
 
         // Assert
         assertThat(viewModel.uiState.value.isFavouritesCondensed).isFalse()
+    }
+
+    @Test
+    fun `When favourites preferences returns coin sort should update UI state`() {
+        // Arrange
+        val favouritesPreferences = FavouritesPreferences(coinSort = CoinSort.Popular)
+        every { getFavouritesPreferencesUseCase() } returns flowOf(favouritesPreferences)
+
+        // Act
+        viewModel.initialiseUiState()
+
+        // Assert
+        assertThat(viewModel.uiState.value.coinSort).isEqualTo(CoinSort.Popular)
+    }
+
+    @Test
+    fun `When coin sort updates should call use case`() {
+        // Arrange
+        val coinSort = CoinSort.Popular
+
+        // Act
+        viewModel.updateCoinSort(coinSort)
+
+        // Assert
+        coVerify {
+            updateFavouritesCoinSortUseCase(coinSort)
+        }
     }
 }

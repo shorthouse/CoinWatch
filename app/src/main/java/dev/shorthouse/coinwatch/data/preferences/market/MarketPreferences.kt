@@ -1,10 +1,9 @@
-package dev.shorthouse.coinwatch.data.preferences.favourites
+package dev.shorthouse.coinwatch.data.preferences.market
 
 import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class FavouritesPreferences(
-    val isFavouritesCondensed: Boolean = false,
+data class MarketPreferences(
     val coinSort: CoinSort = CoinSort.MarketCap
 )

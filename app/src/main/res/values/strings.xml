@@ -93,4 +93,10 @@
     <string name="empty_state_search_title">Explore coins</string>
     <string name="empty_state_search_subtitle">Search by name or symbol</string>
     <string name="start_screen_bottom_sheet_title">App start screen</string>
+    <string name="market_coin_sort_market_cap">Market Cap</string>
+    <string name="market_coin_sort_gainers">Gainers</string>
+    <string name="market_coin_sort_losers">Losers</string>
+    <string name="market_coin_sort_popular">Popular</string>
+    <string name="market_coin_sort_newest">Newest</string>
+    <string name="cd_change_favourites_order">Change favourites order</string>
 </resources>

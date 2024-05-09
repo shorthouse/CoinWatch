@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth.assertThat
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.preferences.favourites.FavouritesPreferencesRepository
 import dev.shorthouse.coinwatch.data.preferences.favourites.FavouritesPreferencesSerializer
 import kotlinx.coroutines.Dispatchers
@@ -79,4 +80,69 @@ class FavouritesPreferencesRepositoryTest {
 
             assertThat(favouritesPreferences.isFavouritesCondensed).isFalse()
         }
+
+    @Test
+    fun when_coinSortMarketCap_should_updateFavouritesPreferences() = testCoroutineScope.runTest {
+        val coinSort = CoinSort.MarketCap
+
+        favouritesPreferencesRepository.updateCoinSort(coinSort = coinSort)
+
+        val favouritesPreferences = favouritesPreferencesRepository
+            .favouritesPreferencesFlow
+            .first()
+
+        assertThat(favouritesPreferences.coinSort).isEqualTo(coinSort)
+    }
+
+    @Test
+    fun when_coinSortPopular_should_updateFavouritesPreferences() = testCoroutineScope.runTest {
+        val coinSort = CoinSort.Popular
+
+        favouritesPreferencesRepository.updateCoinSort(coinSort = coinSort)
+
+        val favouritesPreferences = favouritesPreferencesRepository
+            .favouritesPreferencesFlow
+            .first()
+
+        assertThat(favouritesPreferences.coinSort).isEqualTo(coinSort)
+    }
+
+    @Test
+    fun when_coinSortGainers_should_updateFavouritesPreferences() = testCoroutineScope.runTest {
+        val coinSort = CoinSort.Gainers
+
+        favouritesPreferencesRepository.updateCoinSort(coinSort = coinSort)
+
+        val favouritesPreferences = favouritesPreferencesRepository
+            .favouritesPreferencesFlow
+            .first()
+
+        assertThat(favouritesPreferences.coinSort).isEqualTo(coinSort)
+    }
+
+    @Test
+    fun when_coinSortLosers_should_updateFavouritesPreferences() = testCoroutineScope.runTest {
+        val coinSort = CoinSort.Losers
+
+        favouritesPreferencesRepository.updateCoinSort(coinSort = coinSort)
+
+        val favouritesPreferences = favouritesPreferencesRepository
+            .favouritesPreferencesFlow
+            .first()
+
+        assertThat(favouritesPreferences.coinSort).isEqualTo(coinSort)
+    }
+    
+    @Test
+    fun when_coinSortNewest_should_updateFavouritesPreferences() = testCoroutineScope.runTest {
+        val coinSort = CoinSort.Newest
+
+        favouritesPreferencesRepository.updateCoinSort(coinSort = coinSort)
+
+        val favouritesPreferences = favouritesPreferencesRepository
+            .favouritesPreferencesFlow
+            .first()
+
+        assertThat(favouritesPreferences.coinSort).isEqualTo(coinSort)
+    }
 }

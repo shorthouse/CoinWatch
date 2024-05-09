@@ -1,17 +1,20 @@
 package dev.shorthouse.coinwatch.data.source.remote
 
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
+import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
-import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
-import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import retrofit2.Response
 
 interface CoinNetworkDataSource {
-    suspend fun getCoins(coinSort: CoinSort, currency: Currency): Response<CoinsApiModel>
+    suspend fun getCoins(
+        coinSort: CoinSort,
+        currency: Currency
+    ): Response<CoinsApiModel>
 
     suspend fun getFavouriteCoins(
         coinIds: List<String>,

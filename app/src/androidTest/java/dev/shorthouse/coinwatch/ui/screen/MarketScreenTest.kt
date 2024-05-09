@@ -4,19 +4,20 @@ import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.isSelected
+import androidx.compose.ui.test.assertIsNotSelected
+import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onParent
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performScrollToIndex
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
@@ -56,7 +57,6 @@ class MarketScreenTest {
                     onCoinClick = {},
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -82,7 +82,6 @@ class MarketScreenTest {
                     onCoinClick = {},
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -107,7 +106,6 @@ class MarketScreenTest {
                     onCoinClick = {},
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -132,7 +130,6 @@ class MarketScreenTest {
                     onCoinClick = {},
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -157,7 +154,6 @@ class MarketScreenTest {
                     onCoinClick = {},
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -184,7 +180,6 @@ class MarketScreenTest {
                     onCoinClick = {},
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -211,7 +206,6 @@ class MarketScreenTest {
                     onCoinClick = {},
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -238,7 +232,6 @@ class MarketScreenTest {
                     onCoinClick = {},
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -250,167 +243,6 @@ class MarketScreenTest {
             onNodeWithText("Market is down").assertDoesNotExist()
             onNodeWithText("Market is flat").assertIsDisplayed()
         }
-    }
-
-    @Test
-    fun when_noCoinsInList_should_notShowCurrencyOrSortChips() {
-        val uiState = MarketUiState(
-            coinSort = CoinSort.MarketCap
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                MarketScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onNavigateSettings = {},
-                    onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
-                    onRefresh = {},
-                    onDismissError = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("USD").assertDoesNotExist()
-            onNodeWithText("Market Cap").assertDoesNotExist()
-        }
-    }
-
-    @Test
-    fun when_coinSortMarketCap_should_displaySelectedCoinSortAsMarketCap() {
-        val uiState = MarketUiState(
-            coinSort = CoinSort.MarketCap,
-            coins = persistentListOf(bitcoin)
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                MarketScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onNavigateSettings = {},
-                    onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
-                    onRefresh = {},
-                    onDismissError = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("Market Cap").assertIsDisplayed()
-        }
-    }
-
-    @Test
-    fun when_coinSortPrice_should_displaySelectedCoinSortAsPrice() {
-        val uiState = MarketUiState(
-            coinSort = CoinSort.Price,
-            coins = persistentListOf(bitcoin)
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                MarketScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onNavigateSettings = {},
-                    onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
-                    onRefresh = {},
-                    onDismissError = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("Price").assertIsDisplayed()
-        }
-    }
-
-    @Test
-    fun when_coinSortPriceChange_should_displaySelectedCoinSortAsPriceChange() {
-        val uiState = MarketUiState(
-            coinSort = CoinSort.PriceChange24h,
-            coins = persistentListOf(bitcoin)
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                MarketScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onNavigateSettings = {},
-                    onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
-                    onRefresh = {},
-                    onDismissError = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("Price Change (24h)").assertIsDisplayed()
-        }
-    }
-
-    @Test
-    fun when_coinSortVolume_should_displaySelectedCoinSortAsVolume() {
-        val uiState = MarketUiState(
-            coinSort = CoinSort.Volume24h,
-            coins = persistentListOf(bitcoin)
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                MarketScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onNavigateSettings = {},
-                    onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
-                    onRefresh = {},
-                    onDismissError = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("Volume (24h)").assertIsDisplayed()
-        }
-    }
-
-    @Test
-    fun when_clickCoinSortChip_should_callShowCoinSortBottomSheet() {
-        var showCoinSortBottomSheetCalled = false
-        val uiState = MarketUiState(
-            coinSort = CoinSort.MarketCap,
-            coins = persistentListOf(bitcoin)
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                MarketScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onNavigateSettings = {},
-                    onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = { showSheet ->
-                        showCoinSortBottomSheetCalled = showSheet
-                    },
-                    onRefresh = {},
-                    onDismissError = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("Market Cap").performClick()
-        }
-
-        assertThat(showCoinSortBottomSheetCalled).isTrue()
     }
 
     @Test
@@ -426,7 +258,6 @@ class MarketScreenTest {
                     onCoinClick = {},
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -436,6 +267,243 @@ class MarketScreenTest {
         composeTestRule.apply {
             onNodeWithText("Couldn't load coins").assertIsDisplayed()
             onNodeWithText("Check your internet connection").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_noCoinsInList_should_notShowSortChips() {
+        val uiState = MarketUiState(
+            coins = persistentListOf()
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                MarketScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onNavigateSettings = {},
+                    onUpdateCoinSort = {},
+                    onRefresh = {},
+                    onDismissError = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap").assertDoesNotExist()
+            onNodeWithText("Popular").assertDoesNotExist()
+            onNodeWithText("Gainers").assertDoesNotExist()
+            onNodeWithText("Losers").assertDoesNotExist()
+            onNodeWithText("Newest").assertDoesNotExist()
+        }
+    }
+
+    @Test
+    fun when_coinsInList_should_showSortChips() {
+        val uiState = MarketUiState(
+            coins = persistentListOf(bitcoin)
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                MarketScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onNavigateSettings = {},
+                    onUpdateCoinSort = {},
+                    onRefresh = {},
+                    onDismissError = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap").assertIsDisplayed()
+            onNodeWithText("Popular").assertIsDisplayed()
+            onNodeWithText("Gainers").assertIsDisplayed()
+            onNodeWithText("Losers").assertExists()
+            onNodeWithText("Newest").assertExists()
+        }
+    }
+
+    @Test
+    fun when_coinSortMarketCap_should_haveMarketCapChipSelected() {
+        val uiState = MarketUiState(
+            coinSort = CoinSort.MarketCap,
+            coins = persistentListOf(bitcoin)
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                MarketScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onNavigateSettings = {},
+                    onUpdateCoinSort = {},
+                    onRefresh = {},
+                    onDismissError = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap").assertIsSelected()
+            onNodeWithText("Popular").assertIsNotSelected()
+            onNodeWithText("Gainers").assertIsNotSelected()
+            onNodeWithText("Losers").assertIsNotSelected()
+            onNodeWithText("Newest").assertIsNotSelected()
+        }
+    }
+
+    @Test
+    fun when_coinSortPopular_should_displaySelectedCoinSortAsPopular() {
+        val uiState = MarketUiState(
+            coinSort = CoinSort.Popular,
+            coins = persistentListOf(bitcoin)
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                MarketScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onNavigateSettings = {},
+                    onUpdateCoinSort = {},
+                    onRefresh = {},
+                    onDismissError = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap").assertIsNotSelected()
+            onNodeWithText("Popular").assertIsSelected()
+            onNodeWithText("Gainers").assertIsNotSelected()
+            onNodeWithText("Losers").assertIsNotSelected()
+            onNodeWithText("Newest").assertIsNotSelected()
+        }
+    }
+
+    @Test
+    fun when_coinSortGainers_should_displaySelectedCoinSortAsGainers() {
+        val uiState = MarketUiState(
+            coinSort = CoinSort.Gainers,
+            coins = persistentListOf(bitcoin)
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                MarketScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onNavigateSettings = {},
+                    onUpdateCoinSort = {},
+                    onRefresh = {},
+                    onDismissError = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap").assertIsNotSelected()
+            onNodeWithText("Popular").assertIsNotSelected()
+            onNodeWithText("Gainers").assertIsSelected()
+            onNodeWithText("Losers").assertIsNotSelected()
+            onNodeWithText("Newest").assertIsNotSelected()
+        }
+    }
+
+    @Test
+    fun when_coinSortLosers_should_displaySelectedCoinSortAsLosers() {
+        val uiState = MarketUiState(
+            coinSort = CoinSort.Losers,
+            coins = persistentListOf(bitcoin)
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                MarketScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onNavigateSettings = {},
+                    onUpdateCoinSort = {},
+                    onRefresh = {},
+                    onDismissError = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap").assertIsNotSelected()
+            onNodeWithText("Popular").assertIsNotSelected()
+            onNodeWithText("Gainers").assertIsNotSelected()
+            onNodeWithText("Losers").assertIsSelected()
+            onNodeWithText("Newest").assertIsNotSelected()
+        }
+    }
+
+    @Test
+    fun when_coinSortNewest_should_displaySelectedCoinSortAsNewest() {
+        val uiState = MarketUiState(
+            coinSort = CoinSort.Newest,
+            coins = persistentListOf(bitcoin)
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                MarketScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onNavigateSettings = {},
+                    onUpdateCoinSort = {},
+                    onRefresh = {},
+                    onDismissError = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap").assertIsNotSelected()
+            onNodeWithText("Popular").assertIsNotSelected()
+            onNodeWithText("Gainers").assertIsNotSelected()
+            onNodeWithText("Losers").assertIsNotSelected()
+            onNodeWithText("Newest").assertIsSelected()
+        }
+    }
+
+    @Test
+    fun when_coinSortClicked_should_callUpdateCoinSort() {
+        val onClickCoinSortMap = CoinSort.entries
+            .associateWith { false }
+            .toMutableMap()
+
+        val uiState = MarketUiState(
+            coins = persistentListOf(bitcoin)
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                MarketScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onNavigateSettings = {},
+                    onUpdateCoinSort = { onClickCoinSortMap[it] = true },
+                    onRefresh = {},
+                    onDismissError = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap").performClick()
+            onNodeWithText("Popular").performClick()
+            onNodeWithText("Gainers").performScrollTo().performClick()
+            onNodeWithText("Losers").performScrollTo().performClick()
+            onNodeWithText("Newest").performScrollTo().performClick()
+        }
+
+        onClickCoinSortMap.values.forEach { isCoinSortClicked ->
+            assertThat(isCoinSortClicked).isTrue()
         }
     }
 
@@ -469,7 +537,6 @@ class MarketScreenTest {
                     onCoinClick = {},
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -504,7 +571,6 @@ class MarketScreenTest {
                     onCoinClick = { onCoinClickCalled = true },
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -516,67 +582,6 @@ class MarketScreenTest {
         }
 
         assertThat(onCoinClickCalled).isTrue()
-    }
-
-    @Test
-    fun when_showCoinSortBottomSheetTrue_should_showBottomSheet() {
-        val uiState = MarketUiState(
-            isCoinSortSheetShown = true,
-            coinSort = CoinSort.MarketCap
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                MarketScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onNavigateSettings = {},
-                    onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
-                    onRefresh = {},
-                    onDismissError = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("Sort coins by").assertIsDisplayed()
-            onNode(hasText("Market Cap").and(isSelected())).assertIsDisplayed()
-            onNodeWithText("Price").assertIsDisplayed()
-            onNodeWithText("Price Change (24h)").assertIsDisplayed()
-            onNodeWithText("Volume (24h)").assertIsDisplayed()
-        }
-    }
-
-    @Test
-    fun when_chooseCoinSortBottomSheetOption_should_callUpdateCoinSort() {
-        var updateCoinSortCalled = false
-        val uiState = MarketUiState(
-            coinSort = CoinSort.MarketCap,
-            isCoinSortSheetShown = true
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                MarketScreen(
-                    uiState = uiState,
-                    onCoinClick = {},
-                    onNavigateSettings = {},
-                    onUpdateCoinSort = { coinSort ->
-                        updateCoinSortCalled = coinSort == CoinSort.Price
-                    },
-                    onUpdateIsCoinSortSheetShown = {},
-                    onRefresh = {},
-                    onDismissError = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("Price").performClick()
-        }
-
-        assertThat(updateCoinSortCalled).isTrue()
     }
 
     @Test
@@ -603,7 +608,6 @@ class MarketScreenTest {
                     onCoinClick = {},
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -632,7 +636,6 @@ class MarketScreenTest {
                     onCoinClick = {},
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = { onRefreshCalled = true },
                     onDismissError = {}
                 )
@@ -663,7 +666,6 @@ class MarketScreenTest {
                     onCoinClick = {},
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -688,7 +690,6 @@ class MarketScreenTest {
                     onCoinClick = {},
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -712,7 +713,6 @@ class MarketScreenTest {
                     onCoinClick = {},
                     onNavigateSettings = {},
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )
@@ -739,7 +739,6 @@ class MarketScreenTest {
                     onCoinClick = {},
                     onNavigateSettings = { onNavigateSettingsCalled = true },
                     onUpdateCoinSort = {},
-                    onUpdateIsCoinSortSheetShown = {},
                     onRefresh = {},
                     onDismissError = {}
                 )

@@ -3,17 +3,21 @@ package dev.shorthouse.coinwatch.ui.screen
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotSelected
+import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onParent
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performScrollToIndex
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
@@ -31,6 +35,21 @@ class FavouritesScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    private val bitcoin = FavouriteCoin(
+        id = "bitcoin",
+        symbol = "BTC",
+        name = "Bitcoin",
+        imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+        currentPrice = Price("29446.336548759988"),
+        priceChangePercentage24h = Percentage("1.76833"),
+        prices24h = persistentListOf(
+            BigDecimal("29390.15178296929"),
+            BigDecimal("29428.222505493162"),
+            BigDecimal("29475.12359313808"),
+            BigDecimal("29471.20179209623")
+        )
+    )
+
     @Test
     fun when_uiStateLoading_should_showLoadingIndicator() {
         val uiState = FavouritesUiState(
@@ -43,6 +62,7 @@ class FavouritesScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {},
                 )
@@ -65,6 +85,7 @@ class FavouritesScreenTest {
                     uiState = uiStateSuccess,
                     onCoinClick = {},
                     onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {},
                 )
@@ -88,6 +109,7 @@ class FavouritesScreenTest {
                     uiState = uiStateSuccess,
                     onCoinClick = {},
                     onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {},
                 )
@@ -106,20 +128,7 @@ class FavouritesScreenTest {
     fun when_favouriteCoinsExist_should_displayFavouriteCoins() {
         val uiStateSuccess = FavouritesUiState(
             favouriteCoins = persistentListOf(
-                FavouriteCoin(
-                    id = "bitcoin",
-                    symbol = "BTC",
-                    name = "Bitcoin",
-                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                    currentPrice = Price("29446.336548759988"),
-                    priceChangePercentage24h = Percentage("1.76833"),
-                    prices24h = persistentListOf(
-                        BigDecimal("29390.15178296929"),
-                        BigDecimal("29428.222505493162"),
-                        BigDecimal("29475.12359313808"),
-                        BigDecimal("29471.20179209623")
-                    )
-                ),
+                bitcoin,
                 FavouriteCoin(
                     id = "ethereum",
                     symbol = "ETH",
@@ -143,6 +152,7 @@ class FavouritesScreenTest {
                     uiState = uiStateSuccess,
                     onCoinClick = {},
                     onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {},
                 )
@@ -169,20 +179,7 @@ class FavouritesScreenTest {
         val uiStateSuccess = FavouritesUiState(
             isFavouritesCondensed = true,
             favouriteCoins = persistentListOf(
-                FavouriteCoin(
-                    id = "bitcoin",
-                    symbol = "BTC",
-                    name = "Bitcoin",
-                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                    currentPrice = Price("29446.336548759988"),
-                    priceChangePercentage24h = Percentage("1.76833"),
-                    prices24h = persistentListOf(
-                        BigDecimal("29390.15178296929"),
-                        BigDecimal("29428.222505493162"),
-                        BigDecimal("29475.12359313808"),
-                        BigDecimal("29471.20179209623")
-                    )
-                ),
+                bitcoin,
                 FavouriteCoin(
                     id = "ethereum",
                     symbol = "ETH",
@@ -206,6 +203,7 @@ class FavouritesScreenTest {
                     uiState = uiStateSuccess,
                     onCoinClick = {},
                     onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {},
                 )
@@ -232,22 +230,7 @@ class FavouritesScreenTest {
         var onCoinClickCalled = false
 
         val uiStateSuccess = FavouritesUiState(
-            favouriteCoins = persistentListOf(
-                FavouriteCoin(
-                    id = "bitcoin",
-                    symbol = "BTC",
-                    name = "Bitcoin",
-                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                    currentPrice = Price("29446.336548759988"),
-                    priceChangePercentage24h = Percentage("1.76833"),
-                    prices24h = persistentListOf(
-                        BigDecimal("29390.15178296929"),
-                        BigDecimal("29428.222505493162"),
-                        BigDecimal("29475.12359313808"),
-                        BigDecimal("29471.20179209623")
-                    )
-                )
-            )
+            favouriteCoins = persistentListOf(bitcoin)
         )
 
         composeTestRule.setContent {
@@ -256,6 +239,7 @@ class FavouritesScreenTest {
                     uiState = uiStateSuccess,
                     onCoinClick = { onCoinClickCalled = true },
                     onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {},
                 )
@@ -283,6 +267,7 @@ class FavouritesScreenTest {
                     uiState = uiStateSuccess,
                     onCoinClick = {},
                     onUpdateIsFavouritesCondensed = { onUpdateIsFavouritesCondensedCalled = true },
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {},
                 )
@@ -320,6 +305,7 @@ class FavouritesScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {},
                 )
@@ -358,6 +344,7 @@ class FavouritesScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {},
                 )
@@ -372,25 +359,12 @@ class FavouritesScreenTest {
     }
 
     @Test
-    fun when_pullRefreshingScreen_should_callONRefresh() {
+    fun when_pullRefreshingScreen_should_callOnRefresh() {
         var onRefreshCalled = false
 
         val uiState = FavouritesUiState(
             favouriteCoins = persistentListOf(
-                FavouriteCoin(
-                    id = "bitcoin",
-                    symbol = "BTC",
-                    name = "Bitcoin",
-                    imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
-                    currentPrice = Price("29446.336548759988"),
-                    priceChangePercentage24h = Percentage("1.76833"),
-                    prices24h = persistentListOf(
-                        BigDecimal("29390.15178296929"),
-                        BigDecimal("29428.222505493162"),
-                        BigDecimal("29475.12359313808"),
-                        BigDecimal("29471.20179209623")
-                    )
-                )
+                bitcoin
             )
         )
 
@@ -400,6 +374,7 @@ class FavouritesScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
                     onRefresh = { onRefreshCalled = true },
                     onDismissError = {},
                 )
@@ -408,7 +383,6 @@ class FavouritesScreenTest {
 
         composeTestRule.apply {
             onNodeWithText("Bitcoin")
-                .onParent()
                 .performTouchInput {
                     swipeDown()
                 }
@@ -432,6 +406,7 @@ class FavouritesScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {},
                 )
@@ -455,6 +430,7 @@ class FavouritesScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {},
                 )
@@ -479,6 +455,7 @@ class FavouritesScreenTest {
                     uiState = uiState,
                     onCoinClick = {},
                     onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
                     onRefresh = {},
                     onDismissError = {},
                 )
@@ -487,6 +464,243 @@ class FavouritesScreenTest {
 
         composeTestRule.apply {
             onNodeWithContentDescription("Condense favourites list").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_noCoinsInList_should_notShowSortChips() {
+        val uiState = FavouritesUiState(
+            favouriteCoins = persistentListOf()
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
+                    onRefresh = {},
+                    onDismissError = {},
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap").assertDoesNotExist()
+            onNodeWithText("Popular").assertDoesNotExist()
+            onNodeWithText("Gainers").assertDoesNotExist()
+            onNodeWithText("Losers").assertDoesNotExist()
+            onNodeWithText("Newest").assertDoesNotExist()
+        }
+    }
+
+    @Test
+    fun when_coinsInList_should_showSortChips() {
+        val uiState = FavouritesUiState(
+            favouriteCoins = persistentListOf(bitcoin)
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
+                    onRefresh = {},
+                    onDismissError = {},
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap").assertIsDisplayed()
+            onNodeWithText("Popular").assertIsDisplayed()
+            onNodeWithText("Gainers").assertIsDisplayed()
+            onNodeWithText("Losers").assertExists()
+            onNodeWithText("Newest").assertExists()
+        }
+    }
+
+    @Test
+    fun when_coinSortMarketCap_should_haveMarketCapChipSelected() {
+        val uiState = FavouritesUiState(
+            coinSort = CoinSort.MarketCap,
+            favouriteCoins = persistentListOf(bitcoin)
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
+                    onRefresh = {},
+                    onDismissError = {},
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap").assertIsSelected()
+            onNodeWithText("Popular").assertIsNotSelected()
+            onNodeWithText("Gainers").assertIsNotSelected()
+            onNodeWithText("Losers").assertIsNotSelected()
+            onNodeWithText("Newest").assertIsNotSelected()
+        }
+    }
+
+    @Test
+    fun when_coinSortPopular_should_havePopularChipSelected() {
+        val uiState = FavouritesUiState(
+            coinSort = CoinSort.Popular,
+            favouriteCoins = persistentListOf(bitcoin)
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
+                    onRefresh = {},
+                    onDismissError = {},
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap").assertIsNotSelected()
+            onNodeWithText("Popular").assertIsSelected()
+            onNodeWithText("Gainers").assertIsNotSelected()
+            onNodeWithText("Losers").assertIsNotSelected()
+            onNodeWithText("Newest").assertIsNotSelected()
+        }
+    }
+
+    @Test
+    fun when_coinSortGainers_should_haveGainersChipSelected() {
+        val uiState = FavouritesUiState(
+            coinSort = CoinSort.Gainers,
+            favouriteCoins = persistentListOf(bitcoin)
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
+                    onRefresh = {},
+                    onDismissError = {},
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap").assertIsNotSelected()
+            onNodeWithText("Popular").assertIsNotSelected()
+            onNodeWithText("Gainers").assertIsSelected()
+            onNodeWithText("Losers").assertIsNotSelected()
+            onNodeWithText("Newest").assertIsNotSelected()
+        }
+    }
+
+    @Test
+    fun when_coinSortLosers_should_haveLosersChipSelected() {
+        val uiState = FavouritesUiState(
+            coinSort = CoinSort.Losers,
+            favouriteCoins = persistentListOf(bitcoin)
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
+                    onRefresh = {},
+                    onDismissError = {},
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap").assertIsNotSelected()
+            onNodeWithText("Popular").assertIsNotSelected()
+            onNodeWithText("Gainers").assertIsNotSelected()
+            onNodeWithText("Losers").assertIsSelected()
+            onNodeWithText("Newest").assertIsNotSelected()
+        }
+    }
+
+    @Test
+    fun when_coinSortNewest_should_haveNewestChipSelected() {
+        val uiState = FavouritesUiState(
+            coinSort = CoinSort.Newest,
+            favouriteCoins = persistentListOf(bitcoin)
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = {},
+                    onRefresh = {},
+                    onDismissError = {},
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap").assertIsNotSelected()
+            onNodeWithText("Popular").assertIsNotSelected()
+            onNodeWithText("Gainers").assertIsNotSelected()
+            onNodeWithText("Losers").assertIsNotSelected()
+            onNodeWithText("Newest").assertIsSelected()
+        }
+    }
+
+    @Test
+    fun when_coinSortClicked_should_callUpdateCoinSort() {
+        val onClickCoinSortMap = CoinSort.entries
+            .associateWith { false }
+            .toMutableMap()
+
+        val uiState = FavouritesUiState(
+            favouriteCoins = persistentListOf(bitcoin)
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                FavouriteScreen(
+                    uiState = uiState,
+                    onCoinClick = {},
+                    onUpdateIsFavouritesCondensed = {},
+                    onUpdateCoinSort = { onClickCoinSortMap[it] = true },
+                    onRefresh = {},
+                    onDismissError = {},
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap").performClick()
+            onNodeWithText("Popular").performClick()
+            onNodeWithText("Gainers").performScrollTo().performClick()
+            onNodeWithText("Losers").performScrollTo().performClick()
+            onNodeWithText("Newest").performScrollTo().performClick()
+        }
+
+        onClickCoinSortMap.values.forEach { isCoinSortClicked ->
+            assertThat(isCoinSortClicked).isTrue()
         }
     }
 }

@@ -4,15 +4,17 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.preferences.global.UserPreferences
+import dev.shorthouse.coinwatch.data.preferences.market.MarketPreferences
 import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.domain.GetCoinsUseCase
+import dev.shorthouse.coinwatch.domain.GetMarketPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.GetMarketStatsUseCase
 import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.UpdateCachedCoinsUseCase
-import dev.shorthouse.coinwatch.domain.UpdateCoinSortUseCase
+import dev.shorthouse.coinwatch.domain.UpdateMarketCoinSortUseCase
 import dev.shorthouse.coinwatch.model.MarketStats
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
@@ -51,7 +53,10 @@ class MarketViewModelTest {
     private lateinit var getUserPreferencesUseCase: GetUserPreferencesUseCase
 
     @RelaxedMockK
-    private lateinit var updateCoinSortUseCase: UpdateCoinSortUseCase
+    private lateinit var getMarketPreferencesUseCase: GetMarketPreferencesUseCase
+
+    @RelaxedMockK
+    private lateinit var updateMarketCoinSortUseCase: UpdateMarketCoinSortUseCase
 
     @Before
     fun setup() {
@@ -62,7 +67,8 @@ class MarketViewModelTest {
             getMarketStatsUseCase = getMarketStatsUseCase,
             updateCachedCoinsUseCase = updateCachedCoinsUseCase,
             getUserPreferencesUseCase = getUserPreferencesUseCase,
-            updateCoinSortUseCase = updateCoinSortUseCase
+            getMarketPreferencesUseCase = getMarketPreferencesUseCase,
+            updateMarketCoinSortUseCase = updateMarketCoinSortUseCase
         )
     }
 
@@ -130,15 +136,20 @@ class MarketViewModelTest {
     @Test
     fun `When user preferences initialises should update UI state and refresh cached coins`() {
         // Arrange
-        val coinSort = CoinSort.Price
         val currency = Currency.GBP
 
         val userPreferences = UserPreferences(
-            coinSort = coinSort,
             currency = currency
         )
 
+        val coinSort = CoinSort.Newest
+
+        val marketPreferences = MarketPreferences(
+            coinSort = coinSort
+        )
+
         every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
+        every { getMarketPreferencesUseCase() } returns flowOf(marketPreferences)
         coEvery {
             updateCachedCoinsUseCase(
                 coinSort = coinSort,
@@ -150,7 +161,6 @@ class MarketViewModelTest {
         viewModel.initialiseUiState()
 
         // Assert
-        assertThat(viewModel.uiState.value.coinSort).isEqualTo(coinSort)
         coVerify {
             getUserPreferencesUseCase()
             updateCachedCoinsUseCase(
@@ -161,36 +171,69 @@ class MarketViewModelTest {
     }
 
     @Test
+    fun `When market preferences initialises should update UI state and refresh cached coins`() {
+        // Arrange
+        val currency = Currency.USD
+
+        val userPreferences = UserPreferences(
+            currency = currency
+        )
+
+        val coinSort = CoinSort.Gainers
+
+        val marketPreferences = MarketPreferences(
+            coinSort = coinSort
+        )
+
+        every { getUserPreferencesUseCase() } returns flowOf(userPreferences)
+        every { getMarketPreferencesUseCase() } returns flowOf(marketPreferences)
+        coEvery {
+            updateCachedCoinsUseCase(
+                coinSort = coinSort,
+                currency = currency
+            )
+        } returns Result.Success(emptyList())
+
+        // Act
+        viewModel.initialiseUiState()
+
+        // Assert
+        coVerify {
+            getMarketPreferencesUseCase()
+            updateCachedCoinsUseCase(
+                coinSort = coinSort,
+                currency = currency
+            )
+        }
+        assertThat(viewModel.uiState.value.coinSort).isEqualTo(coinSort)
+    }
+
+    @Test
     fun `When coin sort updates should call use case`() {
         // Arrange
-        val coinSort = CoinSort.Price
+        val coinSort = CoinSort.Popular
 
         // Act
         viewModel.updateCoinSort(coinSort)
 
         // Assert
         coVerify {
-            updateCoinSortUseCase(coinSort)
+            updateMarketCoinSortUseCase(coinSort)
         }
-    }
-
-    @Test
-    fun `When update show coin sort bottom sheet updates called update UI state`() {
-        // Arrange
-        val currentShowSheet = viewModel.uiState.value.isCoinSortSheetShown
-        val newShowSheet = currentShowSheet.not()
-
-        // Act
-        viewModel.updateIsCoinSortSheetShown(newShowSheet)
-
-        // Assert
-        assertThat(viewModel.uiState.value.isCoinSortSheetShown).isEqualTo(newShowSheet)
     }
 
     @Test
     fun `When pull refresh cached coins called should refresh cached coins with user prefs`() {
         // Arrange
-        every { getUserPreferencesUseCase() } returns flowOf(UserPreferences())
+        val coinSort = CoinSort.Gainers
+        val currency = Currency.USD
+
+        every { getUserPreferencesUseCase() } returns flowOf(
+            UserPreferences(currency = currency)
+        )
+        every { getMarketPreferencesUseCase() } returns flowOf(
+            MarketPreferences(coinSort = coinSort)
+        )
         coEvery { updateCachedCoinsUseCase(any(), any()) } returns Result.Success(emptyList())
 
         // Act

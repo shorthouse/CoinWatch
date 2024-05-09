@@ -5,19 +5,24 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalOverscrollConfiguration
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -51,7 +56,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
+import dev.shorthouse.coinwatch.ui.component.CoinSortChip
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.PullRefreshIndicator
@@ -78,7 +85,10 @@ fun FavouritesScreen(
             onNavigateDetails(coin.id)
         },
         onUpdateIsFavouritesCondensed = { isCondensed ->
-            viewModel.updateIsFavouritesCondensed(isCondensed = isCondensed)
+            viewModel.updateIsFavouritesCondensed(isCondensed)
+        },
+        onUpdateCoinSort = { coinSort ->
+            viewModel.updateCoinSort(coinSort)
         },
         onRefresh = {
             viewModel.pullRefreshFavouriteCoins()
@@ -95,6 +105,7 @@ fun FavouriteScreen(
     uiState: FavouritesUiState,
     onCoinClick: (FavouriteCoin) -> Unit,
     onUpdateIsFavouritesCondensed: (Boolean) -> Unit,
+    onUpdateCoinSort: (CoinSort) -> Unit,
     onRefresh: () -> Unit,
     onDismissError: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -172,6 +183,8 @@ fun FavouriteScreen(
                         favouriteCoins = uiState.favouriteCoins,
                         onCoinClick = onCoinClick,
                         isFavouritesCondensed = uiState.isFavouritesCondensed,
+                        coinSort = uiState.coinSort,
+                        onUpdateCoinSort = onUpdateCoinSort,
                         gridState = gridState,
                         listState = listState
                     )
@@ -248,6 +261,8 @@ fun FavouritesContent(
     favouriteCoins: ImmutableList<FavouriteCoin>,
     onCoinClick: (FavouriteCoin) -> Unit,
     isFavouritesCondensed: Boolean,
+    coinSort: CoinSort,
+    onUpdateCoinSort: (CoinSort) -> Unit,
     gridState: LazyGridState,
     listState: LazyListState,
     modifier: Modifier = Modifier
@@ -259,18 +274,22 @@ fun FavouritesContent(
             }
 
             isFavouritesCondensed -> {
-                FavouritesCondensedList(
+                FavouritesList(
                     favouriteCoins = favouriteCoins,
                     onCoinClick = onCoinClick,
+                    coinSort = coinSort,
+                    onUpdateCoinSort = onUpdateCoinSort,
                     listState = listState,
                     modifier = modifier
                 )
             }
 
             else -> {
-                FavouritesList(
+                FavouritesGrid(
                     favouriteCoins = favouriteCoins,
                     onCoinClick = onCoinClick,
+                    coinSort = coinSort,
+                    onUpdateCoinSort = onUpdateCoinSort,
                     gridState = gridState,
                     modifier = modifier
                 )
@@ -280,9 +299,11 @@ fun FavouritesContent(
 }
 
 @Composable
-fun FavouritesList(
+fun FavouritesGrid(
     favouriteCoins: ImmutableList<FavouriteCoin>,
     onCoinClick: (FavouriteCoin) -> Unit,
+    coinSort: CoinSort,
+    onUpdateCoinSort: (CoinSort) -> Unit,
     gridState: LazyGridState,
     modifier: Modifier = Modifier
 ) {
@@ -292,8 +313,28 @@ fun FavouritesList(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 80.dp),
-        modifier = modifier.fillMaxHeight()
+        modifier = modifier
+            .fillMaxHeight()
+            .offset(y = (-8).dp)
     ) {
+        item(
+            span = { GridItemSpan(maxLineSpan) },
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .horizontalScroll(rememberScrollState())
+                    .offset(y = 8.dp)
+            ) {
+                CoinSort.entries.forEach { coinSortEntry ->
+                    CoinSortChip(
+                        coinSort = coinSortEntry,
+                        selected = coinSortEntry == coinSort,
+                        onClick = { onUpdateCoinSort(coinSortEntry) }
+                    )
+                }
+            }
+        }
         items(
             count = favouriteCoins.size,
             key = { favouriteCoins[it].id },
@@ -310,9 +351,11 @@ fun FavouritesList(
 }
 
 @Composable
-fun FavouritesCondensedList(
+fun FavouritesList(
     favouriteCoins: ImmutableList<FavouriteCoin>,
     onCoinClick: (FavouriteCoin) -> Unit,
+    coinSort: CoinSort,
+    onUpdateCoinSort: (CoinSort) -> Unit,
     listState: LazyListState,
     modifier: Modifier = Modifier
 ) {
@@ -321,6 +364,22 @@ fun FavouritesCondensedList(
         contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 80.dp),
         modifier = modifier.fillMaxHeight()
     ) {
+        item {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .horizontalScroll(rememberScrollState())
+                    .padding(bottom = 8.dp)
+            ) {
+                CoinSort.entries.forEach { coinSortEntry ->
+                    CoinSortChip(
+                        coinSort = coinSortEntry,
+                        selected = coinSortEntry == coinSort,
+                        onClick = { onUpdateCoinSort(coinSortEntry) }
+                    )
+                }
+            }
+        }
         items(
             count = favouriteCoins.size,
             key = { favouriteCoins[it].id },
@@ -363,6 +422,7 @@ private fun FavouritesScreenPreview(
             uiState = uiState,
             onCoinClick = {},
             onUpdateIsFavouritesCondensed = {},
+            onUpdateCoinSort = {},
             onRefresh = {},
             onDismissError = {},
         )

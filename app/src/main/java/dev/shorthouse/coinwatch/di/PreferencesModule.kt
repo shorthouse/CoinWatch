@@ -14,6 +14,8 @@ import dev.shorthouse.coinwatch.data.preferences.favourites.FavouritesPreference
 import dev.shorthouse.coinwatch.data.preferences.favourites.FavouritesPreferencesSerializer
 import dev.shorthouse.coinwatch.data.preferences.global.UserPreferences
 import dev.shorthouse.coinwatch.data.preferences.global.UserPreferencesSerializer
+import dev.shorthouse.coinwatch.data.preferences.market.MarketPreferences
+import dev.shorthouse.coinwatch.data.preferences.market.MarketPreferencesSerializer
 import javax.inject.Singleton
 
 @Module
@@ -44,6 +46,20 @@ object PreferencesModule {
             produceFile = { appContext.dataStoreFile("favourites_preferences.pb") },
             corruptionHandler = ReplaceFileCorruptionHandler(
                 produceNewData = { FavouritesPreferences() }
+            )
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideMarketPreferences(
+        @ApplicationContext appContext: Context
+    ): DataStore<MarketPreferences> {
+        return DataStoreFactory.create(
+            serializer = MarketPreferencesSerializer,
+            produceFile = { appContext.dataStoreFile("market_preferences.pb") },
+            corruptionHandler = ReplaceFileCorruptionHandler(
+                produceNewData = { MarketPreferences() }
             )
         )
     }

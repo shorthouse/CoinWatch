@@ -5,7 +5,6 @@ import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
 import dev.shorthouse.coinwatch.data.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.preferences.global.StartScreen
 import dev.shorthouse.coinwatch.data.preferences.global.UserPreferencesRepository
@@ -97,70 +96,6 @@ class UserPreferencesRepositoryTest {
                 .first()
 
             assertThat(userPreferences.currency).isEqualTo(currency)
-        }
-
-    @Test
-    fun when_setCoinSortToMarketCap_should_updateUserPreferencesCoinSortToMarketCap() =
-        testCoroutineScope.runTest {
-            val coinSort = CoinSort.MarketCap
-
-            userPreferencesRepository.updateCoinSort(
-                coinSort = coinSort
-            )
-
-            val userPreferences = userPreferencesRepository
-                .userPreferencesFlow
-                .first()
-
-            assertThat(userPreferences.coinSort).isEqualTo(coinSort)
-        }
-
-    @Test
-    fun when_setCoinSortToPrice_should_updateUserPreferencesCoinSortToPrice() =
-        testCoroutineScope.runTest {
-            val coinSort = CoinSort.Price
-
-            userPreferencesRepository.updateCoinSort(
-                coinSort = coinSort
-            )
-
-            val userPreferences = userPreferencesRepository
-                .userPreferencesFlow
-                .first()
-
-            assertThat(userPreferences.coinSort).isEqualTo(coinSort)
-        }
-
-    @Test
-    fun when_setCoinSortToPriceChange_should_updateUserPreferencesCoinSortToPriceChange() =
-        testCoroutineScope.runTest {
-            val coinSort = CoinSort.PriceChange24h
-
-            userPreferencesRepository.updateCoinSort(
-                coinSort = coinSort
-            )
-
-            val userPreferences = userPreferencesRepository
-                .userPreferencesFlow
-                .first()
-
-            assertThat(userPreferences.coinSort).isEqualTo(coinSort)
-        }
-
-    @Test
-    fun when_setCoinSortToVolume_should_updateUserPreferencesCoinSortToVolume() =
-        testCoroutineScope.runTest {
-            val coinSort = CoinSort.Volume24h
-
-            userPreferencesRepository.updateCoinSort(
-                coinSort = coinSort
-            )
-
-            val userPreferences = userPreferencesRepository
-                .userPreferencesFlow
-                .first()
-
-            assertThat(userPreferences.coinSort).isEqualTo(coinSort)
         }
 
     @Test

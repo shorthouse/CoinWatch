@@ -4,23 +4,21 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.TrendingDown
-import androidx.compose.material.icons.automirrored.rounded.TrendingFlat
-import androidx.compose.material.icons.automirrored.rounded.TrendingUp
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -35,7 +33,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -54,9 +51,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.preferences.global.CoinSort
+import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.source.local.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
+import dev.shorthouse.coinwatch.ui.component.CoinSortChip
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.PullRefreshIndicator
@@ -64,9 +62,7 @@ import dev.shorthouse.coinwatch.ui.component.pullrefresh.pullRefresh
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.rememberPullRefreshState
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.previewdata.MarketUiStatePreviewProvider
-import dev.shorthouse.coinwatch.ui.screen.market.component.CoinSortBottomSheet
 import dev.shorthouse.coinwatch.ui.screen.market.component.CoinsEmptyState
-import dev.shorthouse.coinwatch.ui.screen.market.component.MarketChip
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketCoinItem
 import dev.shorthouse.coinwatch.ui.screen.market.component.SearchPrompt
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
@@ -90,9 +86,6 @@ fun MarketScreen(
         onUpdateCoinSort = { coinSort ->
             viewModel.updateCoinSort(coinSort)
         },
-        onUpdateIsCoinSortSheetShown = { showSheet ->
-            viewModel.updateIsCoinSortSheetShown(showSheet)
-        },
         onRefresh = {
             viewModel.pullRefreshCoins()
         },
@@ -109,7 +102,6 @@ fun MarketScreen(
     onCoinClick: (Coin) -> Unit,
     onNavigateSettings: () -> Unit,
     onUpdateCoinSort: (CoinSort) -> Unit,
-    onUpdateIsCoinSortSheetShown: (Boolean) -> Unit,
     onRefresh: () -> Unit,
     onDismissError: (Int) -> Unit,
     modifier: Modifier = Modifier
@@ -117,7 +109,6 @@ fun MarketScreen(
     val scope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val listState = rememberLazyListState()
-    val coinSortSheetState = rememberModalBottomSheetState()
     val snackbarHostState = remember { SnackbarHostState() }
     val pullRefreshState = rememberPullRefreshState(
         refreshing = uiState.isRefreshing,
@@ -174,28 +165,9 @@ fun MarketScreen(
                         coins = uiState.coins,
                         onCoinClick = onCoinClick,
                         coinSort = uiState.coinSort,
-                        onUpdateIsCoinSortSheetShown = onUpdateIsCoinSortSheetShown,
+                        onUpdateCoinSort = onUpdateCoinSort,
                         lazyListState = listState
                     )
-
-                    if (uiState.isCoinSortSheetShown) {
-                        CoinSortBottomSheet(
-                            sheetState = coinSortSheetState,
-                            selectedCoinSort = uiState.coinSort,
-                            onCoinSortSelected = { coinSort ->
-                                onUpdateCoinSort(coinSort)
-
-                                scope.launch {
-                                    coinSortSheetState.hide()
-                                }.invokeOnCompletion {
-                                    if (!coinSortSheetState.isVisible) {
-                                        onUpdateIsCoinSortSheetShown(false)
-                                    }
-                                }
-                            },
-                            onDismissRequest = { onUpdateIsCoinSortSheetShown(false) }
-                        )
-                    }
                 }
             }
 
@@ -239,29 +211,15 @@ fun MarketTopBar(
                 )
 
                 marketCapChangePercentage24h?.let {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = when {
-                                it.isPositive -> stringResource(R.string.market_is_up)
-                                it.isNegative -> stringResource(R.string.market_is_down)
-                                else -> stringResource(R.string.market_is_flat)
-                            },
-                            style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-
-                        Spacer(Modifier.width(4.dp))
-
-                        Icon(
-                            imageVector = when {
-                                it.isPositive -> Icons.AutoMirrored.Rounded.TrendingUp
-                                it.isNegative -> Icons.AutoMirrored.Rounded.TrendingDown
-                                else -> Icons.AutoMirrored.Rounded.TrendingFlat
-                            },
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            contentDescription = null
-                        )
-                    }
+                    Text(
+                        text = when {
+                            it.isPositive -> stringResource(R.string.market_is_up)
+                            it.isNegative -> stringResource(R.string.market_is_down)
+                            else -> stringResource(R.string.market_is_flat)
+                        },
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
             }
         },
@@ -303,7 +261,7 @@ fun MarketContent(
     coins: ImmutableList<Coin>,
     onCoinClick: (Coin) -> Unit,
     coinSort: CoinSort,
-    onUpdateIsCoinSortSheetShown: (Boolean) -> Unit,
+    onUpdateCoinSort: (CoinSort) -> Unit,
     lazyListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
@@ -316,10 +274,20 @@ fun MarketContent(
             modifier = modifier
         ) {
             item {
-                MarketChip(
-                    label = stringResource(coinSort.nameId),
-                    onClick = { onUpdateIsCoinSortSheetShown(true) }
-                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier
+                        .horizontalScroll(rememberScrollState())
+                        .padding(bottom = 8.dp)
+                ) {
+                    CoinSort.entries.forEach { coinSortEntry ->
+                        CoinSortChip(
+                            coinSort = coinSortEntry,
+                            selected = coinSortEntry == coinSort,
+                            onClick = { onUpdateCoinSort(coinSortEntry) }
+                        )
+                    }
+                }
             }
             items(
                 count = coins.size,
@@ -367,7 +335,6 @@ private fun MarketScreenPreview(
             onCoinClick = {},
             onNavigateSettings = {},
             onUpdateCoinSort = {},
-            onUpdateIsCoinSortSheetShown = {},
             onRefresh = {},
             onDismissError = {}
         )
