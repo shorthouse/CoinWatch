@@ -8,7 +8,7 @@ To submit your contribution for review, please follow these steps:
 
 2. **Code Formatting:** Format the project code using [ktlint](https://github.com/pinterest/ktlint) to align it with the project's coding standards.
 
-3. **Create a Pull Request (PR):** Create a PR against the latest development branch. Include a clear title and description that accurately explain your changes.
+3. **Create a Pull Request (PR):** Create a PR against the `main` branch. Include a clear title and description that accurately explains your changes.
 
 
 If you want to start a discussion about a problem you've discovered, you can also submit an [Issue](https://github.com/shorthouse/CoinWatch/issues).
