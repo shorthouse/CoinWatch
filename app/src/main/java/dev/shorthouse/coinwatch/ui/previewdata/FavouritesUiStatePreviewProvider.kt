@@ -6,13 +6,14 @@ import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.previewdata.FavouritesPreviewData.favouriteCoins
 import dev.shorthouse.coinwatch.ui.screen.favourites.FavouritesUiState
-import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
+import java.math.BigDecimal
 
 class FavouritesUiStatePreviewProvider : PreviewParameterProvider<FavouritesUiState> {
     override val values = sequenceOf(
         FavouritesUiState(
-            favouriteCoins = favouriteCoins
+            favouriteCoins = favouriteCoins,
+            isFavouriteCoinsEmpty = false
         ),
         FavouritesUiState(
             favouriteCoins = persistentListOf()
