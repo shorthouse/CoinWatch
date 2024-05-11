@@ -73,7 +73,7 @@ private object CoinListPreviewData {
             name = "USDC",
             imageUrl = "https://cdn.coinranking.com/jkDf8sQbY/usdc.svg",
             currentPrice = Price("1.00"),
-            priceChangePercentage24h = Percentage("0.08"),
+            priceChangePercentage24h = Percentage("0.00"),
         ),
         Coin(
             id = "polkadot",
