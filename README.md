@@ -1,5 +1,5 @@
 <p align="center">
-   <img src="https://github.com/shorthouse/CoinWatch/assets/73708076/8beb706b-fdaa-47fe-9230-e28388b6d768"/>
+   <img src="https://github.com/shorthouse/CoinWatch/assets/73708076/d5402b49-0eaa-4381-b220-4c6f290603f6"/>
 </p>
 
 # CoinWatch
@@ -10,7 +10,7 @@
 [![GitHub shorthouse](https://img.shields.io/badge/GitHub-shorthouse-%23D70040)](https://github.com/shorthouse)
 [![ktlint](https://img.shields.io/badge/ktlint%20code--style-%E2%9D%A4-FF4081)](https://pinterest.github.io/ktlint/)
 
-**CoinWatch** is a cryptocurrency app providing real-time coin prices, price histories, and market data.
+**CoinWatch** is an Android cryptocurrency app providing real-time coin prices, price histories, and market data.
 
 The app is built using the latest [Android architecture components](https://developer.android.com/topic/architecture/recommendations) - resulting in a scalable, modularised and testable app.
 
