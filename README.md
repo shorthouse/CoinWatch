@@ -10,7 +10,7 @@
 [![GitHub shorthouse](https://img.shields.io/badge/GitHub-shorthouse-%23D70040)](https://github.com/shorthouse)
 [![ktlint](https://img.shields.io/badge/ktlint%20code--style-%E2%9D%A4-FF4081)](https://pinterest.github.io/ktlint/)
 
-**CoinWatch** is a cryptocurrency app providing real-time coin prices, price histories, and market data.
+**CoinWatch** is an Android cryptocurrency app providing real-time coin prices, price histories, and market data.
 
 The app is built using the latest [Android architecture components](https://developer.android.com/topic/architecture/recommendations) - resulting in a scalable, modularised and testable app.
 
