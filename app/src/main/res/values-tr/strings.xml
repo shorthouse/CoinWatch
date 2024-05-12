@@ -90,7 +90,13 @@
     <string name="cd_expand_favourites">Sık kullanılanlar listesini genişlet</string>
     <string name="cd_condense_favourites">Sık kullanılanlar listesini daralt</string>
     <string name="settings_title_currency">Döviz</string>
-    <string name="empty_state_search_title">Paraları keşfedin</string>
+    <string name="empty_state_search_title">Paraları keşfet</string>
     <string name="empty_state_search_subtitle">İsme veya sembole göre arama</string>
     <string name="start_screen_bottom_sheet_title">Uygulama başlangıç ekranı</string>
+    <string name="market_coin_sort_market_cap">Piyasa değeri</string>
+    <string name="market_coin_sort_gainers">Kazananlar</string>
+    <string name="market_coin_sort_losers">Kaybedenler</string>
+    <string name="market_coin_sort_popular">Popüler</string>
+    <string name="market_coin_sort_newest">En yeniler</string>
+    <string name="cd_change_favourites_order">Favori sırasını değiştir</string>
 </resources>
