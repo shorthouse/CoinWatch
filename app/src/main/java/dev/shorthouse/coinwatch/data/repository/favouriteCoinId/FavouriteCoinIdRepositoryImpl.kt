@@ -1,8 +1,8 @@
 package dev.shorthouse.coinwatch.data.repository.favouriteCoinId
 
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSource
-import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
+import dev.shorthouse.coinwatch.data.source.local.database.CoinLocalDataSource
+import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoinId
 import dev.shorthouse.coinwatch.di.IoDispatcher
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher

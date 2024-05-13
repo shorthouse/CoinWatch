@@ -3,8 +3,8 @@ package dev.shorthouse.coinwatch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.shorthouse.coinwatch.data.preferences.global.StartScreen
-import dev.shorthouse.coinwatch.domain.GetUserPreferencesUseCase
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.StartScreen
+import dev.shorthouse.coinwatch.domain.preferences.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.navigation.NavigationBarScreen
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow

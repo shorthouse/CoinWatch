@@ -3,7 +3,7 @@ package dev.shorthouse.coinwatch.ui.screen.search
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.domain.GetCoinSearchResultsUseCase
+import dev.shorthouse.coinwatch.domain.search.GetCoinSearchResultsUseCase
 import dev.shorthouse.coinwatch.model.SearchCoin
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery

@@ -5,11 +5,11 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Constants
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
-import dev.shorthouse.coinwatch.domain.GetCoinChartUseCase
-import dev.shorthouse.coinwatch.domain.GetCoinDetailsUseCase
-import dev.shorthouse.coinwatch.domain.IsCoinFavouriteUseCase
-import dev.shorthouse.coinwatch.domain.ToggleIsCoinFavouriteUseCase
+import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoinId
+import dev.shorthouse.coinwatch.domain.details.GetCoinChartUseCase
+import dev.shorthouse.coinwatch.domain.details.GetCoinDetailsUseCase
+import dev.shorthouse.coinwatch.domain.favourites.IsCoinFavouriteUseCase
+import dev.shorthouse.coinwatch.domain.favourites.ToggleIsCoinFavouriteUseCase
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod

@@ -24,7 +24,7 @@ import dev.shorthouse.coinwatch.data.repository.marketStats.MarketStatsRepositor
 import dev.shorthouse.coinwatch.data.repository.marketStats.MarketStatsRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.searchResults.CoinSearchResultsRepository
 import dev.shorthouse.coinwatch.data.repository.searchResults.CoinSearchResultsRepositoryImpl
-import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSource
+import dev.shorthouse.coinwatch.data.source.local.database.CoinLocalDataSource
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher

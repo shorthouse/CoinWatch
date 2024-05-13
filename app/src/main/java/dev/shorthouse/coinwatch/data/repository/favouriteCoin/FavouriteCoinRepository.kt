@@ -1,9 +1,9 @@
 package dev.shorthouse.coinwatch.data.repository.favouriteCoin
 
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
-import dev.shorthouse.coinwatch.data.preferences.global.Currency
-import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
+import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
 import kotlinx.coroutines.flow.Flow
 
 interface FavouriteCoinRepository {

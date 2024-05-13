@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.data.mapper
 
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.data.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.AllTimeHigh
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsData

@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.model
 
 import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrZero
-import dev.shorthouse.coinwatch.data.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode

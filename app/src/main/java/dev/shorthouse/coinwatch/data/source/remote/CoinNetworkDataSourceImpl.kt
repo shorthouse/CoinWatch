@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.data.source.remote
 
-import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
-import dev.shorthouse.coinwatch.data.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel

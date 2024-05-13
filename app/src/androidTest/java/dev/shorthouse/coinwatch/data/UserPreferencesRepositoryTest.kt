@@ -5,10 +5,10 @@ import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.data.preferences.global.Currency
-import dev.shorthouse.coinwatch.data.preferences.global.StartScreen
-import dev.shorthouse.coinwatch.data.preferences.global.UserPreferencesRepository
-import dev.shorthouse.coinwatch.data.preferences.global.UserPreferencesSerializer
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.StartScreen
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.UserPreferencesRepository
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.UserPreferencesSerializer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job

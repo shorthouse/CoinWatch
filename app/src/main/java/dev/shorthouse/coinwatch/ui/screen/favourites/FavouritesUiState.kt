@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.ui.screen.favourites
 
-import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
-import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
+import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
+import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
