@@ -266,7 +266,7 @@ fun MarketContent(
     modifier: Modifier = Modifier
 ) {
     if (coins.isEmpty()) {
-        CoinsEmptyState()
+        LazyColumn(modifier = Modifier.fillMaxSize()) {}
     } else {
         LazyColumn(
             state = lazyListState,
