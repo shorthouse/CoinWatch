@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.ui.screen.settings
 
-import dev.shorthouse.coinwatch.data.preferences.global.Currency
-import dev.shorthouse.coinwatch.data.preferences.global.StartScreen
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.StartScreen
 
 data class SettingsUiState(
     val currency: Currency = Currency.USD,

@@ -2,7 +2,8 @@ package dev.shorthouse.coinwatch.domain
 
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.repository.favouriteCoinId.FavouriteCoinIdRepository
-import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoinId
+import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoinId
+import dev.shorthouse.coinwatch.domain.favourites.IsCoinFavouriteUseCase
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

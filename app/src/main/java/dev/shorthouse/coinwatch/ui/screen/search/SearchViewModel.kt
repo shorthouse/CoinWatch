@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.domain.GetCoinSearchResultsUseCase
+import dev.shorthouse.coinwatch.domain.search.GetCoinSearchResultsUseCase
 import javax.inject.Inject
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList

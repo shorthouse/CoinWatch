@@ -28,7 +28,7 @@ import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.source.local.model.FavouriteCoin
+import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
 import dev.shorthouse.coinwatch.ui.component.PercentageChange
 import dev.shorthouse.coinwatch.ui.component.PriceGraph
 import dev.shorthouse.coinwatch.ui.previewdata.FavouriteCoinPreviewProvider

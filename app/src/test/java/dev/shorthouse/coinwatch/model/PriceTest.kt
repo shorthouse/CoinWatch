@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.model
 
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.data.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import org.junit.Test
 import java.math.BigDecimal
 

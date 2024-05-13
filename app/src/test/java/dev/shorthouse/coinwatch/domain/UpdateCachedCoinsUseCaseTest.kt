@@ -2,10 +2,11 @@ package dev.shorthouse.coinwatch.domain
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.preferences.common.CoinSort
-import dev.shorthouse.coinwatch.data.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.repository.coin.CoinRepository
-import dev.shorthouse.coinwatch.data.source.local.model.Coin
+import dev.shorthouse.coinwatch.data.source.local.database.model.Coin
+import dev.shorthouse.coinwatch.domain.market.UpdateCachedCoinsUseCase
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import io.mockk.MockKAnnotations

@@ -4,11 +4,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSource
-import dev.shorthouse.coinwatch.data.source.local.CoinLocalDataSourceImpl
-import dev.shorthouse.coinwatch.data.source.local.dao.CoinDao
-import dev.shorthouse.coinwatch.data.source.local.dao.FavouriteCoinDao
-import dev.shorthouse.coinwatch.data.source.local.dao.FavouriteCoinIdDao
+import dev.shorthouse.coinwatch.data.source.local.database.CoinLocalDataSource
+import dev.shorthouse.coinwatch.data.source.local.database.CoinLocalDataSourceImpl
+import dev.shorthouse.coinwatch.data.source.local.database.dao.CoinDao
+import dev.shorthouse.coinwatch.data.source.local.database.dao.FavouriteCoinDao
+import dev.shorthouse.coinwatch.data.source.local.database.dao.FavouriteCoinIdDao
 import dev.shorthouse.coinwatch.data.source.remote.CoinApi
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSourceImpl

@@ -8,10 +8,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.shorthouse.coinwatch.common.Constants
-import dev.shorthouse.coinwatch.data.source.local.CoinDatabase
-import dev.shorthouse.coinwatch.data.source.local.dao.CoinDao
-import dev.shorthouse.coinwatch.data.source.local.dao.FavouriteCoinDao
-import dev.shorthouse.coinwatch.data.source.local.dao.FavouriteCoinIdDao
+import dev.shorthouse.coinwatch.data.source.local.database.CoinDatabase
+import dev.shorthouse.coinwatch.data.source.local.database.dao.CoinDao
+import dev.shorthouse.coinwatch.data.source.local.database.dao.FavouriteCoinDao
+import dev.shorthouse.coinwatch.data.source.local.database.dao.FavouriteCoinIdDao
 import javax.inject.Singleton
 
 @Module
