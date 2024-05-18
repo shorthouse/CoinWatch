@@ -2,6 +2,7 @@ package dev.shorthouse.coinwatch.ui.screen
 
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assertAll
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotSelected
@@ -246,7 +247,7 @@ class MarketScreenTest {
     }
 
     @Test
-    fun when_noCoins_should_showCoinsEmptyState() {
+    fun when_noCoins_should_showBlankState() {
         val uiState = MarketUiState(
             coins = persistentListOf()
         )
@@ -265,8 +266,8 @@ class MarketScreenTest {
         }
 
         composeTestRule.apply {
-            onNodeWithText("Couldn't load coins").assertIsDisplayed()
-            onNodeWithText("Check your internet connection").assertIsDisplayed()
+            onNodeWithText("Couldn't load coins").assertDoesNotExist()
+            onNodeWithText("Check your internet connection").assertDoesNotExist()
         }
     }
 
