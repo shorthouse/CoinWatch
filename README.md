@@ -1,5 +1,5 @@
 <p align="center">
-   <img src="https://github.com/shorthouse/CoinWatch/assets/73708076/d5402b49-0eaa-4381-b220-4c6f290603f6"/>
+   <img src="https://github.com/user-attachments/assets/824c0022-ad4d-4d4b-be6a-5ed6d58d25f6"/>
 </p>
 
 # CoinWatch
