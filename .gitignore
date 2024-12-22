@@ -50,7 +50,7 @@ deploymentTargetDropDown.xml
 render.experimental.xml
 
 # Mac
-*.DS_Store
+.DS_Store
 
 # Keystore files
 *.jks
