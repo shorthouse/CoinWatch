@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
@@ -48,7 +49,8 @@ fun AppBottomSheet(
     ) {
         Column(
             modifier = Modifier
-                .padding(20.dp)
+                .padding(top = 20.dp, start = 20.dp, end = 20.dp)
+                .navigationBarsPadding()
                 .fillMaxWidth()
         ) {
             Text(
