@@ -3,7 +3,7 @@
 </p>
 
 # CoinWatch
-[![Android Weekly](https://img.shields.io/badge/News-Android%20Weekly-040273?logo=android&logoColor=%233DDC84)](https://androidweekly.net/issues/issue-636)
+[![Android Weekly](https://img.shields.io/badge/News-Android%20Weekly%20%23636-040273?logo=android&logoColor=%233DDC84)](https://androidweekly.net/issues/issue-636)
 [![Android CI Workflow](https://github.com/shorthouse/CoinWatch/actions/workflows/android.yml/badge.svg)](https://github.com/shorthouse/CoinWatch/actions)
 [![Release](https://img.shields.io/badge/Release-1.2.9-1397CB)](https://github.com/shorthouse/CoinWatch/releases)
 [![License Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-%23820e82)](https://www.apache.org/licenses/LICENSE-2.0)
@@ -20,12 +20,6 @@ The app is built using the latest [Android architecture components](https://deve
     <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height='80'/>
 </a>
 
-# ⭐ Features
-- Get a list of real-time prices and price changes of the top cryptocurrencies
-- Analyse coins in detail with animated price history graphs and market stats data 
-- Search through thousands of cryptocurrencies by name or symbol
-- Create a personalized list of favourite cryptocurrencies 
-
 # 🛠 Built With 
 - Kotlin
 - Jetpack Compose
@@ -41,13 +35,6 @@ The app is built using the latest [Android architecture components](https://deve
 - Material Design 3
 - Static code analysis using Ktlint
 
-# 🧬 Testing 
-CoinWatch features an extensive test suite, using the following:
- - JUnit for local tests
- - Jetpack Compose testing APIs for instrumented tests
- - Truth for assertions
- - MockK for mocks
-
 # 🧱 Architecture 
 The design of CoinWatch follows a few key principles:
 1. Unidirectional Data Flow (UDF) - State flows in one direction, and events that modify the data flow in the opposite direction.
@@ -59,6 +46,19 @@ A high-level overview of the app's architecture is displayed below. The architec
 <p align="center">
    <img src="https://github.com/shorthouse/CoinWatch/assets/73708076/d931301f-80da-4cb7-9824-bdf1d4cdfaa3" width="750">
 </p>
+
+# ⭐ Features
+- Get a list of real-time prices and price changes of the top cryptocurrencies
+- Analyse coins in detail with animated price history graphs and market stats data 
+- Search through thousands of cryptocurrencies by name or symbol
+- Create a personalized list of favourite cryptocurrencies 
+
+# 🧬 Testing 
+CoinWatch features an extensive test suite, using the following:
+ - JUnit for local tests
+ - Jetpack Compose testing APIs for instrumented tests
+ - Truth for assertions
+ - MockK for mocks
 
 # 🤝 Contributing 
 Contributions to the project are welcome and highly encouraged! To get started, please check out the [contributing guidelines](https://github.com/shorthouse/CoinWatch/blob/main/CONTRIBUTING.md).
