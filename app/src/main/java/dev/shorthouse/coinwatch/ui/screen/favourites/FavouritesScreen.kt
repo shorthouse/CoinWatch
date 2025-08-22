@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -315,18 +314,14 @@ fun FavouritesGrid(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 80.dp),
-        modifier = modifier
-            .fillMaxHeight()
-            .offset(y = (-8).dp)
+        modifier = modifier.fillMaxHeight()
     ) {
         item(
             span = { GridItemSpan(maxLineSpan) },
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .horizontalScroll(rememberScrollState())
-                    .offset(y = 8.dp)
+                modifier = Modifier.horizontalScroll(rememberScrollState())
             ) {
                 CoinSort.entries.forEach { coinSortEntry ->
                     CoinSortChip(

@@ -342,12 +342,19 @@ class DetailsScreenTest {
 
         composeTestRule.apply {
             onNodeWithText("1H").performClick()
+            waitForIdle()
             onNodeWithText("1D").performClick()
+            waitForIdle()
             onNodeWithText("1W").performClick()
+            waitForIdle()
             onNodeWithText("1M").performClick()
+            waitForIdle()
             onNodeWithText("3M").performClick()
+            waitForIdle()
             onNodeWithText("1Y").performClick()
+            waitForIdle()
             onNodeWithText("5Y").performClick()
+            waitForIdle()
         }
 
         onClickChartPeriodMap.values.forEach { isChartPeriodClicked ->
