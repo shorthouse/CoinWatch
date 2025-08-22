@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -51,8 +52,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.source.local.database.model.Coin
+import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.ui.component.CoinSortChip
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
@@ -62,7 +63,6 @@ import dev.shorthouse.coinwatch.ui.component.pullrefresh.pullRefresh
 import dev.shorthouse.coinwatch.ui.component.pullrefresh.rememberPullRefreshState
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.previewdata.MarketUiStatePreviewProvider
-import dev.shorthouse.coinwatch.ui.screen.market.component.CoinsEmptyState
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketCoinItem
 import dev.shorthouse.coinwatch.ui.screen.market.component.SearchPrompt
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
@@ -73,7 +73,7 @@ import kotlinx.coroutines.launch
 fun MarketScreen(
     onNavigateDetails: (String) -> Unit,
     onNavigateSettings: () -> Unit,
-    viewModel: MarketViewModel = hiltViewModel()
+    viewModel: MarketViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -104,7 +104,7 @@ fun MarketScreen(
     onUpdateCoinSort: (CoinSort) -> Unit,
     onRefresh: () -> Unit,
     onDismissError: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -145,6 +145,7 @@ fun MarketScreen(
                 )
             }
         },
+        contentWindowInsets = WindowInsets(top = 0.dp, bottom = 0.dp),
         modifier = modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection)
@@ -196,7 +197,7 @@ fun MarketTopBar(
     marketCapChangePercentage24h: Percentage?,
     onNavigateSettings: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
 
@@ -263,7 +264,7 @@ fun MarketContent(
     coinSort: CoinSort,
     onUpdateCoinSort: (CoinSort) -> Unit,
     lazyListState: LazyListState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     if (coins.isEmpty()) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {}
@@ -318,7 +319,7 @@ fun MarketContent(
             )
 
             item {
-                SearchPrompt(modifier = Modifier.padding(vertical = 12.dp))
+                SearchPrompt(modifier = Modifier.padding(vertical = 24.dp))
             }
         }
     }
@@ -327,7 +328,7 @@ fun MarketContent(
 @Composable
 @Preview(showBackground = true)
 private fun MarketScreenPreview(
-    @PreviewParameter(MarketUiStatePreviewProvider::class) uiState: MarketUiState
+    @PreviewParameter(MarketUiStatePreviewProvider::class) uiState: MarketUiState,
 ) {
     AppTheme {
         MarketScreen(

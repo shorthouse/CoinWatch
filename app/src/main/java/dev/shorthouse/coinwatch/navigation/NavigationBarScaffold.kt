@@ -3,7 +3,13 @@ package dev.shorthouse.coinwatch.navigation
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.Favorite
@@ -40,7 +46,7 @@ fun NavigationBarScaffold(
     startScreen: NavigationBarScreen,
     onNavigateDetails: (String) -> Unit,
     onNavigateSettings: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val navController = rememberNavController()
 
@@ -74,6 +80,7 @@ fun NavigationBarScaffold(
                 }
             }
         },
+        contentWindowInsets = WindowInsets(top = 0.dp, bottom = 0.dp),
         content = { scaffoldPadding ->
             NavigationBarNavHost(
                 navController = navController,
@@ -84,6 +91,8 @@ fun NavigationBarScaffold(
             )
         },
         modifier = modifier
+            .windowInsetsPadding(WindowInsets.displayCutout)
+            .windowInsetsPadding(WindowInsets.navigationBars.only(WindowInsetsSides.Horizontal))
     )
 }
 
@@ -93,7 +102,7 @@ private fun NavigationBarNavHost(
     startScreen: NavigationBarScreen,
     onNavigateDetails: (String) -> Unit,
     onNavigateSettings: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     NavHost(
         navController = navController,
@@ -122,7 +131,7 @@ private fun RowScope.AddNavigationBarItem(
     screen: NavigationBarScreen,
     currentDestination: NavDestination?,
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val selected = currentDestination?.hierarchy?.any { destination ->
         destination.route == screen.route

@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -36,7 +37,7 @@ fun AppBottomSheet(
     onDismissRequest: () -> Unit,
     sheetState: SheetState,
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
@@ -45,11 +46,12 @@ fun AppBottomSheet(
         contentColor = MaterialTheme.colorScheme.onSurface,
         tonalElevation = 0.dp,
         sheetState = sheetState,
+        windowInsets = WindowInsets(bottom = 0.dp),
         modifier = modifier
     ) {
         Column(
             modifier = Modifier
-                .padding(top = 20.dp, start = 20.dp, end = 20.dp)
+                .padding(20.dp)
                 .navigationBarsPadding()
                 .fillMaxWidth()
         ) {
@@ -71,7 +73,7 @@ fun BottomSheetOption(
     label: String,
     isSelected: Boolean,
     onSelected: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val optionBackgroundColor = if (isSelected) {
         MaterialTheme.colorScheme.primaryContainer

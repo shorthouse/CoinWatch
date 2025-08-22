@@ -3,10 +3,13 @@ package dev.shorthouse.coinwatch.ui.screen.details
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -55,7 +58,7 @@ import dev.shorthouse.coinwatch.ui.theme.AppTheme
 @Composable
 fun DetailsScreen(
     viewModel: DetailsViewModel = hiltViewModel(),
-    onNavigateUp: () -> Unit
+    onNavigateUp: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -76,7 +79,7 @@ fun DetailsScreen(
     onNavigateUp: () -> Unit,
     onClickFavouriteCoin: () -> Unit,
     onClickChartPeriod: (ChartPeriod) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
@@ -100,7 +103,9 @@ fun DetailsScreen(
                 }
             }
         },
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+        modifier = modifier
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+            .windowInsetsPadding(WindowInsets.displayCutout)
     ) { scaffoldPadding ->
         when (uiState) {
             is DetailsUiState.Success -> {
@@ -135,7 +140,7 @@ fun DetailsTopBar(
     onNavigateUp: () -> Unit,
     onClickFavouriteCoin: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
 
@@ -211,7 +216,7 @@ fun DetailsContent(
     coinChart: CoinChart,
     chartPeriod: ChartPeriod,
     onClickChartPeriod: (ChartPeriod) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
@@ -259,7 +264,7 @@ fun DetailsContent(
 @Composable
 @Preview
 private fun DetailsScreenPreview(
-    @PreviewParameter(DetailsUiStatePreviewProvider::class) uiState: DetailsUiState
+    @PreviewParameter(DetailsUiStatePreviewProvider::class) uiState: DetailsUiState,
 ) {
     AppTheme {
         DetailsScreen(
