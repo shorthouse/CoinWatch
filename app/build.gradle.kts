@@ -17,8 +17,8 @@ android {
         applicationId = "dev.shorthouse.coinwatch"
         minSdk = 26
         targetSdk = 35
-        versionCode = 26
-        versionName = "1.4.0"
+        versionCode = 27
+        versionName = "1.4.1"
         ndk {
             debugSymbolLevel = "FULL"
         }
