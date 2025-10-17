@@ -1,5 +1,6 @@
 package dev.shorthouse.coinwatch.ui.screen.details.component
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -55,7 +56,10 @@ fun CoinChartCard(
                 Spacer(Modifier.height(4.dp))
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    PercentageChangeChip(percentage = periodPriceChangePercentage)
+                    PercentageChangeChip(
+                        percentage = periodPriceChangePercentage,
+                        modifier = Modifier.animateContentSize()
+                    )
 
                     Spacer(Modifier.width(8.dp))
 
