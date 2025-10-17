@@ -14,3 +14,6 @@ val dark_onSurfaceVariant = Color(0xFFBDBDBD)
 val PositiveGreen = Color(0xFF17C683)
 val NegativeRed = Color(0xFFEA3943)
 val ZeroWhite = Color(0xFFFFFFFF)
+
+// Used for edgeToEdge
+val DefaultDarkScrim = android.graphics.Color.argb(0x80, 0x1b, 0x1b, 0x1b)

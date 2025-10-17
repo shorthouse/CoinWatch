@@ -2,8 +2,11 @@ package dev.shorthouse.coinwatch.ui.screen.settings
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -58,7 +61,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun SettingsScreen(
     onNavigateUp: () -> Unit,
-    viewModel: SettingsViewModel = hiltViewModel()
+    viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -89,17 +92,19 @@ fun SettingsScreen(
     onUpdateIsCurrencySheetShown: (Boolean) -> Unit,
     onUpdateStartScreen: (StartScreen) -> Unit,
     onUpdateIsStartScreenSheetShown: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val currencySheetState = rememberModalBottomSheetState()
-    val startScreenSheetState = rememberModalBottomSheetState()
+    val currencySheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val startScreenSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
             SettingsTopBar(onNavigateUp = onNavigateUp)
         },
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.displayCutout)
     ) { scaffoldPadding ->
         when {
             uiState.isLoading -> {
@@ -169,16 +174,16 @@ fun SettingsContent(
     onUpdateIsCurrencySheetShown: (Boolean) -> Unit,
     startScreen: StartScreen,
     onUpdateIsStartScreenSheetShown: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val uriHandler = LocalUriHandler.current
 
     Column(
         modifier = modifier
-            .padding(horizontal = 12.dp)
+            .padding(all = 12.dp)
+            .verticalScroll(rememberScrollState())
             .clip(MaterialTheme.shapes.medium)
             .background(MaterialTheme.colorScheme.surface)
-            .verticalScroll(rememberScrollState())
     ) {
         Text(
             text = stringResource(R.string.settings_group_preferences),
@@ -265,7 +270,7 @@ fun SettingsContent(
 @Composable
 fun SettingsTopBar(
     onNavigateUp: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     TopAppBar(
         title = {
@@ -294,7 +299,7 @@ fun SettingsTopBar(
 @Preview
 @Composable
 private fun SettingsScreenPreview(
-    @PreviewParameter(SettingsUiStatePreviewProvider::class) uiState: SettingsUiState
+    @PreviewParameter(SettingsUiStatePreviewProvider::class) uiState: SettingsUiState,
 ) {
     AppTheme {
         SettingsScreen(

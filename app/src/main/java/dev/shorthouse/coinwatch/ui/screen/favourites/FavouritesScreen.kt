@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -56,8 +56,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
+import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.ui.component.CoinSortChip
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
@@ -75,7 +75,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun FavouritesScreen(
     viewModel: FavouritesViewModel = hiltViewModel(),
-    onNavigateDetails: (String) -> Unit
+    onNavigateDetails: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -163,6 +163,7 @@ fun FavouriteScreen(
                 )
             }
         },
+        contentWindowInsets = WindowInsets(top = 0.dp, bottom = 0.dp),
         modifier = modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection)
@@ -217,7 +218,7 @@ fun FavouritesTopBar(
     isFavouritesListEmpty: Boolean,
     isLoading: Boolean,
     scrollBehavior: TopAppBarScrollBehavior,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     TopAppBar(
         title = {
@@ -265,7 +266,7 @@ fun FavouritesContent(
     onUpdateCoinSort: (CoinSort) -> Unit,
     gridState: LazyGridState,
     listState: LazyListState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
         when {
@@ -305,7 +306,7 @@ fun FavouritesGrid(
     coinSort: CoinSort,
     onUpdateCoinSort: (CoinSort) -> Unit,
     gridState: LazyGridState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
         state = gridState,
@@ -313,18 +314,14 @@ fun FavouritesGrid(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 80.dp),
-        modifier = modifier
-            .fillMaxHeight()
-            .offset(y = (-8).dp)
+        modifier = modifier.fillMaxHeight()
     ) {
         item(
             span = { GridItemSpan(maxLineSpan) },
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .horizontalScroll(rememberScrollState())
-                    .offset(y = 8.dp)
+                modifier = Modifier.horizontalScroll(rememberScrollState())
             ) {
                 CoinSort.entries.forEach { coinSortEntry ->
                     CoinSortChip(
@@ -357,7 +354,7 @@ fun FavouritesList(
     coinSort: CoinSort,
     onUpdateCoinSort: (CoinSort) -> Unit,
     listState: LazyListState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         state = listState,
@@ -415,7 +412,7 @@ fun FavouritesList(
 @Composable
 @Preview(showBackground = true)
 private fun FavouritesScreenPreview(
-    @PreviewParameter(FavouritesUiStatePreviewProvider::class) uiState: FavouritesUiState
+    @PreviewParameter(FavouritesUiStatePreviewProvider::class) uiState: FavouritesUiState,
 ) {
     AppTheme {
         FavouriteScreen(

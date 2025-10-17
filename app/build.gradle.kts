@@ -11,14 +11,14 @@ plugins {
 
 android {
     namespace = "dev.shorthouse.coinwatch"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "dev.shorthouse.coinwatch"
         minSdk = 26
-        targetSdk = 34
-        versionCode = 25
-        versionName = "1.3.0"
+        targetSdk = 35
+        versionCode = 26
+        versionName = "1.4.0"
         ndk {
             debugSymbolLevel = "FULL"
         }
@@ -81,7 +81,6 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.accompanist.systemuicontroller)
     implementation(libs.androidx.ui.tooling.preview.android)
     implementation(libs.androidx.navigation.compose)
     lintChecks(libs.compose.lint.checks)
