@@ -16,5 +16,7 @@ data class CoinChartData(
 
 data class PastPrice(
     @SerializedName("price")
-    val amount: String?
+    val amount: String?,
+    @SerializedName("timestamp")
+    val timestamp: Long?
 )

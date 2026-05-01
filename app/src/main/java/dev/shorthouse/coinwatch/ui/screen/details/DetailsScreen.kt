@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,10 +50,13 @@ import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import dev.shorthouse.coinwatch.ui.previewdata.DetailsUiStatePreviewProvider
+import dev.shorthouse.coinwatch.ui.screen.details.component.AboutCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartRangeCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.EmptyTopBar
+import dev.shorthouse.coinwatch.ui.screen.details.component.LinksCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.MarketStatsCard
+import dev.shorthouse.coinwatch.ui.screen.details.component.SupplyCard
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
@@ -218,6 +222,8 @@ fun DetailsContent(
     onClickChartPeriod: (ChartPeriod) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val uriHandler = LocalUriHandler.current
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -226,11 +232,37 @@ fun DetailsContent(
     ) {
         CoinChartCard(
             currentPrice = coinDetails.currentPrice,
-            prices = coinChart.prices,
+            priceHistory = coinChart.priceHistory,
             periodPriceChangePercentage = coinChart.periodPriceChangePercentage,
             chartPeriod = chartPeriod,
             onClickChartPeriod = onClickChartPeriod
         )
+
+        Spacer(Modifier.height(24.dp))
+
+        Text(
+            text = stringResource(R.string.card_header_about),
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        Spacer(Modifier.height(8.dp))
+
+        AboutCard(
+            description = coinDetails.description,
+            tags = coinDetails.tags,
+            listedDate = coinDetails.listedDate
+        )
+
+        Spacer(Modifier.height(24.dp))
+
+        Text(
+            text = stringResource(R.string.card_header_market_stats),
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        Spacer(Modifier.height(8.dp))
+
+        MarketStatsCard(coinDetails = coinDetails)
 
         Spacer(Modifier.height(24.dp))
 
@@ -251,13 +283,33 @@ fun DetailsContent(
         Spacer(Modifier.height(24.dp))
 
         Text(
-            text = stringResource(R.string.card_header_market_stats),
+            text = stringResource(R.string.card_header_supply),
             style = MaterialTheme.typography.titleMedium
         )
 
         Spacer(Modifier.height(8.dp))
 
-        MarketStatsCard(coinDetails = coinDetails)
+        SupplyCard(
+            circulatingSupply = coinDetails.circulatingSupply,
+            totalSupply = coinDetails.totalSupply,
+            maxSupply = coinDetails.maxSupply
+        )
+
+        if (coinDetails.links.isNotEmpty()) {
+            Spacer(Modifier.height(24.dp))
+
+            Text(
+                text = stringResource(R.string.card_header_links),
+                style = MaterialTheme.typography.titleMedium
+            )
+
+            Spacer(Modifier.height(8.dp))
+
+            LinksCard(
+                links = coinDetails.links,
+                onClickLink = { url -> uriHandler.openUri(url) }
+            )
+        }
     }
 }
 

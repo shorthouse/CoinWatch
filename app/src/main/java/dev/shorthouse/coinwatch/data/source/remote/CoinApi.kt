@@ -37,7 +37,7 @@ interface CoinApi {
         @Query("referenceCurrencyUuid") currencyUUID: String = "yhjMzLPhuIDl"
     ): Response<CoinDetailsApiModel>
 
-    @GET("coin/{coinId}/history")
+    @GET("coin/{coinId}/price-history")
     suspend fun getCoinChart(
         @Path("coinId") coinId: String,
         @Query("referenceCurrencyUuid") currencyUUID: String = "yhjMzLPhuIDl",

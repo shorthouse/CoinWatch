@@ -12,6 +12,7 @@ import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
+import dev.shorthouse.coinwatch.model.PriceEntry
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -63,11 +64,11 @@ class CoinChartRepositoryTest {
 
         val expectedResult = Result.Success(
             CoinChart(
-                prices = persistentListOf(
-                    BigDecimal("27000.44"),
-                    BigDecimal("25000.89"),
-                    BigDecimal("30000.47"),
-                    BigDecimal("20000.20")
+                priceHistory = persistentListOf(
+                    PriceEntry(BigDecimal("27000.44"), 1700014400L, "15 Nov 2023"),
+                    PriceEntry(BigDecimal("25000.89"), 1700010800L, "15 Nov 2023"),
+                    PriceEntry(BigDecimal("30000.47"), 1700007200L, "15 Nov 2023"),
+                    PriceEntry(BigDecimal("20000.20"), 1700003600L, "14 Nov 2023")
                 ),
                 minPrice = Price("20000.20"),
                 maxPrice = Price("30000.47"),
@@ -86,11 +87,11 @@ class CoinChartRepositoryTest {
                 coinChartData = CoinChartData(
                     priceChangePercentage = "-0.97",
                     pastPrices = listOf(
-                        PastPrice(amount = "20000.20"),
-                        PastPrice(amount = "30000.47"),
-                        PastPrice(amount = null),
-                        PastPrice(amount = "25000.89"),
-                        PastPrice(amount = "27000.44")
+                        PastPrice(amount = "20000.20", timestamp = 1700003600L),
+                        PastPrice(amount = "30000.47", timestamp = 1700007200L),
+                        PastPrice(amount = null, timestamp = 1700000000L),
+                        PastPrice(amount = "25000.89", timestamp = 1700010800L),
+                        PastPrice(amount = "27000.44", timestamp = 1700014400L)
                     )
                 )
             )
@@ -178,10 +179,10 @@ class CoinChartRepositoryTest {
                     coinChartData = CoinChartData(
                         priceChangePercentage = null,
                         pastPrices = listOf(
-                            PastPrice(amount = "30000.47"),
+                            PastPrice(amount = "30000.47", timestamp = 1700003600L),
                             null,
-                            PastPrice(amount = null),
-                            PastPrice(amount = "25000.89"),
+                            PastPrice(amount = null, timestamp = 1700007200L),
+                            PastPrice(amount = "25000.89", timestamp = 1700010800L),
                             null
                         )
                     )

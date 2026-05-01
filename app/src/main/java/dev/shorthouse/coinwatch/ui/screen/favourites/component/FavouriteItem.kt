@@ -30,7 +30,7 @@ import coil.request.ImageRequest
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
 import dev.shorthouse.coinwatch.ui.component.PercentageChange
-import dev.shorthouse.coinwatch.ui.component.PriceGraph
+import dev.shorthouse.coinwatch.ui.component.StaticPriceGraph
 import dev.shorthouse.coinwatch.ui.previewdata.FavouriteCoinPreviewProvider
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
@@ -99,10 +99,9 @@ fun FavouriteItem(
             Spacer(Modifier.height(12.dp))
 
             if (favouriteCoin.prices24h.isNotEmpty()) {
-                PriceGraph(
+                StaticPriceGraph(
                     prices = favouriteCoin.prices24h,
                     priceChangePercentage = favouriteCoin.priceChangePercentage24h,
-                    isGraphAnimated = false,
                     modifier = Modifier
                         .height(70.dp)
                         .fillMaxWidth()
