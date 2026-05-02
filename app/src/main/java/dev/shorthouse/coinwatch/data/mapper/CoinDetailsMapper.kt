@@ -31,9 +31,7 @@ class CoinDetailsMapper @Inject constructor() {
             "website" to CoinLinkType.Website,
             "whitepaper" to CoinLinkType.Whitepaper,
             "discord" to CoinLinkType.Discord,
-            "facebook" to CoinLinkType.Facebook,
             "github" to CoinLinkType.GitHub,
-            "instagram" to CoinLinkType.Instagram,
             "reddit" to CoinLinkType.Reddit,
             "telegram" to CoinLinkType.Telegram,
         )

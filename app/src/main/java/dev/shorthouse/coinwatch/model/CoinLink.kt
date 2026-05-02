@@ -9,9 +9,7 @@ enum class CoinLinkType {
     Website,
     Whitepaper,
     Discord,
-    Facebook,
     GitHub,
-    Instagram,
     Reddit,
     Telegram
 }
