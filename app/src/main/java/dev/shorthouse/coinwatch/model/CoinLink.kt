@@ -11,5 +11,7 @@ enum class CoinLinkType {
     Discord,
     GitHub,
     Reddit,
-    Telegram
+    Telegram,
+    X,
+    YouTube
 }

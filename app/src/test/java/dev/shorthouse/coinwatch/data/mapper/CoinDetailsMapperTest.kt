@@ -436,6 +436,16 @@ class CoinDetailsMapperTest {
                             name = "Bitcoin Core",
                             url = "https://github.com/bitcoin/bitcoin",
                             type = "github"
+                        ),
+                        CoinDetailsLink(
+                            name = "@bitcoin",
+                            url = "https://twitter.com/bitcoin",
+                            type = "twitter"
+                        ),
+                        CoinDetailsLink(
+                            name = "Bitcoin YouTube",
+                            url = "https://www.youtube.com/@Bitcoin",
+                            type = "youtube"
                         )
                     ),
                     coinrankingUrl = "https://coinranking.com/coin/Qwsogvtv82FCd+bitcoin-btc",
@@ -462,6 +472,14 @@ class CoinDetailsMapperTest {
                 CoinLink(
                     type = CoinLinkType.GitHub,
                     url = "https://github.com/bitcoin/bitcoin",
+                ),
+                CoinLink(
+                    type = CoinLinkType.X,
+                    url = "https://twitter.com/bitcoin",
+                ),
+                CoinLink(
+                    type = CoinLinkType.YouTube,
+                    url = "https://www.youtube.com/@Bitcoin",
                 )
             ),
             imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",

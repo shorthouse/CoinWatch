@@ -92,6 +92,14 @@ private fun LinksCardPreview() {
                 CoinLink(
                     type = CoinLinkType.Reddit,
                     url = "https://www.reddit.com/r/ethereum/",
+                ),
+                CoinLink(
+                    type = CoinLinkType.X,
+                    url = "https://twitter.com/ethereum",
+                ),
+                CoinLink(
+                    type = CoinLinkType.YouTube,
+                    url = "https://www.youtube.com/@EthereumProtocol",
                 )
             ),
             onClickLink = {}
@@ -121,11 +129,11 @@ private fun CoinLinkType.getNameStringId(): Int {
         CoinLinkType.Website -> R.string.coin_link_website
         CoinLinkType.Whitepaper -> R.string.coin_link_whitepaper
         CoinLinkType.Discord -> R.string.coin_link_discord
-        CoinLinkType.Facebook -> R.string.coin_link_facebook
         CoinLinkType.GitHub -> R.string.coin_link_github
-        CoinLinkType.Instagram -> R.string.coin_link_instagram
         CoinLinkType.Reddit -> R.string.coin_link_reddit
         CoinLinkType.Telegram -> R.string.coin_link_telegram
+        CoinLinkType.X -> R.string.coin_link_x
+        CoinLinkType.YouTube -> R.string.coin_link_youtube
     }
 }
 

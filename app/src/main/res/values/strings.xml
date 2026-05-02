@@ -25,12 +25,12 @@
     <string name="card_header_links">Links</string>
     <string name="coin_link_website">Website</string>
     <string name="coin_link_discord">Discord</string>
-    <string name="coin_link_facebook">Facebook</string>
     <string name="coin_link_github">GitHub</string>
-    <string name="coin_link_instagram">Instagram</string>
     <string name="coin_link_reddit">Reddit</string>
     <string name="coin_link_telegram">Telegram</string>
     <string name="coin_link_whitepaper">Whitepaper</string>
+    <string name="coin_link_x">X</string>
+    <string name="coin_link_youtube">YouTube</string>
     <string name="list_item_market_cap_rank">Market Cap Rank</string>
     <string name="list_item_market_cap">Market Cap</string>
     <string name="list_item_fully_diluted_market_cap">Fully Diluted Market Cap</string>

@@ -67,12 +67,12 @@ class LinksCardTest {
                     links = persistentListOf(
                         CoinLink(type = CoinLinkType.Website, url = "https://ethereum.org"),
                         CoinLink(type = CoinLinkType.Discord, url = "https://discord.gg/ethereum"),
-                        CoinLink(type = CoinLinkType.Facebook, url = "https://facebook.com/ethereum"),
                         CoinLink(type = CoinLinkType.GitHub, url = "https://github.com/ethereum"),
-                        CoinLink(type = CoinLinkType.Instagram, url = "https://instagram.com/ethereum"),
                         CoinLink(type = CoinLinkType.Reddit, url = "https://reddit.com/r/ethereum"),
                         CoinLink(type = CoinLinkType.Telegram, url = "https://t.me/ethereum"),
-                        CoinLink(type = CoinLinkType.Whitepaper, url = "https://ethereum.org/whitepaper")
+                        CoinLink(type = CoinLinkType.Whitepaper, url = "https://ethereum.org/whitepaper"),
+                        CoinLink(type = CoinLinkType.X, url = "https://twitter.com/ethereum"),
+                        CoinLink(type = CoinLinkType.YouTube, url = "https://youtube.com/@EthereumProtocol")
                     ),
                     onClickLink = {}
                 )
@@ -82,12 +82,12 @@ class LinksCardTest {
         composeTestRule.apply {
             onNodeWithText("Website").assertIsDisplayed()
             onNodeWithText("Discord").assertIsDisplayed()
-            onNodeWithText("Facebook").assertIsDisplayed()
             onNodeWithText("GitHub").assertIsDisplayed()
-            onNodeWithText("Instagram").assertIsDisplayed()
             onNodeWithText("Reddit").assertIsDisplayed()
             onNodeWithText("Telegram").assertIsDisplayed()
             onNodeWithText("Whitepaper").assertIsDisplayed()
+            onNodeWithText("X").assertIsDisplayed()
+            onNodeWithText("YouTube").assertIsDisplayed()
         }
     }
 
