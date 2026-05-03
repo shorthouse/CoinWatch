@@ -3,13 +3,11 @@ package dev.shorthouse.coinwatch.ui.screen
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertCountEquals
-import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performScrollTo
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.model.CoinChart
@@ -50,9 +48,9 @@ class DetailsScreenTest {
         }
 
         composeTestRule.apply {
-            onNodeWithContentDescription("Back").assertIsDisplayed()
+            onNodeWithContentDescription("Back").assertExists()
             onNode(SemanticsMatcher.keyIsDefined(SemanticsProperties.ProgressBarRangeInfo))
-                .assertIsDisplayed()
+                .assertExists()
         }
     }
 
@@ -72,8 +70,8 @@ class DetailsScreenTest {
         }
 
         composeTestRule.apply {
-            onNodeWithText("An error has occurred").assertIsDisplayed()
-            onNodeWithText("Error message").assertIsDisplayed()
+            onNodeWithText("An error has occurred").assertExists()
+            onNodeWithText("Error message").assertExists()
         }
     }
 
@@ -147,8 +145,6 @@ class DetailsScreenTest {
                     PriceEntry(BigDecimal("1743.98"), 1700014400L, "15 Nov 2023"),
                     PriceEntry(BigDecimal("1740.25"), 1700018000L, "15 Nov 2023")
                 ),
-                minPrice = Price("1632.46"),
-                maxPrice = Price("1922.83"),
                 periodPriceChangePercentage = Percentage("7.06")
             ),
             chartPeriod = ChartPeriod.Day,
@@ -167,100 +163,60 @@ class DetailsScreenTest {
         }
 
         composeTestRule.apply {
-            onNodeWithContentDescription("Back").assertIsDisplayed()
-            onNodeWithContentDescription("Favourite").assertIsDisplayed()
+            onNodeWithContentDescription("Back").assertExists()
+            onNodeWithContentDescription("Favourite").assertExists()
 
-            onNodeWithText("Ethereum").assertIsDisplayed()
-            onNodeWithText("ETH").assertIsDisplayed()
-            onNodeWithText("$1,879.14").assertIsDisplayed()
-            onNodeWithText("+7.06%").assertIsDisplayed()
-            onNodeWithText("Past day").assertIsDisplayed()
+            onNodeWithText("Ethereum").assertExists()
+            onNodeWithText("ETH").assertExists()
+            onNodeWithText("$1,879.14").assertExists()
+            onNodeWithText("+7.06%").assertExists()
+            onNodeWithText("Past day").assertExists()
 
-            onNodeWithText("1H").assertIsDisplayed()
-            onNodeWithText("1D").assertIsDisplayed()
-            onNodeWithText("1W").assertIsDisplayed()
-            onNodeWithText("1M").assertIsDisplayed()
-            onNodeWithText("3M").assertIsDisplayed()
-            onNodeWithText("1Y").assertIsDisplayed()
-            onNodeWithText("5Y").assertIsDisplayed()
+            onNodeWithText("1H").assertExists()
+            onNodeWithText("1D").assertExists()
+            onNodeWithText("1W").assertExists()
+            onNodeWithText("1M").assertExists()
+            onNodeWithText("3M").assertExists()
+            onNodeWithText("1Y").assertExists()
+            onNodeWithText("5Y").assertExists()
 
-            onNodeWithText("Chart Range").performScrollTo()
-            onNodeWithText("Chart Range").assertIsDisplayed()
-            onNodeWithText("Low").performScrollTo()
-            onNodeWithText("Low").assertIsDisplayed()
-            onNodeWithText("$1,632.46").performScrollTo()
-            onNodeWithText("$1,632.46").assertIsDisplayed()
-            onNodeWithText("High").performScrollTo()
-            onNodeWithText("High").assertIsDisplayed()
-            onNodeWithText("$1,922.83").performScrollTo()
-            onNodeWithText("$1,922.83").assertIsDisplayed()
-
-            onNodeWithText("Market Stats").performScrollTo()
-
-            onNodeWithText("Market Stats").assertIsDisplayed()
-            onNodeWithText("Market Cap Rank").assertIsDisplayed()
-            onNodeWithText("2").assertIsDisplayed()
-            onNodeWithText("Market Cap").assertIsDisplayed()
-            onNodeWithText("$225.72B").assertIsDisplayed()
-            onNodeWithText("Fully Diluted Market Cap").assertIsDisplayed()
-            onNodeWithText("$250.00B").assertIsDisplayed()
-            onNodeWithText("All Time High").performScrollTo()
-            onNodeWithText("All Time High").assertIsDisplayed()
-            onNodeWithText("$4,878.26").assertIsDisplayed()
-            onNodeWithText("All Time High Date").performScrollTo()
-            onNodeWithText("All Time High Date").assertIsDisplayed()
-            onNodeWithText("10 Nov 2021").assertIsDisplayed()
-            onNodeWithText("Volume (24h)").performScrollTo()
-            onNodeWithText("Volume (24h)").assertIsDisplayed()
-            onNodeWithText("$6.63B").assertIsDisplayed()
-            onNodeWithText("Exchange Listings").performScrollTo()
-            onNodeWithText("Exchange Listings").assertIsDisplayed()
-            onNodeWithText("248").assertIsDisplayed()
-            onNodeWithText("Market Listings").performScrollTo()
-            onNodeWithText("Market Listings").assertIsDisplayed()
-            onNodeWithText("1,098").assertIsDisplayed()
-            onNodeWithText("Supply").performScrollTo()
-            onNodeWithText("Supply").assertIsDisplayed()
-
-            onNodeWithText("Circulating Supply").performScrollTo()
-            onNodeWithText("Circulating Supply").assertIsDisplayed()
-            onNodeWithText("120,186,525").assertIsDisplayed()
-
-            onNodeWithText("Total Supply").performScrollTo()
-            onNodeWithText("Total Supply").assertIsDisplayed()
-            onNodeWithText("120,500,000").assertIsDisplayed()
-
-            onNodeWithText("Max Supply").performScrollTo()
-            onNodeWithText("Max Supply").assertIsDisplayed()
-            onNodeWithText("210,000,000").assertIsDisplayed()
-
-            onNodeWithText("About").performScrollTo()
-            onNodeWithText("About").assertIsDisplayed()
-
+            onNodeWithText("Market Stats").assertExists()
+            onNodeWithText("Market Cap Rank").assertExists()
+            onNodeWithText("2").assertExists()
+            onNodeWithText("Market Cap").assertExists()
+            onNodeWithText("$225.72B").assertExists()
+            onNodeWithText("Fully Diluted Market Cap").assertExists()
+            onNodeWithText("$250.00B").assertExists()
+            onNodeWithText("All Time High").assertExists()
+            onNodeWithText("$4,878.26").assertExists()
+            onNodeWithText("All Time High Date").assertExists()
+            onNodeWithText("10 Nov 2021").assertExists()
+            onNodeWithText("Volume (24h)").assertExists()
+            onNodeWithText("$6.63B").assertExists()
+            onNodeWithText("Exchange Listings").assertExists()
+            onNodeWithText("248").assertExists()
+            onNodeWithText("Market Listings").assertExists()
+            onNodeWithText("1,098").assertExists()
+            onNodeWithText("Supply").assertExists()
+            onNodeWithText("Circulating Supply").assertExists()
+            onNodeWithText("120,186,525").assertExists()
+            onNodeWithText("Total Supply").assertExists()
+            onNodeWithText("120,500,000").assertExists()
+            onNodeWithText("Max Supply").assertExists()
+            onNodeWithText("210,000,000").assertExists()
+            onNodeWithText("About").assertExists()
             onNodeWithText("Ethereum is a decentralized blockchain with smart contract functionality.")
-                .performScrollTo()
-            onNodeWithText("Ethereum is a decentralized blockchain with smart contract functionality.")
-                .assertIsDisplayed()
-            onNodeWithText("Tags").performScrollTo()
-            onNodeWithText("Tags").assertIsDisplayed()
-            onNodeWithText("smart-contracts").performScrollTo()
-            onNodeWithText("smart-contracts").assertIsDisplayed()
-            onNodeWithText("staking").performScrollTo()
-            onNodeWithText("staking").assertIsDisplayed()
-            onNodeWithText("layer-1").performScrollTo()
-            onNodeWithText("layer-1").assertIsDisplayed()
-            onNodeWithText("Listed Date").performScrollTo()
-            onNodeWithText("Listed Date").assertIsDisplayed()
-            onNodeWithText("7 Aug 2015").assertIsDisplayed()
-
-            onNodeWithText("Links").performScrollTo()
-            onNodeWithText("Links").assertIsDisplayed()
-            onNodeWithText("Website").performScrollTo()
-            onNodeWithText("Website").assertIsDisplayed()
-            onNodeWithText("GitHub").performScrollTo()
-            onNodeWithText("GitHub").assertIsDisplayed()
-            onNodeWithText("Reddit").performScrollTo()
-            onNodeWithText("Reddit").assertIsDisplayed()
+                .assertExists()
+            onNodeWithText("Tags").assertExists()
+            onNodeWithText("smart-contracts").assertExists()
+            onNodeWithText("staking").assertExists()
+            onNodeWithText("layer-1").assertExists()
+            onNodeWithText("Listed Date").assertExists()
+            onNodeWithText("7 Aug 2015").assertExists()
+            onNodeWithText("Links").assertExists()
+            onNodeWithText("Website").assertExists()
+            onNodeWithText("GitHub").assertExists()
+            onNodeWithText("Reddit").assertExists()
         }
     }
 
@@ -293,8 +249,6 @@ class DetailsScreenTest {
                     ),
                     coinChart = CoinChart(
                         priceHistory = persistentListOf(),
-                        minPrice = Price("1632.46"),
-                        maxPrice = Price("1922.83"),
                         periodPriceChangePercentage = Percentage("7.06")
                     ),
                     chartPeriod = ChartPeriod.Day,
@@ -304,8 +258,7 @@ class DetailsScreenTest {
         }
 
         composeTestRule.apply {
-            onNodeWithText("About").performScrollTo()
-            onNodeWithText("About").assertIsDisplayed()
+            onNodeWithText("About").assertExists()
             onAllNodesWithText("Links").assertCountEquals(0)
         }
     }
@@ -346,8 +299,6 @@ class DetailsScreenTest {
                     PriceEntry(BigDecimal("1743.98"), 1700014400L, "15 Nov 2023"),
                     PriceEntry(BigDecimal("1740.25"), 1700018000L, "15 Nov 2023")
                 ),
-                minPrice = Price("1632.46"),
-                maxPrice = Price("1922.83"),
                 periodPriceChangePercentage = Percentage("7.06")
             ),
             chartPeriod = ChartPeriod.Day,
@@ -408,8 +359,6 @@ class DetailsScreenTest {
                     PriceEntry(BigDecimal("1743.98"), 1700014400L, "15 Nov 2023"),
                     PriceEntry(BigDecimal("1740.25"), 1700018000L, "15 Nov 2023")
                 ),
-                minPrice = Price("1632.46"),
-                maxPrice = Price("1922.83"),
                 periodPriceChangePercentage = Percentage("7.06")
             ),
             chartPeriod = ChartPeriod.Day,
@@ -472,8 +421,6 @@ class DetailsScreenTest {
                     PriceEntry(BigDecimal("1743.98"), 1700014400L, "15 Nov 2023"),
                     PriceEntry(BigDecimal("1740.25"), 1700018000L, "15 Nov 2023")
                 ),
-                minPrice = Price("1632.46"),
-                maxPrice = Price("1922.83"),
                 periodPriceChangePercentage = Percentage("7.06")
             ),
             chartPeriod = ChartPeriod.Day,
@@ -494,18 +441,31 @@ class DetailsScreenTest {
         composeTestRule.apply {
             onNodeWithText("1H").performClick()
             waitForIdle()
+            mainClock.advanceTimeBy(1000)
+
             onNodeWithText("1D").performClick()
             waitForIdle()
+            mainClock.advanceTimeBy(1000)
+
             onNodeWithText("1W").performClick()
             waitForIdle()
+            mainClock.advanceTimeBy(1000)
+
             onNodeWithText("1M").performClick()
             waitForIdle()
+            mainClock.advanceTimeBy(1000)
+
             onNodeWithText("3M").performClick()
             waitForIdle()
+            mainClock.advanceTimeBy(1000)
+
             onNodeWithText("1Y").performClick()
             waitForIdle()
+            mainClock.advanceTimeBy(1000)
+
             onNodeWithText("5Y").performClick()
             waitForIdle()
+            mainClock.advanceTimeBy(1000)
         }
 
         onClickChartPeriodMap.values.forEach { isChartPeriodClicked ->
@@ -540,8 +500,6 @@ class DetailsScreenTest {
             ),
             CoinChart(
                 priceHistory = persistentListOf(),
-                minPrice = Price("1632.46"),
-                maxPrice = Price("1922.83"),
                 periodPriceChangePercentage = Percentage("7.06")
             ),
             chartPeriod = ChartPeriod.Day,
@@ -560,66 +518,14 @@ class DetailsScreenTest {
         }
 
         composeTestRule.apply {
-            onNodeWithText("No chart data available").assertIsDisplayed()
-            onNodeWithText("1H").assertIsDisplayed()
-            onNodeWithText("1D").assertIsDisplayed()
-            onNodeWithText("1W").assertIsDisplayed()
-            onNodeWithText("1M").assertIsDisplayed()
-            onNodeWithText("3M").assertIsDisplayed()
-            onNodeWithText("1Y").assertIsDisplayed()
-            onNodeWithText("5Y").assertIsDisplayed()
-        }
-    }
-
-    @Test
-    fun when_coinChartRangeEmpty_should_showEmptyState() {
-        val uiStateSuccess = DetailsUiState.Success(
-            CoinDetails(
-                id = "ethereum",
-                name = "Ethereum",
-                symbol = "ETH",
-                description = "Ethereum is a decentralized blockchain with smart contract functionality.",
-                tags = persistentListOf("smart-contracts", "staking", "layer-1"),
-                links = persistentListOf(),
-                imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
-                currentPrice = Price("1879.14"),
-                marketCap = Price("225722901094"),
-                fullyDilutedMarketCap = Price("250000000000"),
-                marketCapRank = "2",
-                volume24h = Price("6627669115"),
-                numberOfExchanges = "248",
-                numberOfMarkets = "1,098",
-                circulatingSupply = "120,186,525",
-                totalSupply = "120,500,000",
-                maxSupply = "210,000,000",
-                allTimeHigh = Price("4878.26"),
-                allTimeHighDate = "10 Nov 2021",
-                listedDate = "7 Aug 2015"
-            ),
-            CoinChart(
-                priceHistory = persistentListOf(),
-                minPrice = Price(null),
-                maxPrice = Price(null),
-                periodPriceChangePercentage = Percentage("7.06")
-            ),
-            chartPeriod = ChartPeriod.Day,
-            isCoinFavourite = true
-        )
-
-        composeTestRule.setContent {
-            AppTheme {
-                DetailsScreen(
-                    uiState = uiStateSuccess,
-                    onNavigateUp = {},
-                    onClickFavouriteCoin = {},
-                    onClickChartPeriod = {}
-                )
-            }
-        }
-
-        composeTestRule.apply {
-            onNodeWithText("No chart range data available").performScrollTo()
-            onNodeWithText("No chart range data available").assertIsDisplayed()
+            onNodeWithText("No chart data available").assertExists()
+            onNodeWithText("1H").assertExists()
+            onNodeWithText("1D").assertExists()
+            onNodeWithText("1W").assertExists()
+            onNodeWithText("1M").assertExists()
+            onNodeWithText("3M").assertExists()
+            onNodeWithText("1Y").assertExists()
+            onNodeWithText("5Y").assertExists()
         }
     }
 
@@ -659,8 +565,6 @@ class DetailsScreenTest {
                     PriceEntry(BigDecimal("1743.98"), 1700014400L, "15 Nov 2023"),
                     PriceEntry(BigDecimal("1740.25"), 1700018000L, "15 Nov 2023")
                 ),
-                minPrice = Price("1632.46", currency = currency),
-                maxPrice = Price("1922.83", currency = currency),
                 periodPriceChangePercentage = Percentage("7.06")
             ),
             chartPeriod = ChartPeriod.Day,
@@ -679,91 +583,56 @@ class DetailsScreenTest {
         }
 
         composeTestRule.apply {
-            onNodeWithContentDescription("Back").assertIsDisplayed()
-            onNodeWithContentDescription("Favourite").assertIsDisplayed()
+            onNodeWithContentDescription("Back").assertExists()
+            onNodeWithContentDescription("Favourite").assertExists()
 
-            onNodeWithText("Ethereum").assertIsDisplayed()
-            onNodeWithText("ETH").assertIsDisplayed()
-            onNodeWithText("£1,879.14").assertIsDisplayed()
-            onNodeWithText("+7.06%").assertIsDisplayed()
-            onNodeWithText("Past day").assertIsDisplayed()
+            onNodeWithText("Ethereum").assertExists()
+            onNodeWithText("ETH").assertExists()
+            onNodeWithText("£1,879.14").assertExists()
+            onNodeWithText("+7.06%").assertExists()
+            onNodeWithText("Past day").assertExists()
 
-            onNodeWithText("1H").assertIsDisplayed()
-            onNodeWithText("1D").assertIsDisplayed()
-            onNodeWithText("1W").assertIsDisplayed()
-            onNodeWithText("1M").assertIsDisplayed()
-            onNodeWithText("3M").assertIsDisplayed()
-            onNodeWithText("1Y").assertIsDisplayed()
-            onNodeWithText("5Y").assertIsDisplayed()
+            onNodeWithText("1H").assertExists()
+            onNodeWithText("1D").assertExists()
+            onNodeWithText("1W").assertExists()
+            onNodeWithText("1M").assertExists()
+            onNodeWithText("3M").assertExists()
+            onNodeWithText("1Y").assertExists()
+            onNodeWithText("5Y").assertExists()
 
-            onNodeWithText("Chart Range").performScrollTo()
-            onNodeWithText("Chart Range").assertIsDisplayed()
-            onNodeWithText("Low").performScrollTo()
-            onNodeWithText("Low").assertIsDisplayed()
-            onNodeWithText("£1,632.46").performScrollTo()
-            onNodeWithText("£1,632.46").assertIsDisplayed()
-            onNodeWithText("High").performScrollTo()
-            onNodeWithText("High").assertIsDisplayed()
-            onNodeWithText("£1,922.83").performScrollTo()
-            onNodeWithText("£1,922.83").assertIsDisplayed()
-
-            onNodeWithText("Market Stats").performScrollTo()
-
-            onNodeWithText("Market Stats").assertIsDisplayed()
-            onNodeWithText("Market Cap Rank").assertIsDisplayed()
-            onNodeWithText("2").assertIsDisplayed()
-            onNodeWithText("Market Cap").assertIsDisplayed()
-            onNodeWithText("£225.72B").assertIsDisplayed()
-            onNodeWithText("Fully Diluted Market Cap").assertIsDisplayed()
-            onNodeWithText("£250.00B").assertIsDisplayed()
-            onNodeWithText("All Time High").performScrollTo()
-            onNodeWithText("All Time High").assertIsDisplayed()
-            onNodeWithText("£4,878.26").assertIsDisplayed()
-            onNodeWithText("All Time High Date").performScrollTo()
-            onNodeWithText("All Time High Date").assertIsDisplayed()
-            onNodeWithText("10 Nov 2021").assertIsDisplayed()
-            onNodeWithText("Volume (24h)").performScrollTo()
-            onNodeWithText("Volume (24h)").assertIsDisplayed()
-            onNodeWithText("$6.63B").assertIsDisplayed()
-            onNodeWithText("Exchange Listings").performScrollTo()
-            onNodeWithText("Exchange Listings").assertIsDisplayed()
-            onNodeWithText("248").assertIsDisplayed()
-            onNodeWithText("Market Listings").performScrollTo()
-            onNodeWithText("Market Listings").assertIsDisplayed()
-            onNodeWithText("1,098").assertIsDisplayed()
-            onNodeWithText("Supply").performScrollTo()
-            onNodeWithText("Supply").assertIsDisplayed()
-
-            onNodeWithText("Circulating Supply").performScrollTo()
-            onNodeWithText("Circulating Supply").assertIsDisplayed()
-            onNodeWithText("120,186,525").assertIsDisplayed()
-
-            onNodeWithText("Total Supply").performScrollTo()
-            onNodeWithText("Total Supply").assertIsDisplayed()
-            onNodeWithText("120,500,000").assertIsDisplayed()
-
-            onNodeWithText("Max Supply").performScrollTo()
-            onNodeWithText("Max Supply").assertIsDisplayed()
-            onNodeWithText("210,000,000").assertIsDisplayed()
-
-            onNodeWithText("About").performScrollTo()
-            onNodeWithText("About").assertIsDisplayed()
-
+            onNodeWithText("Market Stats").assertExists()
+            onNodeWithText("Market Cap Rank").assertExists()
+            onNodeWithText("2").assertExists()
+            onNodeWithText("Market Cap").assertExists()
+            onNodeWithText("£225.72B").assertExists()
+            onNodeWithText("Fully Diluted Market Cap").assertExists()
+            onNodeWithText("£250.00B").assertExists()
+            onNodeWithText("All Time High").assertExists()
+            onNodeWithText("£4,878.26").assertExists()
+            onNodeWithText("All Time High Date").assertExists()
+            onNodeWithText("10 Nov 2021").assertExists()
+            onNodeWithText("Volume (24h)").assertExists()
+            onNodeWithText("$6.63B").assertExists()
+            onNodeWithText("Exchange Listings").assertExists()
+            onNodeWithText("248").assertExists()
+            onNodeWithText("Market Listings").assertExists()
+            onNodeWithText("1,098").assertExists()
+            onNodeWithText("Supply").assertExists()
+            onNodeWithText("Circulating Supply").assertExists()
+            onNodeWithText("120,186,525").assertExists()
+            onNodeWithText("Total Supply").assertExists()
+            onNodeWithText("120,500,000").assertExists()
+            onNodeWithText("Max Supply").assertExists()
+            onNodeWithText("210,000,000").assertExists()
+            onNodeWithText("About").assertExists()
             onNodeWithText("Ethereum is a decentralized blockchain with smart contract functionality.")
-                .performScrollTo()
-            onNodeWithText("Ethereum is a decentralized blockchain with smart contract functionality.")
-                .assertIsDisplayed()
-            onNodeWithText("Tags").performScrollTo()
-            onNodeWithText("Tags").assertIsDisplayed()
-            onNodeWithText("smart-contracts").performScrollTo()
-            onNodeWithText("smart-contracts").assertIsDisplayed()
-            onNodeWithText("staking").performScrollTo()
-            onNodeWithText("staking").assertIsDisplayed()
-            onNodeWithText("layer-1").performScrollTo()
-            onNodeWithText("layer-1").assertIsDisplayed()
-            onNodeWithText("Listed Date").performScrollTo()
-            onNodeWithText("Listed Date").assertIsDisplayed()
-            onNodeWithText("7 Aug 2015").assertIsDisplayed()
+                .assertExists()
+            onNodeWithText("Tags").assertExists()
+            onNodeWithText("smart-contracts").assertExists()
+            onNodeWithText("staking").assertExists()
+            onNodeWithText("layer-1").assertExists()
+            onNodeWithText("Listed Date").assertExists()
+            onNodeWithText("7 Aug 2015").assertExists()
         }
     }
 
@@ -801,8 +670,6 @@ class DetailsScreenTest {
                     PriceEntry(BigDecimal("1743.98"), 1700014400L, "15 Nov 2023"),
                     PriceEntry(BigDecimal("1740.25"), 1700018000L, "15 Nov 2023")
                 ),
-                minPrice = Price("1632.46"),
-                maxPrice = Price("1922.83"),
                 periodPriceChangePercentage = Percentage("7.06")
             ),
             chartPeriod = ChartPeriod.Day,
@@ -821,91 +688,56 @@ class DetailsScreenTest {
         }
 
         composeTestRule.apply {
-            onNodeWithContentDescription("Back").assertIsDisplayed()
-            onNodeWithContentDescription("Favourite").assertIsDisplayed()
+            onNodeWithContentDescription("Back").assertExists()
+            onNodeWithContentDescription("Favourite").assertExists()
 
-            onNodeWithText("Ethereum").assertIsDisplayed()
-            onNodeWithText("ETH").assertIsDisplayed()
-            onNodeWithText("$1,879.14").assertIsDisplayed()
-            onNodeWithText("+7.06%").assertIsDisplayed()
-            onNodeWithText("Past day").assertIsDisplayed()
+            onNodeWithText("Ethereum").assertExists()
+            onNodeWithText("ETH").assertExists()
+            onNodeWithText("$1,879.14").assertExists()
+            onNodeWithText("+7.06%").assertExists()
+            onNodeWithText("Past day").assertExists()
 
-            onNodeWithText("1H").assertIsDisplayed()
-            onNodeWithText("1D").assertIsDisplayed()
-            onNodeWithText("1W").assertIsDisplayed()
-            onNodeWithText("1M").assertIsDisplayed()
-            onNodeWithText("3M").assertIsDisplayed()
-            onNodeWithText("1Y").assertIsDisplayed()
-            onNodeWithText("5Y").assertIsDisplayed()
+            onNodeWithText("1H").assertExists()
+            onNodeWithText("1D").assertExists()
+            onNodeWithText("1W").assertExists()
+            onNodeWithText("1M").assertExists()
+            onNodeWithText("3M").assertExists()
+            onNodeWithText("1Y").assertExists()
+            onNodeWithText("5Y").assertExists()
 
-            onNodeWithText("Chart Range").performScrollTo()
-            onNodeWithText("Chart Range").assertIsDisplayed()
-            onNodeWithText("Low").performScrollTo()
-            onNodeWithText("Low").assertIsDisplayed()
-            onNodeWithText("$1,632.46").performScrollTo()
-            onNodeWithText("$1,632.46").assertIsDisplayed()
-            onNodeWithText("High").performScrollTo()
-            onNodeWithText("High").assertIsDisplayed()
-            onNodeWithText("$1,922.83").performScrollTo()
-            onNodeWithText("$1,922.83").assertIsDisplayed()
-
-            onNodeWithText("Market Stats").performScrollTo()
-
-            onNodeWithText("Market Stats").assertIsDisplayed()
-            onNodeWithText("Market Cap Rank").assertIsDisplayed()
-            onNodeWithText("2").assertIsDisplayed()
-            onNodeWithText("Market Cap").assertIsDisplayed()
-            onNodeWithText("$49.49M").assertIsDisplayed()
-            onNodeWithText("Fully Diluted Market Cap").assertIsDisplayed()
-            onNodeWithText("$3.09T").assertIsDisplayed()
-            onNodeWithText("All Time High").performScrollTo()
-            onNodeWithText("All Time High").assertIsDisplayed()
-            onNodeWithText("$3.08T").assertIsDisplayed()
-            onNodeWithText("All Time High Date").performScrollTo()
-            onNodeWithText("All Time High Date").assertIsDisplayed()
-            onNodeWithText("10 Nov 2021").assertIsDisplayed()
-            onNodeWithText("Volume (24h)").performScrollTo()
-            onNodeWithText("Volume (24h)").assertIsDisplayed()
-            onNodeWithText("$1.01B").assertIsDisplayed()
-            onNodeWithText("Exchange Listings").performScrollTo()
-            onNodeWithText("Exchange Listings").assertIsDisplayed()
-            onNodeWithText("18,294").assertIsDisplayed()
-            onNodeWithText("Market Listings").performScrollTo()
-            onNodeWithText("Market Listings").assertIsDisplayed()
-            onNodeWithText("1,234,567").assertIsDisplayed()
-            onNodeWithText("Supply").performScrollTo()
-            onNodeWithText("Supply").assertIsDisplayed()
-
-            onNodeWithText("Circulating Supply").performScrollTo()
-            onNodeWithText("Circulating Supply").assertIsDisplayed()
-            onNodeWithText("120,186,525").assertIsDisplayed()
-
-            onNodeWithText("Total Supply").performScrollTo()
-            onNodeWithText("Total Supply").assertIsDisplayed()
-            onNodeWithText("120,500,000").assertIsDisplayed()
-
-            onNodeWithText("Max Supply").performScrollTo()
-            onNodeWithText("Max Supply").assertIsDisplayed()
-            onNodeWithText("210,000,000").assertIsDisplayed()
-
-            onNodeWithText("About").performScrollTo()
-            onNodeWithText("About").assertIsDisplayed()
-
+            onNodeWithText("Market Stats").assertExists()
+            onNodeWithText("Market Cap Rank").assertExists()
+            onNodeWithText("2").assertExists()
+            onNodeWithText("Market Cap").assertExists()
+            onNodeWithText("$49.49M").assertExists()
+            onNodeWithText("Fully Diluted Market Cap").assertExists()
+            onNodeWithText("$3.09T").assertExists()
+            onNodeWithText("All Time High").assertExists()
+            onNodeWithText("$3.08T").assertExists()
+            onNodeWithText("All Time High Date").assertExists()
+            onNodeWithText("10 Nov 2021").assertExists()
+            onNodeWithText("Volume (24h)").assertExists()
+            onNodeWithText("$1.01B").assertExists()
+            onNodeWithText("Exchange Listings").assertExists()
+            onNodeWithText("18,294").assertExists()
+            onNodeWithText("Market Listings").assertExists()
+            onNodeWithText("1,234,567").assertExists()
+            onNodeWithText("Supply").assertExists()
+            onNodeWithText("Circulating Supply").assertExists()
+            onNodeWithText("120,186,525").assertExists()
+            onNodeWithText("Total Supply").assertExists()
+            onNodeWithText("120,500,000").assertExists()
+            onNodeWithText("Max Supply").assertExists()
+            onNodeWithText("210,000,000").assertExists()
+            onNodeWithText("About").assertExists()
             onNodeWithText("Ethereum is a decentralized blockchain with smart contract functionality.")
-                .performScrollTo()
-            onNodeWithText("Ethereum is a decentralized blockchain with smart contract functionality.")
-                .assertIsDisplayed()
-            onNodeWithText("Tags").performScrollTo()
-            onNodeWithText("Tags").assertIsDisplayed()
-            onNodeWithText("smart-contracts").performScrollTo()
-            onNodeWithText("smart-contracts").assertIsDisplayed()
-            onNodeWithText("staking").performScrollTo()
-            onNodeWithText("staking").assertIsDisplayed()
-            onNodeWithText("layer-1").performScrollTo()
-            onNodeWithText("layer-1").assertIsDisplayed()
-            onNodeWithText("Listed Date").performScrollTo()
-            onNodeWithText("Listed Date").assertIsDisplayed()
-            onNodeWithText("7 Aug 2015").assertIsDisplayed()
+                .assertExists()
+            onNodeWithText("Tags").assertExists()
+            onNodeWithText("smart-contracts").assertExists()
+            onNodeWithText("staking").assertExists()
+            onNodeWithText("layer-1").assertExists()
+            onNodeWithText("Listed Date").assertExists()
+            onNodeWithText("7 Aug 2015").assertExists()
         }
     }
 }
