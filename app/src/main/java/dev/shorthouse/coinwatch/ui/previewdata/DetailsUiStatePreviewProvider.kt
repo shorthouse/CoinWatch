@@ -85,8 +85,6 @@ class DetailsUiStatePreviewProvider : PreviewParameterProvider<DetailsUiState> {
                     PriceEntry(BigDecimal("1741.10"), 1700104400L, "16 Nov 2023"),
                     PriceEntry(BigDecimal("1738.36"), 1700108000L, "16 Nov 2023"),
                 ),
-                minPrice = Price("1632.46"),
-                maxPrice = Price("1922.83"),
                 periodPriceChangePercentage = Percentage("7.06")
             ),
             chartPeriod = ChartPeriod.Week,

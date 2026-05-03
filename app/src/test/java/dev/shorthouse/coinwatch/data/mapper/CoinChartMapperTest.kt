@@ -1,13 +1,11 @@
 package dev.shorthouse.coinwatch.data.mapper
 
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartData
 import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
-import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.model.PriceEntry
 import kotlinx.collections.immutable.persistentListOf
 import org.junit.Test
@@ -19,8 +17,6 @@ class CoinChartMapperTest {
 
     // Class under test
     private val coinChartMapper = CoinChartMapper()
-
-    private val defaultCurrency = Currency.USD
 
     private val testZone = ZoneOffset.UTC
     private val testToday = LocalDate.of(2023, 11, 15)
@@ -34,15 +30,12 @@ class CoinChartMapperTest {
 
         val expectedCoinChart = CoinChart(
             priceHistory = persistentListOf(),
-            minPrice = Price(null),
-            maxPrice = Price(null),
             periodPriceChangePercentage = Percentage(null)
         )
 
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = defaultCurrency,
             zone = testZone,
             today = testToday
         )
@@ -63,15 +56,12 @@ class CoinChartMapperTest {
 
         val expectedCoinChart = CoinChart(
             priceHistory = persistentListOf(),
-            minPrice = Price(null),
-            maxPrice = Price(null),
             periodPriceChangePercentage = Percentage(null)
         )
 
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = defaultCurrency,
             zone = testZone,
             today = testToday
         )
@@ -92,15 +82,12 @@ class CoinChartMapperTest {
 
         val expectedCoinChart = CoinChart(
             priceHistory = persistentListOf(),
-            minPrice = Price(null),
-            maxPrice = Price(null),
             periodPriceChangePercentage = Percentage("0.123")
         )
 
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = defaultCurrency,
             zone = testZone,
             today = testToday
         )
@@ -121,15 +108,12 @@ class CoinChartMapperTest {
 
         val expectedCoinChart = CoinChart(
             priceHistory = persistentListOf(),
-            minPrice = Price(null),
-            maxPrice = Price(null),
             periodPriceChangePercentage = Percentage(null)
         )
 
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = defaultCurrency,
             zone = testZone,
             today = testToday
         )
@@ -157,15 +141,12 @@ class CoinChartMapperTest {
             priceHistory = persistentListOf(
                 PriceEntry(BigDecimal("123.45"), 1700000000L, "Yesterday 22:13")
             ),
-            minPrice = Price("123.45"),
-            maxPrice = Price("123.45"),
             periodPriceChangePercentage = Percentage("1.24")
         )
 
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = defaultCurrency,
             zone = testZone,
             today = testToday
         )
@@ -192,15 +173,12 @@ class CoinChartMapperTest {
             priceHistory = persistentListOf(
                 PriceEntry(BigDecimal("123.45"), 1700000000L, "Yesterday 22:13")
             ),
-            minPrice = Price("123.45"),
-            maxPrice = Price("123.45"),
             periodPriceChangePercentage = Percentage("1.24")
         )
 
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = defaultCurrency,
             zone = testZone,
             today = testToday
         )
@@ -230,15 +208,12 @@ class CoinChartMapperTest {
             priceHistory = persistentListOf(
                 PriceEntry(BigDecimal("123.45"), 1700000000L, "Yesterday 22:13")
             ),
-            minPrice = Price("123.45"),
-            maxPrice = Price("123.45"),
             periodPriceChangePercentage = Percentage("1.24")
         )
 
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = defaultCurrency,
             zone = testZone,
             today = testToday
         )
@@ -271,15 +246,12 @@ class CoinChartMapperTest {
                 PriceEntry(BigDecimal("123456.78"), 1700003600L, "Yesterday 23:13"),
                 PriceEntry(BigDecimal("123456.78"), 1700000000L, "Yesterday 22:13")
             ),
-            minPrice = Price("123456.78"),
-            maxPrice = Price("123456.78"),
             periodPriceChangePercentage = Percentage("1.24")
         )
 
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = defaultCurrency,
             zone = testZone,
             today = testToday
         )
@@ -312,101 +284,12 @@ class CoinChartMapperTest {
                 PriceEntry(BigDecimal("123.46"), 1700003600L, "Yesterday 23:13"),
                 PriceEntry(BigDecimal("123.45"), 1700000000L, "Yesterday 22:13")
             ),
-            minPrice = Price("123.45"),
-            maxPrice = Price("123.49"),
             periodPriceChangePercentage = Percentage("2.92")
         )
 
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
-            currency = defaultCurrency,
-            zone = testZone,
-            today = testToday
-        )
-
-        // Assert
-        assertThat(coinChart).isEqualTo(expectedCoinChart)
-    }
-
-    @Test
-    fun `When coin chart has gbp currency with valid values should return expected coin chart`() {
-        // Arrange
-        val currency = Currency.GBP
-
-        val apiModel = CoinChartApiModel(
-            coinChartData = CoinChartData(
-                priceChangePercentage = "2.92",
-                pastPrices = listOf(
-                    PastPrice("123.45", 1700000000L),
-                    PastPrice("123.46", 1700003600L),
-                    PastPrice("123.47", 1700007200L),
-                    PastPrice("123.48", 1700010800L),
-                    PastPrice("123.49", 1700014400L)
-                )
-            )
-        )
-
-        val expectedCoinChart = CoinChart(
-            priceHistory = persistentListOf(
-                PriceEntry(BigDecimal("123.49"), 1700014400L, "02:13"),
-                PriceEntry(BigDecimal("123.48"), 1700010800L, "01:13"),
-                PriceEntry(BigDecimal("123.47"), 1700007200L, "00:13"),
-                PriceEntry(BigDecimal("123.46"), 1700003600L, "Yesterday 23:13"),
-                PriceEntry(BigDecimal("123.45"), 1700000000L, "Yesterday 22:13")
-            ),
-            minPrice = Price("123.45", currency = currency),
-            maxPrice = Price("123.49", currency = currency),
-            periodPriceChangePercentage = Percentage("2.92")
-        )
-
-        // Act
-        val coinChart = coinChartMapper.mapApiModelToModel(
-            apiModel = apiModel,
-            currency = currency,
-            zone = testZone,
-            today = testToday
-        )
-
-        // Assert
-        assertThat(coinChart).isEqualTo(expectedCoinChart)
-    }
-
-    @Test
-    fun `When coin chart has eur currency with valid values should return expected coin chart`() {
-        // Arrange
-        val currency = Currency.EUR
-
-        val apiModel = CoinChartApiModel(
-            coinChartData = CoinChartData(
-                priceChangePercentage = "2.92",
-                pastPrices = listOf(
-                    PastPrice("123.45", 1700000000L),
-                    PastPrice("123.46", 1700003600L),
-                    PastPrice("123.47", 1700007200L),
-                    PastPrice("123.48", 1700010800L),
-                    PastPrice("123.49", 1700014400L)
-                )
-            )
-        )
-
-        val expectedCoinChart = CoinChart(
-            priceHistory = persistentListOf(
-                PriceEntry(BigDecimal("123.49"), 1700014400L, "02:13"),
-                PriceEntry(BigDecimal("123.48"), 1700010800L, "01:13"),
-                PriceEntry(BigDecimal("123.47"), 1700007200L, "00:13"),
-                PriceEntry(BigDecimal("123.46"), 1700003600L, "Yesterday 23:13"),
-                PriceEntry(BigDecimal("123.45"), 1700000000L, "Yesterday 22:13")
-            ),
-            minPrice = Price("123.45", currency = currency),
-            maxPrice = Price("123.49", currency = currency),
-            periodPriceChangePercentage = Percentage("2.92")
-        )
-
-        // Act
-        val coinChart = coinChartMapper.mapApiModelToModel(
-            apiModel = apiModel,
-            currency = currency,
             zone = testZone,
             today = testToday
         )

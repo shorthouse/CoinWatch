@@ -11,7 +11,6 @@ import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
 import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
-import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.model.PriceEntry
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -70,8 +69,6 @@ class CoinChartRepositoryTest {
                     PriceEntry(BigDecimal("30000.47"), 1700007200L, "15 Nov 2023"),
                     PriceEntry(BigDecimal("20000.20"), 1700003600L, "14 Nov 2023")
                 ),
-                minPrice = Price("20000.20"),
-                maxPrice = Price("30000.47"),
                 periodPriceChangePercentage = Percentage("-0.97")
             )
         )
@@ -118,8 +115,6 @@ class CoinChartRepositoryTest {
             val currency = Currency.USD
 
             val expectedPrices = emptyList<BigDecimal>()
-            val expectedMinPriceAmount = BigDecimal.ZERO
-            val expectedMaxPriceAmount = BigDecimal.ZERO
             val expectedPeriodPriceChangePercentageAmount = BigDecimal.ZERO
 
             coEvery {
@@ -148,8 +143,6 @@ class CoinChartRepositoryTest {
             assertThat(result).isInstanceOf(Result.Success::class.java)
 
             assertThat((result as Result.Success).data.prices).isEqualTo(expectedPrices)
-            assertThat(result.data.minPrice.amount).isEqualTo(expectedMinPriceAmount)
-            assertThat(result.data.maxPrice.amount).isEqualTo(expectedMaxPriceAmount)
             assertThat(result.data.periodPriceChangePercentage.amount).isEqualTo(
                 expectedPeriodPriceChangePercentageAmount
             )

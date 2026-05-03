@@ -16,9 +16,6 @@
     <string name="period_long_name_three_month">Past 3 months</string>
     <string name="period_long_name_year">Past year</string>
     <string name="period_long_name_five_year">Past 5 years</string>
-    <string name="range_title_low">Low</string>
-    <string name="range_title_high">High</string>
-    <string name="title_chart_range">Chart Range</string>
     <string name="card_header_market_stats">Market Stats</string>
     <string name="card_header_supply">Supply</string>
     <string name="card_header_about">About</string>
@@ -55,7 +52,6 @@
     <string name="empty_state_search_results_title">No coins found</string>
     <string name="empty_state_search_results_subtitle">Try adjusting your search</string>
     <string name="empty_chart_message">No chart data available</string>
-    <string name="empty_chart_range_message">No chart range data available</string>
     <string name="empty_chart_message_short">No chart data</string>
     <string name="cant_find_coin_prompt">Can\'t find the coin you\'re looking for?</string>
     <string name="search_coin_prompt">Try using the search function!</string>

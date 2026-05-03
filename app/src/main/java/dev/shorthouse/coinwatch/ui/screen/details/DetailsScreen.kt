@@ -52,7 +52,6 @@ import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import dev.shorthouse.coinwatch.ui.previewdata.DetailsUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.details.component.AboutCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartCard
-import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartRangeCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.EmptyTopBar
 import dev.shorthouse.coinwatch.ui.screen.details.component.LinksCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.MarketStatsCard
@@ -263,22 +262,6 @@ fun DetailsContent(
         Spacer(Modifier.height(8.dp))
 
         MarketStatsCard(coinDetails = coinDetails)
-
-        Spacer(Modifier.height(24.dp))
-
-        Text(
-            text = stringResource(R.string.title_chart_range),
-            style = MaterialTheme.typography.titleMedium
-        )
-
-        Spacer(Modifier.height(8.dp))
-
-        CoinChartRangeCard(
-            currentPrice = coinDetails.currentPrice,
-            minPrice = coinChart.minPrice,
-            maxPrice = coinChart.maxPrice,
-            isPricesEmpty = coinChart.prices.isEmpty()
-        )
 
         Spacer(Modifier.height(24.dp))
 
