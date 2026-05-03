@@ -4,11 +4,11 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.mapper.CoinChartMapper
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartData
 import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.PriceEntry
@@ -63,6 +63,7 @@ class CoinChartRepositoryTest {
 
         val expectedResult = Result.Success(
             CoinChart(
+                currency = currency,
                 priceHistory = persistentListOf(
                     PriceEntry(BigDecimal("27000.44"), 1700014400L, "15 Nov 2023"),
                     PriceEntry(BigDecimal("25000.89"), 1700010800L, "15 Nov 2023"),
@@ -142,7 +143,8 @@ class CoinChartRepositoryTest {
             // Assert
             assertThat(result).isInstanceOf(Result.Success::class.java)
 
-            assertThat((result as Result.Success).data.priceHistory).isEqualTo(expectedPriceHistory)
+            assertThat((result as Result.Success).data.currency).isEqualTo(currency)
+            assertThat(result.data.priceHistory).isEqualTo(expectedPriceHistory)
             assertThat(result.data.periodPriceChangePercentage.amount).isEqualTo(
                 expectedPeriodPriceChangePercentageAmount
             )
@@ -191,7 +193,8 @@ class CoinChartRepositoryTest {
 
             // Assert
             assertThat(result).isInstanceOf(Result.Success::class.java)
-            assertThat((result as Result.Success).data.priceHistory)
+            assertThat((result as Result.Success).data.currency).isEqualTo(currency)
+            assertThat(result.data.priceHistory)
                 .isEqualTo(expectedPriceHistory)
         }
 

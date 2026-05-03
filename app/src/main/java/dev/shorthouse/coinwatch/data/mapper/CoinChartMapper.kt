@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.data.mapper
 
 import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrNull
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
@@ -20,6 +21,7 @@ class CoinChartMapper @Inject constructor() {
 
     fun mapApiModelToModel(
         apiModel: CoinChartApiModel,
+        currency: Currency,
         zone: ZoneId = ZoneId.systemDefault(),
         today: LocalDate = LocalDate.now(zone)
     ): CoinChart {
@@ -38,6 +40,7 @@ class CoinChartMapper @Inject constructor() {
             .reversed()
 
         return CoinChart(
+            currency = currency,
             priceHistory = validEntries.toPersistentList(),
             periodPriceChangePercentage = Percentage(apiModel.coinChartData?.priceChangePercentage)
         )

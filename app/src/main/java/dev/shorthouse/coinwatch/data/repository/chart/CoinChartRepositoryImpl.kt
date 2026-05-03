@@ -33,7 +33,10 @@ class CoinChartRepositoryImpl @Inject constructor(
         val body = response.body()
 
         if (response.isSuccessful && body?.coinChartData != null) {
-            val coinChart = coinChartMapper.mapApiModelToModel(body)
+            val coinChart = coinChartMapper.mapApiModelToModel(
+                apiModel = body,
+                currency = currency
+            )
             emit(Result.Success(coinChart))
         } else {
             Timber.e("getCoinChart unsuccessful retrofit response ${response.message()}")

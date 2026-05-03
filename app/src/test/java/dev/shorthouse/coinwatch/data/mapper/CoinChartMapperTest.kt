@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.data.mapper
 
 import com.google.common.truth.Truth.assertThat
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartData
 import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
@@ -29,6 +30,7 @@ class CoinChartMapperTest {
         )
 
         val expectedCoinChart = CoinChart(
+            currency = Currency.USD,
             priceHistory = persistentListOf(),
             periodPriceChangePercentage = Percentage(null)
         )
@@ -36,6 +38,7 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
+            currency = Currency.USD,
             zone = testZone,
             today = testToday
         )
@@ -55,6 +58,7 @@ class CoinChartMapperTest {
         )
 
         val expectedCoinChart = CoinChart(
+            currency = Currency.USD,
             priceHistory = persistentListOf(),
             periodPriceChangePercentage = Percentage(null)
         )
@@ -62,6 +66,7 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
+            currency = Currency.USD,
             zone = testZone,
             today = testToday
         )
@@ -81,6 +86,7 @@ class CoinChartMapperTest {
         )
 
         val expectedCoinChart = CoinChart(
+            currency = Currency.USD,
             priceHistory = persistentListOf(),
             periodPriceChangePercentage = Percentage("0.123")
         )
@@ -88,12 +94,42 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
+            currency = Currency.USD,
             zone = testZone,
             today = testToday
         )
 
         // Assert
         assertThat(coinChart).isEqualTo(expectedCoinChart)
+    }
+
+    @Test
+    fun `When currency is provided should preserve currency in coin chart`() {
+        // Arrange
+        val apiModel = CoinChartApiModel(
+            coinChartData = CoinChartData(
+                priceChangePercentage = "0.123",
+                pastPrices = emptyList()
+            )
+        )
+
+        // Act
+        val gbpCoinChart = coinChartMapper.mapApiModelToModel(
+            apiModel = apiModel,
+            currency = Currency.GBP,
+            zone = testZone,
+            today = testToday
+        )
+        val eurCoinChart = coinChartMapper.mapApiModelToModel(
+            apiModel = apiModel,
+            currency = Currency.EUR,
+            zone = testZone,
+            today = testToday
+        )
+
+        // Assert
+        assertThat(gbpCoinChart.currency).isEqualTo(Currency.GBP)
+        assertThat(eurCoinChart.currency).isEqualTo(Currency.EUR)
     }
 
     @Test
@@ -107,6 +143,7 @@ class CoinChartMapperTest {
         )
 
         val expectedCoinChart = CoinChart(
+            currency = Currency.USD,
             priceHistory = persistentListOf(),
             periodPriceChangePercentage = Percentage(null)
         )
@@ -114,6 +151,7 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
+            currency = Currency.USD,
             zone = testZone,
             today = testToday
         )
@@ -138,6 +176,7 @@ class CoinChartMapperTest {
         )
 
         val expectedCoinChart = CoinChart(
+            currency = Currency.USD,
             priceHistory = persistentListOf(
                 PriceEntry(BigDecimal("123.45"), 1700000000L, "Yesterday 22:13")
             ),
@@ -147,6 +186,7 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
+            currency = Currency.USD,
             zone = testZone,
             today = testToday
         )
@@ -170,6 +210,7 @@ class CoinChartMapperTest {
         )
 
         val expectedCoinChart = CoinChart(
+            currency = Currency.USD,
             priceHistory = persistentListOf(
                 PriceEntry(BigDecimal("123.45"), 1700000000L, "Yesterday 22:13")
             ),
@@ -179,6 +220,7 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
+            currency = Currency.USD,
             zone = testZone,
             today = testToday
         )
@@ -205,6 +247,7 @@ class CoinChartMapperTest {
         )
 
         val expectedCoinChart = CoinChart(
+            currency = Currency.USD,
             priceHistory = persistentListOf(
                 PriceEntry(BigDecimal("123.45"), 1700000000L, "Yesterday 22:13")
             ),
@@ -214,6 +257,7 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
+            currency = Currency.USD,
             zone = testZone,
             today = testToday
         )
@@ -239,6 +283,7 @@ class CoinChartMapperTest {
         )
 
         val expectedCoinChart = CoinChart(
+            currency = Currency.USD,
             priceHistory = persistentListOf(
                 PriceEntry(BigDecimal("123456.78"), 1700014400L, "02:13"),
                 PriceEntry(BigDecimal("123456.78"), 1700010800L, "01:13"),
@@ -252,6 +297,7 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
+            currency = Currency.USD,
             zone = testZone,
             today = testToday
         )
@@ -277,6 +323,7 @@ class CoinChartMapperTest {
         )
 
         val expectedCoinChart = CoinChart(
+            currency = Currency.USD,
             priceHistory = persistentListOf(
                 PriceEntry(BigDecimal("123.49"), 1700014400L, "02:13"),
                 PriceEntry(BigDecimal("123.48"), 1700010800L, "01:13"),
@@ -290,6 +337,7 @@ class CoinChartMapperTest {
         // Act
         val coinChart = coinChartMapper.mapApiModelToModel(
             apiModel = apiModel,
+            currency = Currency.USD,
             zone = testZone,
             today = testToday
         )

@@ -137,6 +137,7 @@ class DetailsScreenTest {
                 listedDate = "7 Aug 2015"
             ),
             CoinChart(
+                currency = Currency.USD,
                 priceHistory = persistentListOf(
                     PriceEntry(BigDecimal("1755.19"), 1700000000L, "14 Nov 2023"),
                     PriceEntry(BigDecimal("1749.71"), 1700003600L, "14 Nov 2023"),
@@ -248,6 +249,7 @@ class DetailsScreenTest {
                         listedDate = "7 Aug 2015"
                     ),
                     coinChart = CoinChart(
+                        currency = Currency.USD,
                         priceHistory = persistentListOf(),
                         periodPriceChangePercentage = Percentage("7.06")
                     ),
@@ -291,6 +293,7 @@ class DetailsScreenTest {
                 listedDate = "7 Aug 2015"
             ),
             CoinChart(
+                currency = Currency.USD,
                 priceHistory = persistentListOf(
                     PriceEntry(BigDecimal("1755.19"), 1700000000L, "14 Nov 2023"),
                     PriceEntry(BigDecimal("1749.71"), 1700003600L, "14 Nov 2023"),
@@ -351,6 +354,7 @@ class DetailsScreenTest {
                 listedDate = "7 Aug 2015"
             ),
             CoinChart(
+                currency = Currency.USD,
                 priceHistory = persistentListOf(
                     PriceEntry(BigDecimal("1755.19"), 1700000000L, "14 Nov 2023"),
                     PriceEntry(BigDecimal("1749.71"), 1700003600L, "14 Nov 2023"),
@@ -413,6 +417,7 @@ class DetailsScreenTest {
                 listedDate = "7 Aug 2015"
             ),
             CoinChart(
+                currency = Currency.USD,
                 priceHistory = persistentListOf(
                     PriceEntry(BigDecimal("1755.19"), 1700000000L, "14 Nov 2023"),
                     PriceEntry(BigDecimal("1749.71"), 1700003600L, "14 Nov 2023"),
@@ -499,6 +504,7 @@ class DetailsScreenTest {
                 listedDate = "7 Aug 2015"
             ),
             CoinChart(
+                currency = Currency.USD,
                 priceHistory = persistentListOf(),
                 periodPriceChangePercentage = Percentage("7.06")
             ),
@@ -557,6 +563,7 @@ class DetailsScreenTest {
                 listedDate = "7 Aug 2015"
             ),
             CoinChart(
+                currency = currency,
                 priceHistory = persistentListOf(
                     PriceEntry(BigDecimal("1755.19"), 1700000000L, "14 Nov 2023"),
                     PriceEntry(BigDecimal("1749.71"), 1700003600L, "14 Nov 2023"),
@@ -662,6 +669,7 @@ class DetailsScreenTest {
                 listedDate = "7 Aug 2015"
             ),
             CoinChart(
+                currency = Currency.USD,
                 priceHistory = persistentListOf(
                     PriceEntry(BigDecimal("1755.19"), 1700000000L, "14 Nov 2023"),
                     PriceEntry(BigDecimal("1749.71"), 1700003600L, "14 Nov 2023"),

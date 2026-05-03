@@ -231,8 +231,7 @@ fun DetailsContent(
     ) {
         CoinChartCard(
             currentPrice = coinDetails.currentPrice,
-            priceHistory = coinChart.priceHistory,
-            periodPriceChangePercentage = coinChart.periodPriceChangePercentage,
+            coinChart = coinChart,
             chartPeriod = chartPeriod,
             onClickChartPeriod = onClickChartPeriod
         )

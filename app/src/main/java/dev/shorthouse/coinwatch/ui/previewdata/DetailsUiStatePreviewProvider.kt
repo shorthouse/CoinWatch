@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.ui.previewdata
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.model.CoinLink
@@ -52,6 +53,7 @@ class DetailsUiStatePreviewProvider : PreviewParameterProvider<DetailsUiState> {
                 listedDate = "7 Aug 2015"
             ),
             CoinChart(
+                currency = Currency.USD,
                 priceHistory = persistentListOf(
                     PriceEntry(BigDecimal("1755.19"), 1700000000L, "14 Nov 2023"),
                     PriceEntry(BigDecimal("1749.71"), 1700003600L, "14 Nov 2023"),

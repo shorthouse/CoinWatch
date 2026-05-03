@@ -23,23 +23,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.model.PriceEntry
-import dev.shorthouse.coinwatch.ui.component.ScrubPriceGraph
 import dev.shorthouse.coinwatch.ui.component.PercentageChangeChip
+import dev.shorthouse.coinwatch.ui.component.ScrubPriceGraph
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import dev.shorthouse.coinwatch.ui.model.ScrubData
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal
 
 @Composable
 fun CoinChartCard(
     currentPrice: Price,
-    priceHistory: ImmutableList<PriceEntry>,
-    periodPriceChangePercentage: Percentage,
+    coinChart: CoinChart,
     chartPeriod: ChartPeriod,
     onClickChartPeriod: (ChartPeriod) -> Unit,
     modifier: Modifier = Modifier,
@@ -49,13 +49,13 @@ fun CoinChartCard(
     val displayPrice = if (scrubData != null) {
         Price(
             price = scrubData!!.price.toPlainString(),
-            currency = currentPrice.currency,
+            currency = coinChart.currency,
         )
     } else {
         currentPrice
     }
 
-    val displayPercentage = scrubData?.changePercentage ?: periodPriceChangePercentage
+    val displayPercentage = scrubData?.changePercentage ?: coinChart.periodPriceChangePercentage
 
     Surface(
         shape = MaterialTheme.shapes.medium,
@@ -78,7 +78,7 @@ fun CoinChartCard(
 
                     Spacer(Modifier.width(8.dp))
 
-                    if (priceHistory.isNotEmpty() && scrubData == null) {
+                    if (coinChart.priceHistory.isNotEmpty() && scrubData == null) {
                         Text(
                             text = stringResource(chartPeriod.longNameId),
                             style = MaterialTheme.typography.bodyMedium,
@@ -90,10 +90,10 @@ fun CoinChartCard(
 
             Spacer(Modifier.height(32.dp))
 
-            if (priceHistory.isNotEmpty()) {
+            if (coinChart.priceHistory.isNotEmpty()) {
                 ScrubPriceGraph(
-                    priceHistory = priceHistory,
-                    priceChangePercentage = periodPriceChangePercentage,
+                    priceHistory = coinChart.priceHistory,
+                    priceChangePercentage = coinChart.periodPriceChangePercentage,
                     isGraphAnimated = true,
                     onScrub = { scrubData = it },
                     modifier = Modifier
@@ -134,17 +134,20 @@ private fun CoinChartCardPreview() {
     AppTheme {
         CoinChartCard(
             currentPrice = Price("1000"),
-            priceHistory = persistentListOf(
-                PriceEntry(BigDecimal("1755.19"), 1700000000L, "14 Nov 2023"),
-                PriceEntry(BigDecimal("1749.71"), 1700003600L, "14 Nov 2023"),
-                PriceEntry(BigDecimal("1750.94"), 1700007200L, "15 Nov 2023"),
-                PriceEntry(BigDecimal("1748.44"), 1700010800L, "15 Nov 2023"),
-                PriceEntry(BigDecimal("1743.98"), 1700014400L, "15 Nov 2023"),
-                PriceEntry(BigDecimal("1740.25"), 1700018000L, "15 Nov 2023"),
-                PriceEntry(BigDecimal("1737.53"), 1700021600L, "15 Nov 2023"),
-                PriceEntry(BigDecimal("1730.56"), 1700025200L, "15 Nov 2023"),
+            coinChart = CoinChart(
+                currency = Currency.USD,
+                priceHistory = persistentListOf(
+                    PriceEntry(BigDecimal("1755.19"), 1700000000L, "14 Nov 2023"),
+                    PriceEntry(BigDecimal("1749.71"), 1700003600L, "14 Nov 2023"),
+                    PriceEntry(BigDecimal("1750.94"), 1700007200L, "15 Nov 2023"),
+                    PriceEntry(BigDecimal("1748.44"), 1700010800L, "15 Nov 2023"),
+                    PriceEntry(BigDecimal("1743.98"), 1700014400L, "15 Nov 2023"),
+                    PriceEntry(BigDecimal("1740.25"), 1700018000L, "15 Nov 2023"),
+                    PriceEntry(BigDecimal("1737.53"), 1700021600L, "15 Nov 2023"),
+                    PriceEntry(BigDecimal("1730.56"), 1700025200L, "15 Nov 2023"),
+                ),
+                periodPriceChangePercentage = Percentage("7.06")
             ),
-            periodPriceChangePercentage = Percentage("7.06"),
             chartPeriod = chartPeriod,
             onClickChartPeriod = { chartPeriod = it }
         )
@@ -157,8 +160,11 @@ private fun CoinChartEmptyCardPreview() {
     AppTheme {
         CoinChartCard(
             currentPrice = Price("1000"),
-            priceHistory = persistentListOf(),
-            periodPriceChangePercentage = Percentage("7.06"),
+            coinChart = CoinChart(
+                currency = Currency.USD,
+                priceHistory = persistentListOf(),
+                periodPriceChangePercentage = Percentage("7.06")
+            ),
             chartPeriod = ChartPeriod.Day,
             onClickChartPeriod = {}
         )
