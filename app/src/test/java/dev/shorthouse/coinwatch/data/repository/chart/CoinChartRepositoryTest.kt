@@ -114,7 +114,7 @@ class CoinChartRepositoryTest {
             val chartPeriod = "1d"
             val currency = Currency.USD
 
-            val expectedPrices = emptyList<BigDecimal>()
+            val expectedPriceHistory = persistentListOf<PriceEntry>()
             val expectedPeriodPriceChangePercentageAmount = BigDecimal.ZERO
 
             coEvery {
@@ -142,7 +142,7 @@ class CoinChartRepositoryTest {
             // Assert
             assertThat(result).isInstanceOf(Result.Success::class.java)
 
-            assertThat((result as Result.Success).data.prices).isEqualTo(expectedPrices)
+            assertThat((result as Result.Success).data.priceHistory).isEqualTo(expectedPriceHistory)
             assertThat(result.data.periodPriceChangePercentage.amount).isEqualTo(
                 expectedPeriodPriceChangePercentageAmount
             )
@@ -156,9 +156,9 @@ class CoinChartRepositoryTest {
             val chartPeriod = "1d"
             val currency = Currency.USD
 
-            val expectedPrices = listOf(
-                BigDecimal("25000.89"),
-                BigDecimal("30000.47")
+            val expectedPriceHistory = persistentListOf(
+                PriceEntry(BigDecimal("25000.89"), 1700010800L, "15 Nov 2023"),
+                PriceEntry(BigDecimal("30000.47"), 1700003600L, "14 Nov 2023")
             )
 
             coEvery {
@@ -191,7 +191,8 @@ class CoinChartRepositoryTest {
 
             // Assert
             assertThat(result).isInstanceOf(Result.Success::class.java)
-            assertThat((result as Result.Success).data.prices).isEqualTo(expectedPrices)
+            assertThat((result as Result.Success).data.priceHistory)
+                .isEqualTo(expectedPriceHistory)
         }
 
     @Test
