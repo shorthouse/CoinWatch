@@ -41,3 +41,7 @@ fun List<BigDecimal>.minOrZero(): BigDecimal {
 fun List<BigDecimal>.maxOrZero(): BigDecimal {
     return this.maxOrNull() ?: BigDecimal.ZERO
 }
+
+fun String.placeholderIfBlank(): String {
+    return ifBlank { Constants.VALUE_UNAVAILABLE }
+}

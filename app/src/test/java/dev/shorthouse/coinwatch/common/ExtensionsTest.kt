@@ -147,7 +147,7 @@ class ExtensionsTest {
         val input = "   "
 
         // Act
-        val result = input.toDisplayValueOrUnavailable()
+        val result = input.placeholderIfBlank()
 
         // Assert
         assertThat(result).isEqualTo("—")
@@ -159,7 +159,7 @@ class ExtensionsTest {
         val input = "1,234"
 
         // Act
-        val result = input.toDisplayValueOrUnavailable()
+        val result = input.placeholderIfBlank()
 
         // Assert
         assertThat(result).isEqualTo("1,234")
