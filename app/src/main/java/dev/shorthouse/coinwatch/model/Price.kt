@@ -2,6 +2,7 @@ package dev.shorthouse.coinwatch.model
 
 import dev.shorthouse.coinwatch.common.Constants.VALUE_UNAVAILABLE
 import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrNull
+import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrZero
 import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import java.math.BigDecimal
 import java.math.MathContext
@@ -11,15 +12,13 @@ import java.util.Locale
 import java.util.Currency as CurrencyCode
 
 data class Price(val price: String?, val currency: Currency = Currency.USD) : Comparable<Price> {
-    private val parsedAmount: BigDecimal? = price.toSanitisedBigDecimalOrNull()
-
-    val amount: BigDecimal = parsedAmount ?: BigDecimal.ZERO
+    val amount: BigDecimal = price.toSanitisedBigDecimalOrZero()
 
     private val currencyFormat: DecimalFormat = getCurrencyFormat()
 
     val formattedAmount: String = when {
         // Must be checked in this order
-        parsedAmount == null -> "${currency.symbol}$VALUE_UNAVAILABLE"
+        price.toSanitisedBigDecimalOrNull() == null -> "${currency.symbol}$VALUE_UNAVAILABLE"
         amount in belowOneRange -> currencyFormat.format(amount)
         amount in belowMillionRange -> currencyFormat.format(amount)
         else -> formatLargeAmount()
