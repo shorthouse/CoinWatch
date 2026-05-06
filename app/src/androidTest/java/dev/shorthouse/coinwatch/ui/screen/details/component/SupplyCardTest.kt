@@ -2,9 +2,11 @@ package dev.shorthouse.coinwatch.ui.screen.details.component
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.getUnclippedBoundsInRoot
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.unit.dp
 import com.google.common.truth.Truth.assertThat
@@ -55,6 +57,7 @@ class SupplyCardTest {
             onNodeWithText("Circulating Supply").assertIsDisplayed()
             onNodeWithText("Total Supply").assertIsDisplayed()
             onNodeWithText("Max Supply").assertIsDisplayed()
+            onAllNodesWithText("—").assertCountEquals(3)
         }
     }
 

@@ -69,7 +69,7 @@ class PercentageChangeTest {
         }
 
         composeTestRule.apply {
-            onNodeWithText("-- %").assertIsDisplayed()
+            onNodeWithText("— %").assertIsDisplayed()
         }
     }
 }

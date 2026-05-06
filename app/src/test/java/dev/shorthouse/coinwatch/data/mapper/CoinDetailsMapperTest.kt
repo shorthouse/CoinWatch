@@ -167,7 +167,7 @@ class CoinDetailsMapperTest {
     }
 
     @Test
-    fun `When link values are blank or duplicate should map expected links`() {
+    fun `When link values are blank invalid unknown or duplicate should map expected links`() {
         // Arrange
         val coinDetailsApiModel = CoinDetailsApiModel(
             coinDetailsDataHolder = CoinDetailsDataHolder(
@@ -197,6 +197,11 @@ class CoinDetailsMapperTest {
                         CoinDetailsLink(
                             name = "Blank URL",
                             url = " ",
+                            type = "reddit"
+                        ),
+                        CoinDetailsLink(
+                            name = "Invalid URL",
+                            url = "not-a-url",
                             type = "reddit"
                         ),
                         CoinDetailsLink(

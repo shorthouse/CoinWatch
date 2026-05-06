@@ -140,4 +140,28 @@ class ExtensionsTest {
         // Assert
         assertThat(result).isEqualTo(expectedResult)
     }
+
+    @Test
+    fun `When display value is blank should return unavailable placeholder`() {
+        // Arrange
+        val input = "   "
+
+        // Act
+        val result = input.toDisplayValueOrUnavailable()
+
+        // Assert
+        assertThat(result).isEqualTo("—")
+    }
+
+    @Test
+    fun `When display value is not blank should return original value`() {
+        // Arrange
+        val input = "1,234"
+
+        // Act
+        val result = input.toDisplayValueOrUnavailable()
+
+        // Assert
+        assertThat(result).isEqualTo("1,234")
+    }
 }

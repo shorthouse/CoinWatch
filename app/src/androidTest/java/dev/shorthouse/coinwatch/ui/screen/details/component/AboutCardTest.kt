@@ -67,6 +67,24 @@ class AboutCardTest {
     }
 
     @Test
+    fun when_listedDateIsEmpty_should_displayUnavailablePlaceholder() {
+        composeTestRule.setContent {
+            AppTheme {
+                AboutCard(
+                    description = "",
+                    tags = persistentListOf(),
+                    listedDate = ""
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Listed Date").assertIsDisplayed()
+            onNodeWithText("—").assertIsDisplayed()
+        }
+    }
+
+    @Test
     fun when_descriptionIsLong_should_expandAndCollapseWithChevron() {
         val longDescription = """
             Ethereum is a decentralized blockchain with smart contract functionality. It enables developers to build

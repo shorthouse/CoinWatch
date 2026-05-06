@@ -17,7 +17,7 @@ class PriceTest {
 
         // Assert
         assertThat(price.amount).isEqualTo(BigDecimal.ZERO)
-        assertThat(price.formattedAmount).isEqualTo("$--")
+        assertThat(price.formattedAmount).isEqualTo("$—")
     }
 
     @Test
@@ -30,16 +30,29 @@ class PriceTest {
 
         // Assert
         assertThat(price.amount).isEqualTo(BigDecimal.ZERO)
-        assertThat(price.formattedAmount).isEqualTo("$--")
+        assertThat(price.formattedAmount).isEqualTo("$—")
     }
 
     @Test
-    fun `When invalid input should create zero price`() {
+    fun `When invalid input should create unavailable price`() {
         // Arrange
         val invalidPrice = "1.x"
 
         // Act
         val price = Price(invalidPrice)
+
+        // Assert
+        assertThat(price.amount).isEqualTo(BigDecimal.ZERO)
+        assertThat(price.formattedAmount).isEqualTo("$—")
+    }
+
+    @Test
+    fun `When valid zero input should create zero price`() {
+        // Arrange
+        val zeroPrice = "0"
+
+        // Act
+        val price = Price(zeroPrice)
 
         // Assert
         assertThat(price.amount).isEqualTo(BigDecimal.ZERO)
@@ -247,7 +260,7 @@ class PriceTest {
 
         // Assert
         assertThat(price.amount).isEqualTo(BigDecimal.ZERO)
-        assertThat(price.formattedAmount).isEqualTo("$--")
+        assertThat(price.formattedAmount).isEqualTo("$—")
     }
 
     @Test
@@ -275,7 +288,7 @@ class PriceTest {
 
         // Assert
         assertThat(price.amount).isEqualTo(BigDecimal.ZERO)
-        assertThat(price.formattedAmount).isEqualTo("£--")
+        assertThat(price.formattedAmount).isEqualTo("£—")
     }
 
     @Test
@@ -303,7 +316,7 @@ class PriceTest {
 
         // Assert
         assertThat(price.amount).isEqualTo(BigDecimal.ZERO)
-        assertThat(price.formattedAmount).isEqualTo("€--")
+        assertThat(price.formattedAmount).isEqualTo("€—")
     }
 
     @Test

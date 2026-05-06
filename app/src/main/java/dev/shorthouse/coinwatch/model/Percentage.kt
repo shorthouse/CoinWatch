@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.model
 
-import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrZero
+import dev.shorthouse.coinwatch.common.Constants.VALUE_UNAVAILABLE
+import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrNull
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.NumberFormat
@@ -16,7 +17,9 @@ data class Percentage(private val percentage: String?) {
             }
     }
 
-    val amount: BigDecimal = percentage.toSanitisedBigDecimalOrZero()
+    private val parsedAmount: BigDecimal? = percentage.toSanitisedBigDecimalOrNull()
+
+    val amount: BigDecimal = parsedAmount ?: BigDecimal.ZERO
 
     private val roundedAmount: BigDecimal = amount.setScale(2, RoundingMode.HALF_EVEN)
     val isPositive: Boolean = roundedAmount.signum() > 0
@@ -24,7 +27,7 @@ data class Percentage(private val percentage: String?) {
 
     val formattedAmount: String =
         when {
-            percentage == null -> "-- %"
+            parsedAmount == null -> "$VALUE_UNAVAILABLE %"
             isNegative -> percentageFormat.format(amount.divide(BigDecimal("100")))
             else -> "+" + percentageFormat.format(amount.divide(BigDecimal("100")))
         }

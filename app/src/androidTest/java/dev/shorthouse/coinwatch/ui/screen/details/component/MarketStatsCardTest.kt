@@ -96,7 +96,31 @@ class MarketStatsCardTest {
             onNodeWithText("Fully Diluted Market Cap").assertIsDisplayed()
             onNodeWithText("Volume (24h)").assertIsDisplayed()
             onNodeWithText("All Time High").assertIsDisplayed()
-            onAllNodesWithText("$--").assertCountEquals(4)
+            onAllNodesWithText("$—").assertCountEquals(4)
+        }
+    }
+
+    @Test
+    fun when_textStatsAreMissing_should_displayUnavailablePlaceholders() {
+        composeTestRule.setContent {
+            AppTheme {
+                MarketStatsCard(
+                    coinDetails = coinDetails(
+                        marketCapRank = "",
+                        numberOfExchanges = "",
+                        numberOfMarkets = "",
+                        allTimeHighDate = ""
+                    )
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Market Cap Rank").assertIsDisplayed()
+            onNodeWithText("Exchange Listings").assertIsDisplayed()
+            onNodeWithText("Market Listings").assertIsDisplayed()
+            onNodeWithText("All Time High Date").assertIsDisplayed()
+            onAllNodesWithText("—").assertCountEquals(4)
         }
     }
 
@@ -157,8 +181,11 @@ class MarketStatsCardTest {
         marketCap: Price = Price("225722901094"),
         fullyDilutedMarketCap: Price = Price("250000000000"),
         volume24h: Price = Price("6627669115"),
+        marketCapRank: String = "2",
+        numberOfExchanges: String = "248",
         numberOfMarkets: String = "1,098",
-        allTimeHigh: Price = Price("4878.26")
+        allTimeHigh: Price = Price("4878.26"),
+        allTimeHighDate: String = "10 Nov 2021"
     ): CoinDetails {
         return CoinDetails(
             id = "ethereum",
@@ -176,15 +203,15 @@ class MarketStatsCardTest {
             currentPrice = Price("1879.14"),
             marketCap = marketCap,
             fullyDilutedMarketCap = fullyDilutedMarketCap,
-            marketCapRank = "2",
+            marketCapRank = marketCapRank,
             volume24h = volume24h,
-            numberOfExchanges = "248",
+            numberOfExchanges = numberOfExchanges,
             numberOfMarkets = numberOfMarkets,
             circulatingSupply = "120,186,525",
             totalSupply = "120,500,000",
             maxSupply = "210,000,000",
             allTimeHigh = allTimeHigh,
-            allTimeHighDate = "10 Nov 2021",
+            allTimeHighDate = allTimeHighDate,
             listedDate = "7 Aug 2015"
         )
     }

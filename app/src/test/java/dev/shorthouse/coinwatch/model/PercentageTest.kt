@@ -43,6 +43,7 @@ class PercentageTest {
         // Assert
         assertThat(percentage.isPositive).isFalse()
         assertThat(percentage.isNegative).isFalse()
+        assertThat(percentage.formattedAmount).isEqualTo("+0.00%")
     }
 
     @Test
@@ -55,11 +56,11 @@ class PercentageTest {
 
         // Assert
         assertThat(percentage.amount).isEqualTo(BigDecimal.ZERO)
-        assertThat(percentage.formattedAmount).isEqualTo("-- %")
+        assertThat(percentage.formattedAmount).isEqualTo("— %")
     }
 
     @Test
-    fun `When empty input should create zero percentage`() {
+    fun `When empty input should create unavailable percentage`() {
         // Arrange
         val emptyPercentage = ""
 
@@ -68,11 +69,11 @@ class PercentageTest {
 
         // Assert
         assertThat(percentage.amount).isEqualTo(BigDecimal.ZERO)
-        assertThat(percentage.formattedAmount).isEqualTo("+0.00%")
+        assertThat(percentage.formattedAmount).isEqualTo("— %")
     }
 
     @Test
-    fun `When invalid input should create zero percentage`() {
+    fun `When invalid input should create unavailable percentage`() {
         // Arrange
         val invalidPercentage = "1.x"
 
@@ -81,7 +82,7 @@ class PercentageTest {
 
         // Assert
         assertThat(percentage.amount).isEqualTo(BigDecimal.ZERO)
-        assertThat(percentage.formattedAmount).isEqualTo("+0.00%")
+        assertThat(percentage.formattedAmount).isEqualTo("— %")
     }
 
     @Test
