@@ -10,6 +10,7 @@ import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.unit.dp
 import com.google.common.truth.Truth.assertThat
+import dev.shorthouse.coinwatch.common.Constants.MISSING_VALUE_PLACEHOLDER
 import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.model.CoinLink
@@ -101,15 +102,15 @@ class MarketStatsCardTest {
     }
 
     @Test
-    fun when_textStatsAreMissing_should_displayUnavailablePlaceholders() {
+    fun when_textStatsAreUnavailable_should_displayUnavailablePlaceholders() {
         composeTestRule.setContent {
             AppTheme {
                 MarketStatsCard(
                     coinDetails = coinDetails(
-                        marketCapRank = "",
-                        numberOfExchanges = "",
-                        numberOfMarkets = "",
-                        allTimeHighDate = ""
+                        marketCapRank = MISSING_VALUE_PLACEHOLDER,
+                        numberOfExchanges = MISSING_VALUE_PLACEHOLDER,
+                        numberOfMarkets = MISSING_VALUE_PLACEHOLDER,
+                        allTimeHighDate = MISSING_VALUE_PLACEHOLDER
                     )
                 )
             }
@@ -120,7 +121,7 @@ class MarketStatsCardTest {
             onNodeWithText("Exchange Listings").assertIsDisplayed()
             onNodeWithText("Market Listings").assertIsDisplayed()
             onNodeWithText("All Time High Date").assertIsDisplayed()
-            onAllNodesWithText("—").assertCountEquals(4)
+            onAllNodesWithText(MISSING_VALUE_PLACEHOLDER).assertCountEquals(4)
         }
     }
 
