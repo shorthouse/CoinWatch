@@ -354,6 +354,16 @@ class PriceTest {
     }
 
     @Test
+    fun `When price is in tens of thousands should not perform shortening`() {
+        val price = "29446.336548759988"
+
+        val tensOfThousandsPrice = Price(price)
+
+        assertThat(tensOfThousandsPrice.amount).isEqualTo(BigDecimal("29446.336548759988"))
+        assertThat(tensOfThousandsPrice.formattedAmount).isEqualTo("$29,446.34")
+    }
+
+    @Test
     fun `When price is a million should perform shortening`() {
         val price = "1000000.00"
 
@@ -729,5 +739,44 @@ class PriceTest {
         assertThat(trillionPrice.formattedAmount).isEqualTo("€3.08T")
         assertThat(quadrillionPrice.formattedAmount).isEqualTo("€27.91Q")
         assertThat(quintillionPrice.formattedAmount).isEqualTo("€149,227,913,084,938,574,102.00")
+    }
+
+    @Test
+    fun `When whitespace only input should create empty price`() {
+        val price = Price("     ")
+
+        assertThat(price.amount).isEqualTo(BigDecimal.ZERO)
+        assertThat(price.formattedAmount).isEqualTo("$—")
+    }
+
+    @Test
+    fun `When price is around one dollar boundary should keep current precision behaviour`() {
+        val exactOne = Price("1")
+        val exactOneWithScale = Price("1.00")
+        val justOverOne = Price("1.000001")
+        val exactNegativeOne = Price("-1")
+        val justUnderNegativeOne = Price("-1.000001")
+
+        assertThat(exactOne.formattedAmount).isEqualTo("$1.000000")
+        assertThat(exactOneWithScale.formattedAmount).isEqualTo("$1.000000")
+        assertThat(justOverOne.formattedAmount).isEqualTo("$1.00")
+        assertThat(exactNegativeOne.formattedAmount).isEqualTo("-$1.000000")
+        assertThat(justUnderNegativeOne.formattedAmount).isEqualTo("-$1.00")
+    }
+
+    @Test
+    fun `When price below million rounds to million should not perform shortening`() {
+        val price = Price("999999.999")
+
+        assertThat(price.amount).isEqualTo(BigDecimal("999999.999"))
+        assertThat(price.formattedAmount).isEqualTo("$1,000,000.00")
+    }
+
+    @Test
+    fun `When price is negative large value should not perform shortening`() {
+        val price = Price("-1234567.89")
+
+        assertThat(price.amount).isEqualTo(BigDecimal("-1234567.89"))
+        assertThat(price.formattedAmount).isEqualTo("-$1,234,567.89")
     }
 }
