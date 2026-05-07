@@ -13,11 +13,11 @@ hilt-android = "2.51"
 hilt-compiler = "1.2.0"
 hilt-navigation-compose = "1.2.0"
 junit = "4.13.2"
-kotlin = "1.9.22"
+kotlin = "2.0.21"
 kotlinx-collections-immutable = "0.3.7"
 kotlinx-coroutines = "1.8.0"
 kotlinx-serialization-json = "1.6.3"
-ksp = "1.9.22-1.0.17"
+ksp = "2.0.21-1.0.28"
 lifecycle = "2.8.3"
 lifecycle-runtime-compose = "2.8.3"
 mockk = "1.13.10"
@@ -27,6 +27,7 @@ retrofit = "2.9.0"
 room = "2.6.1"
 rules = "1.6.1"
 runner = "1.6.1"
+screenshot = "0.0.1-alpha10"
 timber = "5.0.1"
 truth = "1.4.2"
 ui-test-junit4 = "1.6.8"
@@ -78,6 +79,7 @@ logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", ver
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+screenshot-validation-api = { group = "com.android.tools.screenshot", name = "screenshot-validation-api", version.ref = "screenshot" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 truth-java8-extension = { module = "com.google.truth.extensions:truth-java8-extension", version.ref = "truth" }
@@ -86,6 +88,8 @@ truth-java8-extension = { module = "com.google.truth.extensions:truth-java8-exte
 android-application = { id = "com.android.application", version.ref = "android-gradle" }
 android-library = { id = "com.android.library", version.ref = "android-gradle" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt-android" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+screenshot = { id = "com.android.compose.screenshot", version.ref = "screenshot" }
