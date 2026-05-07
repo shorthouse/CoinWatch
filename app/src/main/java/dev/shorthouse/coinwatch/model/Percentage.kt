@@ -1,6 +1,6 @@
 package dev.shorthouse.coinwatch.model
 
-import dev.shorthouse.coinwatch.common.Constants.VALUE_UNAVAILABLE
+import dev.shorthouse.coinwatch.common.Constants.MISSING_VALUE_PLACEHOLDER
 import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrNull
 import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrZero
 import java.math.BigDecimal
@@ -26,7 +26,7 @@ data class Percentage(private val percentage: String?) {
 
     val formattedAmount: String =
         when {
-            percentage.toSanitisedBigDecimalOrNull() == null -> "$VALUE_UNAVAILABLE %"
+            percentage.toSanitisedBigDecimalOrNull() == null -> "$MISSING_VALUE_PLACEHOLDER %"
             isNegative -> percentageFormat.format(amount.divide(BigDecimal("100")))
             else -> "+" + percentageFormat.format(amount.divide(BigDecimal("100")))
         }

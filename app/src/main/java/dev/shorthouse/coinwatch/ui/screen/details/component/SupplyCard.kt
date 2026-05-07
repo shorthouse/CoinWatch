@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.common.Constants.MISSING_VALUE_PLACEHOLDER
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
@@ -103,9 +104,9 @@ private fun SupplyCardPreview() {
 private fun SupplyCardEmptyPreview() {
     AppTheme {
         SupplyCard(
-            circulatingSupply = "",
-            totalSupply = "",
-            maxSupply = ""
+            circulatingSupply = MISSING_VALUE_PLACEHOLDER,
+            totalSupply = MISSING_VALUE_PLACEHOLDER,
+            maxSupply = MISSING_VALUE_PLACEHOLDER
         )
     }
 }
