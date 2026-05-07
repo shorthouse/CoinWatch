@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.e2e
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotSelected
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -15,11 +16,13 @@ import dev.shorthouse.coinwatch.MainActivity
 import dev.shorthouse.coinwatch.data.source.remote.FakeCoinNetworkDataSource
 import dev.shorthouse.coinwatch.fixture.Bitcoin
 import dev.shorthouse.coinwatch.fixture.Ethereum
+import dev.shorthouse.coinwatch.fixture.failCoins
+import dev.shorthouse.coinwatch.fixture.respondWithCoins
 import dev.shorthouse.coinwatch.model.Price
-import javax.inject.Inject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
 @HiltAndroidTest
 class MarketE2ETest {
@@ -39,23 +42,21 @@ class MarketE2ETest {
     }
 
     @Test
-    fun when_bitcoinClicked_should_displayBitcoinDetails() {
-        composeTestRule.awaitText(Bitcoin.NAME)
-        composeTestRule.onNodeWithText(Bitcoin.NAME).performClick()
+    fun when_marketCoinClicked_should_displayCoinDetails() {
+        composeTestRule.apply {
+            onNodeWithText(Bitcoin.NAME).performClick()
 
-        composeTestRule.awaitText("Past day")
-        composeTestRule.awaitText(Bitcoin.FORMATTED_PRICE)
-
-        composeTestRule.onNodeWithContentDescription("Back").assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription("Favourite").assertIsDisplayed()
-        composeTestRule.onNodeWithText(Bitcoin.NAME).assertIsDisplayed()
-        composeTestRule.onNodeWithText(Bitcoin.SYMBOL).assertIsDisplayed()
-        composeTestRule.onNodeWithText(Bitcoin.FORMATTED_PRICE).assertIsDisplayed()
-        composeTestRule.onNodeWithText("Past day").assertIsDisplayed()
+            onNodeWithContentDescription("Back").assertIsDisplayed()
+            onNodeWithContentDescription("Favourite").assertIsDisplayed()
+            onNodeWithText(Bitcoin.NAME).assertIsDisplayed()
+            onNodeWithText(Bitcoin.SYMBOL).assertIsDisplayed()
+            onNodeWithText(Bitcoin.FORMATTED_PRICE).assertIsDisplayed()
+            onNodeWithText("Past day").assertIsDisplayed()
+        }
     }
 
     @Test
-    fun when_pullToRefreshUpdatesCachedMarketCoins() {
+    fun when_marketPulledToRefresh_should_updateCachedCoins() {
         val refreshedBitcoinPrice = "31415.92"
         val refreshedBitcoin = Bitcoin.coinApiModel().copy(
             currentPrice = refreshedBitcoinPrice,
@@ -63,56 +64,56 @@ class MarketE2ETest {
         val refreshedBitcoinFormattedPrice = Price(refreshedBitcoinPrice).formattedAmount
 
         composeTestRule.awaitText(Bitcoin.NAME)
-        composeTestRule.awaitText(Bitcoin.FORMATTED_PRICE)
 
         fakeCoinNetworkDataSource.respondWithCoins(
             refreshedBitcoin,
             Ethereum.coinApiModel(),
         )
 
-        composeTestRule.onNodeWithText(Bitcoin.NAME)
-            .onParent()
-            .performTouchInput {
-                swipeDown()
-            }
+        composeTestRule.apply {
+            onNodeWithText(Bitcoin.NAME)
+                .onParent()
+                .performTouchInput {
+                    swipeDown()
+                }
 
-        composeTestRule.awaitText(refreshedBitcoinFormattedPrice)
-        composeTestRule.onNodeWithText(Bitcoin.NAME).assertIsDisplayed()
-        composeTestRule.onNodeWithText(refreshedBitcoinFormattedPrice).assertIsDisplayed()
+            awaitText(refreshedBitcoinFormattedPrice)
+            onNodeWithText(Bitcoin.NAME).assertIsDisplayed()
+            onNodeWithText(refreshedBitcoinFormattedPrice).assertIsDisplayed()
+        }
     }
 
     @Test
-    fun when_marketRefreshFails_should_preserveCachedCoinsAndShowNetworkError() {
-        composeTestRule.awaitText(Bitcoin.NAME)
-        composeTestRule.awaitText(Bitcoin.FORMATTED_PRICE)
+    fun when_marketRefreshFails_should_keepCachedCoinsAndShowError() {
+        composeTestRule.apply {
+            awaitText(Bitcoin.NAME)
 
-        fakeCoinNetworkDataSource.failCoins()
+            fakeCoinNetworkDataSource.failCoins()
 
-        composeTestRule.onNodeWithText(Bitcoin.NAME)
-            .onParent()
-            .performTouchInput {
-                swipeDown()
-            }
+            onNodeWithText(Bitcoin.NAME)
+                .onParent()
+                .performTouchInput {
+                    swipeDown()
+                }
 
-        composeTestRule.awaitText("Latest coin data unavailable")
-        composeTestRule.onNodeWithText(Bitcoin.NAME).assertIsDisplayed()
-        composeTestRule.onNodeWithText(Bitcoin.FORMATTED_PRICE).assertIsDisplayed()
+            awaitText("Latest coin data unavailable")
+            onNodeWithText(Bitcoin.NAME).assertIsDisplayed()
+            onNodeWithText(Bitcoin.FORMATTED_PRICE).assertIsDisplayed()
+        }
     }
 
     @Test
-    fun when_marketSortChanged_should_preservePreferenceAcrossNavigation() {
-        composeTestRule.awaitText(Bitcoin.NAME)
+    fun when_marketSortChanged_should_preserveSelectionAcrossBottomNavigation() {
+        composeTestRule.apply {
+            onNodeWithText("Popular").assertIsNotSelected()
 
-        composeTestRule.onNodeWithText("Popular").performClick()
-        composeTestRule.awaitSelectedText("Popular")
+            onNodeWithText("Popular").performClick()
 
-        composeTestRule.onNodeWithText("Favourites").performClick()
-        composeTestRule.awaitText("No favourite coins")
+            onNodeWithText("Favourites").performClick()
 
-        composeTestRule.onNodeWithText("Market").performClick()
-        composeTestRule.awaitText(Bitcoin.NAME)
+            onNodeWithText("Market").performClick()
 
-        composeTestRule.awaitSelectedText("Popular")
-        composeTestRule.onNodeWithText("Popular").assertIsSelected()
+            onNodeWithText("Popular").assertIsSelected()
+        }
     }
 }

@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.e2e
+package dev.shorthouse.coinwatch.fixture
 
 import dev.shorthouse.coinwatch.data.source.remote.FakeCoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinApiModel
@@ -10,12 +10,10 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinsData
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsData
-import dev.shorthouse.coinwatch.fixture.Bitcoin
-import dev.shorthouse.coinwatch.fixture.Ethereum
-import java.math.BigDecimal
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
+import java.math.BigDecimal
 
 fun FakeCoinNetworkDataSource.respondWithCoins(vararg coins: CoinApiModel) {
     coinsResponse = Response.success(
