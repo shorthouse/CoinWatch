@@ -9,27 +9,18 @@ import dev.shorthouse.coinwatch.data.source.local.database.CoinLocalDataSourceIm
 import dev.shorthouse.coinwatch.data.source.local.database.dao.CoinDao
 import dev.shorthouse.coinwatch.data.source.local.database.dao.FavouriteCoinDao
 import dev.shorthouse.coinwatch.data.source.local.database.dao.FavouriteCoinIdDao
-import dev.shorthouse.coinwatch.data.source.remote.CoinApi
-import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
-import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSourceImpl
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DataSourceModule {
-
-    @Provides
-    @Singleton
-    fun provideCoinNetworkDataSource(coinApi: CoinApi): CoinNetworkDataSource {
-        return CoinNetworkDataSourceImpl(coinApi = coinApi)
-    }
+object LocalDataSourceModule {
 
     @Provides
     @Singleton
     fun provideCoinLocalDataSource(
         favouriteCoinIdDao: FavouriteCoinIdDao,
         coinDao: CoinDao,
-        favouriteCoinDao: FavouriteCoinDao
+        favouriteCoinDao: FavouriteCoinDao,
     ): CoinLocalDataSource {
         return CoinLocalDataSourceImpl(
             favouriteCoinIdDao = favouriteCoinIdDao,
