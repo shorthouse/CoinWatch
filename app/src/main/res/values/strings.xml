@@ -101,8 +101,8 @@
     <string name="market_is_flat">Market is flat</string>
     <string name="cd_expand_favourites">Expand favourites list</string>
     <string name="cd_condense_favourites">Condense favourites list</string>
-    <string name="cd_expand_about_description">Expand about description</string>
-    <string name="cd_collapse_about_description">Collapse about description</string>
+    <string name="cd_expand_about_description">Expand description</string>
+    <string name="cd_collapse_about_description">Collapse description</string>
     <string name="cd_open_link">Open %1$s</string>
     <string name="settings_title_currency">Currency</string>
     <string name="empty_state_search_title">Explore coins</string>
