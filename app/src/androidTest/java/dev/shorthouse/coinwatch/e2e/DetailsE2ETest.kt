@@ -17,12 +17,12 @@ import dev.shorthouse.coinwatch.e2e.fixture.coinChartApiModel
 import dev.shorthouse.coinwatch.e2e.fixture.failCoinChart
 import dev.shorthouse.coinwatch.e2e.fixture.failCoinDetails
 import dev.shorthouse.coinwatch.e2e.fixture.respondWithCoinChart
+import dev.shorthouse.coinwatch.e2e.support.awaitText
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
+import javax.inject.Inject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import javax.inject.Inject
-
 @HiltAndroidTest
 class DetailsE2ETest {
 

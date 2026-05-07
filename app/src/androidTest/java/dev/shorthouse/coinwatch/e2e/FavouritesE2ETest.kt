@@ -18,11 +18,13 @@ import dev.shorthouse.coinwatch.e2e.fixture.Bitcoin
 import dev.shorthouse.coinwatch.e2e.fixture.bitcoinFavouriteCoinApiModel
 import dev.shorthouse.coinwatch.e2e.fixture.failFavouriteCoins
 import dev.shorthouse.coinwatch.e2e.fixture.respondWithFavouriteCoins
+import dev.shorthouse.coinwatch.e2e.support.awaitContentDescription
+import dev.shorthouse.coinwatch.e2e.support.awaitSelectedText
+import dev.shorthouse.coinwatch.e2e.support.awaitText
+import javax.inject.Inject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import javax.inject.Inject
-
 @HiltAndroidTest
 class FavouritesE2ETest {
 

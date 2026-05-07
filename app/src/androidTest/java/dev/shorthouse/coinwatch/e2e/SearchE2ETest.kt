@@ -15,11 +15,11 @@ import dev.shorthouse.coinwatch.e2e.fixture.Bitcoin
 import dev.shorthouse.coinwatch.e2e.fixture.bitcoinSearchResult
 import dev.shorthouse.coinwatch.e2e.fixture.failSearchResults
 import dev.shorthouse.coinwatch.e2e.fixture.respondWithSearchResults
+import dev.shorthouse.coinwatch.e2e.support.awaitText
+import javax.inject.Inject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import javax.inject.Inject
-
 @HiltAndroidTest
 class SearchE2ETest {
 

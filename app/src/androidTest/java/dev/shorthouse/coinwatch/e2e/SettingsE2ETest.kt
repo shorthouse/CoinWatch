@@ -14,12 +14,14 @@ import dev.shorthouse.coinwatch.MainActivity
 import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.e2e.fixture.Bitcoin
 import dev.shorthouse.coinwatch.e2e.fixture.Ethereum
+import dev.shorthouse.coinwatch.e2e.support.awaitText
+import dev.shorthouse.coinwatch.e2e.support.awaitTextGone
+import dev.shorthouse.coinwatch.e2e.support.launchMainActivityAfterPreLaunchSetup
 import dev.shorthouse.coinwatch.model.Price
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-
 @HiltAndroidTest
 class SettingsE2ETest {
 
