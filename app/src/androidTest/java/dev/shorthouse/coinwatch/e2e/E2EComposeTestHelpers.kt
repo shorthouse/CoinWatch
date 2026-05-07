@@ -23,6 +23,19 @@ fun ComposeTestRule.awaitText(
     }
 }
 
+fun ComposeTestRule.awaitTextGone(
+    text: String,
+    timeoutMillis: Long = E2E_DEFAULT_TIMEOUT_MILLIS,
+    useUnmergedTree: Boolean = false,
+) {
+    waitUntil(timeoutMillis) {
+        onAllNodesWithText(
+            text = text,
+            useUnmergedTree = useUnmergedTree,
+        ).fetchSemanticsNodes().isEmpty()
+    }
+}
+
 fun ComposeTestRule.awaitSelectedText(
     text: String,
     timeoutMillis: Long = E2E_DEFAULT_TIMEOUT_MILLIS,
