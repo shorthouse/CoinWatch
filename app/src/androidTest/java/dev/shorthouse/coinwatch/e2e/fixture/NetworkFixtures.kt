@@ -1,6 +1,6 @@
-package dev.shorthouse.coinwatch.fixture
+package dev.shorthouse.coinwatch.e2e.fixture
 
-import dev.shorthouse.coinwatch.data.source.remote.FakeCoinNetworkDataSource
+import dev.shorthouse.coinwatch.e2e.fake.FakeCoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartData

@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.di
+package dev.shorthouse.coinwatch.e2e.di
 
 import android.content.Context
 import androidx.room.Room
@@ -8,6 +8,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import dev.shorthouse.coinwatch.data.source.local.database.CoinDatabase
+import dev.shorthouse.coinwatch.di.DatabaseModule
 import javax.inject.Singleton
 
 @Module
@@ -15,7 +16,7 @@ import javax.inject.Singleton
     components = [SingletonComponent::class],
     replaces = [DatabaseModule::class]
 )
-object TestDatabaseModule {
+object FakeDatabaseModule {
 
     @Provides
     @Singleton

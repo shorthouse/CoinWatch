@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.fixture
+package dev.shorthouse.coinwatch.e2e.fixture
 
 import dev.shorthouse.coinwatch.data.source.remote.model.AllTimeHigh
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinApiModel

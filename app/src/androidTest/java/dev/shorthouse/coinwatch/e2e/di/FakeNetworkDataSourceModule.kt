@@ -1,11 +1,12 @@
-package dev.shorthouse.coinwatch.di
+package dev.shorthouse.coinwatch.e2e.di
 
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
-import dev.shorthouse.coinwatch.data.source.remote.FakeCoinNetworkDataSource
+import dev.shorthouse.coinwatch.di.NetworkDataSourceModule
+import dev.shorthouse.coinwatch.e2e.fake.FakeCoinNetworkDataSource
 import javax.inject.Singleton
 
 @Module
@@ -13,7 +14,7 @@ import javax.inject.Singleton
     components = [SingletonComponent::class],
     replaces = [NetworkDataSourceModule::class]
 )
-object TestNetworkDataSourceModule {
+object FakeNetworkDataSourceModule {
 
     @Provides
     @Singleton

@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.di
+package dev.shorthouse.coinwatch.e2e.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -15,6 +15,7 @@ import dev.shorthouse.coinwatch.data.source.local.preferences.global.UserPrefere
 import dev.shorthouse.coinwatch.data.source.local.preferences.global.UserPreferencesSerializer
 import dev.shorthouse.coinwatch.data.source.local.preferences.market.MarketPreferences
 import dev.shorthouse.coinwatch.data.source.local.preferences.market.MarketPreferencesSerializer
+import dev.shorthouse.coinwatch.di.PreferencesModule
 import java.io.File
 import java.util.UUID
 import javax.inject.Singleton
@@ -24,7 +25,7 @@ import javax.inject.Singleton
     components = [SingletonComponent::class],
     replaces = [PreferencesModule::class]
 )
-object TestPreferencesModule {
+object FakePreferencesModule {
 
     @Provides
     @Singleton

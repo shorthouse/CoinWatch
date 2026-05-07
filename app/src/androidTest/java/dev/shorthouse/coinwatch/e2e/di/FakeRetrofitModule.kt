@@ -1,10 +1,11 @@
-package dev.shorthouse.coinwatch.di
+package dev.shorthouse.coinwatch.e2e.di
 
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import dev.shorthouse.coinwatch.data.source.remote.CoinApi
+import dev.shorthouse.coinwatch.di.RetrofitModule
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import javax.inject.Singleton
@@ -14,7 +15,7 @@ import javax.inject.Singleton
     components = [SingletonComponent::class],
     replaces = [RetrofitModule::class]
 )
-object TestRetrofitModule {
+object FakeRetrofitModule {
 
     @Provides
     @Singleton
