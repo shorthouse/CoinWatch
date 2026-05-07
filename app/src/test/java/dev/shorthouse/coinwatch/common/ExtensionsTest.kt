@@ -1,8 +1,8 @@
 package dev.shorthouse.coinwatch.common
 
 import com.google.common.truth.Truth.assertThat
-import java.math.BigDecimal
 import org.junit.Test
+import java.math.BigDecimal
 
 class ExtensionsTest {
     @Test
@@ -79,89 +79,5 @@ class ExtensionsTest {
 
         // Assert
         assertThat(result).isNull()
-    }
-
-    @Test
-    fun `When minOrZero called with non-empty list should return minimum value in list`() {
-        // Arrange
-        val numbers = listOf(
-            BigDecimal("5.25"),
-            BigDecimal("2.75"),
-            BigDecimal("7.50")
-        )
-        val expectedResult = BigDecimal("2.75")
-
-        // Act
-        val result = numbers.minOrZero()
-
-        // Assert
-        assertThat(result).isEqualTo(expectedResult)
-    }
-
-    @Test
-    fun `When minOrZero called with empty list should return zero`() {
-        // Arrange
-        val input = emptyList<BigDecimal>()
-        val expectedResult = BigDecimal.ZERO
-
-        // Act
-        val result = input.minOrZero()
-
-        // Assert
-        assertThat(result).isEqualTo(expectedResult)
-    }
-
-    @Test
-    fun `When maxOrZero called with non-empty list should return maximum value in list`() {
-        // Arrange
-        val numbers = listOf(
-            BigDecimal("5.25"),
-            BigDecimal("2.75"),
-            BigDecimal("7.50")
-        )
-        val expectedResult = BigDecimal("7.50")
-
-        // Act
-        val result = numbers.maxOrZero()
-
-        // Assert
-        assertThat(result).isEqualTo(expectedResult)
-    }
-
-    @Test
-    fun `When maxOrZero called with empty list should return zero`() {
-        // Arrange
-        val input = emptyList<BigDecimal>()
-        val expectedResult = BigDecimal.ZERO
-
-        // Act
-        val result = input.maxOrZero()
-
-        // Assert
-        assertThat(result).isEqualTo(expectedResult)
-    }
-
-    @Test
-    fun `When display value is blank should return unavailable placeholder`() {
-        // Arrange
-        val input = "   "
-
-        // Act
-        val result = input.placeholderIfBlank()
-
-        // Assert
-        assertThat(result).isEqualTo("—")
-    }
-
-    @Test
-    fun `When display value is not blank should return original value`() {
-        // Arrange
-        val input = "1,234"
-
-        // Act
-        val result = input.placeholderIfBlank()
-
-        // Assert
-        assertThat(result).isEqualTo("1,234")
     }
 }

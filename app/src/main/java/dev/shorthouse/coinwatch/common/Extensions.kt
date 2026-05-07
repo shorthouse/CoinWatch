@@ -2,22 +2,6 @@ package dev.shorthouse.coinwatch.common
 
 import java.math.BigDecimal
 
-fun String?.toSanitisedBigDecimalOrZero(): BigDecimal {
-    return try {
-        if (this != null) {
-            val sanitisedString = this
-                .filterNot { it == ',' }
-                .trim()
-
-            BigDecimal(sanitisedString)
-        } else {
-            BigDecimal.ZERO
-        }
-    } catch (e: NumberFormatException) {
-        BigDecimal.ZERO
-    }
-}
-
 fun String?.toSanitisedBigDecimalOrNull(): BigDecimal? {
     return try {
         if (this != null) {
@@ -34,14 +18,6 @@ fun String?.toSanitisedBigDecimalOrNull(): BigDecimal? {
     }
 }
 
-fun List<BigDecimal>.minOrZero(): BigDecimal {
-    return this.minOrNull() ?: BigDecimal.ZERO
-}
-
-fun List<BigDecimal>.maxOrZero(): BigDecimal {
-    return this.maxOrNull() ?: BigDecimal.ZERO
-}
-
-fun String.placeholderIfBlank(): String {
-    return ifBlank { Constants.VALUE_UNAVAILABLE }
+fun String?.toSanitisedBigDecimalOrZero(): BigDecimal {
+    return toSanitisedBigDecimalOrNull() ?: BigDecimal.ZERO
 }
