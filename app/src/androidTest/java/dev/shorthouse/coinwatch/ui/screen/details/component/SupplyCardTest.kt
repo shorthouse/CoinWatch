@@ -10,6 +10,7 @@ import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.unit.dp
 import com.google.common.truth.Truth.assertThat
+import dev.shorthouse.coinwatch.common.Constants.MISSING_VALUE_PLACEHOLDER
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import org.junit.Rule
 import org.junit.Test
@@ -42,13 +43,13 @@ class SupplyCardTest {
     }
 
     @Test
-    fun when_supplyValuesAreEmpty_should_displayLabels() {
+    fun when_supplyValuesAreUnavailable_should_displayLabelsAndUnavailablePlaceholders() {
         composeTestRule.setContent {
             AppTheme {
                 SupplyCard(
-                    circulatingSupply = "",
-                    totalSupply = "",
-                    maxSupply = ""
+                    circulatingSupply = MISSING_VALUE_PLACEHOLDER,
+                    totalSupply = MISSING_VALUE_PLACEHOLDER,
+                    maxSupply = MISSING_VALUE_PLACEHOLDER
                 )
             }
         }
@@ -57,7 +58,7 @@ class SupplyCardTest {
             onNodeWithText("Circulating Supply").assertIsDisplayed()
             onNodeWithText("Total Supply").assertIsDisplayed()
             onNodeWithText("Max Supply").assertIsDisplayed()
-            onAllNodesWithText("—").assertCountEquals(3)
+            onAllNodesWithText(MISSING_VALUE_PLACEHOLDER).assertCountEquals(3)
         }
     }
 

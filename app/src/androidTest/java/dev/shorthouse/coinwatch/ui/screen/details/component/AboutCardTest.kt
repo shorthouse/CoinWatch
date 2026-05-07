@@ -10,6 +10,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.dp
 import com.google.common.truth.Truth.assertThat
+import dev.shorthouse.coinwatch.common.Constants.MISSING_VALUE_PLACEHOLDER
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -67,20 +68,20 @@ class AboutCardTest {
     }
 
     @Test
-    fun when_listedDateIsEmpty_should_displayUnavailablePlaceholder() {
+    fun when_listedDateIsUnavailable_should_displayUnavailablePlaceholder() {
         composeTestRule.setContent {
             AppTheme {
                 AboutCard(
                     description = "",
                     tags = persistentListOf(),
-                    listedDate = ""
+                    listedDate = MISSING_VALUE_PLACEHOLDER
                 )
             }
         }
 
         composeTestRule.apply {
             onNodeWithText("Listed Date").assertIsDisplayed()
-            onNodeWithText("—").assertIsDisplayed()
+            onNodeWithText(MISSING_VALUE_PLACEHOLDER).assertIsDisplayed()
         }
     }
 
@@ -109,7 +110,7 @@ class AboutCardTest {
             .getUnclippedBoundsInRoot()
             .let { bounds -> bounds.bottom - bounds.top }
 
-        composeTestRule.onNodeWithContentDescription("Expand about description")
+        composeTestRule.onNodeWithContentDescription("Expand description")
             .assertIsDisplayed()
             .performClick()
         composeTestRule.waitForIdle()
@@ -120,12 +121,12 @@ class AboutCardTest {
 
         assertThat(expandedHeight).isGreaterThan(collapsedHeight)
 
-        composeTestRule.onNodeWithContentDescription("Collapse about description")
+        composeTestRule.onNodeWithContentDescription("Collapse description")
             .assertIsDisplayed()
             .performClick()
         composeTestRule.waitForIdle()
 
-        composeTestRule.onNodeWithContentDescription("Expand about description")
+        composeTestRule.onNodeWithContentDescription("Expand description")
             .assertIsDisplayed()
     }
 
