@@ -1,6 +1,7 @@
 package dev.shorthouse.coinwatch.data.mapper
 
 import com.google.common.truth.Truth.assertThat
+import dev.shorthouse.coinwatch.common.Constants.MISSING_VALUE_PLACEHOLDER
 import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.AllTimeHigh
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
@@ -40,16 +41,16 @@ class CoinDetailsMapperTest {
             currentPrice = Price(null),
             marketCap = Price(null),
             fullyDilutedMarketCap = Price(null),
-            marketCapRank = "",
+            marketCapRank = MISSING_VALUE_PLACEHOLDER,
             volume24h = Price(null),
-            numberOfExchanges = "",
-            numberOfMarkets = "",
-            circulatingSupply = "",
-            totalSupply = "",
-            maxSupply = "",
+            numberOfExchanges = MISSING_VALUE_PLACEHOLDER,
+            numberOfMarkets = MISSING_VALUE_PLACEHOLDER,
+            circulatingSupply = MISSING_VALUE_PLACEHOLDER,
+            totalSupply = MISSING_VALUE_PLACEHOLDER,
+            maxSupply = MISSING_VALUE_PLACEHOLDER,
             allTimeHigh = Price(null),
-            allTimeHighDate = "",
-            listedDate = ""
+            allTimeHighDate = MISSING_VALUE_PLACEHOLDER,
+            listedDate = MISSING_VALUE_PLACEHOLDER
         )
 
         // Act
@@ -82,16 +83,16 @@ class CoinDetailsMapperTest {
             currentPrice = Price(null),
             marketCap = Price(null),
             fullyDilutedMarketCap = Price(null),
-            marketCapRank = "",
+            marketCapRank = MISSING_VALUE_PLACEHOLDER,
             volume24h = Price(null),
-            numberOfExchanges = "",
-            numberOfMarkets = "",
-            circulatingSupply = "",
-            totalSupply = "",
-            maxSupply = "",
+            numberOfExchanges = MISSING_VALUE_PLACEHOLDER,
+            numberOfMarkets = MISSING_VALUE_PLACEHOLDER,
+            circulatingSupply = MISSING_VALUE_PLACEHOLDER,
+            totalSupply = MISSING_VALUE_PLACEHOLDER,
+            maxSupply = MISSING_VALUE_PLACEHOLDER,
             allTimeHigh = Price(null),
-            allTimeHighDate = "",
-            listedDate = ""
+            allTimeHighDate = MISSING_VALUE_PLACEHOLDER,
+            listedDate = MISSING_VALUE_PLACEHOLDER
         )
 
         // Act
@@ -144,16 +145,16 @@ class CoinDetailsMapperTest {
             currentPrice = Price(null),
             marketCap = Price(null),
             fullyDilutedMarketCap = Price(null),
-            marketCapRank = "",
+            marketCapRank = MISSING_VALUE_PLACEHOLDER,
             volume24h = Price(null),
-            numberOfExchanges = "",
-            numberOfMarkets = "",
-            circulatingSupply = "",
-            totalSupply = "",
-            maxSupply = "",
+            numberOfExchanges = MISSING_VALUE_PLACEHOLDER,
+            numberOfMarkets = MISSING_VALUE_PLACEHOLDER,
+            circulatingSupply = MISSING_VALUE_PLACEHOLDER,
+            totalSupply = MISSING_VALUE_PLACEHOLDER,
+            maxSupply = MISSING_VALUE_PLACEHOLDER,
             allTimeHigh = Price(null),
-            allTimeHighDate = "",
-            listedDate = ""
+            allTimeHighDate = MISSING_VALUE_PLACEHOLDER,
+            listedDate = MISSING_VALUE_PLACEHOLDER
         )
 
         // Act
@@ -164,6 +165,45 @@ class CoinDetailsMapperTest {
 
         // Assert
         assertThat(coinDetails).isEqualTo(expectedCoinDetails)
+    }
+
+    @Test
+    fun `When market cap rank is blank should return unavailable value`() {
+        // Arrange
+        val coinDetailsApiModel = CoinDetailsApiModel(
+            coinDetailsDataHolder = CoinDetailsDataHolder(
+                coinDetailsData = CoinDetailsData(
+                    id = null,
+                    name = null,
+                    symbol = null,
+                    description = null,
+                    websiteUrl = null,
+                    imageUrl = null,
+                    currentPrice = null,
+                    marketCap = null,
+                    fullyDilutedMarketCap = null,
+                    marketCapRank = "  ",
+                    volume24h = null,
+                    numberOfMarkets = null,
+                    numberOfExchanges = null,
+                    supply = null,
+                    allTimeHigh = null,
+                    tags = null,
+                    links = null,
+                    coinrankingUrl = null,
+                    listedAt = null
+                )
+            )
+        )
+
+        // Act
+        val coinDetails = coinDetailsMapper.mapApiModelToModel(
+            apiModel = coinDetailsApiModel,
+            currency = defaultCurrency
+        )
+
+        // Assert
+        assertThat(coinDetails.marketCapRank).isEqualTo(MISSING_VALUE_PLACEHOLDER)
     }
 
     @Test
@@ -237,16 +277,16 @@ class CoinDetailsMapperTest {
             currentPrice = Price(null),
             marketCap = Price(null),
             fullyDilutedMarketCap = Price(null),
-            marketCapRank = "",
+            marketCapRank = MISSING_VALUE_PLACEHOLDER,
             volume24h = Price(null),
-            numberOfExchanges = "",
-            numberOfMarkets = "",
-            circulatingSupply = "",
-            totalSupply = "",
-            maxSupply = "",
+            numberOfExchanges = MISSING_VALUE_PLACEHOLDER,
+            numberOfMarkets = MISSING_VALUE_PLACEHOLDER,
+            circulatingSupply = MISSING_VALUE_PLACEHOLDER,
+            totalSupply = MISSING_VALUE_PLACEHOLDER,
+            maxSupply = MISSING_VALUE_PLACEHOLDER,
             allTimeHigh = Price(null),
-            allTimeHighDate = "",
-            listedDate = ""
+            allTimeHighDate = MISSING_VALUE_PLACEHOLDER,
+            listedDate = MISSING_VALUE_PLACEHOLDER
         )
 
         // Act
@@ -260,7 +300,114 @@ class CoinDetailsMapperTest {
     }
 
     @Test
-    fun `When all numbers to format are invalid should return empty values`() {
+    fun `When links use unsupported schemes should only map http links`() {
+        // Arrange
+        val coinDetailsApiModel = CoinDetailsApiModel(
+            coinDetailsDataHolder = CoinDetailsDataHolder(
+                coinDetailsData = CoinDetailsData(
+                    id = null,
+                    name = null,
+                    symbol = null,
+                    description = null,
+                    websiteUrl = null,
+                    imageUrl = null,
+                    currentPrice = null,
+                    marketCap = null,
+                    fullyDilutedMarketCap = null,
+                    marketCapRank = null,
+                    volume24h = null,
+                    numberOfMarkets = null,
+                    numberOfExchanges = null,
+                    supply = null,
+                    allTimeHigh = null,
+                    tags = null,
+                    links = listOf(
+                        CoinDetailsLink(
+                            name = "FTP",
+                            url = "ftp://example.com",
+                            type = "reddit"
+                        ),
+                        CoinDetailsLink(
+                            name = "Email",
+                            url = "mailto:test@example.com",
+                            type = "github"
+                        ),
+                        CoinDetailsLink(
+                            name = "Reddit",
+                            url = "https://www.reddit.com/r/Bitcoin/",
+                            type = "reddit"
+                        )
+                    ),
+                    coinrankingUrl = null,
+                    listedAt = null
+                )
+            )
+        )
+
+        // Act
+        val coinDetails = coinDetailsMapper.mapApiModelToModel(
+            apiModel = coinDetailsApiModel,
+            currency = defaultCurrency
+        )
+
+        // Assert
+        assertThat(coinDetails.links).containsExactly(
+            CoinLink(
+                type = CoinLinkType.Reddit,
+                url = "https://www.reddit.com/r/Bitcoin/"
+            )
+        )
+    }
+
+    @Test
+    fun `When numbers to format are zero should return zero values`() {
+        // Arrange
+        val coinDetailsApiModel = CoinDetailsApiModel(
+            coinDetailsDataHolder = CoinDetailsDataHolder(
+                coinDetailsData = CoinDetailsData(
+                    id = null,
+                    name = null,
+                    symbol = null,
+                    description = null,
+                    websiteUrl = null,
+                    imageUrl = null,
+                    currentPrice = null,
+                    marketCap = null,
+                    fullyDilutedMarketCap = null,
+                    marketCapRank = null,
+                    volume24h = null,
+                    numberOfMarkets = 0,
+                    numberOfExchanges = 0,
+                    supply = Supply(
+                        circulatingSupply = "0",
+                        totalSupply = "0",
+                        maxSupply = "0"
+                    ),
+                    allTimeHigh = null,
+                    tags = null,
+                    links = null,
+                    coinrankingUrl = null,
+                    listedAt = null
+                )
+            )
+        )
+
+        // Act
+        val coinDetails = coinDetailsMapper.mapApiModelToModel(
+            apiModel = coinDetailsApiModel,
+            currency = defaultCurrency
+        )
+
+        // Assert
+        assertThat(coinDetails.numberOfExchanges).isEqualTo("0")
+        assertThat(coinDetails.numberOfMarkets).isEqualTo("0")
+        assertThat(coinDetails.circulatingSupply).isEqualTo("0")
+        assertThat(coinDetails.totalSupply).isEqualTo("0")
+        assertThat(coinDetails.maxSupply).isEqualTo("0")
+    }
+
+    @Test
+    fun `When all numbers to format are invalid should return unavailable values`() {
         // Arrange
         val coinDetailsApiModel = CoinDetailsApiModel(
             coinDetailsDataHolder = CoinDetailsDataHolder(
@@ -308,11 +455,11 @@ class CoinDetailsMapperTest {
             fullyDilutedMarketCap = Price("abcdefg"),
             marketCapRank = "1",
             volume24h = Price("abcdefg"),
-            numberOfExchanges = "",
-            numberOfMarkets = "",
-            circulatingSupply = "",
-            totalSupply = "",
-            maxSupply = "",
+            numberOfExchanges = MISSING_VALUE_PLACEHOLDER,
+            numberOfMarkets = MISSING_VALUE_PLACEHOLDER,
+            circulatingSupply = MISSING_VALUE_PLACEHOLDER,
+            totalSupply = MISSING_VALUE_PLACEHOLDER,
+            maxSupply = MISSING_VALUE_PLACEHOLDER,
             allTimeHigh = Price("68763.41083248306"),
             allTimeHighDate = "10 Nov 2021",
             listedDate = "26 Feb 2012"
@@ -329,7 +476,52 @@ class CoinDetailsMapperTest {
     }
 
     @Test
-    fun `When timestamps are invalid should return default values`() {
+    fun `When supply values are blank should return unavailable values`() {
+        // Arrange
+        val coinDetailsApiModel = CoinDetailsApiModel(
+            coinDetailsDataHolder = CoinDetailsDataHolder(
+                coinDetailsData = CoinDetailsData(
+                    id = null,
+                    name = null,
+                    symbol = null,
+                    description = null,
+                    websiteUrl = null,
+                    imageUrl = null,
+                    currentPrice = null,
+                    marketCap = null,
+                    fullyDilutedMarketCap = null,
+                    marketCapRank = null,
+                    volume24h = null,
+                    numberOfMarkets = null,
+                    numberOfExchanges = null,
+                    supply = Supply(
+                        circulatingSupply = "",
+                        totalSupply = " ",
+                        maxSupply = "\t"
+                    ),
+                    allTimeHigh = null,
+                    tags = null,
+                    links = null,
+                    coinrankingUrl = null,
+                    listedAt = null
+                )
+            )
+        )
+
+        // Act
+        val coinDetails = coinDetailsMapper.mapApiModelToModel(
+            apiModel = coinDetailsApiModel,
+            currency = defaultCurrency
+        )
+
+        // Assert
+        assertThat(coinDetails.circulatingSupply).isEqualTo(MISSING_VALUE_PLACEHOLDER)
+        assertThat(coinDetails.totalSupply).isEqualTo(MISSING_VALUE_PLACEHOLDER)
+        assertThat(coinDetails.maxSupply).isEqualTo(MISSING_VALUE_PLACEHOLDER)
+    }
+
+    @Test
+    fun `When timestamps are invalid should return unavailable values`() {
         // Arrange
         val coinDetailsApiModel = CoinDetailsApiModel(
             coinDetailsDataHolder = CoinDetailsDataHolder(
@@ -383,8 +575,8 @@ class CoinDetailsMapperTest {
             totalSupply = "19,508,368",
             maxSupply = "21,000,000",
             allTimeHigh = Price("68763.41083248306"),
-            allTimeHighDate = "",
-            listedDate = ""
+            allTimeHighDate = MISSING_VALUE_PLACEHOLDER,
+            listedDate = MISSING_VALUE_PLACEHOLDER
         )
 
         // Act
@@ -395,6 +587,49 @@ class CoinDetailsMapperTest {
 
         // Assert
         assertThat(coinDetails).isEqualTo(expectedCoinDetails)
+    }
+
+    @Test
+    fun `When timestamps are out of range should return unavailable values`() {
+        // Arrange
+        val coinDetailsApiModel = CoinDetailsApiModel(
+            coinDetailsDataHolder = CoinDetailsDataHolder(
+                coinDetailsData = CoinDetailsData(
+                    id = null,
+                    name = null,
+                    symbol = null,
+                    description = null,
+                    websiteUrl = null,
+                    imageUrl = null,
+                    currentPrice = null,
+                    marketCap = null,
+                    fullyDilutedMarketCap = null,
+                    marketCapRank = null,
+                    volume24h = null,
+                    numberOfMarkets = null,
+                    numberOfExchanges = null,
+                    supply = null,
+                    allTimeHigh = AllTimeHigh(
+                        price = null,
+                        timestamp = Long.MAX_VALUE
+                    ),
+                    tags = null,
+                    links = null,
+                    coinrankingUrl = null,
+                    listedAt = Long.MAX_VALUE
+                )
+            )
+        )
+
+        // Act
+        val coinDetails = coinDetailsMapper.mapApiModelToModel(
+            apiModel = coinDetailsApiModel,
+            currency = defaultCurrency
+        )
+
+        // Assert
+        assertThat(coinDetails.allTimeHighDate).isEqualTo(MISSING_VALUE_PLACEHOLDER)
+        assertThat(coinDetails.listedDate).isEqualTo(MISSING_VALUE_PLACEHOLDER)
     }
 
     @Test

@@ -1,5 +1,6 @@
 package dev.shorthouse.coinwatch.data.mapper
 
+import dev.shorthouse.coinwatch.common.Constants.MISSING_VALUE_PLACEHOLDER
 import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsData
@@ -11,6 +12,8 @@ import dev.shorthouse.coinwatch.model.Price
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import java.net.URI
+import java.net.URISyntaxException
 import java.text.NumberFormat
 import java.time.DateTimeException
 import java.time.Instant
@@ -57,34 +60,55 @@ class CoinDetailsMapper @Inject constructor() {
             currentPrice = Price(coinDetails?.currentPrice, currency = currency),
             marketCap = Price(coinDetails?.marketCap, currency = currency),
             fullyDilutedMarketCap = Price(coinDetails?.fullyDilutedMarketCap, currency = currency),
-            marketCapRank = coinDetails?.marketCapRank.orEmpty(),
+            marketCapRank = coinDetails?.marketCapRank.orPlaceholder(),
             volume24h = Price(coinDetails?.volume24h, currency = currency),
-            numberOfExchanges = formatNumberOrEmpty(coinDetails?.numberOfExchanges?.toString()),
-            numberOfMarkets = formatNumberOrEmpty(coinDetails?.numberOfMarkets?.toString()),
-            circulatingSupply = formatNumberOrEmpty(coinDetails?.supply?.circulatingSupply),
-            totalSupply = formatNumberOrEmpty(coinDetails?.supply?.totalSupply),
-            maxSupply = formatNumberOrEmpty(coinDetails?.supply?.maxSupply),
+            numberOfExchanges = formatNumberOrPlaceholder(
+                coinDetails?.numberOfExchanges?.toString()
+            ),
+            numberOfMarkets = formatNumberOrPlaceholder(
+                coinDetails?.numberOfMarkets?.toString()
+            ),
+            circulatingSupply = formatNumberOrPlaceholder(
+                coinDetails?.supply?.circulatingSupply
+            ),
+            totalSupply = formatNumberOrPlaceholder(
+                coinDetails?.supply?.totalSupply
+            ),
+            maxSupply = formatNumberOrPlaceholder(
+                coinDetails?.supply?.maxSupply
+            ),
             allTimeHigh = Price(coinDetails?.allTimeHigh?.price, currency = currency),
-            allTimeHighDate = epochToDateOrEmpty(coinDetails?.allTimeHigh?.timestamp),
-            listedDate = epochToDateOrEmpty(coinDetails?.listedAt)
+            allTimeHighDate = epochToDateOrPlaceholder(
+                coinDetails?.allTimeHigh?.timestamp
+            ),
+            listedDate = epochToDateOrPlaceholder(coinDetails?.listedAt)
         )
     }
 
-    private fun epochToDateOrEmpty(epochSecond: Long?): String {
+    private fun String?.orPlaceholder(): String =
+        this?.takeIf { value -> value.isNotBlank() } ?: MISSING_VALUE_PLACEHOLDER
+
+    private fun epochToDateOrPlaceholder(epochSecond: Long?): String =
+        epochToDateOrNull(epochSecond).orPlaceholder()
+
+    private fun epochToDateOrNull(epochSecond: Long?): String? {
         try {
-            if (epochSecond == null || epochSecond < 0) return ""
+            if (epochSecond == null || epochSecond < 0) return null
 
             val epochInstant = Instant.ofEpochSecond(epochSecond)
                 .atZone(ZoneId.systemDefault())
 
             return dateFormatter.format(epochInstant)
         } catch (e: DateTimeException) {
-            return ""
+            return null
         }
     }
 
-    private fun formatNumberOrEmpty(numberString: String?): String {
-        val number = numberString?.toDoubleOrNull() ?: return ""
+    private fun formatNumberOrPlaceholder(numberString: String?): String =
+        formatNumberOrNull(numberString).orPlaceholder()
+
+    private fun formatNumberOrNull(numberString: String?): String? {
+        val number = numberString?.toDoubleOrNull() ?: return null
 
         return numberGroupingFormat.format(number)
     }
@@ -118,7 +142,13 @@ class CoinDetailsMapper @Inject constructor() {
         seenCoinLinkTypes: MutableSet<CoinLinkType>,
     ) {
         val trimmedUrl = url?.trim().orEmpty()
-        if (trimmedUrl.isEmpty() || seenCoinLinkTypes.contains(type)) return
+        if (
+            trimmedUrl.isEmpty() ||
+            seenCoinLinkTypes.contains(type) ||
+            !trimmedUrl.isValidHttpUrl()
+        ) {
+            return
+        }
 
         add(
             CoinLink(
@@ -137,6 +167,18 @@ class CoinDetailsMapper @Inject constructor() {
             null
         } else {
             linkTypes[type]
+        }
+    }
+
+    private fun String.isValidHttpUrl(): Boolean {
+        return try {
+            val uri = URI(this)
+            val scheme = uri.scheme?.lowercase(Locale.US)
+            scheme in setOf("http", "https") && !uri.host.isNullOrBlank()
+        } catch (e: URISyntaxException) {
+            false
+        } catch (e: IllegalArgumentException) {
+            false
         }
     }
 }
