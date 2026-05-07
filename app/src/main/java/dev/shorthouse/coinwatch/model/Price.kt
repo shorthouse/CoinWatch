@@ -1,6 +1,6 @@
 package dev.shorthouse.coinwatch.model
 
-import dev.shorthouse.coinwatch.common.Constants.VALUE_UNAVAILABLE
+import dev.shorthouse.coinwatch.common.Constants.MISSING_VALUE_PLACEHOLDER
 import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrNull
 import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrZero
 import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
@@ -18,7 +18,7 @@ data class Price(val price: String?, val currency: Currency = Currency.USD) : Co
 
     val formattedAmount: String = when {
         // Must be checked in this order
-        price.toSanitisedBigDecimalOrNull() == null -> "${currency.symbol}$VALUE_UNAVAILABLE"
+        price.toSanitisedBigDecimalOrNull() == null -> "${currency.symbol}$MISSING_VALUE_PLACEHOLDER"
         amount in belowOneRange -> currencyFormat.format(amount)
         amount in belowMillionRange -> currencyFormat.format(amount)
         else -> formatLargeAmount()
