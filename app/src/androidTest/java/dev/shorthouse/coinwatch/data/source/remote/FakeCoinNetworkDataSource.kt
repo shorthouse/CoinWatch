@@ -32,7 +32,12 @@ class FakeCoinNetworkDataSource @Inject constructor() : CoinNetworkDataSource {
         Response.success(defaultCoinDetails(coinId))
     }
 
-    var coinChartResponse: Response<CoinChartApiModel> = Response.success(defaultCoinChart())
+    var coinChartResponse: (
+        coinId: String,
+        chartPeriod: String,
+    ) -> Response<CoinChartApiModel> = { _, _ ->
+        Response.success(defaultCoinChart())
+    }
 
     var coinSearchResultsResponse: (searchQuery: String) -> Response<CoinSearchResultsApiModel> =
         { _ ->
@@ -63,7 +68,7 @@ class FakeCoinNetworkDataSource @Inject constructor() : CoinNetworkDataSource {
         coinId: String,
         chartPeriod: String,
         currency: Currency,
-    ): Response<CoinChartApiModel> = coinChartResponse
+    ): Response<CoinChartApiModel> = coinChartResponse(coinId, chartPeriod)
 
     override suspend fun getCoinSearchResults(
         searchQuery: String,

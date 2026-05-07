@@ -2,6 +2,8 @@ package dev.shorthouse.coinwatch.fixture
 
 import dev.shorthouse.coinwatch.data.source.remote.FakeCoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartData
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResult
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsData
@@ -10,6 +12,7 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinsData
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsData
+import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
@@ -49,6 +52,14 @@ fun FakeCoinNetworkDataSource.respondWithSearchResults(vararg searchResults: Coi
     }
 }
 
+fun FakeCoinNetworkDataSource.respondWithCoinChart(
+    responseForChartPeriod: (chartPeriod: String) -> CoinChartApiModel,
+) {
+    coinChartResponse = { _, chartPeriod ->
+        Response.success(responseForChartPeriod(chartPeriod))
+    }
+}
+
 fun FakeCoinNetworkDataSource.failCoins() {
     coinsResponse = e2eErrorResponse()
 }
@@ -62,7 +73,7 @@ fun FakeCoinNetworkDataSource.failCoinDetails() {
 }
 
 fun FakeCoinNetworkDataSource.failCoinChart() {
-    coinChartResponse = e2eErrorResponse()
+    coinChartResponse = { _, _ -> e2eErrorResponse() }
 }
 
 fun FakeCoinNetworkDataSource.failSearchResults() {
@@ -85,6 +96,19 @@ fun ethereumSearchResult() = CoinSearchResult(
     symbol = Ethereum.SYMBOL,
     name = Ethereum.NAME,
     imageUrl = Ethereum.IMAGE_URL,
+)
+
+fun coinChartApiModel(
+    priceChangePercentage: String = Bitcoin.PRICE_CHANGE_PERCENTAGE_24H,
+    pastPrices: List<PastPrice?> = listOf(
+        PastPrice(amount = "29100", timestamp = 1700000000L),
+        PastPrice(amount = Bitcoin.RAW_PRICE, timestamp = 1700003600L),
+    ),
+) = CoinChartApiModel(
+    coinChartData = CoinChartData(
+        priceChangePercentage = priceChangePercentage,
+        pastPrices = pastPrices,
+    ),
 )
 
 fun bitcoinFavouriteCoinApiModel() = FavouriteCoinApiModel(
