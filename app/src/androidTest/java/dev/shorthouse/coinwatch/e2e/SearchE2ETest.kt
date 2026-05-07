@@ -10,11 +10,11 @@ import androidx.compose.ui.test.performTextInput
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dev.shorthouse.coinwatch.MainActivity
-import dev.shorthouse.coinwatch.data.source.remote.FakeCoinNetworkDataSource
-import dev.shorthouse.coinwatch.fixture.Bitcoin
-import dev.shorthouse.coinwatch.fixture.bitcoinSearchResult
-import dev.shorthouse.coinwatch.fixture.failSearchResults
-import dev.shorthouse.coinwatch.fixture.respondWithSearchResults
+import dev.shorthouse.coinwatch.e2e.fake.FakeCoinNetworkDataSource
+import dev.shorthouse.coinwatch.e2e.fixture.Bitcoin
+import dev.shorthouse.coinwatch.e2e.fixture.bitcoinSearchResult
+import dev.shorthouse.coinwatch.e2e.fixture.failSearchResults
+import dev.shorthouse.coinwatch.e2e.fixture.respondWithSearchResults
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

@@ -13,11 +13,11 @@ import androidx.compose.ui.test.swipeDown
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dev.shorthouse.coinwatch.MainActivity
-import dev.shorthouse.coinwatch.data.source.remote.FakeCoinNetworkDataSource
-import dev.shorthouse.coinwatch.fixture.Bitcoin
-import dev.shorthouse.coinwatch.fixture.bitcoinFavouriteCoinApiModel
-import dev.shorthouse.coinwatch.fixture.failFavouriteCoins
-import dev.shorthouse.coinwatch.fixture.respondWithFavouriteCoins
+import dev.shorthouse.coinwatch.e2e.fake.FakeCoinNetworkDataSource
+import dev.shorthouse.coinwatch.e2e.fixture.Bitcoin
+import dev.shorthouse.coinwatch.e2e.fixture.bitcoinFavouriteCoinApiModel
+import dev.shorthouse.coinwatch.e2e.fixture.failFavouriteCoins
+import dev.shorthouse.coinwatch.e2e.fixture.respondWithFavouriteCoins
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
