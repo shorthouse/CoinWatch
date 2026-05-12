@@ -97,7 +97,7 @@ fun MarketScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MarketScreen(
+private fun MarketScreen(
     uiState: MarketUiState,
     onCoinClick: (Coin) -> Unit,
     onNavigateSettings: () -> Unit,
@@ -192,7 +192,7 @@ fun MarketScreen(
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MarketTopBar(
+private fun MarketTopBar(
     timeOfDay: TimeOfDay,
     marketCapChangePercentage24h: Percentage?,
     onNavigateSettings: () -> Unit,
@@ -258,7 +258,7 @@ fun MarketTopBar(
 }
 
 @Composable
-fun MarketContent(
+private fun MarketContent(
     coins: ImmutableList<Coin>,
     onCoinClick: (Coin) -> Unit,
     coinSort: CoinSort,
