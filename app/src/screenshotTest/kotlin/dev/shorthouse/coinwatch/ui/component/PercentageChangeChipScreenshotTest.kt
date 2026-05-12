@@ -9,10 +9,10 @@ import dev.shorthouse.coinwatch.ui.previewdata.PercentagePreviewProvider
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @PreviewTest
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun PercentageChangeChipScreenshotTest(
-    @PreviewParameter(PercentagePreviewProvider::class) percentage: Percentage
+    @PreviewParameter(PercentagePreviewProvider::class) percentage: Percentage,
 ) {
     AppTheme {
         PercentageChangeChip(
