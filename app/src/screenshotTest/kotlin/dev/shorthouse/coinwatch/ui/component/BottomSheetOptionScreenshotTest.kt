@@ -2,7 +2,6 @@ package dev.shorthouse.coinwatch.ui.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -32,7 +31,6 @@ fun BottomSheetOptionScreenshotTest() {
                     label = "Bitcoin",
                     isSelected = true,
                     onSelected = {},
-                    modifier = Modifier.fillMaxWidth()
                 )
 
                 Spacer(Modifier.height(8.dp))
@@ -42,7 +40,6 @@ fun BottomSheetOptionScreenshotTest() {
                     label = "USD",
                     isSelected = false,
                     onSelected = {},
-                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
