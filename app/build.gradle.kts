@@ -2,7 +2,6 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp)
@@ -49,9 +48,6 @@ android {
             )
         }
     }
-    kotlin {
-        jvmToolchain(17)
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -66,8 +62,14 @@ android {
         }
     }
     sourceSets {
-        getByName("androidTest").assets.srcDir("$projectDir/schemas")
+        getByName("androidTest") {
+            assets.directories += "$projectDir/schemas"
+        }
     }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
@@ -86,7 +88,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.ui.tooling.preview.android)
     implementation(libs.androidx.navigation.compose)
-    lintChecks(libs.compose.lint.checks)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)
@@ -103,7 +104,7 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     ksp(libs.androidx.hilt.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
 
     // Retrofit
     implementation(libs.retrofit)

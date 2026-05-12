@@ -1,33 +1,32 @@
 [versions]
 activity-compose = "1.9.0"
-android-gradle = "8.11.1"
+android-gradle = "9.2.1"
 androidx-junit = "1.2.1"
 coil = "2.6.0"
 compose-bom = "2024.06.00"
-compose-lint-checks = "1.3.1"
 core-ktx = "1.13.1"
 core-splashscreen = "1.0.1"
 core-testing = "2.2.0"
 datastore = "1.0.0"
-hilt-android = "2.51"
-hilt-compiler = "1.2.0"
-hilt-navigation-compose = "1.2.0"
+hilt-android = "2.59.2"
+hilt-compiler = "1.3.0"
+hilt-lifecycle-viewmodel-compose = "1.3.0"
 junit = "4.13.2"
-kotlin = "2.0.21"
+kotlin = "2.3.10"
 kotlinx-collections-immutable = "0.3.7"
 kotlinx-coroutines = "1.8.0"
-kotlinx-serialization-json = "1.6.3"
-ksp = "2.0.21-1.0.28"
+kotlinx-serialization-json = "1.8.1"
+ksp = "2.3.7"
 lifecycle = "2.8.3"
 lifecycle-runtime-compose = "2.8.3"
 mockk = "1.13.10"
 navigation-compose = "2.7.7"
 okhttp = "4.12.0"
 retrofit = "2.9.0"
-room = "2.6.1"
+room = "2.8.4"
 rules = "1.6.1"
 runner = "1.6.1"
-screenshot = "0.0.1-alpha10"
+screenshot = "0.0.1-alpha14"
 timber = "5.0.1"
 truth = "1.4.2"
 ui-test-junit4 = "1.6.8"
@@ -48,7 +47,7 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "core-testing" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-compiler" }
-androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+androidx-hilt-lifecycle-viewmodel-compose = { module = "androidx.hilt:hilt-lifecycle-viewmodel-compose", version.ref = "hilt-lifecycle-viewmodel-compose" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle-runtime-compose" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
@@ -64,7 +63,6 @@ androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", versi
 androidx-ui-tooling-preview-android = { module = "androidx.compose.ui:ui-tooling-preview-android", version.ref = "ui-tooling-preview-android" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
-compose-lint-checks = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "compose-lint-checks" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android" }
@@ -87,7 +85,6 @@ truth-java8-extension = { module = "com.google.truth.extensions:truth-java8-exte
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle" }
 android-library = { id = "com.android.library", version.ref = "android-gradle" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt-android" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
