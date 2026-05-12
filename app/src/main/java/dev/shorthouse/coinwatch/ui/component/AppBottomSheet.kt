@@ -19,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -105,22 +106,27 @@ fun BottomSheetOption(
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 private fun BottomSheetOptionPreview() {
     AppTheme {
-        Column {
-            BottomSheetOption(
-                icon = Icons.Rounded.CurrencyBitcoin,
-                label = "Bitcoin",
-                isSelected = true,
-                onSelected = {}
-            )
-            BottomSheetOption(
-                icon = Icons.Rounded.AttachMoney,
-                label = "USD",
-                isSelected = false,
-                onSelected = {}
-            )
+        Surface(
+            color = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurface
+        ) {
+            Column(modifier = Modifier.padding(12.dp)) {
+                BottomSheetOption(
+                    icon = Icons.Rounded.CurrencyBitcoin,
+                    label = "Bitcoin",
+                    isSelected = true,
+                    onSelected = {}
+                )
+                BottomSheetOption(
+                    icon = Icons.Rounded.AttachMoney,
+                    label = "USD",
+                    isSelected = false,
+                    onSelected = {}
+                )
+            }
         }
     }
 }
