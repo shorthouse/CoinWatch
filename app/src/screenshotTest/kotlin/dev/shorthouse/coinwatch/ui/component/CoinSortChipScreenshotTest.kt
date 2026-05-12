@@ -23,12 +23,6 @@ fun CoinSortChipScreenshotTest() {
     AppTheme {
         val coinSorts = CoinSort.entries.toTypedArray()
 
-        CoinSortChip(
-            coinSort = CoinSort.Gainers,
-            selected = true,
-            onClick = {}
-        )
-
         Column(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier
