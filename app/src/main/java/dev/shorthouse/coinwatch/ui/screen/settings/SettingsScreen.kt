@@ -24,7 +24,6 @@ import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Smartphone
 import androidx.compose.material.icons.rounded.StarRate
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +52,7 @@ import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.previewdata.SettingsUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.settings.component.CurrencyBottomSheet
+import dev.shorthouse.coinwatch.ui.screen.settings.component.SettingsGroup
 import dev.shorthouse.coinwatch.ui.screen.settings.component.SettingsItem
 import dev.shorthouse.coinwatch.ui.screen.settings.component.StartScreenBottomSheet
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
@@ -185,84 +185,72 @@ fun SettingsContent(
             .clip(MaterialTheme.shapes.medium)
             .background(MaterialTheme.colorScheme.surface)
     ) {
-        Text(
-            text = stringResource(R.string.settings_group_preferences),
-            style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp)
-        )
+        SettingsGroup(title = stringResource(R.string.settings_group_preferences)) {
+            SettingsItem(
+                title = stringResource(R.string.settings_title_currency),
+                subtitle = stringResource(currency.nameId),
+                leadingIcon = when (currency) {
+                    Currency.USD -> Icons.Rounded.AttachMoney
+                    Currency.GBP -> Icons.Rounded.CurrencyPound
+                    Currency.EUR -> Icons.Rounded.Euro
+                },
+                trailingIcon = Icons.Rounded.ChevronRight,
+                onClick = { onUpdateIsCurrencySheetShown(true) }
+            )
 
-        SettingsItem(
-            title = stringResource(R.string.settings_title_currency),
-            subtitle = stringResource(currency.nameId),
-            leadingIcon = when (currency) {
-                Currency.USD -> Icons.Rounded.AttachMoney
-                Currency.GBP -> Icons.Rounded.CurrencyPound
-                Currency.EUR -> Icons.Rounded.Euro
-            },
-            trailingIcon = Icons.Rounded.ChevronRight,
-            onClick = { onUpdateIsCurrencySheetShown(true) }
-        )
+            SettingsItem(
+                title = stringResource(R.string.settings_title_start_screen),
+                subtitle = stringResource(startScreen.nameId),
+                leadingIcon = when (startScreen) {
+                    StartScreen.Market -> Icons.Rounded.BarChart
+                    StartScreen.Favourites -> Icons.Rounded.Favorite
+                    StartScreen.Search -> Icons.Rounded.Search
+                },
+                trailingIcon = Icons.Rounded.ChevronRight,
+                onClick = { onUpdateIsStartScreenSheetShown(true) }
+            )
+        }
 
-        SettingsItem(
-            title = stringResource(R.string.settings_title_start_screen),
-            subtitle = stringResource(startScreen.nameId),
-            leadingIcon = when (startScreen) {
-                StartScreen.Market -> Icons.Rounded.BarChart
-                StartScreen.Favourites -> Icons.Rounded.Favorite
-                StartScreen.Search -> Icons.Rounded.Search
-            },
-            trailingIcon = Icons.Rounded.ChevronRight,
-            onClick = { onUpdateIsStartScreenSheetShown(true) }
-        )
+        SettingsGroup(title = stringResource(R.string.settings_group_about)) {
+            SettingsItem(
+                title = stringResource(R.string.settings_title_version),
+                subtitle = BuildConfig.VERSION_NAME,
+                leadingIcon = Icons.Rounded.Smartphone,
+                onClick = {}
+            )
 
-        HorizontalDivider(color = MaterialTheme.colorScheme.primaryContainer)
+            val sourceCodeUri = stringResource(R.string.source_code_uri)
+            SettingsItem(
+                title = stringResource(R.string.settings_title_source_code),
+                subtitle = stringResource(R.string.settings_subtitle_github),
+                leadingIcon = Icons.Rounded.Code,
+                trailingIcon = Icons.AutoMirrored.Rounded.Launch,
+                onClick = { uriHandler.openUri(sourceCodeUri) }
+            )
 
-        Text(
-            text = stringResource(R.string.settings_group_about),
-            style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp)
-        )
+            val privacyPolicyUri = stringResource(R.string.privacy_policy_uri)
+            SettingsItem(
+                title = stringResource(R.string.settings_title_privacy_policy),
+                leadingIcon = Icons.Rounded.Lock,
+                trailingIcon = Icons.AutoMirrored.Rounded.Launch,
+                onClick = { uriHandler.openUri(privacyPolicyUri) }
+            )
+        }
 
-        SettingsItem(
-            title = stringResource(R.string.settings_title_version),
-            subtitle = BuildConfig.VERSION_NAME,
-            leadingIcon = Icons.Rounded.Smartphone,
-            onClick = {}
-        )
+        SettingsGroup(
+            title = stringResource(R.string.settings_group_feedback),
+            showBottomDivider = false
+        ) {
+            val appListingUri = stringResource(R.string.app_listing_uri)
 
-        val sourceCodeUri = stringResource(R.string.source_code_uri)
-        SettingsItem(
-            title = stringResource(R.string.settings_title_source_code),
-            subtitle = stringResource(R.string.settings_subtitle_github),
-            leadingIcon = Icons.Rounded.Code,
-            trailingIcon = Icons.AutoMirrored.Rounded.Launch,
-            onClick = { uriHandler.openUri(sourceCodeUri) }
-        )
-
-        val privacyPolicyUri = stringResource(R.string.privacy_policy_uri)
-        SettingsItem(
-            title = stringResource(R.string.settings_title_privacy_policy),
-            leadingIcon = Icons.Rounded.Lock,
-            trailingIcon = Icons.AutoMirrored.Rounded.Launch,
-            onClick = { uriHandler.openUri(privacyPolicyUri) }
-        )
-
-        HorizontalDivider(color = MaterialTheme.colorScheme.primaryContainer)
-
-        Text(
-            text = stringResource(R.string.settings_group_feedback),
-            style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp)
-        )
-
-        val appListingUri = stringResource(R.string.app_listing_uri)
-        SettingsItem(
-            title = stringResource(R.string.settings_title_rate),
-            subtitle = stringResource(R.string.settings_subtitle_rate),
-            leadingIcon = Icons.Rounded.StarRate,
-            trailingIcon = Icons.AutoMirrored.Rounded.Launch,
-            onClick = { uriHandler.openUri(appListingUri) }
-        )
+            SettingsItem(
+                title = stringResource(R.string.settings_title_rate),
+                subtitle = stringResource(R.string.settings_subtitle_rate),
+                leadingIcon = Icons.Rounded.StarRate,
+                trailingIcon = Icons.AutoMirrored.Rounded.Launch,
+                onClick = { uriHandler.openUri(appListingUri) }
+            )
+        }
     }
 }
 

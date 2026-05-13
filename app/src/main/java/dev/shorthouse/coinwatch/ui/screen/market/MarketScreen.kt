@@ -21,8 +21,6 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -64,6 +62,7 @@ import dev.shorthouse.coinwatch.ui.component.pullrefresh.rememberPullRefreshStat
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.previewdata.MarketUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketCoinItem
+import dev.shorthouse.coinwatch.ui.screen.market.component.MarketDropdownMenu
 import dev.shorthouse.coinwatch.ui.screen.market.component.SearchPrompt
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
@@ -97,7 +96,7 @@ fun MarketScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun MarketScreen(
+fun MarketScreen(
     uiState: MarketUiState,
     onCoinClick: (Coin) -> Unit,
     onNavigateSettings: () -> Unit,
@@ -233,20 +232,11 @@ private fun MarketTopBar(
                 )
             }
 
-            DropdownMenu(
+            MarketDropdownMenu(
                 expanded = menuExpanded,
-                onDismissRequest = { menuExpanded = false }
-            ) {
-                DropdownMenuItem(
-                    text = {
-                        Text(
-                            text = stringResource(R.string.dropdown_option_settings),
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    },
-                    onClick = onNavigateSettings
-                )
-            }
+                onDismissRequest = { menuExpanded = false },
+                onNavigateSettings = onNavigateSettings
+            )
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,

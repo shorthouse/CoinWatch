@@ -410,7 +410,7 @@ fun FavouritesList(
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview
 private fun FavouritesScreenPreview(
     @PreviewParameter(FavouritesUiStatePreviewProvider::class) uiState: FavouritesUiState,
 ) {

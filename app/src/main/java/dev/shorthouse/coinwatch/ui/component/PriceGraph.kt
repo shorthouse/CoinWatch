@@ -321,10 +321,6 @@ private fun PriceGraphCanvas(
         }
     }
 
-    val graphPaths = remember(points, canvasSize.height) {
-        buildPriceGraphPaths(points = points, canvasHeight = canvasSize.height)
-    }
-
     val currentOnPointsChanged by rememberUpdatedState(onPointsChanged)
     LaunchedEffect(points) {
         currentOnPointsChanged(points)
@@ -336,9 +332,19 @@ private fun PriceGraphCanvas(
             .testTag(canvasTag)
     ) {
         if (minPrice == null || maxPrice == null) return@Canvas
-        val paths = graphPaths ?: return@Canvas
 
-        drawGraph(paths, points)
+        val drawPoints = mapPricesToPoints(
+            prices = prices,
+            minPrice = minPrice,
+            maxPrice = maxPrice,
+            canvasWidth = size.width,
+            canvasHeight = size.height,
+            verticalInset = graphVerticalInset,
+        )
+        val paths = buildPriceGraphPaths(points = drawPoints, canvasHeight = size.height)
+            ?: return@Canvas
+
+        drawGraph(paths, drawPoints)
     }
 }
 

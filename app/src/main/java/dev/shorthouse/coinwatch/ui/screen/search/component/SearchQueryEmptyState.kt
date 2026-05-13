@@ -30,7 +30,7 @@ fun SearchQueryEmptyState(modifier: Modifier = Modifier) {
 }
 
 @Composable
-@Preview(heightDp = 400)
+@Preview(heightDp = 450)
 private fun SearchQueryEmptyStatePreview() {
     AppTheme {
         SearchQueryEmptyState()

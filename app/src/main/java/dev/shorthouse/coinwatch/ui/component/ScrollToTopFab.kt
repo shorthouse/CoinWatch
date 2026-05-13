@@ -6,12 +6,13 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
+import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun ScrollToTopFab(
@@ -33,4 +34,12 @@ fun ScrollToTopFab(
         },
         modifier = modifier
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ScrollToTopFabPreview() {
+    AppTheme {
+        ScrollToTopFab(onClick = {})
+    }
 }

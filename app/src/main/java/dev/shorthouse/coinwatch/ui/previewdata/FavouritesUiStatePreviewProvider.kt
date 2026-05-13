@@ -13,7 +13,13 @@ class FavouritesUiStatePreviewProvider : PreviewParameterProvider<FavouritesUiSt
     override val values = sequenceOf(
         FavouritesUiState(
             favouriteCoins = favouriteCoins,
-            isFavouriteCoinsEmpty = false
+            isFavouriteCoinsEmpty = false,
+            isFavouritesCondensed = false
+        ),
+        FavouritesUiState(
+            favouriteCoins = favouriteCoins,
+            isFavouriteCoinsEmpty = false,
+            isFavouritesCondensed = true
         ),
         FavouritesUiState(
             favouriteCoins = persistentListOf()

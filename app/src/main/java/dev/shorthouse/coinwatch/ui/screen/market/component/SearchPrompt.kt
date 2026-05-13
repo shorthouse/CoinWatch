@@ -38,7 +38,7 @@ fun SearchPrompt(modifier: Modifier = Modifier) {
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 private fun SearchPromptPreview() {
     AppTheme {
         SearchPrompt()
