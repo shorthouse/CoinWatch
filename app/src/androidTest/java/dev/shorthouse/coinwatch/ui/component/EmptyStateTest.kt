@@ -3,7 +3,7 @@ package dev.shorthouse.coinwatch.ui.component
 import androidx.compose.material3.Text
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
