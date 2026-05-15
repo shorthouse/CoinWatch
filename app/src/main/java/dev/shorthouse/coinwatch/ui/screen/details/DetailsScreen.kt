@@ -50,8 +50,8 @@ import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
-import dev.shorthouse.coinwatch.ui.previewdata.DetailsScreenPreviewState
-import dev.shorthouse.coinwatch.ui.previewdata.DetailsScreenPreviewStateProvider
+import dev.shorthouse.coinwatch.ui.preview.DetailsScreenPreviewState
+import dev.shorthouse.coinwatch.ui.preview.DetailsScreenPreviewStateProvider
 import dev.shorthouse.coinwatch.ui.screen.details.component.AboutCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.CoinChartCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.DetailsSection

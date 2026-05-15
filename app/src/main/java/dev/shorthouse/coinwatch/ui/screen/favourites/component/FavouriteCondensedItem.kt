@@ -27,7 +27,7 @@ import coil3.request.crossfade
 import coil3.svg.SvgDecoder
 import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
 import dev.shorthouse.coinwatch.ui.component.PercentageChange
-import dev.shorthouse.coinwatch.ui.previewdata.FavouriteCoinPreviewProvider
+import dev.shorthouse.coinwatch.ui.preview.FavouriteCoinPreviewProvider
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
@@ -35,7 +35,7 @@ fun FavouriteCondensedItem(
     favouriteCoin: FavouriteCoin,
     onCoinClick: (FavouriteCoin) -> Unit,
     cardShape: Shape,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
 
@@ -99,7 +99,7 @@ fun FavouriteCondensedItem(
 @Composable
 @Preview
 private fun FavouriteItemCondensedPreview(
-    @PreviewParameter(FavouriteCoinPreviewProvider::class) favouriteCoin: FavouriteCoin
+    @PreviewParameter(FavouriteCoinPreviewProvider::class) favouriteCoin: FavouriteCoin,
 ) {
     AppTheme {
         FavouriteCondensedItem(

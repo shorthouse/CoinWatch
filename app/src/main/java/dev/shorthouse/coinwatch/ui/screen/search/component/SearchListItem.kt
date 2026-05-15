@@ -26,7 +26,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.svg.SvgDecoder
 import dev.shorthouse.coinwatch.model.SearchCoin
-import dev.shorthouse.coinwatch.ui.previewdata.SearchCoinPreviewProvider
+import dev.shorthouse.coinwatch.ui.preview.SearchCoinPreviewProvider
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
@@ -34,7 +34,7 @@ fun SearchListItem(
     searchCoin: SearchCoin,
     onCoinClick: (SearchCoin) -> Unit,
     cardShape: Shape,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
 
@@ -87,7 +87,7 @@ fun SearchListItem(
 @Composable
 @Preview
 private fun SearchListItemPreview(
-    @PreviewParameter(SearchCoinPreviewProvider::class) searchCoin: SearchCoin
+    @PreviewParameter(SearchCoinPreviewProvider::class) searchCoin: SearchCoin,
 ) {
     AppTheme {
         SearchListItem(
