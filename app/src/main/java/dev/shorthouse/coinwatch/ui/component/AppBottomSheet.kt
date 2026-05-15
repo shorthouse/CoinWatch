@@ -47,7 +47,7 @@ fun AppBottomSheet(
         contentColor = MaterialTheme.colorScheme.onSurface,
         tonalElevation = 0.dp,
         sheetState = sheetState,
-        windowInsets = WindowInsets(bottom = 0.dp),
+        contentWindowInsets = { WindowInsets(bottom = 0.dp) },
         modifier = modifier
     ) {
         Column(

@@ -86,7 +86,6 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.ui.tooling.preview.android)
     implementation(libs.androidx.navigation.compose)
 
     // Coroutines
@@ -123,6 +122,7 @@ dependencies {
 
     // Coil
     implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     implementation(libs.coil.svg)
 
     // Timber
@@ -136,6 +136,7 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.androidx.core.testing)
 
+    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.runner)
     androidTestImplementation(libs.androidx.rules)
     androidTestImplementation(libs.androidx.junit)
@@ -149,6 +150,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     // Screenshot testing
+    screenshotTestImplementation(platform(libs.androidx.compose.bom))
     screenshotTestImplementation(libs.screenshot.validation.api)
     screenshotTestImplementation(libs.androidx.compose.ui.tooling)
 }

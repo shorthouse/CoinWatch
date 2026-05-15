@@ -8,10 +8,11 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
 import androidx.test.runner.AndroidJUnitRunner
-import coil.Coil
-import coil.ImageLoader
-import coil.decode.DataSource
-import coil.request.SuccessResult
+import coil3.ImageLoader
+import coil3.SingletonImageLoader
+import coil3.asImage
+import coil3.decode.DataSource
+import coil3.request.SuccessResult
 import dagger.hilt.android.testing.HiltTestApplication
 import java.util.Locale
 
@@ -37,15 +38,15 @@ class HiltTestRunner : AndroidJUnitRunner() {
             .components {
                 add { chain ->
                     SuccessResult(
-                        drawable = ColorDrawable(Color.GRAY),
+                        image = ColorDrawable(Color.GRAY).asImage(),
                         request = chain.request,
                         dataSource = DataSource.MEMORY,
                     )
                 }
             }
             .build()
-        
-        Coil.setImageLoader(loader)
+
+        SingletonImageLoader.setSafe { loader }
     }
 
     private fun forceLocale() {

@@ -1,8 +1,12 @@
 package dev.shorthouse.coinwatch.ui.screen.search
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,7 +17,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,7 +44,7 @@ import kotlinx.collections.immutable.ImmutableList
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
-    onNavigateDetails: (String) -> Unit
+    onNavigateDetails: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -57,21 +60,67 @@ fun SearchScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     uiState: SearchUiState,
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
     onCoinClick: (SearchCoin) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        SearchBar(
+            searchQuery = searchQuery,
+            onSearchQueryChange = onSearchQueryChange
+        )
+
+        when {
+            uiState.isSearching -> {
+                LoadingIndicator()
+            }
+
+            uiState.errorMessage != null -> {
+                ErrorState(
+                    message = uiState.errorMessage,
+                    modifier = Modifier.padding(bottom = 12.dp)
+                )
+            }
+
+            else -> {
+                SearchContent(
+                    searchQuery = searchQuery,
+                    searchResults = uiState.searchResults,
+                    queryHasNoResults = uiState.queryHasNoResults,
+                    onCoinClick = onCoinClick,
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SearchBar(
+    searchQuery: String,
+    onSearchQueryChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
+    val colors = SearchBarDefaults.colors(
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
+    )
 
-    SearchBar(
+    SearchBarDefaults.InputField(
         query = searchQuery,
         onQueryChange = onSearchQueryChange,
         onSearch = { keyboardController?.hide() },
+        expanded = true,
+        onExpandedChange = {},
+        enabled = true,
         placeholder = {
             Text(
                 text = stringResource(R.string.search_coins_hint),
@@ -97,38 +146,12 @@ fun SearchScreen(
                 }
             }
         },
-        colors = SearchBarDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.background,
-            dividerColor = MaterialTheme.colorScheme.surface
-        ),
-        enabled = true,
-        active = true,
-        onActiveChange = {},
-        tonalElevation = 0.dp,
-        modifier = modifier.fillMaxSize()
-    ) {
-        when {
-            uiState.isSearching -> {
-                LoadingIndicator()
-            }
-
-            uiState.errorMessage != null -> {
-                ErrorState(
-                    message = uiState.errorMessage,
-                    modifier = Modifier.padding(bottom = 12.dp)
-                )
-            }
-
-            else -> {
-                SearchContent(
-                    searchQuery = searchQuery,
-                    searchResults = uiState.searchResults,
-                    queryHasNoResults = uiState.queryHasNoResults,
-                    onCoinClick = onCoinClick
-                )
-            }
-        }
-    }
+        colors = colors.inputFieldColors,
+        modifier = modifier
+            .windowInsetsPadding(SearchBarDefaults.windowInsets)
+            .padding(8.dp)
+            .fillMaxWidth()
+    )
 }
 
 @Composable
@@ -137,7 +160,7 @@ fun SearchContent(
     searchResults: ImmutableList<SearchCoin>,
     queryHasNoResults: Boolean,
     onCoinClick: (SearchCoin) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     when {
         searchQuery.isEmpty() -> {
@@ -191,7 +214,7 @@ fun SearchContent(
 @Composable
 @Preview
 private fun SearchScreenPreview(
-    @PreviewParameter(SearchScreenPreviewStateProvider::class) previewState: SearchScreenPreviewState
+    @PreviewParameter(SearchScreenPreviewStateProvider::class) previewState: SearchScreenPreviewState,
 ) {
     AppTheme {
         SearchScreen(

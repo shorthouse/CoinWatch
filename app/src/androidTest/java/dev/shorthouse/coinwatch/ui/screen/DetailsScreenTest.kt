@@ -1,5 +1,6 @@
 package dev.shorthouse.coinwatch.ui.screen
 
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertCountEquals
@@ -254,7 +255,8 @@ class DetailsScreenTest {
                         periodPriceChangePercentage = Percentage("7.06")
                     ),
                     chartPeriod = ChartPeriod.Day,
-                    onClickChartPeriod = {}
+                    onClickChartPeriod = {},
+                    scrollState = rememberScrollState(),
                 )
             }
         }

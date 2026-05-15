@@ -40,9 +40,10 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
-import coil.decode.SvgDecoder
-import coil.request.ImageRequest
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import coil3.svg.SvgDecoder
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.CoinDetails
