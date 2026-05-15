@@ -19,20 +19,20 @@ class FavouriteCoinIdRepositoryImpl @Inject constructor(
 ) : FavouriteCoinIdRepository {
     override fun getFavouriteCoinIds(): Flow<Result<List<FavouriteCoinId>>> {
         return coinLocalDataSource.getFavouriteCoinIds()
-            .map { Result.Success(it) }
+            .map<List<FavouriteCoinId>, Result<List<FavouriteCoinId>>> { Result.Success(it) }
             .catch { e ->
                 Timber.e("getFavouriteCoinIds error ${e.message}")
-                Result.Error<List<FavouriteCoinId>>("Unable to fetch favourite coin ids")
+                emit(Result.Error("Unable to fetch favourite coin ids"))
             }
             .flowOn(ioDispatcher)
     }
 
     override fun isCoinFavourite(favouriteCoinId: FavouriteCoinId): Flow<Result<Boolean>> {
         return coinLocalDataSource.isCoinFavourite(favouriteCoinId = favouriteCoinId)
-            .map { Result.Success(it) }
+            .map<Boolean, Result<Boolean>> { Result.Success(it) }
             .catch { e ->
                 Timber.e("isCoinFavourite error ${e.message}")
-                Result.Error<Boolean>("Unable to fetch if coin is favourite")
+                emit(Result.Error("Unable to fetch if coin is favourite"))
             }
             .flowOn(ioDispatcher)
     }

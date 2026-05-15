@@ -14,12 +14,14 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.unmockkAll
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.io.IOException
 
 class FavouriteCoinIdRepositoryTest {
 
@@ -108,6 +110,51 @@ class FavouriteCoinIdRepositoryTest {
         // Assert
         assertThat(result).isInstanceOf(Result.Success::class.java)
         assertThat((result as Result.Success).data).isEqualTo(expectedResult.data)
+    }
+
+    @Test
+    fun `When getting favourite coin ids throws should return error`() = runTest {
+        // Arrange
+        val errorMessage = "Unable to fetch favourite coin ids"
+
+        every { coinLocalDataSource.getFavouriteCoinIds() } returns flow {
+            throw IOException("DB read failed")
+        }
+
+        val expectedResult = Result.Error<List<FavouriteCoinId>>(
+            message = errorMessage
+        )
+
+        // Act
+        val result = favouriteCoinIdRepository.getFavouriteCoinIds().first()
+
+        // Assert
+        assertThat(result).isInstanceOf(Result.Error::class.java)
+        assertThat((result as Result.Error).message).isEqualTo(expectedResult.message)
+    }
+
+    @Test
+    fun `When is coin favourite throws should return error`() = runTest {
+        // Arrange
+        val favouriteCoinId = FavouriteCoinId(id = "Qwsogvtv82FCd")
+        val errorMessage = "Unable to fetch if coin is favourite"
+
+        every {
+            coinLocalDataSource.isCoinFavourite(favouriteCoinId)
+        } returns flow {
+            throw IOException("DB read failed")
+        }
+
+        val expectedResult = Result.Error<Boolean>(
+            message = errorMessage
+        )
+
+        // Act
+        val result = favouriteCoinIdRepository.isCoinFavourite(favouriteCoinId).first()
+
+        // Assert
+        assertThat(result).isInstanceOf(Result.Error::class.java)
+        assertThat((result as Result.Error).message).isEqualTo(expectedResult.message)
     }
 
     @Test

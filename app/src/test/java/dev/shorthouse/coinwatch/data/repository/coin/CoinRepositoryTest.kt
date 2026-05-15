@@ -23,6 +23,7 @@ import io.mockk.just
 import io.mockk.runs
 import io.mockk.unmockkAll
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -296,6 +297,27 @@ class CoinRepositoryTest {
         // Assert
         assertThat(result).isInstanceOf(Result.Success::class.java)
         assertThat((result as Result.Success).data).isEqualTo(expectedResult.data)
+    }
+
+    @Test
+    fun `When getting cached coins throws should return error`() = runTest {
+        // Arrange
+        val errorMessage = "Unable to fetch cached coins"
+
+        every { coinLocalDataSource.getCoins() } returns flow {
+            throw IOException("DB read failed")
+        }
+
+        val expectedResult = Result.Error<List<Coin>>(
+            message = errorMessage
+        )
+
+        // Act
+        val result = coinRepository.getCachedCoins().first()
+
+        // Assert
+        assertThat(result).isInstanceOf(Result.Error::class.java)
+        assertThat((result as Result.Error).message).isEqualTo(expectedResult.message)
     }
 
     @Test

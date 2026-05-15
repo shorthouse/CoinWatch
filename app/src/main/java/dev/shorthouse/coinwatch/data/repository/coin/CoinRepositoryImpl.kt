@@ -50,10 +50,10 @@ class CoinRepositoryImpl @Inject constructor(
 
     override fun getCachedCoins(): Flow<Result<List<Coin>>> {
         return coinLocalDataSource.getCoins()
-            .map { Result.Success(it) }
+            .map<List<Coin>, Result<List<Coin>>> { Result.Success(it) }
             .catch { e ->
                 Timber.e("getCachedCoins error ${e.message}")
-                Result.Error<List<Coin>>("Unable to fetch cached coins")
+                emit(Result.Error("Unable to fetch cached coins"))
             }
             .flowOn(ioDispatcher)
     }
