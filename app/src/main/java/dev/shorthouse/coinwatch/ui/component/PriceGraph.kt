@@ -75,10 +75,12 @@ fun ScrubPriceGraph(
 
     val baseLineColor = remember(priceChangePercentage) { priceGraphColor(priceChangePercentage) }
 
-    val progress = remember { Animatable(if (isGraphAnimated) 0f else 1f) }
+    val progress = remember(priceHistory, isGraphAnimated) {
+        Animatable(if (isGraphAnimated) 0f else 1f)
+    }
 
     // Replay the reveal animation when the data series or animation flag changes.
-    LaunchedEffect(prices, isGraphAnimated) {
+    LaunchedEffect(priceHistory, isGraphAnimated) {
         if (isGraphAnimated) {
             progress.snapTo(0f)
             progress.animateTo(
