@@ -2,11 +2,10 @@ package dev.shorthouse.coinwatch.data.repository.favouriteCoin
 
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.mapper.FavouriteCoinMapper
+import dev.shorthouse.coinwatch.data.source.local.database.CoinLocalDataSource
+import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
 import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
-import dev.shorthouse.coinwatch.data.source.local.database.CoinLocalDataSource
-import dev.shorthouse.coinwatch.data.source.local.database.model.Coin
-import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -22,12 +21,12 @@ class FavouriteCoinRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,
     private val coinLocalDataSource: CoinLocalDataSource,
     private val favouriteCoinMapper: FavouriteCoinMapper,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : FavouriteCoinRepository {
     override suspend fun getRemoteFavouriteCoins(
         coinIds: List<String>,
         coinSort: CoinSort,
-        currency: Currency
+        currency: Currency,
     ): Result<List<FavouriteCoin>> {
         if (coinIds.isEmpty()) {
             return Result.Success(emptyList())
@@ -62,10 +61,10 @@ class FavouriteCoinRepositoryImpl @Inject constructor(
 
     override fun getCachedFavouriteCoins(): Flow<Result<List<FavouriteCoin>>> {
         return coinLocalDataSource.getFavouriteCoins()
-            .map { Result.Success(it) }
+            .map<List<FavouriteCoin>, Result<List<FavouriteCoin>>> { Result.Success(it) }
             .catch { e ->
                 Timber.e("getCachedFavouriteCoins error ${e.message}")
-                Result.Error<List<Coin>>("Unable to fetch cached favourite coins")
+                emit(Result.Error("Unable to fetch cached favourite coins"))
             }.flowOn(ioDispatcher)
     }
 
