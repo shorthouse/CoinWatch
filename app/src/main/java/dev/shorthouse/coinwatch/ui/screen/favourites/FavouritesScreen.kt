@@ -3,8 +3,7 @@ package dev.shorthouse.coinwatch.ui.screen.favourites
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.LocalOverscrollConfiguration
+import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -256,7 +255,6 @@ fun FavouritesTopBar(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FavouritesContent(
     favouriteCoins: ImmutableList<FavouriteCoin>,
@@ -268,7 +266,7 @@ fun FavouritesContent(
     listState: LazyListState,
     modifier: Modifier = Modifier,
 ) {
-    CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
+    CompositionLocalProvider(LocalOverscrollFactory provides null) {
         when {
             favouriteCoins.isEmpty() -> {
                 FavouritesEmptyState()
