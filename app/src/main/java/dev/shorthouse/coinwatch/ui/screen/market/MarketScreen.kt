@@ -32,6 +32,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -56,9 +59,6 @@ import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.ui.component.CoinSortChip
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
-import dev.shorthouse.coinwatch.ui.component.pullrefresh.PullRefreshIndicator
-import dev.shorthouse.coinwatch.ui.component.pullrefresh.pullRefresh
-import dev.shorthouse.coinwatch.ui.component.pullrefresh.rememberPullRefreshState
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.previewdata.MarketUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketCoinItem
@@ -109,10 +109,7 @@ fun MarketScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val listState = rememberLazyListState()
     val snackbarHostState = remember { SnackbarHostState() }
-    val pullRefreshState = rememberPullRefreshState(
-        refreshing = uiState.isRefreshing,
-        onRefresh = onRefresh
-    )
+    val pullRefreshState = rememberPullToRefreshState()
     val showScrollToTopFab by remember {
         derivedStateOf {
             listState.firstVisibleItemIndex > 1
@@ -149,10 +146,20 @@ fun MarketScreen(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { scaffoldPadding ->
-        Box(
-            contentAlignment = Alignment.TopCenter,
+        PullToRefreshBox(
+            isRefreshing = uiState.isRefreshing,
+            onRefresh = onRefresh,
+            state = pullRefreshState,
+            indicator = {
+                PullToRefreshDefaults.Indicator(
+                    modifier = Modifier.align(Alignment.TopCenter),
+                    isRefreshing = uiState.isRefreshing,
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    state = pullRefreshState
+                )
+            },
             modifier = Modifier
-                .pullRefresh(pullRefreshState)
                 .padding(scaffoldPadding)
         ) {
             when {
@@ -170,13 +177,6 @@ fun MarketScreen(
                     )
                 }
             }
-
-            PullRefreshIndicator(
-                refreshing = uiState.isRefreshing,
-                state = pullRefreshState,
-                backgroundColor = MaterialTheme.colorScheme.primaryContainer
-            )
-
             if (uiState.errorMessageIds.isNotEmpty()) {
                 val errorMessage = stringResource(uiState.errorMessageIds.first())
 

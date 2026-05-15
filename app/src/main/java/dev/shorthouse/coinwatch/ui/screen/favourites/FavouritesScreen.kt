@@ -38,6 +38,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -60,9 +63,6 @@ import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.ui.component.CoinSortChip
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
-import dev.shorthouse.coinwatch.ui.component.pullrefresh.PullRefreshIndicator
-import dev.shorthouse.coinwatch.ui.component.pullrefresh.pullRefresh
-import dev.shorthouse.coinwatch.ui.component.pullrefresh.rememberPullRefreshState
 import dev.shorthouse.coinwatch.ui.previewdata.FavouritesUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouriteCondensedItem
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouriteItem
@@ -114,10 +114,7 @@ fun FavouriteScreen(
     val listState = rememberLazyListState()
     val gridState = rememberLazyGridState()
     val snackbarHostState = remember { SnackbarHostState() }
-    val pullRefreshState = rememberPullRefreshState(
-        refreshing = uiState.isRefreshing,
-        onRefresh = onRefresh
-    )
+    val pullRefreshState = rememberPullToRefreshState()
     val showScrollToTopFab by remember {
         derivedStateOf {
             gridState.firstVisibleItemIndex > 0 || listState.firstVisibleItemIndex > 0
@@ -167,11 +164,21 @@ fun FavouriteScreen(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { scaffoldPadding ->
-        Box(
-            contentAlignment = Alignment.TopCenter,
+        PullToRefreshBox(
+            isRefreshing = uiState.isRefreshing,
+            onRefresh = onRefresh,
+            state = pullRefreshState,
+            indicator = {
+                PullToRefreshDefaults.Indicator(
+                    modifier = Modifier.align(Alignment.TopCenter),
+                    isRefreshing = uiState.isRefreshing,
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    state = pullRefreshState
+                )
+            },
             modifier = Modifier
                 .padding(scaffoldPadding)
-                .pullRefresh(pullRefreshState)
         ) {
             when {
                 uiState.isLoading -> {
@@ -190,13 +197,6 @@ fun FavouriteScreen(
                     )
                 }
             }
-
-            PullRefreshIndicator(
-                refreshing = uiState.isRefreshing,
-                state = pullRefreshState,
-                backgroundColor = MaterialTheme.colorScheme.primaryContainer
-            )
-
             if (uiState.errorMessageIds.isNotEmpty()) {
                 val errorMessage = stringResource(uiState.errorMessageIds.first())
 
