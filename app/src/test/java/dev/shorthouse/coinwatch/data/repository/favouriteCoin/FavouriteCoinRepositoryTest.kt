@@ -4,10 +4,10 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.mapper.FavouriteCoinMapper
-import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.local.database.CoinLocalDataSource
 import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
+import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
+import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsApiModel
@@ -24,6 +24,7 @@ import io.mockk.runs
 import io.mockk.unmockkAll
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -392,6 +393,48 @@ class FavouriteCoinRepositoryTest {
         // Assert
         assertThat(result).isInstanceOf(Result.Success::class.java)
         assertThat((result as Result.Success).data).isEqualTo(expectedResult.data)
+    }
+
+    @Test
+    fun `When getting cached favourite coins throws should return error`() = runTest {
+        // Arrange
+        every { coinLocalDataSource.getFavouriteCoins() } returns flow {
+            throw IOException("DB read failed")
+        }
+
+        val expectedResult = Result.Error<List<FavouriteCoin>>(
+            message = "Unable to fetch cached favourite coins"
+        )
+
+        // Act
+        val result = favouriteCoinRepository.getCachedFavouriteCoins().first()
+
+        // Assert
+        assertThat(result).isInstanceOf(Result.Error::class.java)
+        assertThat((result as Result.Error).message).isEqualTo(expectedResult.message)
+    }
+
+    @Test
+    fun `When getting cached favourite coins throws runtime exception should return error`() = runTest {
+        // Arrange
+        every { coinLocalDataSource.getFavouriteCoins() } returns flow {
+            throw RuntimeException(
+                "Interfaces can't be instantiated! " +
+                    "Register an InstanceCreator or a TypeAdapter for this type. " +
+                    "Interface name: kotlinx.collections.immutable.ImmutableList"
+            )
+        }
+
+        val expectedResult = Result.Error<List<FavouriteCoin>>(
+            message = "Unable to fetch cached favourite coins"
+        )
+
+        // Act
+        val result = favouriteCoinRepository.getCachedFavouriteCoins().first()
+
+        // Assert
+        assertThat(result).isInstanceOf(Result.Error::class.java)
+        assertThat((result as Result.Error).message).isEqualTo(expectedResult.message)
     }
 
     @Test
