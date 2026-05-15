@@ -19,13 +19,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
-import androidx.compose.material3.Surface
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -105,28 +107,38 @@ fun BottomSheetOption(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview(showBackground = true)
-private fun BottomSheetOptionPreview() {
+@Preview(widthDp = 360, heightDp = 200)
+private fun AppBottomSheetPreview() {
+    val density = LocalDensity.current
+    val sheetState = remember {
+        SheetState(
+            skipPartiallyExpanded = true,
+            positionalThreshold = { with(density) { 56.dp.toPx() } },
+            velocityThreshold = { with(density) { 125.dp.toPx() } },
+            initialValue = SheetValue.Expanded,
+        )
+    }
+
     AppTheme {
-        Surface(
-            color = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.onSurface
+        AppBottomSheet(
+            title = "Coin currency",
+            onDismissRequest = {},
+            sheetState = sheetState,
         ) {
-            Column(modifier = Modifier.padding(12.dp)) {
-                BottomSheetOption(
-                    icon = Icons.Rounded.CurrencyBitcoin,
-                    label = "Bitcoin",
-                    isSelected = true,
-                    onSelected = {}
-                )
-                BottomSheetOption(
-                    icon = Icons.Rounded.AttachMoney,
-                    label = "USD",
-                    isSelected = false,
-                    onSelected = {}
-                )
-            }
+            BottomSheetOption(
+                icon = Icons.Rounded.CurrencyBitcoin,
+                label = "Bitcoin",
+                isSelected = true,
+                onSelected = {},
+            )
+            BottomSheetOption(
+                icon = Icons.Rounded.AttachMoney,
+                label = "USD",
+                isSelected = false,
+                onSelected = {},
+            )
         }
     }
 }

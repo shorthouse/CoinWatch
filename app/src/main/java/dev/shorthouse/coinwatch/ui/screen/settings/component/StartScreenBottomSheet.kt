@@ -7,7 +7,7 @@ import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetState
-import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.SheetValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,8 +15,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.data.source.local.preferences.global.StartScreen
 import dev.shorthouse.coinwatch.ui.component.AppBottomSheet
@@ -77,14 +79,24 @@ private data class StartScreenOption(
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@Preview(widthDp = 360, heightDp = 280)
 @Composable
 private fun StartScreenBottomSheetPreview() {
+    val density = LocalDensity.current
+    val sheetState = remember {
+        SheetState(
+            skipPartiallyExpanded = true,
+            positionalThreshold = { with(density) { 56.dp.toPx() } },
+            velocityThreshold = { with(density) { 125.dp.toPx() } },
+            initialValue = SheetValue.Expanded,
+        )
+    }
+
     AppTheme {
         var selectedStartScreen by remember { mutableStateOf(StartScreen.Favourites) }
 
         StartScreenBottomSheet(
-            sheetState = rememberModalBottomSheetState(),
+            sheetState = sheetState,
             selectedStartScreen = selectedStartScreen,
             onStartScreenSelected = { selectedStartScreen = it },
             onDismissRequest = {},
