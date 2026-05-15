@@ -398,12 +398,14 @@ class FavouriteCoinRepositoryTest {
     @Test
     fun `When getting cached favourite coins throws should return error`() = runTest {
         // Arrange
+        val errorMessage = "Unable to fetch cached favourite coins"
+
         every { coinLocalDataSource.getFavouriteCoins() } returns flow {
             throw IOException("DB read failed")
         }
 
         val expectedResult = Result.Error<List<FavouriteCoin>>(
-            message = "Unable to fetch cached favourite coins"
+            message = errorMessage
         )
 
         // Act
@@ -417,6 +419,8 @@ class FavouriteCoinRepositoryTest {
     @Test
     fun `When getting cached favourite coins throws runtime exception should return error`() = runTest {
         // Arrange
+        val errorMessage = "Unable to fetch cached favourite coins"
+
         every { coinLocalDataSource.getFavouriteCoins() } returns flow {
             throw RuntimeException(
                 "Interfaces can't be instantiated! " +
@@ -426,7 +430,7 @@ class FavouriteCoinRepositoryTest {
         }
 
         val expectedResult = Result.Error<List<FavouriteCoin>>(
-            message = "Unable to fetch cached favourite coins"
+            message = errorMessage
         )
 
         // Act
