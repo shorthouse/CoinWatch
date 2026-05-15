@@ -17,6 +17,7 @@ out/
 /.idea
 .gradle/
 build/
+/.kotlin/
 
 # Local configuration property files
 local.properties
