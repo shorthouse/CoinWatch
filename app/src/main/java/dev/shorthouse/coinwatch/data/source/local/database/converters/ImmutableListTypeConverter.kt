@@ -3,10 +3,10 @@ package dev.shorthouse.coinwatch.data.source.local.database.converters
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.lang.reflect.Type
-import java.math.BigDecimal
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
+import java.lang.reflect.Type
+import java.math.BigDecimal
 
 class ImmutableListTypeConverter {
     private val gson = Gson()
@@ -18,8 +18,8 @@ class ImmutableListTypeConverter {
 
     @TypeConverter
     fun toImmutableList(immutableBigDecimalsJson: String): ImmutableList<BigDecimal> {
-        val type: Type = object : TypeToken<ImmutableList<BigDecimal>>() {}.type
-        return gson.fromJson<ImmutableList<BigDecimal>>(immutableBigDecimalsJson, type)
+        val type: Type = object : TypeToken<List<BigDecimal>>() {}.type
+        return gson.fromJson<List<BigDecimal>>(immutableBigDecimalsJson, type)
             .toPersistentList()
     }
 }
