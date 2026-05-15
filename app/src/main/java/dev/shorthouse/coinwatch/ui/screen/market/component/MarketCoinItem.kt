@@ -27,7 +27,7 @@ import coil3.request.crossfade
 import coil3.svg.SvgDecoder
 import dev.shorthouse.coinwatch.data.source.local.database.model.Coin
 import dev.shorthouse.coinwatch.ui.component.PercentageChange
-import dev.shorthouse.coinwatch.ui.previewdata.CoinPreviewProvider
+import dev.shorthouse.coinwatch.ui.preview.CoinPreviewProvider
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
@@ -35,7 +35,7 @@ fun MarketCoinItem(
     coin: Coin,
     onCoinClick: (Coin) -> Unit,
     cardShape: Shape,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
 
@@ -99,7 +99,7 @@ fun MarketCoinItem(
 @Composable
 @Preview
 private fun MarketCoinItemPreview(
-    @PreviewParameter(CoinPreviewProvider::class) coin: Coin
+    @PreviewParameter(CoinPreviewProvider::class) coin: Coin,
 ) {
     AppTheme {
         MarketCoinItem(

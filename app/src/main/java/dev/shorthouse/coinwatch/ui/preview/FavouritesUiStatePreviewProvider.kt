@@ -1,10 +1,10 @@
-package dev.shorthouse.coinwatch.ui.previewdata
+package dev.shorthouse.coinwatch.ui.preview
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
-import dev.shorthouse.coinwatch.ui.previewdata.FavouritesPreviewData.favouriteCoins
+import dev.shorthouse.coinwatch.ui.preview.FavouritesPreviewData.favouriteCoins
 import dev.shorthouse.coinwatch.ui.screen.favourites.FavouritesUiState
 import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal

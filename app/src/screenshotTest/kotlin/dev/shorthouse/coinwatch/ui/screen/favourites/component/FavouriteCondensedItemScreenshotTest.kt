@@ -6,7 +6,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.android.tools.screenshot.PreviewTest
 import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
-import dev.shorthouse.coinwatch.ui.previewdata.FavouriteCoinPreviewProvider
+import dev.shorthouse.coinwatch.ui.preview.FavouriteCoinPreviewProvider
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @PreviewTest

@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.ui.previewdata
+package dev.shorthouse.coinwatch.ui.preview
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.shorthouse.coinwatch.model.SearchCoin

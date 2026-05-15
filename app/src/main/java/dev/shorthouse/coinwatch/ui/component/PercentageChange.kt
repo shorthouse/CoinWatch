@@ -8,7 +8,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import dev.shorthouse.coinwatch.model.Percentage
-import dev.shorthouse.coinwatch.ui.previewdata.PercentagePreviewProvider
+import dev.shorthouse.coinwatch.ui.preview.PercentagePreviewProvider
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import dev.shorthouse.coinwatch.ui.theme.NegativeRed
 import dev.shorthouse.coinwatch.ui.theme.PositiveGreen
@@ -16,7 +16,7 @@ import dev.shorthouse.coinwatch.ui.theme.PositiveGreen
 @Composable
 fun PercentageChange(
     percentage: Percentage,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val textColor = when {
         percentage.isPositive -> PositiveGreen
@@ -37,7 +37,7 @@ fun PercentageChange(
 @Composable
 @Preview
 private fun PercentageChangePreview(
-    @PreviewParameter(PercentagePreviewProvider::class) percentage: Percentage
+    @PreviewParameter(PercentagePreviewProvider::class) percentage: Percentage,
 ) {
     AppTheme {
         PercentageChange(

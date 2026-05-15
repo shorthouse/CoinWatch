@@ -33,8 +33,8 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.SearchCoin
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
-import dev.shorthouse.coinwatch.ui.previewdata.SearchScreenPreviewState
-import dev.shorthouse.coinwatch.ui.previewdata.SearchScreenPreviewStateProvider
+import dev.shorthouse.coinwatch.ui.preview.SearchScreenPreviewState
+import dev.shorthouse.coinwatch.ui.preview.SearchScreenPreviewStateProvider
 import dev.shorthouse.coinwatch.ui.screen.search.component.SearchListItem
 import dev.shorthouse.coinwatch.ui.screen.search.component.SearchQueryEmptyState
 import dev.shorthouse.coinwatch.ui.screen.search.component.SearchResultsEmptyState

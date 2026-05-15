@@ -32,14 +32,14 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
 import dev.shorthouse.coinwatch.ui.component.PercentageChange
 import dev.shorthouse.coinwatch.ui.component.StaticPriceGraph
-import dev.shorthouse.coinwatch.ui.previewdata.FavouriteCoinPreviewProvider
+import dev.shorthouse.coinwatch.ui.preview.FavouriteCoinPreviewProvider
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 
 @Composable
 fun FavouriteItem(
     favouriteCoin: FavouriteCoin,
     onCoinClick: (FavouriteCoin) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
 
@@ -129,7 +129,7 @@ fun FavouriteItem(
 @Composable
 @Preview
 private fun FavouriteItemPreview(
-    @PreviewParameter(FavouriteCoinPreviewProvider::class) favouriteCoin: FavouriteCoin
+    @PreviewParameter(FavouriteCoinPreviewProvider::class) favouriteCoin: FavouriteCoin,
 ) {
     AppTheme {
         FavouriteItem(

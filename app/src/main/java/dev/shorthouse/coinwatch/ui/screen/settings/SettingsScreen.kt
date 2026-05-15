@@ -50,7 +50,7 @@ import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.local.preferences.global.StartScreen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
-import dev.shorthouse.coinwatch.ui.previewdata.SettingsUiStatePreviewProvider
+import dev.shorthouse.coinwatch.ui.preview.SettingsUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.settings.component.CurrencyBottomSheet
 import dev.shorthouse.coinwatch.ui.screen.settings.component.SettingsGroup
 import dev.shorthouse.coinwatch.ui.screen.settings.component.SettingsItem

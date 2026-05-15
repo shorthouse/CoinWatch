@@ -6,7 +6,6 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -63,7 +62,7 @@ import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.ui.component.CoinSortChip
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
-import dev.shorthouse.coinwatch.ui.previewdata.FavouritesUiStatePreviewProvider
+import dev.shorthouse.coinwatch.ui.preview.FavouritesUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouriteCondensedItem
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouriteItem
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouritesEmptyState

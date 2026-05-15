@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.model.Percentage
-import dev.shorthouse.coinwatch.ui.previewdata.PercentagePreviewProvider
+import dev.shorthouse.coinwatch.ui.preview.PercentagePreviewProvider
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import dev.shorthouse.coinwatch.ui.theme.NegativeRed
 import dev.shorthouse.coinwatch.ui.theme.PositiveGreen
@@ -19,7 +19,7 @@ import dev.shorthouse.coinwatch.ui.theme.PositiveGreen
 @Composable
 fun PercentageChangeChip(
     percentage: Percentage,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val backgroundColor = when {
         percentage.isPositive -> PositiveGreen
@@ -43,7 +43,7 @@ fun PercentageChangeChip(
 @Composable
 @Preview(showBackground = true)
 private fun PercentageChangeChipPreview(
-    @PreviewParameter(PercentagePreviewProvider::class) percentage: Percentage
+    @PreviewParameter(PercentagePreviewProvider::class) percentage: Percentage,
 ) {
     AppTheme {
         PercentageChangeChip(

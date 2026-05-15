@@ -6,7 +6,6 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -60,7 +59,7 @@ import dev.shorthouse.coinwatch.ui.component.CoinSortChip
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
-import dev.shorthouse.coinwatch.ui.previewdata.MarketUiStatePreviewProvider
+import dev.shorthouse.coinwatch.ui.preview.MarketUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketCoinItem
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketDropdownMenu
 import dev.shorthouse.coinwatch.ui.screen.market.component.SearchPrompt

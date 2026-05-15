@@ -1,11 +1,11 @@
-package dev.shorthouse.coinwatch.ui.previewdata
+package dev.shorthouse.coinwatch.ui.preview
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import dev.shorthouse.coinwatch.data.source.local.database.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
-import dev.shorthouse.coinwatch.ui.previewdata.CoinListPreviewData.coins
+import dev.shorthouse.coinwatch.ui.preview.CoinListPreviewData.coins
 import dev.shorthouse.coinwatch.ui.screen.market.MarketUiState
 import kotlinx.collections.immutable.persistentListOf
 
