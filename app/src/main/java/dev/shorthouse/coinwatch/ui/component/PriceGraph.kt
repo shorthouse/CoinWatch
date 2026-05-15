@@ -45,7 +45,6 @@ import androidx.compose.ui.unit.toSize
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.PriceEntry
 import dev.shorthouse.coinwatch.ui.model.ScrubData
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import dev.shorthouse.coinwatch.ui.theme.NegativeRed
 import dev.shorthouse.coinwatch.ui.theme.PositiveGreen
 import dev.shorthouse.coinwatch.ui.theme.ZeroWhite
@@ -55,6 +54,8 @@ import kotlinx.collections.immutable.toImmutableList
 import java.math.BigDecimal
 import java.math.RoundingMode
 import kotlin.math.roundToInt
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 private const val GRAPH_ANIMATION_DURATION_MS = 800
 private const val GRAPH_FILL_ALPHA = 0.5f
@@ -573,50 +574,50 @@ private fun buildSmoothedPath(
 
 @Composable
 @Preview(showBackground = true)
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun ScrubPriceGraphPreview() {
-    AppTheme {
-        ScrubPriceGraph(
-            onScrub = {},
-            priceHistory = persistentListOf(
-                PriceEntry(BigDecimal("1650.19"), 1700000000L, "14 Nov 2023"),
-                PriceEntry(BigDecimal("1650.71"), 1700003600L, "14 Nov 2023"),
-                PriceEntry(BigDecimal("1670.94"), 1700007200L, "15 Nov 2023"),
-                PriceEntry(BigDecimal("1680.44"), 1700010800L, "15 Nov 2023"),
-                PriceEntry(BigDecimal("1743.98"), 1700014400L, "15 Nov 2023"),
-                PriceEntry(BigDecimal("1740.25"), 1700018000L, "15 Nov 2023"),
-                PriceEntry(BigDecimal("1737.53"), 1700021600L, "15 Nov 2023"),
-                PriceEntry(BigDecimal("1730.56"), 1700025200L, "15 Nov 2023"),
-                PriceEntry(BigDecimal("1738.12"), 1700028800L, "15 Nov 2023"),
-                PriceEntry(BigDecimal("1736.10"), 1700032400L, "15 Nov 2023"),
-            ),
-            priceChangePercentage = Percentage("0.42"),
-            isGraphAnimated = false,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(250.dp),
-        )
-    }
+    ScrubPriceGraph(
+        onScrub = {},
+        priceHistory = persistentListOf(
+            PriceEntry(BigDecimal("1650.19"), 1700000000L, "14 Nov 2023"),
+            PriceEntry(BigDecimal("1650.71"), 1700003600L, "14 Nov 2023"),
+            PriceEntry(BigDecimal("1670.94"), 1700007200L, "15 Nov 2023"),
+            PriceEntry(BigDecimal("1680.44"), 1700010800L, "15 Nov 2023"),
+            PriceEntry(BigDecimal("1743.98"), 1700014400L, "15 Nov 2023"),
+            PriceEntry(BigDecimal("1740.25"), 1700018000L, "15 Nov 2023"),
+            PriceEntry(BigDecimal("1737.53"), 1700021600L, "15 Nov 2023"),
+            PriceEntry(BigDecimal("1730.56"), 1700025200L, "15 Nov 2023"),
+            PriceEntry(BigDecimal("1738.12"), 1700028800L, "15 Nov 2023"),
+            PriceEntry(BigDecimal("1736.10"), 1700032400L, "15 Nov 2023"),
+        ),
+        priceChangePercentage = Percentage("0.42"),
+        isGraphAnimated = false,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(250.dp),
+    )
+
 }
 
 @Composable
 @Preview(showBackground = true)
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun StaticPriceGraphPreview() {
-    AppTheme {
-        StaticPriceGraph(
-            prices = persistentListOf(
-                BigDecimal("1650.19"),
-                BigDecimal("1650.71"),
-                BigDecimal("1670.94"),
-                BigDecimal("1680.44"),
-                BigDecimal("1743.98"),
-                BigDecimal("1740.25"),
-                BigDecimal("1737.53"),
-                BigDecimal("1730.56"),
-            ),
-            priceChangePercentage = Percentage("0.42"),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(250.dp),
-        )
-    }
+    StaticPriceGraph(
+        prices = persistentListOf(
+            BigDecimal("1650.19"),
+            BigDecimal("1650.71"),
+            BigDecimal("1670.94"),
+            BigDecimal("1680.44"),
+            BigDecimal("1743.98"),
+            BigDecimal("1740.25"),
+            BigDecimal("1737.53"),
+            BigDecimal("1730.56"),
+        ),
+        priceChangePercentage = Percentage("0.42"),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(250.dp),
+    )
+
 }

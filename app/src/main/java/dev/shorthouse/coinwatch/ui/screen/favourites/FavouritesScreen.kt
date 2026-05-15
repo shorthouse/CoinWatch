@@ -66,9 +66,10 @@ import dev.shorthouse.coinwatch.ui.preview.FavouritesUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouriteCondensedItem
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouriteItem
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouritesEmptyState
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun FavouritesScreen(
@@ -408,17 +409,17 @@ fun FavouritesList(
 
 @Composable
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun FavouritesScreenPreview(
     @PreviewParameter(FavouritesUiStatePreviewProvider::class) uiState: FavouritesUiState,
 ) {
-    AppTheme {
-        FavouriteScreen(
-            uiState = uiState,
-            onCoinClick = {},
-            onUpdateIsFavouritesCondensed = {},
-            onUpdateCoinSort = {},
-            onRefresh = {},
-            onDismissError = {},
-        )
-    }
+    FavouriteScreen(
+        uiState = uiState,
+        onCoinClick = {},
+        onUpdateIsFavouritesCondensed = {},
+        onUpdateCoinSort = {},
+        onRefresh = {},
+        onDismissError = {},
+    )
+
 }

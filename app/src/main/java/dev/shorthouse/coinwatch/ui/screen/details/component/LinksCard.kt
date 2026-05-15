@@ -25,9 +25,10 @@ import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.CoinLink
 import dev.shorthouse.coinwatch.model.CoinLinkType
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun LinksCard(
@@ -76,51 +77,51 @@ fun LinksCard(
 }
 
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun LinksCardPreview() {
-    AppTheme {
-        LinksCard(
-            links = persistentListOf(
-                CoinLink(
-                    type = CoinLinkType.Website,
-                    url = "https://ethereum.org",
-                ),
-                CoinLink(
-                    type = CoinLinkType.GitHub,
-                    url = "https://github.com/ethereum",
-                ),
-                CoinLink(
-                    type = CoinLinkType.Reddit,
-                    url = "https://www.reddit.com/r/ethereum/",
-                ),
-                CoinLink(
-                    type = CoinLinkType.X,
-                    url = "https://twitter.com/ethereum",
-                ),
-                CoinLink(
-                    type = CoinLinkType.YouTube,
-                    url = "https://www.youtube.com/@EthereumProtocol",
-                )
+    LinksCard(
+        links = persistentListOf(
+            CoinLink(
+                type = CoinLinkType.Website,
+                url = "https://ethereum.org",
             ),
-            onClickLink = {}
-        )
-    }
+            CoinLink(
+                type = CoinLinkType.GitHub,
+                url = "https://github.com/ethereum",
+            ),
+            CoinLink(
+                type = CoinLinkType.Reddit,
+                url = "https://www.reddit.com/r/ethereum/",
+            ),
+            CoinLink(
+                type = CoinLinkType.X,
+                url = "https://twitter.com/ethereum",
+            ),
+            CoinLink(
+                type = CoinLinkType.YouTube,
+                url = "https://www.youtube.com/@EthereumProtocol",
+            )
+        ),
+        onClickLink = {}
+    )
+
 }
 
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun LinksCardLongLabelPreview() {
-    AppTheme {
-        LinksCard(
-            links = persistentListOf(
-                CoinLink(
-                    type = CoinLinkType.Whitepaper,
-                    url = "https://ethereum.org/developers",
-                )
-            ),
-            onClickLink = {}
-        )
-    }
+    LinksCard(
+        links = persistentListOf(
+            CoinLink(
+                type = CoinLinkType.Whitepaper,
+                url = "https://ethereum.org/developers",
+            )
+        ),
+        onClickLink = {}
+    )
+
 }
 
 @StringRes
@@ -138,12 +139,12 @@ private fun CoinLinkType.getNameStringId(): Int {
 }
 
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun LinksCardEmptyPreview() {
-    AppTheme {
-        LinksCard(
-            links = persistentListOf(),
-            onClickLink = {}
-        )
-    }
+    LinksCard(
+        links = persistentListOf(),
+        onClickLink = {}
+    )
+
 }

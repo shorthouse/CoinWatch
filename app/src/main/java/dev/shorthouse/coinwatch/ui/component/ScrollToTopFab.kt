@@ -12,7 +12,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun ScrollToTopFab(
@@ -37,9 +38,9 @@ fun ScrollToTopFab(
 }
 
 @Preview(showBackground = true)
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun ScrollToTopFabPreview() {
-    AppTheme {
-        ScrollToTopFab(onClick = {})
-    }
+    ScrollToTopFab(onClick = {})
+
 }

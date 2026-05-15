@@ -33,7 +33,8 @@ import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
 import dev.shorthouse.coinwatch.ui.component.PercentageChange
 import dev.shorthouse.coinwatch.ui.component.StaticPriceGraph
 import dev.shorthouse.coinwatch.ui.preview.FavouriteCoinPreviewProvider
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun FavouriteItem(
@@ -128,13 +129,13 @@ fun FavouriteItem(
 
 @Composable
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun FavouriteItemPreview(
     @PreviewParameter(FavouriteCoinPreviewProvider::class) favouriteCoin: FavouriteCoin,
 ) {
-    AppTheme {
-        FavouriteItem(
-            favouriteCoin = favouriteCoin,
-            onCoinClick = {}
-        )
-    }
+    FavouriteItem(
+        favouriteCoin = favouriteCoin,
+        onCoinClick = {}
+    )
+
 }

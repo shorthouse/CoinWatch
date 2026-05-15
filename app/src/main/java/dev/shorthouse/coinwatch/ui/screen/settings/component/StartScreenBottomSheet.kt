@@ -23,8 +23,9 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.data.source.local.preferences.global.StartScreen
 import dev.shorthouse.coinwatch.ui.component.AppBottomSheet
 import dev.shorthouse.coinwatch.ui.component.BottomSheetOption
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.persistentListOf
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -80,6 +81,7 @@ private data class StartScreenOption(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(widthDp = 360, heightDp = 280)
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun StartScreenBottomSheetPreview() {
     val density = LocalDensity.current
@@ -92,14 +94,13 @@ private fun StartScreenBottomSheetPreview() {
         )
     }
 
-    AppTheme {
-        var selectedStartScreen by remember { mutableStateOf(StartScreen.Favourites) }
+    var selectedStartScreen by remember { mutableStateOf(StartScreen.Favourites) }
 
-        StartScreenBottomSheet(
-            sheetState = sheetState,
-            selectedStartScreen = selectedStartScreen,
-            onStartScreenSelected = { selectedStartScreen = it },
-            onDismissRequest = {},
-        )
-    }
+    StartScreenBottomSheet(
+        sheetState = sheetState,
+        selectedStartScreen = selectedStartScreen,
+        onStartScreenSelected = { selectedStartScreen = it },
+        onDismissRequest = {},
+    )
+
 }

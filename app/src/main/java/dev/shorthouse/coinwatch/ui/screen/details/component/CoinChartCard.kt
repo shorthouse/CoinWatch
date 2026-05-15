@@ -32,9 +32,10 @@ import dev.shorthouse.coinwatch.ui.component.PercentageChangeChip
 import dev.shorthouse.coinwatch.ui.component.ScrubPriceGraph
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import dev.shorthouse.coinwatch.ui.model.ScrubData
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.persistentListOf
 import java.math.BigDecimal
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun CoinChartCard(
@@ -127,46 +128,46 @@ fun CoinChartCard(
 }
 
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun CoinChartCardPreview() {
     var chartPeriod by remember { mutableStateOf(ChartPeriod.Day) }
 
-    AppTheme {
-        CoinChartCard(
-            currentPrice = Price("1000"),
-            coinChart = CoinChart(
-                currency = Currency.USD,
-                priceHistory = persistentListOf(
-                    PriceEntry(BigDecimal("1755.19"), 1700000000L, "14 Nov 2023"),
-                    PriceEntry(BigDecimal("1749.71"), 1700003600L, "14 Nov 2023"),
-                    PriceEntry(BigDecimal("1750.94"), 1700007200L, "15 Nov 2023"),
-                    PriceEntry(BigDecimal("1748.44"), 1700010800L, "15 Nov 2023"),
-                    PriceEntry(BigDecimal("1743.98"), 1700014400L, "15 Nov 2023"),
-                    PriceEntry(BigDecimal("1740.25"), 1700018000L, "15 Nov 2023"),
-                    PriceEntry(BigDecimal("1737.53"), 1700021600L, "15 Nov 2023"),
-                    PriceEntry(BigDecimal("1730.56"), 1700025200L, "15 Nov 2023"),
-                ),
-                periodPriceChangePercentage = Percentage("7.06")
+    CoinChartCard(
+        currentPrice = Price("1000"),
+        coinChart = CoinChart(
+            currency = Currency.USD,
+            priceHistory = persistentListOf(
+                PriceEntry(BigDecimal("1755.19"), 1700000000L, "14 Nov 2023"),
+                PriceEntry(BigDecimal("1749.71"), 1700003600L, "14 Nov 2023"),
+                PriceEntry(BigDecimal("1750.94"), 1700007200L, "15 Nov 2023"),
+                PriceEntry(BigDecimal("1748.44"), 1700010800L, "15 Nov 2023"),
+                PriceEntry(BigDecimal("1743.98"), 1700014400L, "15 Nov 2023"),
+                PriceEntry(BigDecimal("1740.25"), 1700018000L, "15 Nov 2023"),
+                PriceEntry(BigDecimal("1737.53"), 1700021600L, "15 Nov 2023"),
+                PriceEntry(BigDecimal("1730.56"), 1700025200L, "15 Nov 2023"),
             ),
-            chartPeriod = chartPeriod,
-            onClickChartPeriod = { chartPeriod = it }
-        )
-    }
+            periodPriceChangePercentage = Percentage("7.06")
+        ),
+        chartPeriod = chartPeriod,
+        onClickChartPeriod = { chartPeriod = it }
+    )
+
 }
 
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun CoinChartEmptyCardPreview() {
-    AppTheme {
-        CoinChartCard(
-            currentPrice = Price("1000"),
-            coinChart = CoinChart(
-                currency = Currency.USD,
-                priceHistory = persistentListOf(),
-                periodPriceChangePercentage = Percentage("7.06")
-            ),
-            chartPeriod = ChartPeriod.Day,
-            onClickChartPeriod = {}
-        )
-    }
+    CoinChartCard(
+        currentPrice = Price("1000"),
+        coinChart = CoinChart(
+            currency = Currency.USD,
+            priceHistory = persistentListOf(),
+            periodPriceChangePercentage = Percentage("7.06")
+        ),
+        chartPeriod = ChartPeriod.Day,
+        onClickChartPeriod = {}
+    )
+
 }

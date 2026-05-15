@@ -10,7 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun LoadingIndicator(modifier: Modifier = Modifier) {
@@ -27,9 +28,9 @@ fun LoadingIndicator(modifier: Modifier = Modifier) {
 }
 
 @Preview(showBackground = true)
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun LoadingIndicatorPreview() {
-    AppTheme {
-        LoadingIndicator()
-    }
+    LoadingIndicator()
+
 }

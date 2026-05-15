@@ -27,7 +27,8 @@ import coil3.request.crossfade
 import coil3.svg.SvgDecoder
 import dev.shorthouse.coinwatch.model.SearchCoin
 import dev.shorthouse.coinwatch.ui.preview.SearchCoinPreviewProvider
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun SearchListItem(
@@ -86,14 +87,14 @@ fun SearchListItem(
 
 @Composable
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun SearchListItemPreview(
     @PreviewParameter(SearchCoinPreviewProvider::class) searchCoin: SearchCoin,
 ) {
-    AppTheme {
-        SearchListItem(
-            searchCoin = searchCoin,
-            onCoinClick = {},
-            cardShape = MaterialTheme.shapes.medium
-        )
-    }
+    SearchListItem(
+        searchCoin = searchCoin,
+        onCoinClick = {},
+        cardShape = MaterialTheme.shapes.medium
+    )
+
 }

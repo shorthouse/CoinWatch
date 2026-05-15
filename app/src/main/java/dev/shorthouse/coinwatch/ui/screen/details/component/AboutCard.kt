@@ -33,9 +33,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -196,86 +197,86 @@ private fun ListedDateSection(
 }
 
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun AboutCardPreview() {
-    AppTheme {
-        AboutCard(
-            description = "Ethereum is a decentralized blockchain with smart contract functionality.",
-            tags = persistentListOf("smart-contracts", "staking", "layer-1"),
-            listedDate = "7 Aug 2015"
-        )
-    }
+    AboutCard(
+        description = "Ethereum is a decentralized blockchain with smart contract functionality.",
+        tags = persistentListOf("smart-contracts", "staking", "layer-1"),
+        listedDate = "7 Aug 2015"
+    )
+
 }
 
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun AboutCardLongDescriptionPreview() {
-    AppTheme {
-        AboutCard(
-            description = "Bitcoin is the first decentralized cryptocurrency. It allows value to be " +
-                "transferred without a central bank or single administrator, using a public " +
-                "ledger that is maintained by a distributed network. Its fixed supply and " +
-                "global liquidity have made it a benchmark asset across crypto markets, " +
-                "while its open-source protocol continues to be developed by contributors " +
-                "around the world.",
-            tags = persistentListOf("store-of-value", "payments", "proof-of-work"),
-            listedDate = "1 Jan 2017"
-        )
-    }
+    AboutCard(
+        description = "Bitcoin is the first decentralized cryptocurrency. It allows value to be " +
+            "transferred without a central bank or single administrator, using a public " +
+            "ledger that is maintained by a distributed network. Its fixed supply and " +
+            "global liquidity have made it a benchmark asset across crypto markets, " +
+            "while its open-source protocol continues to be developed by contributors " +
+            "around the world.",
+        tags = persistentListOf("store-of-value", "payments", "proof-of-work"),
+        listedDate = "1 Jan 2017"
+    )
+
 }
 
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun AboutCardNoTagsPreview() {
-    AppTheme {
-        AboutCard(
-            description = "Ethereum is a decentralized blockchain with smart contract functionality.",
-            tags = persistentListOf(),
-            listedDate = "7 Aug 2015"
-        )
-    }
+    AboutCard(
+        description = "Ethereum is a decentralized blockchain with smart contract functionality.",
+        tags = persistentListOf(),
+        listedDate = "7 Aug 2015"
+    )
+
 }
 
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun AboutCardNoDescriptionPreview() {
-    AppTheme {
-        AboutCard(
-            description = "",
-            tags = persistentListOf("defi", "staking", "layer-1", "smart-contracts"),
-            listedDate = "7 Aug 2015"
-        )
-    }
+    AboutCard(
+        description = "",
+        tags = persistentListOf("defi", "staking", "layer-1", "smart-contracts"),
+        listedDate = "7 Aug 2015"
+    )
+
 }
 
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun AboutCardWrappingTagsPreview() {
-    AppTheme {
-        AboutCard(
-            description = "Ethereum is a decentralized blockchain with smart contract functionality.",
-            tags = persistentListOf(
-                "smart-contracts",
-                "decentralized-finance",
-                "proof-of-stake",
-                "layer-1",
-                "governance",
-                "scaling",
-                "ecosystem"
-            ),
-            listedDate = "7 Aug 2015"
-        )
-    }
+    AboutCard(
+        description = "Ethereum is a decentralized blockchain with smart contract functionality.",
+        tags = persistentListOf(
+            "smart-contracts",
+            "decentralized-finance",
+            "proof-of-stake",
+            "layer-1",
+            "governance",
+            "scaling",
+            "ecosystem"
+        ),
+        listedDate = "7 Aug 2015"
+    )
+
 }
 
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun AboutCardListedDateOnlyPreview() {
-    AppTheme {
-        AboutCard(
-            description = "",
-            tags = persistentListOf(),
-            listedDate = "7 Aug 2015"
-        )
-    }
+    AboutCard(
+        description = "",
+        tags = persistentListOf(),
+        listedDate = "7 Aug 2015"
+    )
+
 }

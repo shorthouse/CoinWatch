@@ -11,7 +11,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.ui.component.EmptyState
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 
 @Composable
@@ -32,8 +33,8 @@ fun SearchResultsEmptyState(modifier: Modifier = Modifier) {
 
 @Composable
 @Preview(heightDp = 450)
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun SearchResultsEmptyStatePreview() {
-    AppTheme {
-        SearchResultsEmptyState()
-    }
+    SearchResultsEmptyState()
+
 }

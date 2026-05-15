@@ -28,7 +28,8 @@ import coil3.svg.SvgDecoder
 import dev.shorthouse.coinwatch.data.source.local.database.model.Coin
 import dev.shorthouse.coinwatch.ui.component.PercentageChange
 import dev.shorthouse.coinwatch.ui.preview.CoinPreviewProvider
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun MarketCoinItem(
@@ -98,14 +99,14 @@ fun MarketCoinItem(
 
 @Composable
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun MarketCoinItemPreview(
     @PreviewParameter(CoinPreviewProvider::class) coin: Coin,
 ) {
-    AppTheme {
-        MarketCoinItem(
-            coin = coin,
-            onCoinClick = {},
-            cardShape = MaterialTheme.shapes.medium
-        )
-    }
+    MarketCoinItem(
+        coin = coin,
+        onCoinClick = {},
+        cardShape = MaterialTheme.shapes.medium
+    )
+
 }

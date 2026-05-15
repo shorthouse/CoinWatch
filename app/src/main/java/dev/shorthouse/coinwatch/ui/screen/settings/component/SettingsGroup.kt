@@ -14,7 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun SettingsGroup(
@@ -41,23 +42,23 @@ fun SettingsGroup(
 
 @Composable
 @Preview(showBackground = true)
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun SettingsGroupPreview() {
-    AppTheme {
-        SettingsGroup(title = "Preferences") {
-            SettingsItem(
-                title = "Start screen",
-                subtitle = "Market",
-                leadingIcon = Icons.Rounded.Home,
-                trailingIcon = Icons.Rounded.ChevronRight,
-                onClick = {}
-            )
+    SettingsGroup(title = "Preferences") {
+        SettingsItem(
+            title = "Start screen",
+            subtitle = "Market",
+            leadingIcon = Icons.Rounded.Home,
+            trailingIcon = Icons.Rounded.ChevronRight,
+            onClick = {}
+        )
 
-            SettingsItem(
-                title = "CoinWatch version",
-                subtitle = "1.4.1",
-                leadingIcon = Icons.Rounded.Smartphone,
-                onClick = {}
-            )
-        }
+        SettingsItem(
+            title = "CoinWatch version",
+            subtitle = "1.4.1",
+            leadingIcon = Icons.Rounded.Smartphone,
+            onClick = {}
+        )
     }
+
 }

@@ -59,7 +59,8 @@ import dev.shorthouse.coinwatch.ui.screen.details.component.EmptyTopBar
 import dev.shorthouse.coinwatch.ui.screen.details.component.LinksCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.MarketStatsCard
 import dev.shorthouse.coinwatch.ui.screen.details.component.SupplyCard
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun DetailsScreen(
@@ -276,17 +277,17 @@ fun DetailsContent(
 
 @Composable
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun DetailsScreenPreview(
     @PreviewParameter(DetailsScreenPreviewStateProvider::class)
     previewState: DetailsScreenPreviewState,
 ) {
-    AppTheme {
-        DetailsScreen(
-            uiState = previewState.uiState,
-            onNavigateUp = {},
-            onClickFavouriteCoin = {},
-            onClickChartPeriod = {},
-            scrollState = rememberScrollState(initial = previewState.scrollPosition)
-        )
-    }
+    DetailsScreen(
+        uiState = previewState.uiState,
+        onNavigateUp = {},
+        onClickFavouriteCoin = {},
+        onClickChartPeriod = {},
+        scrollState = rememberScrollState(initial = previewState.scrollPosition)
+    )
+
 }

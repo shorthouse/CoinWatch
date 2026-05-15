@@ -38,8 +38,9 @@ import dev.shorthouse.coinwatch.ui.preview.SearchScreenPreviewStateProvider
 import dev.shorthouse.coinwatch.ui.screen.search.component.SearchListItem
 import dev.shorthouse.coinwatch.ui.screen.search.component.SearchQueryEmptyState
 import dev.shorthouse.coinwatch.ui.screen.search.component.SearchResultsEmptyState
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun SearchScreen(
@@ -213,15 +214,15 @@ fun SearchContent(
 
 @Composable
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun SearchScreenPreview(
     @PreviewParameter(SearchScreenPreviewStateProvider::class) previewState: SearchScreenPreviewState,
 ) {
-    AppTheme {
-        SearchScreen(
-            uiState = previewState.uiState,
-            searchQuery = previewState.searchQuery,
-            onSearchQueryChange = {},
-            onCoinClick = {}
-        )
-    }
+    SearchScreen(
+        uiState = previewState.uiState,
+        searchQuery = previewState.searchQuery,
+        onSearchQueryChange = {},
+        onCoinClick = {}
+    )
+
 }

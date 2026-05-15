@@ -9,7 +9,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.ui.component.EmptyState
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun CoinsEmptyState(modifier: Modifier = Modifier) {
@@ -29,8 +30,8 @@ fun CoinsEmptyState(modifier: Modifier = Modifier) {
 
 @Composable
 @Preview(heightDp = 400)
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun CoinsEmptyStatePreview() {
-    AppTheme {
-        CoinsEmptyState()
-    }
+    CoinsEmptyState()
+
 }

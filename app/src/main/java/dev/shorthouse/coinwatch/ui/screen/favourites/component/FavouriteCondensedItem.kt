@@ -28,7 +28,8 @@ import coil3.svg.SvgDecoder
 import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
 import dev.shorthouse.coinwatch.ui.component.PercentageChange
 import dev.shorthouse.coinwatch.ui.preview.FavouriteCoinPreviewProvider
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun FavouriteCondensedItem(
@@ -98,14 +99,14 @@ fun FavouriteCondensedItem(
 
 @Composable
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun FavouriteItemCondensedPreview(
     @PreviewParameter(FavouriteCoinPreviewProvider::class) favouriteCoin: FavouriteCoin,
 ) {
-    AppTheme {
-        FavouriteCondensedItem(
-            favouriteCoin = favouriteCoin,
-            onCoinClick = {},
-            cardShape = MaterialTheme.shapes.medium
-        )
-    }
+    FavouriteCondensedItem(
+        favouriteCoin = favouriteCoin,
+        onCoinClick = {},
+        cardShape = MaterialTheme.shapes.medium
+    )
+
 }

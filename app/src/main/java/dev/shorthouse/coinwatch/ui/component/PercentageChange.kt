@@ -9,9 +9,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.ui.preview.PercentagePreviewProvider
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import dev.shorthouse.coinwatch.ui.theme.NegativeRed
 import dev.shorthouse.coinwatch.ui.theme.PositiveGreen
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun PercentageChange(
@@ -36,12 +37,12 @@ fun PercentageChange(
 
 @Composable
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun PercentageChangePreview(
     @PreviewParameter(PercentagePreviewProvider::class) percentage: Percentage,
 ) {
-    AppTheme {
-        PercentageChange(
-            percentage = percentage
-        )
-    }
+    PercentageChange(
+        percentage = percentage
+    )
+
 }

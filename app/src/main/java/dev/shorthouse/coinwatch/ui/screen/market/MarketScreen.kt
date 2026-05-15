@@ -48,6 +48,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -59,11 +60,11 @@ import dev.shorthouse.coinwatch.ui.component.CoinSortChip
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 import dev.shorthouse.coinwatch.ui.preview.MarketUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketCoinItem
 import dev.shorthouse.coinwatch.ui.screen.market.component.MarketDropdownMenu
 import dev.shorthouse.coinwatch.ui.screen.market.component.SearchPrompt
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 
@@ -316,17 +317,17 @@ private fun MarketContent(
 
 @Composable
 @Preview(showBackground = true)
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun MarketScreenPreview(
     @PreviewParameter(MarketUiStatePreviewProvider::class) uiState: MarketUiState,
 ) {
-    AppTheme {
-        MarketScreen(
-            uiState = uiState,
-            onCoinClick = {},
-            onNavigateSettings = {},
-            onUpdateCoinSort = {},
-            onRefresh = {},
-            onDismissError = {}
-        )
-    }
+    MarketScreen(
+        uiState = uiState,
+        onCoinClick = {},
+        onNavigateSettings = {},
+        onUpdateCoinSort = {},
+        onRefresh = {},
+        onDismissError = {}
+    )
+
 }

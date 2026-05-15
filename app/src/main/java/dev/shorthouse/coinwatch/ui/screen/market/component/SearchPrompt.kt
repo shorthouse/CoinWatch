@@ -12,7 +12,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun SearchPrompt(modifier: Modifier = Modifier) {
@@ -39,8 +40,8 @@ fun SearchPrompt(modifier: Modifier = Modifier) {
 
 @Composable
 @Preview(showBackground = true)
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun SearchPromptPreview() {
-    AppTheme {
-        SearchPrompt()
-    }
+    SearchPrompt()
+
 }

@@ -8,7 +8,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun ErrorState(
@@ -33,10 +34,10 @@ fun ErrorState(
 
 @Composable
 @Preview(heightDp = 400)
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun ErrorStatePreview() {
-    AppTheme {
-        ErrorState(
-            message = "No internet connection",
-        )
-    }
+    ErrorState(
+        message = "No internet connection",
+    )
+
 }

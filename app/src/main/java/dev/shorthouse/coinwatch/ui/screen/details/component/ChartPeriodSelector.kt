@@ -23,9 +23,10 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun ChartPeriodSelector(
@@ -85,13 +86,13 @@ fun ChartPeriodSelector(
 
 @Composable
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun ChartPeriodSelectorPreview() {
-    AppTheme {
-        var selectedChartPeriod by remember { mutableStateOf(ChartPeriod.Week) }
+    var selectedChartPeriod by remember { mutableStateOf(ChartPeriod.Week) }
 
-        ChartPeriodSelector(
-            selectedChartPeriod = selectedChartPeriod,
-            onChartPeriodSelected = { selectedChartPeriod = it }
-        )
-    }
+    ChartPeriodSelector(
+        selectedChartPeriod = selectedChartPeriod,
+        onChartPeriodSelected = { selectedChartPeriod = it }
+    )
+
 }

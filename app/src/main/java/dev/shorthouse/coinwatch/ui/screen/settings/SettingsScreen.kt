@@ -55,8 +55,9 @@ import dev.shorthouse.coinwatch.ui.screen.settings.component.CurrencyBottomSheet
 import dev.shorthouse.coinwatch.ui.screen.settings.component.SettingsGroup
 import dev.shorthouse.coinwatch.ui.screen.settings.component.SettingsItem
 import dev.shorthouse.coinwatch.ui.screen.settings.component.StartScreenBottomSheet
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.coroutines.launch
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun SettingsScreen(
@@ -285,18 +286,18 @@ fun SettingsTopBar(
 }
 
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun SettingsScreenPreview(
     @PreviewParameter(SettingsUiStatePreviewProvider::class) uiState: SettingsUiState,
 ) {
-    AppTheme {
-        SettingsScreen(
-            uiState = uiState,
-            onNavigateUp = {},
-            onUpdateCurrency = {},
-            onUpdateIsCurrencySheetShown = {},
-            onUpdateStartScreen = {},
-            onUpdateIsStartScreenSheetShown = {}
-        )
-    }
+    SettingsScreen(
+        uiState = uiState,
+        onNavigateUp = {},
+        onUpdateCurrency = {},
+        onUpdateIsCurrencySheetShown = {},
+        onUpdateStartScreen = {},
+        onUpdateIsStartScreenSheetShown = {}
+    )
+
 }

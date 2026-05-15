@@ -18,7 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun CoinSortChip(
@@ -73,25 +74,25 @@ private val CoinSort.imageVector: ImageVector
     }
 
 @Preview(showBackground = true)
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun CoinSortChipUnselectedPreview() {
-    AppTheme {
-        CoinSortChip(
-            coinSort = CoinSort.MarketCap,
-            selected = false,
-            onClick = {}
-        )
-    }
+    CoinSortChip(
+        coinSort = CoinSort.MarketCap,
+        selected = false,
+        onClick = {}
+    )
+
 }
 
 @Preview(showBackground = true)
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun CoinSortChipSelectedPreview() {
-    AppTheme {
-        CoinSortChip(
-            coinSort = CoinSort.Gainers,
-            selected = true,
-            onClick = {}
-        )
-    }
+    CoinSortChip(
+        coinSort = CoinSort.Gainers,
+        selected = true,
+        onClick = {}
+    )
+
 }

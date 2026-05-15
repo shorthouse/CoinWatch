@@ -15,7 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun MarketDropdownMenu(
@@ -67,13 +68,13 @@ private fun MarketDropdownMenuItems(
 
 @Composable
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun MarketDropdownMenuPreview() {
-    AppTheme {
-        MarketDropdownMenu(
-            expanded = true,
-            onDismissRequest = {},
-            onNavigateSettings = {},
-            usePlatformPopup = false
-        )
-    }
+    MarketDropdownMenu(
+        expanded = true,
+        onDismissRequest = {},
+        onNavigateSettings = {},
+        usePlatformPopup = false
+    )
+
 }

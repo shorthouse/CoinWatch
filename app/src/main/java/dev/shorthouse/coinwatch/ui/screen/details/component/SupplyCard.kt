@@ -21,7 +21,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Constants.MISSING_VALUE_PLACEHOLDER
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun SupplyCard(
@@ -88,25 +89,25 @@ private data class SupplyListItem(
 )
 
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun SupplyCardPreview() {
-    AppTheme {
-        SupplyCard(
-            circulatingSupply = "120,186,525",
-            totalSupply = "120,500,000",
-            maxSupply = "210,000,000"
-        )
-    }
+    SupplyCard(
+        circulatingSupply = "120,186,525",
+        totalSupply = "120,500,000",
+        maxSupply = "210,000,000"
+    )
+
 }
 
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun SupplyCardEmptyPreview() {
-    AppTheme {
-        SupplyCard(
-            circulatingSupply = MISSING_VALUE_PLACEHOLDER,
-            totalSupply = MISSING_VALUE_PLACEHOLDER,
-            maxSupply = MISSING_VALUE_PLACEHOLDER
-        )
-    }
+    SupplyCard(
+        circulatingSupply = MISSING_VALUE_PLACEHOLDER,
+        totalSupply = MISSING_VALUE_PLACEHOLDER,
+        maxSupply = MISSING_VALUE_PLACEHOLDER
+    )
+
 }

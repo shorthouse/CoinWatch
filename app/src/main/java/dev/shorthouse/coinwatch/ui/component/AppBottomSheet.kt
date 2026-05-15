@@ -31,7 +31,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -110,6 +111,7 @@ fun BottomSheetOption(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview(widthDp = 360, heightDp = 200)
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 private fun AppBottomSheetPreview() {
     val density = LocalDensity.current
     val sheetState = remember {
@@ -121,24 +123,23 @@ private fun AppBottomSheetPreview() {
         )
     }
 
-    AppTheme {
-        AppBottomSheet(
-            title = "Coin currency",
-            onDismissRequest = {},
-            sheetState = sheetState,
-        ) {
-            BottomSheetOption(
-                icon = Icons.Rounded.CurrencyBitcoin,
-                label = "Bitcoin",
-                isSelected = true,
-                onSelected = {},
-            )
-            BottomSheetOption(
-                icon = Icons.Rounded.AttachMoney,
-                label = "USD",
-                isSelected = false,
-                onSelected = {},
-            )
-        }
+    AppBottomSheet(
+        title = "Coin currency",
+        onDismissRequest = {},
+        sheetState = sheetState,
+    ) {
+        BottomSheetOption(
+            icon = Icons.Rounded.CurrencyBitcoin,
+            label = "Bitcoin",
+            isSelected = true,
+            onSelected = {},
+        )
+        BottomSheetOption(
+            icon = Icons.Rounded.AttachMoney,
+            label = "USD",
+            isSelected = false,
+            onSelected = {},
+        )
     }
+
 }

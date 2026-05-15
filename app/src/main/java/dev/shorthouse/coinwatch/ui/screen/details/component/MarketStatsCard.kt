@@ -25,8 +25,9 @@ import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.model.CoinLink
 import dev.shorthouse.coinwatch.model.CoinLinkType
 import dev.shorthouse.coinwatch.model.Price
-import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.persistentListOf
+import androidx.compose.ui.tooling.preview.PreviewWrapper
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun MarketStatsCard(
@@ -111,73 +112,73 @@ private data class CoinDetailsListItem(
 )
 
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun MarketStatsCardDollarPreview() {
-    AppTheme {
-        MarketStatsCard(
-            coinDetails = CoinDetails(
-                id = "ethereum",
-                name = "Ethereum",
-                symbol = "ETH",
-                description = "Ethereum is a decentralized blockchain with smart contract functionality.",
-                tags = persistentListOf("smart-contracts", "staking"),
-                links = persistentListOf(
-                    CoinLink(
-                        type = CoinLinkType.Website,
-                        url = "https://ethereum.org",
-                    )
-                ),
-                imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
-                currentPrice = Price("1879.14"),
-                marketCap = Price("225722901094"),
-                fullyDilutedMarketCap = Price("225722901094"),
-                marketCapRank = "2",
-                volume24h = Price("6,627,669,115"),
-                numberOfExchanges = "248",
-                numberOfMarkets = "1,098",
-                circulatingSupply = "120,186,525",
-                totalSupply = "120,500,000",
-                maxSupply = "210,000,000",
-                allTimeHigh = Price("4878.26"),
-                allTimeHighDate = "10 Nov 2021",
-                listedDate = "7 Aug 2015"
-            )
+    MarketStatsCard(
+        coinDetails = CoinDetails(
+            id = "ethereum",
+            name = "Ethereum",
+            symbol = "ETH",
+            description = "Ethereum is a decentralized blockchain with smart contract functionality.",
+            tags = persistentListOf("smart-contracts", "staking"),
+            links = persistentListOf(
+                CoinLink(
+                    type = CoinLinkType.Website,
+                    url = "https://ethereum.org",
+                )
+            ),
+            imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
+            currentPrice = Price("1879.14"),
+            marketCap = Price("225722901094"),
+            fullyDilutedMarketCap = Price("225722901094"),
+            marketCapRank = "2",
+            volume24h = Price("6,627,669,115"),
+            numberOfExchanges = "248",
+            numberOfMarkets = "1,098",
+            circulatingSupply = "120,186,525",
+            totalSupply = "120,500,000",
+            maxSupply = "210,000,000",
+            allTimeHigh = Price("4878.26"),
+            allTimeHighDate = "10 Nov 2021",
+            listedDate = "7 Aug 2015"
         )
-    }
+    )
+
 }
 
 @Preview
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
 @Composable
 private fun MarketStatsCardGBPPreview() {
-    AppTheme {
-        MarketStatsCard(
-            coinDetails = CoinDetails(
-                id = "ethereum",
-                name = "Ethereum",
-                symbol = "ETH",
-                description = "Ethereum is a decentralized blockchain with smart contract functionality.",
-                tags = persistentListOf("smart-contracts", "staking"),
-                links = persistentListOf(
-                    CoinLink(
-                        type = CoinLinkType.Website,
-                        url = "https://ethereum.org",
-                    )
-                ),
-                imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
-                currentPrice = Price("1879.14", currency = Currency.GBP),
-                marketCap = Price("225722901094", currency = Currency.GBP),
-                fullyDilutedMarketCap = Price("225722901094", currency = Currency.GBP),
-                marketCapRank = "2",
-                volume24h = Price("6,627,669,115", currency = Currency.GBP),
-                numberOfExchanges = "248",
-                numberOfMarkets = "1,098",
-                circulatingSupply = "120,186,525",
-                totalSupply = "120,500,000",
-                maxSupply = "210,000,000",
-                allTimeHigh = Price("4878.26", currency = Currency.GBP),
-                allTimeHighDate = "10 Nov 2021",
-                listedDate = "7 Aug 2015"
-            )
+    MarketStatsCard(
+        coinDetails = CoinDetails(
+            id = "ethereum",
+            name = "Ethereum",
+            symbol = "ETH",
+            description = "Ethereum is a decentralized blockchain with smart contract functionality.",
+            tags = persistentListOf("smart-contracts", "staking"),
+            links = persistentListOf(
+                CoinLink(
+                    type = CoinLinkType.Website,
+                    url = "https://ethereum.org",
+                )
+            ),
+            imageUrl = "https://cdn.coinranking.com/rk4RKHOuW/eth.svg",
+            currentPrice = Price("1879.14", currency = Currency.GBP),
+            marketCap = Price("225722901094", currency = Currency.GBP),
+            fullyDilutedMarketCap = Price("225722901094", currency = Currency.GBP),
+            marketCapRank = "2",
+            volume24h = Price("6,627,669,115", currency = Currency.GBP),
+            numberOfExchanges = "248",
+            numberOfMarkets = "1,098",
+            circulatingSupply = "120,186,525",
+            totalSupply = "120,500,000",
+            maxSupply = "210,000,000",
+            allTimeHigh = Price("4878.26", currency = Currency.GBP),
+            allTimeHighDate = "10 Nov 2021",
+            listedDate = "7 Aug 2015"
         )
-    }
+    )
+
 }
