@@ -30,6 +30,7 @@ fun MarketDropdownMenu(
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = onDismissRequest,
+            containerColor = MaterialTheme.colorScheme.surface,
             modifier = modifier
         ) {
             MarketDropdownMenuItems(onNavigateSettings = onNavigateSettings)
