@@ -114,10 +114,10 @@ class CoinChartRepositoryImpl @Inject constructor(
     }
 
     private fun removeOldestCacheEntry(excludedKey: CacheKey) {
-        val oldestEntry = cache
+        val oldestEntry = cache.entries
             .asSequence()
-            .filter { (key, _) -> key != excludedKey }
-            .minByOrNull { (_, cachedChart) -> cachedChart.cachedAtMillis }
+            .filter { entry -> entry.key != excludedKey }
+            .minByOrNull { entry -> entry.value.cachedAtMillis }
 
         if (oldestEntry != null) {
             cache.remove(oldestEntry.key, oldestEntry.value)
