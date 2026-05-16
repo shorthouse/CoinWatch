@@ -3,6 +3,7 @@ package dev.shorthouse.coinwatch.data.repository.chart
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
+import dev.shorthouse.coinwatch.common.TimeProvider
 import dev.shorthouse.coinwatch.data.mapper.CoinChartMapper
 import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
@@ -14,6 +15,7 @@ import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.PriceEntry
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.unmockkAll
 import kotlinx.collections.immutable.persistentListOf
@@ -38,6 +40,8 @@ class CoinChartRepositoryTest {
     @MockK
     private lateinit var coinNetworkDataSource: CoinNetworkDataSource
 
+    private val fakeTimeProvider = FakeTimeProvider()
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
@@ -45,8 +49,13 @@ class CoinChartRepositoryTest {
         coinChartRepository = CoinChartRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
             coinChartMapper = CoinChartMapper(),
+            timeProvider = fakeTimeProvider,
             ioDispatcher = mainDispatcherRule.testDispatcher
         )
+    }
+
+    private class FakeTimeProvider(var nowMillis: Long = 0L) : TimeProvider {
+        override fun elapsedRealtimeMillis(): Long = nowMillis
     }
 
     @After
@@ -197,6 +206,252 @@ class CoinChartRepositoryTest {
             assertThat(result.data.priceHistory)
                 .isEqualTo(expectedPriceHistory)
         }
+
+    @Test
+    fun `When same args called multiple times within TTL, should call network only once and return cached chart`() =
+        runTest {
+            // Arrange
+            val coinId = "Qwsogvtv82FCd"
+            val chartPeriod = "1d"
+            val currency = Currency.USD
+
+            coEvery {
+                coinNetworkDataSource.getCoinChart(coinId, chartPeriod, currency)
+            } returns successResponse()
+
+            // Act
+            val firstResult = coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
+            val secondResult = coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
+            val thirdResult = coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
+
+            // Assert
+            coVerify(exactly = 1) {
+                coinNetworkDataSource.getCoinChart(coinId, chartPeriod, currency)
+            }
+            assertThat(firstResult).isInstanceOf(Result.Success::class.java)
+            assertThat((secondResult as Result.Success).data)
+                .isEqualTo((firstResult as Result.Success).data)
+            assertThat((thirdResult as Result.Success).data).isEqualTo(firstResult.data)
+        }
+
+    @Test
+    fun `When different coin ids requested, should call network for each and cache independently`() =
+        runTest {
+            // Arrange
+            val chartPeriod = "1d"
+            val currency = Currency.USD
+            val firstCoinId = "Qwsogvtv82FCd"
+            val secondCoinId = "razxDUgYGNAdQ"
+
+            coEvery {
+                coinNetworkDataSource.getCoinChart(firstCoinId, chartPeriod, currency)
+            } returns successResponse(price = "27000.44")
+            coEvery {
+                coinNetworkDataSource.getCoinChart(secondCoinId, chartPeriod, currency)
+            } returns successResponse(price = "1800.00")
+
+            // Act
+            coinChartRepository.getCoinChart(firstCoinId, chartPeriod, currency).first()
+            coinChartRepository.getCoinChart(secondCoinId, chartPeriod, currency).first()
+            coinChartRepository.getCoinChart(firstCoinId, chartPeriod, currency).first()
+            coinChartRepository.getCoinChart(secondCoinId, chartPeriod, currency).first()
+
+            // Assert
+            coVerify(exactly = 1) {
+                coinNetworkDataSource.getCoinChart(firstCoinId, chartPeriod, currency)
+            }
+            coVerify(exactly = 1) {
+                coinNetworkDataSource.getCoinChart(secondCoinId, chartPeriod, currency)
+            }
+        }
+
+    @Test
+    fun `When different chart periods requested, should call network for each and cache independently`() =
+        runTest {
+            // Arrange
+            val coinId = "Qwsogvtv82FCd"
+            val currency = Currency.USD
+            val dayPeriod = "1d"
+            val weekPeriod = "7d"
+
+            coEvery {
+                coinNetworkDataSource.getCoinChart(coinId, dayPeriod, currency)
+            } returns successResponse()
+            coEvery {
+                coinNetworkDataSource.getCoinChart(coinId, weekPeriod, currency)
+            } returns successResponse()
+
+            // Act
+            coinChartRepository.getCoinChart(coinId, dayPeriod, currency).first()
+            coinChartRepository.getCoinChart(coinId, weekPeriod, currency).first()
+            coinChartRepository.getCoinChart(coinId, dayPeriod, currency).first()
+            coinChartRepository.getCoinChart(coinId, weekPeriod, currency).first()
+
+            // Assert
+            coVerify(exactly = 1) {
+                coinNetworkDataSource.getCoinChart(coinId, dayPeriod, currency)
+            }
+            coVerify(exactly = 1) {
+                coinNetworkDataSource.getCoinChart(coinId, weekPeriod, currency)
+            }
+        }
+
+    @Test
+    fun `When different currencies requested, should call network for each and cache independently`() =
+        runTest {
+            // Arrange
+            val coinId = "Qwsogvtv82FCd"
+            val chartPeriod = "1d"
+
+            coEvery {
+                coinNetworkDataSource.getCoinChart(coinId, chartPeriod, Currency.USD)
+            } returns successResponse()
+            coEvery {
+                coinNetworkDataSource.getCoinChart(coinId, chartPeriod, Currency.GBP)
+            } returns successResponse()
+
+            // Act
+            coinChartRepository.getCoinChart(coinId, chartPeriod, Currency.USD).first()
+            coinChartRepository.getCoinChart(coinId, chartPeriod, Currency.GBP).first()
+            coinChartRepository.getCoinChart(coinId, chartPeriod, Currency.USD).first()
+            coinChartRepository.getCoinChart(coinId, chartPeriod, Currency.GBP).first()
+
+            // Assert
+            coVerify(exactly = 1) {
+                coinNetworkDataSource.getCoinChart(coinId, chartPeriod, Currency.USD)
+            }
+            coVerify(exactly = 1) {
+                coinNetworkDataSource.getCoinChart(coinId, chartPeriod, Currency.GBP)
+            }
+        }
+
+    @Test
+    fun `When first call returns error, should not cache and should retry network on next call`() =
+        runTest {
+            // Arrange
+            val coinId = "Qwsogvtv82FCd"
+            val chartPeriod = "1d"
+            val currency = Currency.USD
+
+            coEvery {
+                coinNetworkDataSource.getCoinChart(coinId, chartPeriod, currency)
+            } returns Response.error(500, "Server error".toResponseBody(null)) andThen successResponse()
+
+            // Act
+            val firstResult = coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
+            val secondResult = coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
+
+            // Assert
+            coVerify(exactly = 2) {
+                coinNetworkDataSource.getCoinChart(coinId, chartPeriod, currency)
+            }
+            assertThat(firstResult).isInstanceOf(Result.Error::class.java)
+            assertThat(secondResult).isInstanceOf(Result.Success::class.java)
+        }
+
+    @Test
+    fun `When cached entry exceeds TTL, should evict and refetch from network`() = runTest {
+        // Arrange
+        val coinId = "Qwsogvtv82FCd"
+        val chartPeriod = "1d"
+        val currency = Currency.USD
+
+        coEvery {
+            coinNetworkDataSource.getCoinChart(coinId, chartPeriod, currency)
+        } returns successResponse()
+
+        // Act
+        // First fetch at t=0 populates cache
+        fakeTimeProvider.nowMillis = 0L
+        coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
+
+        // Well within TTL - cache hit
+        fakeTimeProvider.nowMillis = 60_000L
+        coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
+
+        // Just past TTL - cache evicted, network refetched
+        fakeTimeProvider.nowMillis = CoinChartRepositoryImpl.CACHE_TTL_MILLIS + 1L
+        coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
+
+        // Assert
+        coVerify(exactly = 2) {
+            coinNetworkDataSource.getCoinChart(coinId, chartPeriod, currency)
+        }
+    }
+
+    @Test
+    fun `When TTL refetch occurs, new entry's TTL window starts from refetch time`() = runTest {
+        // Arrange
+        val coinId = "Qwsogvtv82FCd"
+        val chartPeriod = "1d"
+        val currency = Currency.USD
+
+        coEvery {
+            coinNetworkDataSource.getCoinChart(coinId, chartPeriod, currency)
+        } returns successResponse()
+
+        // Act
+        fakeTimeProvider.nowMillis = 0L
+        coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
+
+        // Triggers refetch + cache write at this time
+        fakeTimeProvider.nowMillis = CoinChartRepositoryImpl.CACHE_TTL_MILLIS + 1L
+        coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
+
+        // Within TTL of the refetch - should be a cache hit, not a third network call
+        fakeTimeProvider.nowMillis = CoinChartRepositoryImpl.CACHE_TTL_MILLIS + 1L + 60_000L
+        coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
+
+        // Assert
+        coVerify(exactly = 2) {
+            coinNetworkDataSource.getCoinChart(coinId, chartPeriod, currency)
+        }
+    }
+
+    @Test
+    fun `When cache reaches max size, should evict an entry to make room for new one`() = runTest {
+        // Arrange
+        val chartPeriod = "1d"
+        val currency = Currency.USD
+
+        coEvery {
+            coinNetworkDataSource.getCoinChart(any(), chartPeriod, currency)
+        } returns successResponse()
+
+        // Act
+        // Fill cache to its max size with distinct coin ids
+        repeat(CoinChartRepositoryImpl.MAX_CACHE_SIZE) { index ->
+            coinChartRepository.getCoinChart("coin-$index", chartPeriod, currency).first()
+        }
+
+        // One more entry forces an eviction
+        coinChartRepository.getCoinChart("overflow-coin", chartPeriod, currency).first()
+
+        // Re-request every original coin - at least one must have been evicted and refetch
+        repeat(CoinChartRepositoryImpl.MAX_CACHE_SIZE) { index ->
+            coinChartRepository.getCoinChart("coin-$index", chartPeriod, currency).first()
+        }
+
+        // Assert
+        // Total: MAX_CACHE_SIZE (initial fill) + 1 (overflow) + at least 1 (evicted refetch)
+        coVerify(atLeast = CoinChartRepositoryImpl.MAX_CACHE_SIZE + 2) {
+            coinNetworkDataSource.getCoinChart(any(), chartPeriod, currency)
+        }
+    }
+
+    private fun successResponse(
+        price: String = "27000.44",
+        timestamp: Long = 1700014400L
+    ): Response<CoinChartApiModel> {
+        return Response.success(
+            CoinChartApiModel(
+                coinChartData = CoinChartData(
+                    priceChangePercentage = "-0.97",
+                    pastPrices = listOf(PastPrice(amount = price, timestamp = timestamp))
+                )
+            )
+        )
+    }
 
     @Test
     fun `When coin chart returns error should return error`() = runTest {
