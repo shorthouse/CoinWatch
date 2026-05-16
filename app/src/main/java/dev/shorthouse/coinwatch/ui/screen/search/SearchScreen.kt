@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewWrapper
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -33,14 +34,14 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.SearchCoin
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
+import dev.shorthouse.coinwatch.ui.insets.AppWindowInsets
+import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 import dev.shorthouse.coinwatch.ui.preview.SearchScreenPreviewState
 import dev.shorthouse.coinwatch.ui.preview.SearchScreenPreviewStateProvider
 import dev.shorthouse.coinwatch.ui.screen.search.component.SearchListItem
 import dev.shorthouse.coinwatch.ui.screen.search.component.SearchQueryEmptyState
 import dev.shorthouse.coinwatch.ui.screen.search.component.SearchResultsEmptyState
 import kotlinx.collections.immutable.ImmutableList
-import androidx.compose.ui.tooling.preview.PreviewWrapper
-import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 
 @Composable
 fun SearchScreen(
@@ -73,6 +74,7 @@ fun SearchScreen(
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
+            .windowInsetsPadding(AppWindowInsets.horizontalContent)
     ) {
         SearchBar(
             searchQuery = searchQuery,
