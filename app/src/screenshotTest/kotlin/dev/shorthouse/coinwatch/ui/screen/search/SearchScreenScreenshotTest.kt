@@ -1,5 +1,6 @@
 package dev.shorthouse.coinwatch.ui.screen.search
 
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -17,8 +18,7 @@ fun SearchScreenScreenshotTest(
     AppTheme {
         SearchScreen(
             uiState = previewState.uiState,
-            searchQuery = previewState.searchQuery,
-            onSearchQueryChange = {},
+            queryState = rememberTextFieldState(previewState.searchQuery),
             onCoinClick = {}
         )
     }

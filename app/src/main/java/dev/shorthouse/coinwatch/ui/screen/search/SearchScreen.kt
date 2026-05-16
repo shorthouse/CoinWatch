@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.clearText
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Search
@@ -56,10 +59,7 @@ fun SearchScreen(
 
     SearchScreen(
         uiState = uiState,
-        searchQuery = viewModel.searchQuery,
-        onSearchQueryChange = { searchQuery ->
-            viewModel.updateSearchQuery(searchQuery)
-        },
+        queryState = viewModel.queryState,
         onCoinClick = { coin ->
             onNavigateDetails(coin.id)
         }
@@ -69,8 +69,7 @@ fun SearchScreen(
 @Composable
 fun SearchScreen(
     uiState: SearchUiState,
-    searchQuery: String,
-    onSearchQueryChange: (String) -> Unit,
+    queryState: TextFieldState,
     onCoinClick: (SearchCoin) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -80,10 +79,7 @@ fun SearchScreen(
             .background(MaterialTheme.colorScheme.background)
             .windowInsetsPadding(AppWindowInsets.horizontalContent)
     ) {
-        SearchBar(
-            searchQuery = searchQuery,
-            onSearchQueryChange = onSearchQueryChange
-        )
+        SearchBar(queryState = queryState)
 
         when {
             uiState.isSearching -> {
@@ -99,7 +95,7 @@ fun SearchScreen(
 
             else -> {
                 SearchContent(
-                    searchQuery = searchQuery,
+                    queryIsEmpty = queryState.text.isEmpty(),
                     searchResults = uiState.searchResults,
                     queryHasNoResults = uiState.queryHasNoResults,
                     onCoinClick = onCoinClick,
@@ -112,25 +108,20 @@ fun SearchScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SearchBar(
-    searchQuery: String,
-    onSearchQueryChange: (String) -> Unit,
+    queryState: TextFieldState,
     modifier: Modifier = Modifier,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
-    val colors = SearchBarDefaults.colors(
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
-    )
 
     LaunchedEffect(Unit) {
-        if (searchQuery.isEmpty()) {
+        if (queryState.text.isEmpty()) {
             focusRequester.requestFocus()
         }
     }
 
     SearchBarDefaults.InputField(
-        query = searchQuery,
-        onQueryChange = onSearchQueryChange,
+        state = queryState,
         onSearch = { keyboardController?.hide() },
         expanded = true,
         onExpandedChange = {},
@@ -150,8 +141,8 @@ private fun SearchBar(
             )
         },
         trailingIcon = {
-            if (searchQuery.isNotEmpty()) {
-                IconButton(onClick = { onSearchQueryChange("") }) {
+            if (queryState.text.isNotEmpty()) {
+                IconButton(onClick = { queryState.clearText() }) {
                     Icon(
                         imageVector = Icons.Rounded.Close,
                         tint = MaterialTheme.colorScheme.onSurface,
@@ -160,7 +151,9 @@ private fun SearchBar(
                 }
             }
         },
-        colors = colors.inputFieldColors,
+        colors = SearchBarDefaults.colors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+        ).inputFieldColors,
         modifier = modifier
             .windowInsetsPadding(SearchBarDefaults.windowInsets)
             .padding(8.dp)
@@ -171,14 +164,14 @@ private fun SearchBar(
 
 @Composable
 fun SearchContent(
-    searchQuery: String,
+    queryIsEmpty: Boolean,
     searchResults: ImmutableList<SearchCoin>,
     queryHasNoResults: Boolean,
     onCoinClick: (SearchCoin) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     when {
-        searchQuery.isEmpty() -> {
+        queryIsEmpty -> {
             SearchQueryEmptyState()
         }
 
@@ -234,8 +227,7 @@ private fun SearchScreenPreview(
 ) {
     SearchScreen(
         uiState = previewState.uiState,
-        searchQuery = previewState.searchQuery,
-        onSearchQueryChange = {},
+        queryState = rememberTextFieldState(previewState.searchQuery),
         onCoinClick = {}
     )
 

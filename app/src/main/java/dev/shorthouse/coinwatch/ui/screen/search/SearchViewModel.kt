@@ -1,8 +1,6 @@
 package dev.shorthouse.coinwatch.ui.screen.search
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,15 +26,14 @@ class SearchViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SearchUiState())
     val uiState = _uiState.asStateFlow()
 
-    var searchQuery by mutableStateOf("")
-        private set
+    val queryState: TextFieldState = TextFieldState()
 
     init {
         initialiseUiState()
     }
 
     fun initialiseUiState() {
-        snapshotFlow { searchQuery }
+        snapshotFlow { queryState.text.toString() }
             .debounce(350L)
             .onEach { query ->
                 if (query.isNotBlank()) {
@@ -80,9 +77,5 @@ class SearchViewModel @Inject constructor(
                     }
                 }
             }.launchIn(viewModelScope)
-    }
-
-    fun updateSearchQuery(newQuery: String) {
-        searchQuery = newQuery
     }
 }

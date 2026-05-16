@@ -1,5 +1,6 @@
 package dev.shorthouse.coinwatch.ui.screen.search
 
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
@@ -48,7 +49,7 @@ class SearchViewModelTest {
         // Act
 
         // Assert
-        assertThat(viewModel.searchQuery).isEqualTo(expectedSearchQuery)
+        assertThat(viewModel.queryState.text.toString()).isEqualTo(expectedSearchQuery)
     }
 
     @Test
@@ -57,7 +58,7 @@ class SearchViewModelTest {
         val expectedUiState = SearchUiState()
 
         // Act
-        viewModel.updateSearchQuery("")
+        viewModel.queryState.setTextAndPlaceCursorAtEnd("")
         viewModel.initialiseUiState()
         mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
 
@@ -81,7 +82,7 @@ class SearchViewModelTest {
             )
 
         // Act
-        viewModel.updateSearchQuery(searchQuery)
+        viewModel.queryState.setTextAndPlaceCursorAtEnd(searchQuery)
         viewModel.initialiseUiState()
         mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
 
@@ -132,7 +133,7 @@ class SearchViewModelTest {
             )
 
         // Act
-        viewModel.updateSearchQuery(searchQuery)
+        viewModel.queryState.setTextAndPlaceCursorAtEnd(searchQuery)
         viewModel.initialiseUiState()
         mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
 
@@ -157,7 +158,7 @@ class SearchViewModelTest {
         } returns Result.Success(emptyList())
 
         // Act
-        viewModel.updateSearchQuery(searchQuery)
+        viewModel.queryState.setTextAndPlaceCursorAtEnd(searchQuery)
         viewModel.initialiseUiState()
         mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
 
@@ -173,9 +174,9 @@ class SearchViewModelTest {
         coEvery { getCoinSearchResultsUseCase(searchQuery) } returns Result.Success(emptyList())
 
         // Act
-        viewModel.updateSearchQuery(searchQuery)
+        viewModel.queryState.setTextAndPlaceCursorAtEnd(searchQuery)
 
         // Assert
-        assertThat(viewModel.searchQuery).isEqualTo(searchQuery)
+        assertThat(viewModel.queryState.text.toString()).isEqualTo(searchQuery)
     }
 }

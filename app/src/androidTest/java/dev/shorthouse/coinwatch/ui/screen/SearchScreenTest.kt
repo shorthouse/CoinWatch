@@ -1,6 +1,6 @@
 package dev.shorthouse.coinwatch.ui.screen
 
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertIsDisplayed
@@ -33,8 +33,7 @@ class SearchScreenTest {
             AppTheme {
                 SearchScreen(
                     uiState = uiState,
-                    searchQuery = "",
-                    onSearchQueryChange = {},
+                    queryState = rememberTextFieldState(),
                     onCoinClick = {}
                 )
             }
@@ -56,8 +55,7 @@ class SearchScreenTest {
             AppTheme {
                 SearchScreen(
                     uiState = uiState,
-                    searchQuery = "",
-                    onSearchQueryChange = {},
+                    queryState = rememberTextFieldState(),
                     onCoinClick = {}
                 )
             }
@@ -78,8 +76,7 @@ class SearchScreenTest {
             AppTheme {
                 SearchScreen(
                     uiState = uiState,
-                    searchQuery = "",
-                    onSearchQueryChange = {},
+                    queryState = rememberTextFieldState(),
                     onCoinClick = {}
                 )
             }
@@ -98,8 +95,7 @@ class SearchScreenTest {
             AppTheme {
                 SearchScreen(
                     uiState = uiState,
-                    searchQuery = "",
-                    onSearchQueryChange = {},
+                    queryState = rememberTextFieldState(),
                     onCoinClick = {}
                 )
             }
@@ -113,16 +109,13 @@ class SearchScreenTest {
 
     @Test
     fun when_searchQueryEntered_should_displaySearchQuery() {
-        val searchQuery = "Bitcoin"
-
         val uiState = SearchUiState()
 
         composeTestRule.setContent {
             AppTheme {
                 SearchScreen(
                     uiState = uiState,
-                    searchQuery = searchQuery,
-                    onSearchQueryChange = {},
+                    queryState = rememberTextFieldState("Bitcoin"),
                     onCoinClick = {}
                 )
             }
@@ -135,16 +128,13 @@ class SearchScreenTest {
 
     @Test
     fun when_searchQueryEntered_should_displayClearSearchButton() {
-        val searchQuery = "Bitcoin"
-
         val uiState = SearchUiState()
 
         composeTestRule.setContent {
             AppTheme {
                 SearchScreen(
                     uiState = uiState,
-                    searchQuery = searchQuery,
-                    onSearchQueryChange = {},
+                    queryState = rememberTextFieldState("Bitcoin"),
                     onCoinClick = {}
                 )
             }
@@ -157,16 +147,13 @@ class SearchScreenTest {
 
     @Test
     fun when_searchQueryEmpty_should_notDisplayClearSearchButton() {
-        val searchQuery = ""
-
         val uiState = SearchUiState()
 
         composeTestRule.setContent {
             AppTheme {
                 SearchScreen(
                     uiState = uiState,
-                    searchQuery = searchQuery,
-                    onSearchQueryChange = {},
+                    queryState = rememberTextFieldState(),
                     onCoinClick = {}
                 )
             }
@@ -179,16 +166,13 @@ class SearchScreenTest {
 
     @Test
     fun when_clearSearchClicked_should_clearSearchQuery() {
-        val searchQuery = mutableStateOf("Bitcoin")
-
         val uiState = SearchUiState()
 
         composeTestRule.setContent {
             AppTheme {
                 SearchScreen(
                     uiState = uiState,
-                    searchQuery = searchQuery.value,
-                    onSearchQueryChange = { searchQuery.value = it },
+                    queryState = rememberTextFieldState("Bitcoin"),
                     onCoinClick = {}
                 )
             }
@@ -203,16 +187,13 @@ class SearchScreenTest {
 
     @Test
     fun when_typingInSearchBar_should_updateSearchQuery() {
-        val searchQuery = mutableStateOf("")
-
         val uiState = SearchUiState()
 
         composeTestRule.setContent {
             AppTheme {
                 SearchScreen(
                     uiState = uiState,
-                    searchQuery = searchQuery.value,
-                    onSearchQueryChange = { searchQuery.value = it },
+                    queryState = rememberTextFieldState(),
                     onCoinClick = {}
                 )
             }
@@ -249,8 +230,7 @@ class SearchScreenTest {
             AppTheme {
                 SearchScreen(
                     uiState = uiState,
-                    searchQuery = "Bit",
-                    onSearchQueryChange = {},
+                    queryState = rememberTextFieldState("Bit"),
                     onCoinClick = {}
                 )
             }
@@ -283,8 +263,7 @@ class SearchScreenTest {
             AppTheme {
                 SearchScreen(
                     uiState = uiState,
-                    searchQuery = "Bit",
-                    onSearchQueryChange = {},
+                    queryState = rememberTextFieldState("Bit"),
                     onCoinClick = { onCoinClickCalled = true }
                 )
             }
@@ -307,8 +286,7 @@ class SearchScreenTest {
             AppTheme {
                 SearchScreen(
                     uiState = uiState,
-                    searchQuery = "abcdefghijk",
-                    onSearchQueryChange = {},
+                    queryState = rememberTextFieldState("abcdefghijk"),
                     onCoinClick = {}
                 )
             }
