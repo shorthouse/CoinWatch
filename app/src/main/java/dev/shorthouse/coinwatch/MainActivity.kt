@@ -14,7 +14,6 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.shorthouse.coinwatch.navigation.AppNavHost
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
-import dev.shorthouse.coinwatch.ui.theme.DefaultDarkScrim
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -28,7 +27,7 @@ class MainActivity : ComponentActivity() {
                 scrim = Color.TRANSPARENT,
             ),
             navigationBarStyle = SystemBarStyle.dark(
-                scrim = DefaultDarkScrim,
+                scrim = Color.TRANSPARENT,
             )
         )
 
