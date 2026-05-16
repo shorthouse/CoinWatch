@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -59,6 +58,7 @@ import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.ui.component.CoinSortChip
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
+import dev.shorthouse.coinwatch.ui.insets.AppWindowInsets
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 import dev.shorthouse.coinwatch.ui.preview.MarketUiStatePreviewProvider
@@ -141,7 +141,7 @@ fun MarketScreen(
                 )
             }
         },
-        contentWindowInsets = WindowInsets(top = 0.dp, bottom = 0.dp),
+        contentWindowInsets = AppWindowInsets.horizontalContent,
         modifier = modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection)

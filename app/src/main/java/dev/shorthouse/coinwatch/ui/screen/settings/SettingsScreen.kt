@@ -2,11 +2,8 @@ package dev.shorthouse.coinwatch.ui.screen.settings
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -50,6 +47,7 @@ import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
 import dev.shorthouse.coinwatch.data.source.local.preferences.global.StartScreen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
+import dev.shorthouse.coinwatch.ui.insets.AppWindowInsets
 import dev.shorthouse.coinwatch.ui.preview.SettingsUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.settings.component.CurrencyBottomSheet
 import dev.shorthouse.coinwatch.ui.screen.settings.component.SettingsGroup
@@ -103,9 +101,8 @@ fun SettingsScreen(
         topBar = {
             SettingsTopBar(onNavigateUp = onNavigateUp)
         },
-        modifier = modifier
-            .fillMaxSize()
-            .windowInsetsPadding(WindowInsets.displayCutout)
+        contentWindowInsets = AppWindowInsets.horizontalAndBottomContent,
+        modifier = modifier.fillMaxSize()
     ) { scaffoldPadding ->
         when {
             uiState.isLoading -> {

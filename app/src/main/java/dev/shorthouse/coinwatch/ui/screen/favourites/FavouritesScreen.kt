@@ -8,7 +8,6 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -62,6 +61,7 @@ import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
 import dev.shorthouse.coinwatch.ui.component.CoinSortChip
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.component.ScrollToTopFab
+import dev.shorthouse.coinwatch.ui.insets.AppWindowInsets
 import dev.shorthouse.coinwatch.ui.preview.FavouritesUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouriteCondensedItem
 import dev.shorthouse.coinwatch.ui.screen.favourites.component.FavouriteItem
@@ -159,7 +159,7 @@ fun FavouriteScreen(
                 )
             }
         },
-        contentWindowInsets = WindowInsets(top = 0.dp, bottom = 0.dp),
+        contentWindowInsets = AppWindowInsets.horizontalContent,
         modifier = modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection)

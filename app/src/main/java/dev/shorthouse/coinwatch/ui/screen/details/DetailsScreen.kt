@@ -4,12 +4,9 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -49,6 +46,7 @@ import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
+import dev.shorthouse.coinwatch.ui.insets.AppWindowInsets
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import dev.shorthouse.coinwatch.ui.preview.DetailsScreenPreviewState
 import dev.shorthouse.coinwatch.ui.preview.DetailsScreenPreviewStateProvider
@@ -111,9 +109,9 @@ fun DetailsScreen(
                 }
             }
         },
+        contentWindowInsets = AppWindowInsets.horizontalAndBottomContent,
         modifier = modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection)
-            .windowInsetsPadding(WindowInsets.displayCutout)
     ) { scaffoldPadding ->
         when (uiState) {
             is DetailsUiState.Success -> {
@@ -135,7 +133,7 @@ fun DetailsScreen(
             }
 
             is DetailsUiState.Loading -> {
-                LoadingIndicator()
+                LoadingIndicator(modifier = Modifier.padding(scaffoldPadding))
             }
         }
     }
