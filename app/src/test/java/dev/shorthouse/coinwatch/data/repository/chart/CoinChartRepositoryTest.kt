@@ -361,15 +361,12 @@ class CoinChartRepositoryTest {
         } returns successResponse()
 
         // Act
-        // First fetch at t=0 populates cache
         fakeTimeProvider.nowMillis = 0L
         coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
 
-        // Well within TTL - cache hit
         fakeTimeProvider.nowMillis = 60_000L
         coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
 
-        // Just past TTL - cache evicted, network refetched
         fakeTimeProvider.nowMillis = CoinChartRepositoryImpl.CACHE_TTL_MILLIS + 1L
         coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
 
@@ -394,11 +391,9 @@ class CoinChartRepositoryTest {
         fakeTimeProvider.nowMillis = 0L
         coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
 
-        // Triggers refetch + cache write at this time
         fakeTimeProvider.nowMillis = CoinChartRepositoryImpl.CACHE_TTL_MILLIS + 1L
         coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
 
-        // Within TTL of the refetch - should be a cache hit, not a third network call
         fakeTimeProvider.nowMillis = CoinChartRepositoryImpl.CACHE_TTL_MILLIS + 1L + 60_000L
         coinChartRepository.getCoinChart(coinId, chartPeriod, currency).first()
 
@@ -409,7 +404,7 @@ class CoinChartRepositoryTest {
     }
 
     @Test
-    fun `When cache reaches max size, should evict an entry to make room for new one`() = runTest {
+    fun `When cache reaches max size, should evict oldest entry to make room for new one`() = runTest {
         // Arrange
         val chartPeriod = "1d"
         val currency = Currency.USD
@@ -419,22 +414,18 @@ class CoinChartRepositoryTest {
         } returns successResponse()
 
         // Act
-        // Fill cache to its max size with distinct coin ids
         repeat(CoinChartRepositoryImpl.MAX_CACHE_SIZE) { index ->
+            fakeTimeProvider.nowMillis = index.toLong()
             coinChartRepository.getCoinChart("coin-$index", chartPeriod, currency).first()
         }
 
-        // One more entry forces an eviction
+        fakeTimeProvider.nowMillis = 10_000L
         coinChartRepository.getCoinChart("overflow-coin", chartPeriod, currency).first()
 
-        // Re-request every original coin - at least one must have been evicted and refetch
-        repeat(CoinChartRepositoryImpl.MAX_CACHE_SIZE) { index ->
-            coinChartRepository.getCoinChart("coin-$index", chartPeriod, currency).first()
-        }
+        coinChartRepository.getCoinChart("coin-0", chartPeriod, currency).first()
 
         // Assert
-        // Total: MAX_CACHE_SIZE (initial fill) + 1 (overflow) + at least 1 (evicted refetch)
-        coVerify(atLeast = CoinChartRepositoryImpl.MAX_CACHE_SIZE + 2) {
+        coVerify(exactly = CoinChartRepositoryImpl.MAX_CACHE_SIZE + 2) {
             coinNetworkDataSource.getCoinChart(any(), chartPeriod, currency)
         }
     }

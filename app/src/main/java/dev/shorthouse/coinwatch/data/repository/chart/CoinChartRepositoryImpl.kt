@@ -89,14 +89,39 @@ class CoinChartRepositoryImpl @Inject constructor(
     }
 
     private fun putInCache(cacheKey: CacheKey, coinChart: CoinChart) {
-        if (cache.size >= MAX_CACHE_SIZE) {
-            val keyToEvict = cache.keys.firstOrNull()
-            if (keyToEvict != null) cache.remove(keyToEvict)
-        }
+        val now = timeProvider.elapsedRealtimeMillis()
+
+        removeExpiredCacheEntries(now)
+
         cache[cacheKey] = CachedChart(
             coinChart = coinChart,
-            cachedAtMillis = timeProvider.elapsedRealtimeMillis()
+            cachedAtMillis = now
         )
+
+        if (cache.size > MAX_CACHE_SIZE) {
+            removeOldestCacheEntry(excludedKey = cacheKey)
+        }
+    }
+
+    private fun removeExpiredCacheEntries(now: Long) {
+        cache.forEach { (key, cachedChart) ->
+            val cacheAgeMillis = now - cachedChart.cachedAtMillis
+
+            if (cacheAgeMillis > CACHE_TTL_MILLIS) {
+                cache.remove(key, cachedChart)
+            }
+        }
+    }
+
+    private fun removeOldestCacheEntry(excludedKey: CacheKey) {
+        val oldestEntry = cache
+            .asSequence()
+            .filter { (key, _) -> key != excludedKey }
+            .minByOrNull { (_, cachedChart) -> cachedChart.cachedAtMillis }
+
+        if (oldestEntry != null) {
+            cache.remove(oldestEntry.key, oldestEntry.value)
+        }
     }
 
     internal companion object {
