@@ -31,3 +31,29 @@ jobs:
   
       - name: Build with Gradle
         run: ./gradlew build
+
+  screenshot-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Access API_KEY
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+        run: echo API_KEY=\"$API_KEY\" > ./apikey.properties
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Run screenshot tests
+        run: ./gradlew validateDebugScreenshotTest
