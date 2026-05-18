@@ -66,6 +66,17 @@ android {
             assets.directories += "$projectDir/schemas"
         }
     }
+    testOptions {
+        managedDevices {
+            localDevices {
+                create("pixel2api30") {
+                    device = "Pixel 2"
+                    apiLevel = 30
+                    systemImageSource = "aosp-atd"
+                }
+            }
+        }
+    }
 }
 
 kotlin {

@@ -37,12 +37,19 @@ jobs:
         name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
   
-      - &grant-gradlew
-        name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew
-  
       - name: Build with Gradle
         run: ./gradlew build
+
+      - name: Upload unit test reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: unit-test-reports
+          path: |
+            app/build/reports/tests/testDebugUnitTest/
+            app/build/test-results/testDebugUnitTest/
+          if-no-files-found: ignore
+          retention-days: 7
 
   screenshot-tests:
     runs-on: ubuntu-latest
@@ -51,7 +58,6 @@ jobs:
       - *setup-java
       - *write-api-key
       - *setup-gradle
-      - *grant-gradlew
 
       - name: Run screenshot tests
         run: ./gradlew validateDebugScreenshotTest
@@ -65,5 +71,29 @@ jobs:
             app/build/reports/screenshotTest/
             app/build/test-results/validateDebugScreenshotTest/
             app/build/outputs/screenshotTest-results/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  instrumented-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - *checkout
+      - *setup-java
+      - *write-api-key
+      - *setup-gradle
+
+      - name: Run managed device instrumented tests
+        run: ./gradlew pixel2api30DebugAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect
+
+      - name: Upload instrumented test reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: instrumented-test-reports
+          path: |
+            app/build/reports/androidTests/managedDevice/
+            app/build/outputs/androidTest-results/managedDevice/
+            app/build/outputs/managed_device_android_test_additional_output/
           if-no-files-found: ignore
           retention-days: 7
