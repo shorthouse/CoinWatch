@@ -2,10 +2,16 @@ package dev.shorthouse.coinwatch.model
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
+import dev.shorthouse.coinwatch.rule.LocaleRule
+import org.junit.Rule
 import org.junit.Test
 import java.math.BigDecimal
+import java.util.Locale
 
 class PriceTest {
+
+    @get:Rule
+    val localeRule = LocaleRule(Locale.US)
 
     @Test
     fun `When null input should create empty price`() {
@@ -778,5 +784,122 @@ class PriceTest {
 
         assertThat(price.amount).isEqualTo(BigDecimal("-1234567.89"))
         assertThat(price.formattedAmount).isEqualTo("-$1,234,567.89")
+    }
+
+    @Test
+    fun `When display locale is en-US and FORMAT locale is de-DE should use FORMAT locale`() {
+        localeRule.withLocales(displayLocale = Locale.US, formatLocale = Locale.GERMANY) {
+            val formatted = Price("1234.56", Currency.USD).formattedAmount
+
+            assertThat(formatted).contains("1.234")
+            assertThat(formatted).contains(",56")
+        }
+    }
+
+    @Test
+    fun `When FORMAT locale changes formattedAmount should recompute lazily`() {
+        val price = localeRule.withLocale(Locale.US) {
+            Price("1234.56", Currency.USD).also {
+                assertThat(it.formattedAmount).contains("$1,234.56")
+            }
+        }
+
+        localeRule.withLocale(Locale.GERMANY) {
+            assertThat(price.formattedAmount).contains("1.234")
+            assertThat(price.formattedAmount).contains(",56")
+        }
+    }
+
+    @Test
+    fun `When FORMAT locale changes amount should remain locale independent`() {
+        localeRule.withLocale(Locale.GERMANY) {
+            val price = Price("1,234.56", Currency.USD)
+
+            assertThat(price.amount).isEqualTo(BigDecimal("1234.56"))
+            assertThat(price.formattedAmount).contains("1.234")
+            assertThat(price.formattedAmount).contains(",56")
+        }
+    }
+
+    @Test
+    fun `When FORMAT locale is de-DE missing amount should use locale-aware placeholder for all currencies`() {
+        localeRule.withLocale(Locale.GERMANY) {
+            listOf(
+                Currency.USD to "$",
+                Currency.GBP to "£",
+                Currency.EUR to "€",
+            ).forEach { (currency, symbol) ->
+                val formatted = Price(null, currency).formattedAmount
+                val dashIndex = formatted.indexOf('—')
+                val symbolIndex = formatted.indexOf(symbol)
+
+                assertThat(formatted.count { it == '—' }).isEqualTo(1)
+                assertThat(symbolIndex).isAtLeast(0)
+                assertThat(dashIndex).isLessThan(symbolIndex)
+            }
+        }
+    }
+
+    @Test
+    fun `When FORMAT locale is de-DE invalid amount should use locale-aware missing placeholder`() {
+        localeRule.withLocale(Locale.GERMANY) {
+            val price = Price("1.x", Currency.USD)
+            val formatted = price.formattedAmount
+
+            assertThat(price.amount).isEqualTo(BigDecimal.ZERO)
+            assertThat(formatted.count { it == '—' }).isEqualTo(1)
+            assertThat(formatted).contains("$")
+            assertThat(formatted).isNotEqualTo("$—")
+        }
+    }
+
+    @Test
+    fun `When FORMAT locale is de-DE abbreviated amount should keep suffix adjacent to digits`() {
+        localeRule.withLocale(Locale.GERMANY) {
+            val formatted = Price("49491394", Currency.USD).formattedAmount
+            val mIndex = formatted.indexOf('M')
+
+            assertThat(mIndex).isGreaterThan(0)
+            assertThat(formatted[mIndex - 1].isDigit()).isTrue()
+            assertThat(formatted.endsWith("\$M")).isFalse()
+            assertThat(formatted).doesNotContain("\$M")
+        }
+    }
+
+    @Test
+    fun `When FORMAT locale is de-DE small amount should keep custom six decimal places`() {
+        localeRule.withLocale(Locale.GERMANY) {
+            val formatted = Price("0.000123", Currency.USD).formattedAmount
+
+            assertThat(formatted).contains(",000123")
+        }
+    }
+
+    @Test
+    fun `When FORMAT locale is de-DE negative amount should keep locale-aware sign and separators`() {
+        localeRule.withLocale(Locale.GERMANY) {
+            val formatted = Price("-1234.56", Currency.USD).formattedAmount
+
+            assertThat(formatted).startsWith("-")
+            assertThat(formatted).contains("1.234")
+            assertThat(formatted).contains(",56")
+        }
+    }
+
+    @Test
+    fun `When equal prices are created under different FORMAT locales should remain equal`() {
+        val usPrice = localeRule.withLocale(Locale.US) {
+            Price("1.23", Currency.USD).also {
+                assertThat(it.formattedAmount).contains("$1.23")
+            }
+        }
+        val germanPrice = localeRule.withLocale(Locale.GERMANY) {
+            Price("1.23", Currency.USD).also {
+                assertThat(it.formattedAmount).contains(",23")
+            }
+        }
+
+        assertThat(germanPrice).isEqualTo(usPrice)
+        assertThat(germanPrice.hashCode()).isEqualTo(usPrice.hashCode())
     }
 }
