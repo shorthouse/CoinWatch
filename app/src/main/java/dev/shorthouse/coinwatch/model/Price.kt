@@ -2,7 +2,7 @@ package dev.shorthouse.coinwatch.model
 
 import dev.shorthouse.coinwatch.common.Constants.MISSING_VALUE_PLACEHOLDER
 import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrNull
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import java.math.BigDecimal
 
 data class Price(val price: String?, val currency: Currency = Currency.USD) : Comparable<Price> {

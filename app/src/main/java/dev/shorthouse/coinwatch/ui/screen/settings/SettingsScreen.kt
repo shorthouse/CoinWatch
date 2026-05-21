@@ -43,8 +43,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.shorthouse.coinwatch.BuildConfig
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.StartScreen
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.StartScreen
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
 import dev.shorthouse.coinwatch.ui.insets.AppWindowInsets

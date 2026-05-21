@@ -11,8 +11,10 @@ import dev.shorthouse.coinwatch.domain.details.GetCoinChartUseCase
 import dev.shorthouse.coinwatch.domain.details.GetCoinDetailsUseCase
 import dev.shorthouse.coinwatch.domain.favourites.IsCoinFavouriteUseCase
 import dev.shorthouse.coinwatch.domain.favourites.ToggleIsCoinFavouriteUseCase
+import dev.shorthouse.coinwatch.domain.reviewprompt.RecordFavouriteAddedUseCase
+import dev.shorthouse.coinwatch.domain.reviewprompt.RecordSuccessfulDetailsViewUseCase
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
-import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,6 +23,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
@@ -28,13 +31,16 @@ class DetailsViewModel @Inject constructor(
     private val getCoinChartUseCase: GetCoinChartUseCase,
     private val isCoinFavouriteUseCase: IsCoinFavouriteUseCase,
     private val toggleIsCoinFavouriteUseCase: ToggleIsCoinFavouriteUseCase,
-    savedStateHandle: SavedStateHandle
+    private val recordSuccessfulDetailsViewUseCase: RecordSuccessfulDetailsViewUseCase,
+    private val recordFavouriteAddedUseCase: RecordFavouriteAddedUseCase,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<DetailsUiState>(DetailsUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
     private val coinId = savedStateHandle.get<String>(PARAM_COIN_ID)
     private val chartPeriodFlow = MutableStateFlow(ChartPeriod.Day)
+    private var hasRecordedSuccessfulDetailsView = false
 
     init {
         initialiseUiState()
@@ -87,6 +93,16 @@ class DetailsViewModel @Inject constructor(
                             isCoinFavourite = isCoinFavouriteResult.data
                         )
                     }
+
+                    if (!hasRecordedSuccessfulDetailsView) {
+                        runCatching {
+                            recordSuccessfulDetailsViewUseCase()
+                        }.onSuccess {
+                            hasRecordedSuccessfulDetailsView = true
+                        }.onFailure { throwable ->
+                            if (throwable is CancellationException) throw throwable
+                        }
+                    }
                 }
             }
         }.launchIn(viewModelScope)
@@ -101,7 +117,13 @@ class DetailsViewModel @Inject constructor(
 
         viewModelScope.launch {
             val favouriteCoinId = FavouriteCoinId(id = coinId)
-            toggleIsCoinFavouriteUseCase(favouriteCoinId = favouriteCoinId)
+            val isCoinFavouriteAfterToggle = toggleIsCoinFavouriteUseCase(
+                favouriteCoinId = favouriteCoinId
+            )
+
+            if (isCoinFavouriteAfterToggle) {
+                recordFavouriteAddedUseCase()
+            }
         }
     }
 }

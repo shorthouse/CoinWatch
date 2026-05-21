@@ -7,11 +7,11 @@ import javax.inject.Inject
 class ToggleIsCoinFavouriteUseCase @Inject constructor(
     private val favouriteCoinIdRepository: FavouriteCoinIdRepository
 ) {
-    suspend operator fun invoke(favouriteCoinId: FavouriteCoinId) {
+    suspend operator fun invoke(favouriteCoinId: FavouriteCoinId): Boolean {
         return toggleIsCoinFavourite(favouriteCoinId = favouriteCoinId)
     }
 
-    private suspend fun toggleIsCoinFavourite(favouriteCoinId: FavouriteCoinId) {
+    private suspend fun toggleIsCoinFavourite(favouriteCoinId: FavouriteCoinId): Boolean {
         return favouriteCoinIdRepository.toggleIsCoinFavourite(favouriteCoinId = favouriteCoinId)
     }
 }

@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.source.local.preferences.common
+package dev.shorthouse.coinwatch.data.source.local.datastore.common
 
 enum class CoinSort {
     MarketCap,

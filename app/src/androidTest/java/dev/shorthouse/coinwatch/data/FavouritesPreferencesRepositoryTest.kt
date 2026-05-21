@@ -5,9 +5,9 @@ import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
-import dev.shorthouse.coinwatch.data.source.local.preferences.favourites.FavouritesPreferencesRepository
-import dev.shorthouse.coinwatch.data.source.local.preferences.favourites.FavouritesPreferencesSerializer
+import dev.shorthouse.coinwatch.data.source.local.datastore.common.CoinSort
+import dev.shorthouse.coinwatch.data.source.local.datastore.favourites.FavouritesPreferencesRepository
+import dev.shorthouse.coinwatch.data.source.local.datastore.favourites.FavouritesPreferencesSerializer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job

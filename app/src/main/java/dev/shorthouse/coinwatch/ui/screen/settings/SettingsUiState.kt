@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.ui.screen.settings
 
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.StartScreen
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.StartScreen
 
 data class SettingsUiState(
     val currency: Currency = Currency.USD,
@@ -9,5 +9,5 @@ data class SettingsUiState(
     val startScreen: StartScreen = StartScreen.Market,
     val isStartScreenSheetShown: Boolean = false,
     val isLoading: Boolean = false,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
 )

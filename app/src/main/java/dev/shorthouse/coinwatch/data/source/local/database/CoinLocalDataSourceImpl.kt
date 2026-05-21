@@ -37,13 +37,15 @@ class CoinLocalDataSourceImpl(
         return favouriteCoinIdDao.isCoinFavourite(coinId = favouriteCoinId.id)
     }
 
-    override suspend fun toggleIsCoinFavourite(favouriteCoinId: FavouriteCoinId) {
+    override suspend fun toggleIsCoinFavourite(favouriteCoinId: FavouriteCoinId): Boolean {
         val isCoinFavourite = favouriteCoinIdDao.isCoinFavouriteOneShot(favouriteCoinId.id)
 
-        if (isCoinFavourite) {
+        return if (isCoinFavourite) {
             favouriteCoinIdDao.delete(favouriteCoinId)
+            false
         } else {
             favouriteCoinIdDao.insert(favouriteCoinId)
+            true
         }
     }
 }

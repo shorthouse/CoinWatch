@@ -11,7 +11,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.unit.dp
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.common.Constants.MISSING_VALUE_PLACEHOLDER
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.model.CoinLink
 import dev.shorthouse.coinwatch.model.CoinLinkType
@@ -186,7 +186,7 @@ class MarketStatsCardTest {
         numberOfExchanges: String = "248",
         numberOfMarkets: String = "1,098",
         allTimeHigh: Price = Price("4878.26"),
-        allTimeHighDate: String = "10 Nov 2021"
+        allTimeHighDate: String = "10 Nov 2021",
     ): CoinDetails {
         return CoinDetails(
             id = "ethereum",

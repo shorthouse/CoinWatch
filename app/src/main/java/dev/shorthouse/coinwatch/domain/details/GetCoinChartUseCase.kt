@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.domain.details
 
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.UserPreferencesRepository
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.UserPreferencesRepository
 import dev.shorthouse.coinwatch.data.repository.chart.CoinChartRepository
 import dev.shorthouse.coinwatch.model.CoinChart
 import javax.inject.Inject
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 
 class GetCoinChartUseCase @Inject constructor(
     private val coinChartRepository: CoinChartRepository,
-    private val userPreferencesRepository: UserPreferencesRepository
+    private val userPreferencesRepository: UserPreferencesRepository,
 ) {
     operator fun invoke(coinId: String, chartPeriod: String): Flow<Result<CoinChart>> {
         return getCoinChart(coinId = coinId, chartPeriod = chartPeriod)

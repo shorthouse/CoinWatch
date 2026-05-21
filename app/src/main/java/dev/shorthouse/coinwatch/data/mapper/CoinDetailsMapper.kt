@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.data.mapper
 
 import dev.shorthouse.coinwatch.common.Constants.MISSING_VALUE_PLACEHOLDER
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsData
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsLink

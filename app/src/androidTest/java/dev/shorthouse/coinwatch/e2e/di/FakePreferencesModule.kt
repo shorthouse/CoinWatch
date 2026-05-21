@@ -9,12 +9,14 @@ import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import dev.shorthouse.coinwatch.data.source.local.preferences.favourites.FavouritesPreferences
-import dev.shorthouse.coinwatch.data.source.local.preferences.favourites.FavouritesPreferencesSerializer
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.UserPreferences
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.UserPreferencesSerializer
-import dev.shorthouse.coinwatch.data.source.local.preferences.market.MarketPreferences
-import dev.shorthouse.coinwatch.data.source.local.preferences.market.MarketPreferencesSerializer
+import dev.shorthouse.coinwatch.data.source.local.datastore.favourites.FavouritesPreferences
+import dev.shorthouse.coinwatch.data.source.local.datastore.favourites.FavouritesPreferencesSerializer
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.UserPreferences
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.UserPreferencesSerializer
+import dev.shorthouse.coinwatch.data.source.local.datastore.market.MarketPreferences
+import dev.shorthouse.coinwatch.data.source.local.datastore.market.MarketPreferencesSerializer
+import dev.shorthouse.coinwatch.data.source.local.datastore.reviewanalytics.ReviewAnalytics
+import dev.shorthouse.coinwatch.data.source.local.datastore.reviewanalytics.ReviewAnalyticsSerializer
 import dev.shorthouse.coinwatch.di.PreferencesModule
 import java.io.File
 import java.util.UUID
@@ -71,6 +73,22 @@ object FakePreferencesModule {
             produceFile = { preferencesFile },
             corruptionHandler = ReplaceFileCorruptionHandler(
                 produceNewData = { MarketPreferences() }
+            )
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideReviewAnalytics(
+        @ApplicationContext appContext: Context,
+    ): DataStore<ReviewAnalytics> {
+        val preferencesFile = appContext.testPreferencesFile("review_analytics")
+
+        return DataStoreFactory.create(
+            serializer = ReviewAnalyticsSerializer,
+            produceFile = { preferencesFile },
+            corruptionHandler = ReplaceFileCorruptionHandler(
+                produceNewData = { ReviewAnalytics() }
             )
         )
     }

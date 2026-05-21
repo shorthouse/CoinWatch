@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.data.source.remote
 
-import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.common.CoinSort
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
@@ -12,11 +12,11 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class CoinNetworkDataSourceImpl @Inject constructor(
-    private val coinApi: CoinApi
+    private val coinApi: CoinApi,
 ) : CoinNetworkDataSource {
     override suspend fun getCoins(
         coinSort: CoinSort,
-        currency: Currency
+        currency: Currency,
     ): Response<CoinsApiModel> {
         return coinApi.getCoins(
             orderBy = coinSort.getOrderBy(),
@@ -28,7 +28,7 @@ class CoinNetworkDataSourceImpl @Inject constructor(
     override suspend fun getFavouriteCoins(
         coinIds: List<String>,
         coinSort: CoinSort,
-        currency: Currency
+        currency: Currency,
     ): Response<FavouriteCoinsApiModel> {
         return coinApi.getFavouriteCoins(
             coinIds = coinIds,
@@ -40,7 +40,7 @@ class CoinNetworkDataSourceImpl @Inject constructor(
 
     override suspend fun getCoinDetails(
         coinId: String,
-        currency: Currency
+        currency: Currency,
     ): Response<CoinDetailsApiModel> {
         return coinApi.getCoinDetails(
             coinId = coinId,
@@ -51,7 +51,7 @@ class CoinNetworkDataSourceImpl @Inject constructor(
     override suspend fun getCoinChart(
         coinId: String,
         chartPeriod: String,
-        currency: Currency
+        currency: Currency,
     ): Response<CoinChartApiModel> {
         return coinApi.getCoinChart(
             coinId = coinId,
@@ -61,7 +61,7 @@ class CoinNetworkDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getCoinSearchResults(
-        searchQuery: String
+        searchQuery: String,
     ): Response<CoinSearchResultsApiModel> {
         return coinApi.getCoinSearchResults(searchQuery = searchQuery)
     }

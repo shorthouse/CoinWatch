@@ -5,7 +5,7 @@ import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.common.TimeProvider
 import dev.shorthouse.coinwatch.data.mapper.CoinChartMapper
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartData
@@ -56,6 +56,8 @@ class CoinChartRepositoryTest {
 
     private class FakeTimeProvider(var nowMillis: Long = 0L) : TimeProvider {
         override fun elapsedRealtimeMillis(): Long = nowMillis
+
+        override fun currentEpochMillis(): Long = nowMillis
     }
 
     @After
@@ -432,7 +434,7 @@ class CoinChartRepositoryTest {
 
     private fun successResponse(
         price: String = "27000.44",
-        timestamp: Long = 1700014400L
+        timestamp: Long = 1700014400L,
     ): Response<CoinChartApiModel> {
         return Response.success(
             CoinChartApiModel(

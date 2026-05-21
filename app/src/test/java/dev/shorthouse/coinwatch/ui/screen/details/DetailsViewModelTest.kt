@@ -10,17 +10,18 @@ import dev.shorthouse.coinwatch.domain.details.GetCoinChartUseCase
 import dev.shorthouse.coinwatch.domain.details.GetCoinDetailsUseCase
 import dev.shorthouse.coinwatch.domain.favourites.IsCoinFavouriteUseCase
 import dev.shorthouse.coinwatch.domain.favourites.ToggleIsCoinFavouriteUseCase
+import dev.shorthouse.coinwatch.domain.reviewprompt.RecordFavouriteAddedUseCase
+import dev.shorthouse.coinwatch.domain.reviewprompt.RecordSuccessfulDetailsViewUseCase
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.just
 import io.mockk.mockkClass
-import io.mockk.runs
 import io.mockk.unmockkAll
 import kotlinx.coroutines.flow.flowOf
 import org.junit.After
@@ -49,6 +50,12 @@ class DetailsViewModelTest {
     private lateinit var toggleIsCoinFavouriteUseCase: ToggleIsCoinFavouriteUseCase
 
     @RelaxedMockK
+    private lateinit var recordSuccessfulDetailsViewUseCase: RecordSuccessfulDetailsViewUseCase
+
+    @RelaxedMockK
+    private lateinit var recordFavouriteAddedUseCase: RecordFavouriteAddedUseCase
+
+    @RelaxedMockK
     private lateinit var savedStateHandle: SavedStateHandle
 
     @Before
@@ -56,14 +63,6 @@ class DetailsViewModelTest {
         MockKAnnotations.init(this)
 
         every { savedStateHandle.get<String>(Constants.PARAM_COIN_ID) } returns "Qwsogvtv82FCd"
-
-        viewModel = DetailsViewModel(
-            savedStateHandle = savedStateHandle,
-            getCoinDetailsUseCase = getCoinDetailsUseCase,
-            getCoinChartUseCase = getCoinChartUseCase,
-            isCoinFavouriteUseCase = isCoinFavouriteUseCase,
-            toggleIsCoinFavouriteUseCase = toggleIsCoinFavouriteUseCase
-        )
     }
 
     @After
@@ -77,6 +76,7 @@ class DetailsViewModelTest {
         val expectedUiState = DetailsUiState.Loading
 
         // Act
+        createViewModel()
 
         // Assert
         assertThat(viewModel.uiState.value).isEqualTo(expectedUiState)
@@ -94,7 +94,7 @@ class DetailsViewModelTest {
         every { isCoinFavouriteUseCase(any()) } returns flowOf(Result.Success(false))
 
         // Act
-        viewModel.initialiseUiState()
+        createViewModel()
 
         // Assert
         assertThat(viewModel.uiState.value).isEqualTo(expectedUiState)
@@ -112,7 +112,7 @@ class DetailsViewModelTest {
         every { isCoinFavouriteUseCase(any()) } returns flowOf(Result.Success(false))
 
         // Act
-        viewModel.initialiseUiState()
+        createViewModel()
 
         // Assert
         assertThat(viewModel.uiState.value).isEqualTo(expectedUiState)
@@ -131,7 +131,7 @@ class DetailsViewModelTest {
         every { isCoinFavouriteUseCase(any()) } returns flowOf(Result.Error(errorMessage))
 
         // Act
-        viewModel.initialiseUiState()
+        createViewModel()
 
         // Assert
         assertThat(viewModel.uiState.value).isEqualTo(expectedUiState)
@@ -156,7 +156,7 @@ class DetailsViewModelTest {
         every { isCoinFavouriteUseCase(any()) } returns flowOf(Result.Success(isCoinFavourite))
 
         // Act
-        viewModel.initialiseUiState()
+        createViewModel()
 
         // Assert
         assertThat(viewModel.uiState.value).isEqualTo(expectedUiState)
@@ -181,7 +181,7 @@ class DetailsViewModelTest {
         every { isCoinFavouriteUseCase(any()) } returns flowOf(Result.Success(isCoinFavourite))
 
         // Act
-        viewModel.initialiseUiState()
+        createViewModel()
         viewModel.updateChartPeriod(ChartPeriod.Week)
 
         // Assert
@@ -193,12 +193,171 @@ class DetailsViewModelTest {
         // Arrange
         val coinId = "Qwsogvtv82FCd"
         val favouriteCoinId = FavouriteCoinId(id = coinId)
-        coEvery { toggleIsCoinFavouriteUseCase(favouriteCoinId = favouriteCoinId) } just runs
+        coEvery { toggleIsCoinFavouriteUseCase(favouriteCoinId = favouriteCoinId) } returns true
 
         // Act
+        createViewModel()
         viewModel.toggleIsCoinFavourite()
 
         // Assert
         coVerifySequence { toggleIsCoinFavouriteUseCase(favouriteCoinId = favouriteCoinId) }
+    }
+
+    @Test
+    fun `When uiState reaches Success should record successful details view once`() {
+        // Arrange
+        val coinDetails = mockkClass(CoinDetails::class)
+        val coinChart = mockkClass(CoinChart::class)
+
+        every { getCoinDetailsUseCase(any()) } returns flowOf(Result.Success(coinDetails))
+        every { getCoinChartUseCase(any(), any()) } returns flowOf(Result.Success(coinChart))
+        every { isCoinFavouriteUseCase(any()) } returns flowOf(Result.Success(false))
+
+        // Act
+        createViewModel()
+
+        // Assert
+        coVerify(exactly = 1) { recordSuccessfulDetailsViewUseCase() }
+    }
+
+    @Test
+    fun `When chart period changes after Success should not re-record successful details view`() {
+        // Arrange
+        val coinDetails = mockkClass(CoinDetails::class)
+        val coinChart = mockkClass(CoinChart::class)
+
+        every { getCoinDetailsUseCase(any()) } returns flowOf(Result.Success(coinDetails))
+        every { getCoinChartUseCase(any(), any()) } returns flowOf(Result.Success(coinChart))
+        every { isCoinFavouriteUseCase(any()) } returns flowOf(Result.Success(false))
+
+        // Act
+        createViewModel()
+        viewModel.updateChartPeriod(ChartPeriod.Week)
+        viewModel.updateChartPeriod(ChartPeriod.Month)
+
+        // Assert
+        coVerify(exactly = 1) { recordSuccessfulDetailsViewUseCase() }
+    }
+
+    @Test
+    fun `When favourite state emits multiple values should record successful details view once`() {
+        // Arrange
+        val coinDetails = mockkClass(CoinDetails::class)
+        val coinChart = mockkClass(CoinChart::class)
+
+        every { getCoinDetailsUseCase(any()) } returns flowOf(Result.Success(coinDetails))
+        every { getCoinChartUseCase(any(), any()) } returns flowOf(Result.Success(coinChart))
+        every { isCoinFavouriteUseCase(any()) } returns flowOf(
+            Result.Success(false),
+            Result.Success(true),
+            Result.Success(false),
+        )
+
+        // Act
+        createViewModel()
+
+        // Assert
+        coVerify(exactly = 1) { recordSuccessfulDetailsViewUseCase() }
+    }
+
+    @Test
+    fun `When uiState reaches Error should not record successful details view`() {
+        // Arrange
+        val coinChart = mockkClass(CoinChart::class)
+        val errorMessage = "Coin details error"
+
+        every { getCoinDetailsUseCase(any()) } returns flowOf(Result.Error(errorMessage))
+        every { getCoinChartUseCase(any(), any()) } returns flowOf(Result.Success(coinChart))
+        every { isCoinFavouriteUseCase(any()) } returns flowOf(Result.Success(false))
+
+        // Act
+        createViewModel()
+
+        // Assert
+        coVerify(exactly = 0) { recordSuccessfulDetailsViewUseCase() }
+    }
+
+    @Test
+    fun `When recording successful details view fails should keep success UI state`() {
+        // Arrange
+        val coinDetails = mockkClass(CoinDetails::class)
+        val coinChart = mockkClass(CoinChart::class)
+
+        val expectedUiState = DetailsUiState.Success(
+            coinDetails = coinDetails,
+            coinChart = coinChart,
+            chartPeriod = ChartPeriod.Day,
+            isCoinFavourite = false
+        )
+
+        every { getCoinDetailsUseCase(any()) } returns flowOf(Result.Success(coinDetails))
+        every { getCoinChartUseCase(any(), any()) } returns flowOf(Result.Success(coinChart))
+        every { isCoinFavouriteUseCase(any()) } returns flowOf(Result.Success(false))
+        coEvery { recordSuccessfulDetailsViewUseCase() } throws RuntimeException("Analytics error")
+
+        // Act
+        createViewModel()
+
+        // Assert
+        assertThat(viewModel.uiState.value).isEqualTo(expectedUiState)
+    }
+
+    @Test
+    fun `When recording successful details view fails should retry on next success emission`() {
+        // Arrange
+        val coinDetails = mockkClass(CoinDetails::class)
+        val coinChart = mockkClass(CoinChart::class)
+
+        every { getCoinDetailsUseCase(any()) } returns flowOf(Result.Success(coinDetails))
+        every { getCoinChartUseCase(any(), any()) } returns flowOf(Result.Success(coinChart))
+        every { isCoinFavouriteUseCase(any()) } returns flowOf(Result.Success(false))
+        coEvery { recordSuccessfulDetailsViewUseCase() } throws RuntimeException("Analytics error")
+
+        // Act
+        createViewModel()
+        viewModel.updateChartPeriod(ChartPeriod.Week)
+
+        // Assert
+        coVerify(exactly = 2) { recordSuccessfulDetailsViewUseCase() }
+    }
+
+    @Test
+    fun `When toggling favourite returns true should record favourite added`() {
+        // Arrange
+        val favouriteCoinId = FavouriteCoinId(id = "Qwsogvtv82FCd")
+        coEvery { toggleIsCoinFavouriteUseCase(favouriteCoinId = favouriteCoinId) } returns true
+
+        // Act
+        createViewModel()
+        viewModel.toggleIsCoinFavourite()
+
+        // Assert
+        coVerify(exactly = 1) { recordFavouriteAddedUseCase() }
+    }
+
+    @Test
+    fun `When toggling favourite returns false should not record favourite added`() {
+        // Arrange
+        val favouriteCoinId = FavouriteCoinId(id = "Qwsogvtv82FCd")
+        coEvery { toggleIsCoinFavouriteUseCase(favouriteCoinId = favouriteCoinId) } returns false
+
+        // Act
+        createViewModel()
+        viewModel.toggleIsCoinFavourite()
+
+        // Assert
+        coVerify(exactly = 0) { recordFavouriteAddedUseCase() }
+    }
+
+    private fun createViewModel() {
+        viewModel = DetailsViewModel(
+            savedStateHandle = savedStateHandle,
+            getCoinDetailsUseCase = getCoinDetailsUseCase,
+            getCoinChartUseCase = getCoinChartUseCase,
+            isCoinFavouriteUseCase = isCoinFavouriteUseCase,
+            toggleIsCoinFavouriteUseCase = toggleIsCoinFavouriteUseCase,
+            recordSuccessfulDetailsViewUseCase = recordSuccessfulDetailsViewUseCase,
+            recordFavouriteAddedUseCase = recordFavouriteAddedUseCase
+        )
     }
 }

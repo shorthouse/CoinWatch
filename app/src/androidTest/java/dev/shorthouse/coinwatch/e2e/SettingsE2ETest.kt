@@ -11,7 +11,7 @@ import androidx.test.core.app.ActivityScenario
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dev.shorthouse.coinwatch.MainActivity
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.e2e.fixture.Bitcoin
 import dev.shorthouse.coinwatch.e2e.fixture.Ethereum
 import dev.shorthouse.coinwatch.e2e.support.awaitText
@@ -22,6 +22,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+
 @HiltAndroidTest
 class SettingsE2ETest {
 

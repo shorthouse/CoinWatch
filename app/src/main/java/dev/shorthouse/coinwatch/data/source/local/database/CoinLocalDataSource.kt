@@ -12,5 +12,5 @@ interface CoinLocalDataSource {
     suspend fun updateFavouriteCoins(favouriteCoins: List<FavouriteCoin>)
     fun getFavouriteCoinIds(): Flow<List<FavouriteCoinId>>
     fun isCoinFavourite(favouriteCoinId: FavouriteCoinId): Flow<Boolean>
-    suspend fun toggleIsCoinFavourite(favouriteCoinId: FavouriteCoinId)
+    suspend fun toggleIsCoinFavourite(favouriteCoinId: FavouriteCoinId): Boolean
 }

@@ -6,12 +6,10 @@ import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.source.local.database.CoinLocalDataSource
 import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoinId
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import io.mockk.unmockkAll
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -158,20 +156,56 @@ class FavouriteCoinIdRepositoryTest {
     }
 
     @Test
-    fun `When toggling coin favourite should call toggle coin favourite`() = runTest {
+    fun `When toggling coin favourite should delegate to data source`() = runTest {
         // Arrange
         val favouriteCoinId = FavouriteCoinId(id = "Qwsogvtv82FCd")
 
         coEvery {
             coinLocalDataSource.toggleIsCoinFavourite(favouriteCoinId = favouriteCoinId)
-        } just Runs
+        } returns true
 
         // Act
         favouriteCoinIdRepository.toggleIsCoinFavourite(favouriteCoinId = favouriteCoinId)
 
         // Assert
         coVerifySequence {
-            favouriteCoinIdRepository.toggleIsCoinFavourite(favouriteCoinId = favouriteCoinId)
+            coinLocalDataSource.toggleIsCoinFavourite(favouriteCoinId = favouriteCoinId)
         }
+    }
+
+    @Test
+    fun `When toggling coin favourite returns true should return true`() = runTest {
+        // Arrange
+        val favouriteCoinId = FavouriteCoinId(id = "Qwsogvtv82FCd")
+
+        coEvery {
+            coinLocalDataSource.toggleIsCoinFavourite(favouriteCoinId = favouriteCoinId)
+        } returns true
+
+        // Act
+        val result = favouriteCoinIdRepository.toggleIsCoinFavourite(
+            favouriteCoinId = favouriteCoinId
+        )
+
+        // Assert
+        assertThat(result).isTrue()
+    }
+
+    @Test
+    fun `When toggling coin favourite returns false should return false`() = runTest {
+        // Arrange
+        val favouriteCoinId = FavouriteCoinId(id = "Qwsogvtv82FCd")
+
+        coEvery {
+            coinLocalDataSource.toggleIsCoinFavourite(favouriteCoinId = favouriteCoinId)
+        } returns false
+
+        // Act
+        val result = favouriteCoinIdRepository.toggleIsCoinFavourite(
+            favouriteCoinId = favouriteCoinId
+        )
+
+        // Assert
+        assertThat(result).isFalse()
     }
 }

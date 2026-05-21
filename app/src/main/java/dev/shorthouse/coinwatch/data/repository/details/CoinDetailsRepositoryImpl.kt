@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.data.repository.details
 
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.data.mapper.CoinDetailsMapper
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.di.IoDispatcher
@@ -17,7 +17,7 @@ import timber.log.Timber
 class CoinDetailsRepositoryImpl @Inject constructor(
     private val coinNetworkDataSource: CoinNetworkDataSource,
     private val coinDetailsMapper: CoinDetailsMapper,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : CoinDetailsRepository {
     override fun getCoinDetails(coinId: String, currency: Currency): Flow<Result<CoinDetails>> =
         flow {

@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.source.local.preferences.global
+package dev.shorthouse.coinwatch.data.source.local.datastore.global
 
 import androidx.annotation.StringRes
 import dev.shorthouse.coinwatch.R

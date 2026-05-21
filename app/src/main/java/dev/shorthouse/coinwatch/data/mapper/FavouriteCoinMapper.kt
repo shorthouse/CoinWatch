@@ -2,7 +2,7 @@ package dev.shorthouse.coinwatch.data.mapper
 
 import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsApiModel
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import java.math.BigDecimal
@@ -12,7 +12,7 @@ import kotlinx.collections.immutable.toPersistentList
 class FavouriteCoinMapper @Inject constructor() {
     fun mapApiModelToModel(
         apiModel: FavouriteCoinsApiModel,
-        currency: Currency
+        currency: Currency,
     ): List<FavouriteCoin> {
         val validFavouriteCoins = apiModel.favouriteCoinsData?.favouriteCoins
             .orEmpty()

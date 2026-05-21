@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface FavouriteCoinIdRepository {
     fun getFavouriteCoinIds(): Flow<Result<List<FavouriteCoinId>>>
     fun isCoinFavourite(favouriteCoinId: FavouriteCoinId): Flow<Result<Boolean>>
-    suspend fun toggleIsCoinFavourite(favouriteCoinId: FavouriteCoinId)
+    suspend fun toggleIsCoinFavourite(favouriteCoinId: FavouriteCoinId): Boolean
 }

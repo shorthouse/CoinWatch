@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.ui.component.AppBottomSheet
 import dev.shorthouse.coinwatch.ui.component.BottomSheetOption
 import kotlinx.collections.immutable.persistentListOf
@@ -34,7 +34,7 @@ fun CurrencyBottomSheet(
     selectedCurrency: Currency,
     onCurrencySelected: (Currency) -> Unit,
     onDismissRequest: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val currencyOptions = remember {
         persistentListOf(
@@ -76,7 +76,7 @@ fun CurrencyBottomSheet(
 private data class CurrencyOption(
     val icon: ImageVector,
     @StringRes val labelId: Int,
-    val currency: Currency
+    val currency: Currency,
 )
 
 @OptIn(ExperimentalMaterial3Api::class)

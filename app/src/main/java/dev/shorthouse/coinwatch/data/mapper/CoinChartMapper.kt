@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.data.mapper
 
 import dev.shorthouse.coinwatch.common.toSanitisedBigDecimalOrNull
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinChartApiModel
 import dev.shorthouse.coinwatch.model.CoinChart
 import dev.shorthouse.coinwatch.model.Percentage
@@ -23,7 +23,7 @@ class CoinChartMapper @Inject constructor() {
         apiModel: CoinChartApiModel,
         currency: Currency,
         zone: ZoneId = ZoneId.systemDefault(),
-        today: LocalDate = LocalDate.now(zone)
+        today: LocalDate = LocalDate.now(zone),
     ): CoinChart {
         val validEntries = apiModel.coinChartData?.pastPrices
             .orEmpty()

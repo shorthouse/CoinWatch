@@ -4,12 +4,12 @@ import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.repository.favouriteCoin.FavouriteCoinRepository
 import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
 import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoinId
-import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.common.CoinSort
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import javax.inject.Inject
 
 class UpdateCachedFavouriteCoinsUseCase @Inject constructor(
-    private val favouriteCoinRepository: FavouriteCoinRepository
+    private val favouriteCoinRepository: FavouriteCoinRepository,
 ) {
     suspend operator fun invoke(
         coinIds: List<FavouriteCoinId>,
@@ -26,7 +26,7 @@ class UpdateCachedFavouriteCoinsUseCase @Inject constructor(
     private suspend fun updateCachedFavouriteCoins(
         coinIds: List<FavouriteCoinId>,
         currency: Currency,
-        coinSort: CoinSort
+        coinSort: CoinSort,
     ): Result<List<FavouriteCoin>> {
         val remoteFavouriteCoinsResult = favouriteCoinRepository.getRemoteFavouriteCoins(
             coinIds = coinIds.map { it.id },

@@ -1,5 +1,7 @@
 package dev.shorthouse.coinwatch.navigation
 
+import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.RowScope
@@ -19,10 +21,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -31,10 +36,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import dev.shorthouse.coinwatch.ui.review.launchInAppReview
 import dev.shorthouse.coinwatch.ui.screen.favourites.FavouritesScreen
 import dev.shorthouse.coinwatch.ui.screen.market.MarketScreen
 import dev.shorthouse.coinwatch.ui.screen.search.SearchScreen
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.launch
 
 @Composable
 fun NavigationBarScaffold(
@@ -42,6 +49,7 @@ fun NavigationBarScaffold(
     onNavigateDetails: (String) -> Unit,
     onNavigateSettings: () -> Unit,
     modifier: Modifier = Modifier,
+    viewModel: NavigationBarViewModel = hiltViewModel(),
 ) {
     val navController = rememberNavController()
 
@@ -52,6 +60,8 @@ fun NavigationBarScaffold(
             NavigationBarScreen.Search
         )
     }
+
+    ReviewPromptOnResumeEffect(viewModel = viewModel)
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -87,6 +97,25 @@ fun NavigationBarScaffold(
         },
         modifier = modifier
     )
+}
+
+@Composable
+internal fun ReviewPromptOnResumeEffect(
+    viewModel: NavigationBarViewModel,
+    launchReview: suspend (Activity) -> Unit = { activity -> launchInAppReview(activity) },
+) {
+    val activity = LocalActivity.current ?: return
+    val coroutineScope = rememberCoroutineScope()
+
+    LifecycleResumeEffect(activity) {
+        coroutineScope.launch {
+            if (!viewModel.isReviewPromptEligible()) return@launch
+
+            viewModel.recordReviewPromptAttempted()
+            launchReview(activity)
+        }
+        onPauseOrDispose {}
+    }
 }
 
 @Composable

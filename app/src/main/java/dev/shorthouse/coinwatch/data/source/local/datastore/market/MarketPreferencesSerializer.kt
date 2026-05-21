@@ -1,6 +1,6 @@
-package dev.shorthouse.coinwatch.data.source.local.preferences.market
+package dev.shorthouse.coinwatch.data.source.local.datastore.market
 
-import dev.shorthouse.coinwatch.data.source.local.preferences.BasePreferencesSerializer
+import dev.shorthouse.coinwatch.data.source.local.datastore.BasePreferencesSerializer
 
 object MarketPreferencesSerializer : BasePreferencesSerializer<MarketPreferences>(
     defaultInstance = { MarketPreferences() },

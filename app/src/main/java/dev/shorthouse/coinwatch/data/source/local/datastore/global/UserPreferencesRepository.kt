@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.source.local.preferences.global
+package dev.shorthouse.coinwatch.data.source.local.datastore.global
 
 import androidx.datastore.core.DataStore
 import kotlinx.coroutines.flow.Flow
@@ -9,7 +9,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 class UserPreferencesRepository @Inject constructor(
-    private val userPreferencesDataStore: DataStore<UserPreferences>
+    private val userPreferencesDataStore: DataStore<UserPreferences>,
 ) {
     val userPreferencesFlow: Flow<UserPreferences> = userPreferencesDataStore.data
         .catch { exception ->

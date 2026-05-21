@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.common.CoinSort
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.domain.market.GetCoinsUseCase
 import dev.shorthouse.coinwatch.domain.preferences.GetMarketPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.market.GetMarketStatsUseCase
@@ -39,7 +39,7 @@ class MarketViewModel @Inject constructor(
     private val updateCachedCoinsUseCase: UpdateCachedCoinsUseCase,
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
     private val getMarketPreferencesUseCase: GetMarketPreferencesUseCase,
-    private val updateMarketCoinSortUseCase: UpdateMarketCoinSortUseCase
+    private val updateMarketCoinSortUseCase: UpdateMarketCoinSortUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(MarketUiState())
     val uiState = _uiState.asStateFlow()

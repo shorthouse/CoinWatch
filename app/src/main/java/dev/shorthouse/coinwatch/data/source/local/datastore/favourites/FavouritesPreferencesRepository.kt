@@ -1,7 +1,7 @@
-package dev.shorthouse.coinwatch.data.source.local.preferences.favourites
+package dev.shorthouse.coinwatch.data.source.local.datastore.favourites
 
 import androidx.datastore.core.DataStore
-import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
+import dev.shorthouse.coinwatch.data.source.local.datastore.common.CoinSort
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -10,7 +10,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 class FavouritesPreferencesRepository @Inject constructor(
-    private val favouritesPreferencesDataStore: DataStore<FavouritesPreferences>
+    private val favouritesPreferencesDataStore: DataStore<FavouritesPreferences>,
 ) {
     val favouritesPreferencesFlow: Flow<FavouritesPreferences> = favouritesPreferencesDataStore.data
         .catch { exception ->

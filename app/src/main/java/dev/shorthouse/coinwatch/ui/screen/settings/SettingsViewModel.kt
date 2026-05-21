@@ -3,8 +3,8 @@ package dev.shorthouse.coinwatch.ui.screen.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.StartScreen
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.StartScreen
 import dev.shorthouse.coinwatch.domain.preferences.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.preferences.UpdateCurrencyUseCase
 import dev.shorthouse.coinwatch.domain.preferences.UpdateStartScreenUseCase
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
     private val updateStartScreenUseCase: UpdateStartScreenUseCase,
-    private val updateCurrencyUseCase: UpdateCurrencyUseCase
+    private val updateCurrencyUseCase: UpdateCurrencyUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SettingsUiState(isLoading = true))
     val uiState = _uiState.asStateFlow()

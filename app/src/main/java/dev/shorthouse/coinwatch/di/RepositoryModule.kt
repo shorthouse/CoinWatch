@@ -23,9 +23,12 @@ import dev.shorthouse.coinwatch.data.repository.favouriteCoinId.FavouriteCoinIdR
 import dev.shorthouse.coinwatch.data.repository.favouriteCoinId.FavouriteCoinIdRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.marketStats.MarketStatsRepository
 import dev.shorthouse.coinwatch.data.repository.marketStats.MarketStatsRepositoryImpl
+import dev.shorthouse.coinwatch.data.repository.reviewprompt.ReviewPromptRepository
+import dev.shorthouse.coinwatch.data.repository.reviewprompt.ReviewPromptRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.searchResults.CoinSearchResultsRepository
 import dev.shorthouse.coinwatch.data.repository.searchResults.CoinSearchResultsRepositoryImpl
 import dev.shorthouse.coinwatch.data.source.local.database.CoinLocalDataSource
+import dev.shorthouse.coinwatch.data.source.local.datastore.reviewanalytics.ReviewAnalyticsLocalDataSource
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
@@ -40,7 +43,7 @@ object RepositoryModule {
         coinNetworkDataSource: CoinNetworkDataSource,
         coinLocalDataSource: CoinLocalDataSource,
         coinMapper: CoinMapper,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): CoinRepository {
         return CoinRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
@@ -56,7 +59,7 @@ object RepositoryModule {
         coinNetworkDataSource: CoinNetworkDataSource,
         coinLocalDataSource: CoinLocalDataSource,
         favouriteCoinMapper: FavouriteCoinMapper,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): FavouriteCoinRepository {
         return FavouriteCoinRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
@@ -70,7 +73,7 @@ object RepositoryModule {
     @Singleton
     fun provideFavouriteCoinIdRepository(
         coinLocalDataSource: CoinLocalDataSource,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): FavouriteCoinIdRepository {
         return FavouriteCoinIdRepositoryImpl(
             coinLocalDataSource = coinLocalDataSource,
@@ -83,7 +86,7 @@ object RepositoryModule {
     fun provideCoinDetailsRepository(
         coinNetworkDataSource: CoinNetworkDataSource,
         coinDetailsMapper: CoinDetailsMapper,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): CoinDetailsRepository {
         return CoinDetailsRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
@@ -98,7 +101,7 @@ object RepositoryModule {
         coinNetworkDataSource: CoinNetworkDataSource,
         coinChartMapper: CoinChartMapper,
         timeProvider: TimeProvider,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): CoinChartRepository {
         return CoinChartRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
@@ -113,7 +116,7 @@ object RepositoryModule {
     fun provideCoinSearchResultsRepository(
         coinNetworkDataSource: CoinNetworkDataSource,
         coinSearchResultsMapper: CoinSearchResultsMapper,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): CoinSearchResultsRepository {
         return CoinSearchResultsRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
@@ -126,11 +129,23 @@ object RepositoryModule {
     @Singleton
     fun providesMarketStatsRepository(
         coinNetworkDataSource: CoinNetworkDataSource,
-        marketStatsMapper: MarketStatsMapper
+        marketStatsMapper: MarketStatsMapper,
     ): MarketStatsRepository {
         return MarketStatsRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
             marketStatsMapper = marketStatsMapper
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideReviewPromptRepository(
+        reviewAnalyticsLocalDataSource: ReviewAnalyticsLocalDataSource,
+        timeProvider: TimeProvider,
+    ): ReviewPromptRepository {
+        return ReviewPromptRepositoryImpl(
+            reviewAnalyticsLocalDataSource = reviewAnalyticsLocalDataSource,
+            timeProvider = timeProvider,
         )
     }
 }

@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.source.local.preferences
+package dev.shorthouse.coinwatch.data.source.local.datastore
 
 import androidx.datastore.core.Serializer
 import kotlinx.serialization.KSerializer
@@ -18,19 +18,19 @@ abstract class BasePreferencesSerializer<T>(
 
     override suspend fun readFrom(input: InputStream): T {
         return try {
-            Json.decodeFromString(
+            Json.Default.decodeFromString(
                 deserializer = serializer,
                 string = input.readBytes().decodeToString()
             )
         } catch (exception: SerializationException) {
-            Timber.e("Error serializing preferences with ${serializer.descriptor}", exception)
+            Timber.Forest.e("Error serializing preferences with ${serializer.descriptor}", exception)
             defaultValue
         }
     }
 
     override suspend fun writeTo(t: T, output: OutputStream) {
         output.write(
-            Json.encodeToString(
+            Json.Default.encodeToString(
                 serializer = serializer,
                 value = t
             ).encodeToByteArray()

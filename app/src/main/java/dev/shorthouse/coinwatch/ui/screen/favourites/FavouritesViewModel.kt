@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.common.CoinSort
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoinId
 import dev.shorthouse.coinwatch.domain.favourites.GetFavouriteCoinIdsUseCase
 import dev.shorthouse.coinwatch.domain.favourites.GetFavouriteCoinsUseCase
@@ -37,7 +37,7 @@ class FavouritesViewModel @Inject constructor(
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
     private val getFavouritesPreferencesUseCase: GetFavouritesPreferencesUseCase,
     private val updateIsFavouritesCondensedUseCase: UpdateIsFavouritesCondensedUseCase,
-    private val updateFavouritesCoinSortUseCase: UpdateFavouritesCoinSortUseCase
+    private val updateFavouritesCoinSortUseCase: UpdateFavouritesCoinSortUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(FavouritesUiState())
     val uiState = _uiState.asStateFlow()
@@ -153,7 +153,7 @@ class FavouritesViewModel @Inject constructor(
     private suspend fun updateCachedFavouriteCoins(
         coinIds: List<FavouriteCoinId>,
         currency: Currency,
-        coinSort: CoinSort
+        coinSort: CoinSort,
     ) {
         val updateCachedFavouriteCoinResult = updateCachedFavouriteCoinsUseCase(
             coinIds = coinIds,

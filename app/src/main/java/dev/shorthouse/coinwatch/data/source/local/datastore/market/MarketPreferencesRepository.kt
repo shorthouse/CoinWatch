@@ -1,7 +1,7 @@
-package dev.shorthouse.coinwatch.data.source.local.preferences.market
+package dev.shorthouse.coinwatch.data.source.local.datastore.market
 
 import androidx.datastore.core.DataStore
-import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
+import dev.shorthouse.coinwatch.data.source.local.datastore.common.CoinSort
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -10,7 +10,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 class MarketPreferencesRepository @Inject constructor(
-    private val marketPreferencesDataStore: DataStore<MarketPreferences>
+    private val marketPreferencesDataStore: DataStore<MarketPreferences>,
 ) {
     val marketPreferencesFlow: Flow<MarketPreferences> = marketPreferencesDataStore.data
         .catch { exception ->

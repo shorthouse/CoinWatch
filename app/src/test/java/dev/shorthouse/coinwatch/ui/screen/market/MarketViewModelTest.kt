@@ -4,10 +4,10 @@ import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
 import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.UserPreferences
-import dev.shorthouse.coinwatch.data.source.local.preferences.market.MarketPreferences
+import dev.shorthouse.coinwatch.data.source.local.datastore.common.CoinSort
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.UserPreferences
+import dev.shorthouse.coinwatch.data.source.local.datastore.market.MarketPreferences
 import dev.shorthouse.coinwatch.data.source.local.database.model.Coin
 import dev.shorthouse.coinwatch.domain.market.GetCoinsUseCase
 import dev.shorthouse.coinwatch.domain.preferences.GetMarketPreferencesUseCase

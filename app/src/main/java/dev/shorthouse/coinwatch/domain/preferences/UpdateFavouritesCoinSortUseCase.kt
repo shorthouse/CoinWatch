@@ -1,11 +1,11 @@
 package dev.shorthouse.coinwatch.domain.preferences
 
-import dev.shorthouse.coinwatch.data.source.local.preferences.common.CoinSort
-import dev.shorthouse.coinwatch.data.source.local.preferences.favourites.FavouritesPreferencesRepository
+import dev.shorthouse.coinwatch.data.source.local.datastore.common.CoinSort
+import dev.shorthouse.coinwatch.data.source.local.datastore.favourites.FavouritesPreferencesRepository
 import javax.inject.Inject
 
 class UpdateFavouritesCoinSortUseCase @Inject constructor(
-    private val favouritesPreferencesRepository: FavouritesPreferencesRepository
+    private val favouritesPreferencesRepository: FavouritesPreferencesRepository,
 ) {
     suspend operator fun invoke(coinSort: CoinSort) {
         updateFavouritesCoinSort(coinSort = coinSort)

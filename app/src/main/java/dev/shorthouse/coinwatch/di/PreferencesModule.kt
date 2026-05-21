@@ -10,12 +10,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.shorthouse.coinwatch.data.source.local.preferences.favourites.FavouritesPreferences
-import dev.shorthouse.coinwatch.data.source.local.preferences.favourites.FavouritesPreferencesSerializer
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.UserPreferences
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.UserPreferencesSerializer
-import dev.shorthouse.coinwatch.data.source.local.preferences.market.MarketPreferences
-import dev.shorthouse.coinwatch.data.source.local.preferences.market.MarketPreferencesSerializer
+import dev.shorthouse.coinwatch.data.source.local.datastore.favourites.FavouritesPreferences
+import dev.shorthouse.coinwatch.data.source.local.datastore.favourites.FavouritesPreferencesSerializer
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.UserPreferences
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.UserPreferencesSerializer
+import dev.shorthouse.coinwatch.data.source.local.datastore.market.MarketPreferences
+import dev.shorthouse.coinwatch.data.source.local.datastore.market.MarketPreferencesSerializer
+import dev.shorthouse.coinwatch.data.source.local.datastore.reviewanalytics.ReviewAnalytics
+import dev.shorthouse.coinwatch.data.source.local.datastore.reviewanalytics.ReviewAnalyticsSerializer
 import javax.inject.Singleton
 
 @Module
@@ -25,7 +27,7 @@ object PreferencesModule {
     @Provides
     @Singleton
     fun provideUserPreferencesDataStore(
-        @ApplicationContext appContext: Context
+        @ApplicationContext appContext: Context,
     ): DataStore<UserPreferences> {
         return DataStoreFactory.create(
             serializer = UserPreferencesSerializer,
@@ -39,7 +41,7 @@ object PreferencesModule {
     @Provides
     @Singleton
     fun provideFavouritesPreferencesDataStore(
-        @ApplicationContext appContext: Context
+        @ApplicationContext appContext: Context,
     ): DataStore<FavouritesPreferences> {
         return DataStoreFactory.create(
             serializer = FavouritesPreferencesSerializer,
@@ -53,13 +55,27 @@ object PreferencesModule {
     @Provides
     @Singleton
     fun provideMarketPreferences(
-        @ApplicationContext appContext: Context
+        @ApplicationContext appContext: Context,
     ): DataStore<MarketPreferences> {
         return DataStoreFactory.create(
             serializer = MarketPreferencesSerializer,
             produceFile = { appContext.dataStoreFile("market_preferences.pb") },
             corruptionHandler = ReplaceFileCorruptionHandler(
                 produceNewData = { MarketPreferences() }
+            )
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideReviewAnalytics(
+        @ApplicationContext appContext: Context,
+    ): DataStore<ReviewAnalytics> {
+        return DataStoreFactory.create(
+            serializer = ReviewAnalyticsSerializer,
+            produceFile = { appContext.dataStoreFile("review_analytics.pb") },
+            corruptionHandler = ReplaceFileCorruptionHandler(
+                produceNewData = { ReviewAnalytics() }
             )
         )
     }

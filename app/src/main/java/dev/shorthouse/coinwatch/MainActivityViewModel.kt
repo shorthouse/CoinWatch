@@ -3,7 +3,7 @@ package dev.shorthouse.coinwatch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.StartScreen
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.StartScreen
 import dev.shorthouse.coinwatch.domain.preferences.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.navigation.NavigationBarScreen
 import javax.inject.Inject
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.update
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    private val getUserPreferencesUseCase: GetUserPreferencesUseCase
+    private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(MainActivityUiState())
     val uiState = _uiState.asStateFlow()

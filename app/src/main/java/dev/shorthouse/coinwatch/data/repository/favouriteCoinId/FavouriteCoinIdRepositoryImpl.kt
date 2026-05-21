@@ -37,8 +37,8 @@ class FavouriteCoinIdRepositoryImpl @Inject constructor(
             .flowOn(ioDispatcher)
     }
 
-    override suspend fun toggleIsCoinFavourite(favouriteCoinId: FavouriteCoinId) {
-        withContext(ioDispatcher) {
+    override suspend fun toggleIsCoinFavourite(favouriteCoinId: FavouriteCoinId): Boolean {
+        return withContext(ioDispatcher) {
             coinLocalDataSource.toggleIsCoinFavourite(favouriteCoinId)
         }
     }

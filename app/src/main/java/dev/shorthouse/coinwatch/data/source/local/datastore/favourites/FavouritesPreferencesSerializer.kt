@@ -1,6 +1,6 @@
-package dev.shorthouse.coinwatch.data.source.local.preferences.favourites
+package dev.shorthouse.coinwatch.data.source.local.datastore.favourites
 
-import dev.shorthouse.coinwatch.data.source.local.preferences.BasePreferencesSerializer
+import dev.shorthouse.coinwatch.data.source.local.datastore.BasePreferencesSerializer
 
 object FavouritesPreferencesSerializer : BasePreferencesSerializer<FavouritesPreferences>(
     defaultInstance = { FavouritesPreferences() },

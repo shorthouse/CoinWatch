@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shorthouse.coinwatch.R
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.StartScreen
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.StartScreen
 import dev.shorthouse.coinwatch.ui.component.AppBottomSheet
 import dev.shorthouse.coinwatch.ui.component.BottomSheetOption
 import kotlinx.collections.immutable.persistentListOf
@@ -34,7 +34,7 @@ fun StartScreenBottomSheet(
     selectedStartScreen: StartScreen,
     onStartScreenSelected: (StartScreen) -> Unit,
     onDismissRequest: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val startScreenOptions = remember {
         persistentListOf(
@@ -76,7 +76,7 @@ fun StartScreenBottomSheet(
 private data class StartScreenOption(
     val icon: ImageVector,
     @StringRes val labelId: Int,
-    val startScreen: StartScreen
+    val startScreen: StartScreen,
 )
 
 @OptIn(ExperimentalMaterial3Api::class)

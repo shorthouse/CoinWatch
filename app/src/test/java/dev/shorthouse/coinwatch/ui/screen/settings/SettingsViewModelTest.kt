@@ -2,9 +2,9 @@ package dev.shorthouse.coinwatch.ui.screen.settings
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.MainDispatcherRule
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.Currency
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.StartScreen
-import dev.shorthouse.coinwatch.data.source.local.preferences.global.UserPreferences
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.StartScreen
+import dev.shorthouse.coinwatch.data.source.local.datastore.global.UserPreferences
 import dev.shorthouse.coinwatch.domain.preferences.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.preferences.UpdateCurrencyUseCase
 import dev.shorthouse.coinwatch.domain.preferences.UpdateStartScreenUseCase
