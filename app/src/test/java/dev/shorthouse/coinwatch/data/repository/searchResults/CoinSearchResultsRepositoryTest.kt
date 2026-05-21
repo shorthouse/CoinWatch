@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.data.repository.searchResults
 
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.MainDispatcherRule
+import dev.shorthouse.coinwatch.rule.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.mapper.CoinSearchResultsMapper
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
@@ -82,7 +82,7 @@ class CoinSearchResultsRepositoryTest {
                                 symbol = "BTC",
                                 name = "Bitcoin",
                                 imageUrl =
-                                "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
+                                    "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg"
                             ),
                             CoinSearchResult(
                                 id = "ZlZpzOJo43mIo",

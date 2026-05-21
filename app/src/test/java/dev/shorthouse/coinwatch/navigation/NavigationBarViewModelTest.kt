@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.navigation
 
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.MainDispatcherRule
+import dev.shorthouse.coinwatch.rule.MainDispatcherRule
 import dev.shorthouse.coinwatch.domain.reviewprompt.IsReviewPromptEligibleUseCase
 import dev.shorthouse.coinwatch.domain.reviewprompt.RecordReviewPromptAttemptedUseCase
 import io.mockk.MockKAnnotations

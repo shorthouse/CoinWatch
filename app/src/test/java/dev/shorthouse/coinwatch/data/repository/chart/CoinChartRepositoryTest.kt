@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.data.repository.chart
 
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.MainDispatcherRule
+import dev.shorthouse.coinwatch.rule.MainDispatcherRule
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.common.TimeProvider
 import dev.shorthouse.coinwatch.data.mapper.CoinChartMapper

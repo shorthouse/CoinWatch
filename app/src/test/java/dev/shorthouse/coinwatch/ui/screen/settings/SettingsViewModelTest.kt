@@ -1,7 +1,7 @@
 package dev.shorthouse.coinwatch.ui.screen.settings
 
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.MainDispatcherRule
+import dev.shorthouse.coinwatch.rule.MainDispatcherRule
 import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.data.source.local.datastore.global.StartScreen
 import dev.shorthouse.coinwatch.data.source.local.datastore.global.UserPreferences
