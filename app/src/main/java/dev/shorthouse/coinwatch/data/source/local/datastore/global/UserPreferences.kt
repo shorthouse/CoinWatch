@@ -10,10 +10,10 @@ data class UserPreferences(
     val startScreen: StartScreen = StartScreen.Market,
 )
 
-enum class Currency(val symbol: String, @StringRes val nameId: Int) {
-    USD("$", R.string.currency_usd),
-    GBP("£", R.string.currency_gbp),
-    EUR("€", R.string.currency_eur)
+enum class Currency(@StringRes val nameId: Int) {
+    USD(R.string.currency_usd),
+    GBP(R.string.currency_gbp),
+    EUR(R.string.currency_eur)
 }
 
 enum class StartScreen(@StringRes val nameId: Int) {
