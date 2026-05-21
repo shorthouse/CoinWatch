@@ -83,19 +83,11 @@ kotlin {
     jvmToolchain(17)
 }
 
-// Pin the screenshot test JVM to en-US as defensive insurance. Empirical observation
-// shows that Layoutlib (the renderer behind AGP's screenshot test framework) pins
-// locale internally for previews on the current AGP version, so this pin does not
-// affect rendering today. We keep it for forward-compatibility: if a future AGP
-// version starts honouring the host JVM default for code paths reading
-// Locale.getDefault(Locale.Category.FORMAT) (e.g. Price.formattedAmount), this pin
-// keeps reference PNGs deterministic across host machines and CI runners.
-tasks.matching { it.name.contains("ScreenshotTest", ignoreCase = true) }
+tasks.withType<Test>()
+    .matching { it.name.contains("ScreenshotTest", ignoreCase = true) }
     .configureEach {
-        if (this is Test) {
-            systemProperty("user.language", "en")
-            systemProperty("user.country", "US")
-        }
+        systemProperty("user.language", "en")
+        systemProperty("user.country", "US")
     }
 
 dependencies {
