@@ -51,6 +51,7 @@ class HiltTestRunner : AndroidJUnitRunner() {
 
     private fun forceLocale() {
         Locale.setDefault(Locale.US)
+        Locale.setDefault(Locale.Category.FORMAT, Locale.US)
         val resources = targetContext.resources
         val config = Configuration(resources.configuration)
         config.setLocale(Locale.US)
