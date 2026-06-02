@@ -21,6 +21,10 @@ import dev.shorthouse.coinwatch.data.source.local.datastore.common.CoinSort
 import dev.shorthouse.coinwatch.data.source.local.database.model.Coin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
+import dev.shorthouse.coinwatch.rule.LocaleRule
+import dev.shorthouse.coinwatch.ui.assertion.assertCurrencyAfterAmount
+import dev.shorthouse.coinwatch.ui.assertion.assertNoTextContaining
+import dev.shorthouse.coinwatch.ui.assertion.assertTextContaining
 import dev.shorthouse.coinwatch.ui.model.TimeOfDay
 import dev.shorthouse.coinwatch.ui.screen.market.MarketScreen
 import dev.shorthouse.coinwatch.ui.screen.market.MarketUiState
@@ -29,10 +33,14 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import org.junit.Rule
 import org.junit.Test
+import java.util.Locale
 
 class MarketScreenTest {
 
-    @get:Rule
+    @get:Rule(order = 0)
+    val localeRule = LocaleRule()
+
+    @get:Rule(order = 1)
     val composeTestRule = createComposeRule()
 
     private val bitcoin = Coin(
@@ -553,6 +561,34 @@ class MarketScreenTest {
             onNodeWithText("ETH").assertIsDisplayed()
             onNodeWithText("$1,875.47").assertIsDisplayed()
             onNodeWithText("-1.84%").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_formatLocaleIsGerman_should_displayCoinPricesWithGermanFormatting() {
+        localeRule.withLocale(Locale.GERMANY) {
+            val uiState = MarketUiState(
+                coins = persistentListOf(bitcoin)
+            )
+
+            composeTestRule.setContent {
+                AppTheme {
+                    MarketScreen(
+                        uiState = uiState,
+                        onCoinClick = {},
+                        onNavigateSettings = {},
+                        onUpdateCoinSort = {},
+                        onRefresh = {},
+                        onDismissError = {}
+                    )
+                }
+            }
+
+            composeTestRule.apply {
+                assertTextContaining("29.446,34")
+                assertCurrencyAfterAmount("29.446,34")
+                assertNoTextContaining("29,446.34")
+            }
         }
     }
 

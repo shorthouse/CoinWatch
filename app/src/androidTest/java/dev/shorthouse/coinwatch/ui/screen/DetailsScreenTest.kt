@@ -18,6 +18,7 @@ import dev.shorthouse.coinwatch.model.CoinLinkType
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.model.PriceEntry
+import dev.shorthouse.coinwatch.rule.LocaleRule
 import dev.shorthouse.coinwatch.ui.model.ChartPeriod
 import dev.shorthouse.coinwatch.ui.screen.details.DetailsContent
 import dev.shorthouse.coinwatch.ui.screen.details.DetailsScreen
@@ -30,7 +31,10 @@ import java.math.BigDecimal
 
 class DetailsScreenTest {
 
-    @get:Rule
+    @get:Rule(order = 0)
+    val localeRule = LocaleRule()
+
+    @get:Rule(order = 1)
     val composeTestRule = createComposeRule()
 
     @Test

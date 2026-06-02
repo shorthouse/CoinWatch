@@ -16,14 +16,24 @@ import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.model.CoinLink
 import dev.shorthouse.coinwatch.model.CoinLinkType
 import dev.shorthouse.coinwatch.model.Price
+import dev.shorthouse.coinwatch.rule.LocaleRule
+import dev.shorthouse.coinwatch.ui.assertion.assertCurrencyAfterAmount
+import dev.shorthouse.coinwatch.ui.assertion.assertTextContaining
+import dev.shorthouse.coinwatch.ui.assertion.currencyRepresentationIndex
+import dev.shorthouse.coinwatch.ui.assertion.displayedTextContaining
+import dev.shorthouse.coinwatch.ui.assertion.displayedTextsContaining
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
 import org.junit.Test
+import java.util.Locale
 
 class MarketStatsCardTest {
 
-    @get:Rule
+    @get:Rule(order = 0)
+    val localeRule = LocaleRule()
+
+    @get:Rule(order = 1)
     val composeTestRule = createComposeRule()
 
     @Test
@@ -78,6 +88,33 @@ class MarketStatsCardTest {
     }
 
     @Test
+    fun when_formatLocaleIsGerman_should_displayAbbreviatedStatsWithSuffixNextToDigits() {
+        localeRule.withLocale(Locale.GERMANY) {
+            composeTestRule.setContent {
+                AppTheme {
+                    MarketStatsCard(coinDetails = coinDetails())
+                }
+            }
+
+            composeTestRule.apply {
+                assertTextContaining("225,72B")
+                assertCurrencyAfterAmount("225,72B")
+
+                val marketCapText = displayedTextContaining("225,72B")
+                val suffixIndex = marketCapText.indexOf('B')
+                assertThat(suffixIndex).isGreaterThan(0)
+                assertThat(marketCapText[suffixIndex - 1].isDigit()).isTrue()
+                assertThat(marketCapText.currencyRepresentationIndex()).isGreaterThan(suffixIndex)
+
+                assertTextContaining("250,00B")
+                assertCurrencyAfterAmount("250,00B")
+                assertTextContaining("6,63B")
+                assertCurrencyAfterAmount("6,63B")
+            }
+        }
+    }
+
+    @Test
     fun when_priceValuesAreMissing_should_displayPricePlaceholders() {
         composeTestRule.setContent {
             AppTheme {
@@ -98,6 +135,35 @@ class MarketStatsCardTest {
             onNodeWithText("Volume (24h)").assertIsDisplayed()
             onNodeWithText("All Time High").assertIsDisplayed()
             onAllNodesWithText("$—").assertCountEquals(4)
+        }
+    }
+
+    @Test
+    fun when_formatLocaleIsGermanAndPricesAreMissing_should_displayLocaleAwarePlaceholders() {
+        localeRule.withLocale(Locale.GERMANY) {
+            composeTestRule.setContent {
+                AppTheme {
+                    MarketStatsCard(
+                        coinDetails = coinDetails(
+                            marketCap = Price(null),
+                            fullyDilutedMarketCap = Price(null),
+                            volume24h = Price(null),
+                            allTimeHigh = Price(null)
+                        )
+                    )
+                }
+            }
+
+            val placeholderTexts = composeTestRule.displayedTextsContaining("—")
+
+            assertThat(placeholderTexts).hasSize(4)
+            placeholderTexts.forEach { placeholderText ->
+                val dashIndex = placeholderText.indexOf('—')
+
+                assertThat(placeholderText.count { it == '—' }).isEqualTo(1)
+                assertThat(placeholderText.currencyRepresentationIndex()).isGreaterThan(dashIndex)
+                assertThat(placeholderText.none { it.isDigit() }).isTrue()
+            }
         }
     }
 

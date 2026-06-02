@@ -21,6 +21,10 @@ import dev.shorthouse.coinwatch.data.source.local.datastore.common.CoinSort
 import dev.shorthouse.coinwatch.data.source.local.database.model.FavouriteCoin
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
+import dev.shorthouse.coinwatch.rule.LocaleRule
+import dev.shorthouse.coinwatch.ui.assertion.assertCurrencyAfterAmount
+import dev.shorthouse.coinwatch.ui.assertion.assertNoTextContaining
+import dev.shorthouse.coinwatch.ui.assertion.assertTextContaining
 import dev.shorthouse.coinwatch.ui.screen.favourites.FavouriteScreen
 import dev.shorthouse.coinwatch.ui.screen.favourites.FavouritesUiState
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
@@ -29,10 +33,14 @@ import kotlinx.collections.immutable.toPersistentList
 import org.junit.Rule
 import org.junit.Test
 import java.math.BigDecimal
+import java.util.Locale
 
 class FavouritesScreenTest {
 
-    @get:Rule
+    @get:Rule(order = 0)
+    val localeRule = LocaleRule()
+
+    @get:Rule(order = 1)
     val composeTestRule = createComposeRule()
 
     private val bitcoin = FavouriteCoin(
@@ -171,6 +179,34 @@ class FavouritesScreenTest {
             onNodeWithText("$1,875.47").assertIsDisplayed()
             onNodeWithText("-1.84%").assertIsDisplayed()
             onNodeWithTag("priceGraph ETH", useUnmergedTree = true).assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_formatLocaleIsGerman_should_displayFavouritePriceWithGermanFormatting() {
+        localeRule.withLocale(Locale.GERMANY) {
+            val uiStateSuccess = FavouritesUiState(
+                favouriteCoins = persistentListOf(bitcoin)
+            )
+
+            composeTestRule.setContent {
+                AppTheme {
+                    FavouriteScreen(
+                        uiState = uiStateSuccess,
+                        onCoinClick = {},
+                        onUpdateIsFavouritesCondensed = {},
+                        onUpdateCoinSort = {},
+                        onRefresh = {},
+                        onDismissError = {},
+                    )
+                }
+            }
+
+            composeTestRule.apply {
+                assertTextContaining("29.446,34")
+                assertCurrencyAfterAmount("29.446,34")
+                assertNoTextContaining("29,446.34")
+            }
         }
     }
 
