@@ -1,10 +1,16 @@
 package dev.shorthouse.coinwatch.model
 
 import com.google.common.truth.Truth.assertThat
-import java.math.BigDecimal
+import dev.shorthouse.coinwatch.rule.LocaleRule
+import org.junit.Rule
 import org.junit.Test
+import java.math.BigDecimal
+import java.util.Locale
 
 class PercentageTest {
+
+    @get:Rule
+    val localeRule = LocaleRule(Locale.US)
 
     @Test
     fun `When positive input should have expected signage function outputs`() {
@@ -47,6 +53,15 @@ class PercentageTest {
     }
 
     @Test
+    fun `When negative input rounds to zero should format as positive zero`() {
+        val percentage = Percentage("-0.001")
+
+        assertThat(percentage.isPositive).isFalse()
+        assertThat(percentage.isNegative).isFalse()
+        assertThat(percentage.formattedAmount).isEqualTo("+0.00%")
+    }
+
+    @Test
     fun `When null input should create empty percentage`() {
         // Arrange
         val nullPercentage: String? = null
@@ -56,7 +71,7 @@ class PercentageTest {
 
         // Assert
         assertThat(percentage.amount).isEqualTo(BigDecimal.ZERO)
-        assertThat(percentage.formattedAmount).isEqualTo("— %")
+        assertThat(percentage.formattedAmount).isEqualTo("—%")
     }
 
     @Test
@@ -69,7 +84,7 @@ class PercentageTest {
 
         // Assert
         assertThat(percentage.amount).isEqualTo(BigDecimal.ZERO)
-        assertThat(percentage.formattedAmount).isEqualTo("— %")
+        assertThat(percentage.formattedAmount).isEqualTo("—%")
     }
 
     @Test
@@ -82,7 +97,7 @@ class PercentageTest {
 
         // Assert
         assertThat(percentage.amount).isEqualTo(BigDecimal.ZERO)
-        assertThat(percentage.formattedAmount).isEqualTo("— %")
+        assertThat(percentage.formattedAmount).isEqualTo("—%")
     }
 
     @Test

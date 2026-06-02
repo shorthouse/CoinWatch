@@ -69,7 +69,7 @@ class PercentageChipTest {
         }
 
         composeTestRule.apply {
-            onNodeWithText("— %").assertIsDisplayed()
+            onNodeWithText("—%").assertIsDisplayed()
         }
     }
 }
