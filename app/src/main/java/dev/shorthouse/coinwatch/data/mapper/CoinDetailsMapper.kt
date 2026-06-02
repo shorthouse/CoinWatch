@@ -26,10 +26,6 @@ class CoinDetailsMapper @Inject constructor() {
     companion object {
         private val dateFormatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.US)
 
-        private val numberGroupingFormat = NumberFormat.getNumberInstance(Locale.US).apply {
-            isGroupingUsed = true
-        }
-
         private val linkTypes = mapOf(
             "website" to CoinLinkType.Website,
             "whitepaper" to CoinLinkType.Whitepaper,
@@ -42,8 +38,15 @@ class CoinDetailsMapper @Inject constructor() {
         )
     }
 
-    fun mapApiModelToModel(apiModel: CoinDetailsApiModel, currency: Currency): CoinDetails {
+    fun mapApiModelToModel(
+        apiModel: CoinDetailsApiModel,
+        currency: Currency,
+        formatLocale: Locale = Locale.getDefault(Locale.Category.FORMAT),
+    ): CoinDetails {
         val coinDetails = apiModel.coinDetailsDataHolder?.coinDetailsData
+        val numberGroupingFormat = NumberFormat.getNumberInstance(formatLocale).apply {
+            isGroupingUsed = true
+        }
 
         return CoinDetails(
             id = coinDetails?.id.orEmpty(),
@@ -63,19 +66,24 @@ class CoinDetailsMapper @Inject constructor() {
             marketCapRank = coinDetails?.marketCapRank.orPlaceholder(),
             volume24h = Price(coinDetails?.volume24h, currency = currency),
             numberOfExchanges = formatNumberOrPlaceholder(
-                coinDetails?.numberOfExchanges?.toString()
+                coinDetails?.numberOfExchanges?.toString(),
+                numberGroupingFormat
             ),
             numberOfMarkets = formatNumberOrPlaceholder(
-                coinDetails?.numberOfMarkets?.toString()
+                coinDetails?.numberOfMarkets?.toString(),
+                numberGroupingFormat
             ),
             circulatingSupply = formatNumberOrPlaceholder(
-                coinDetails?.supply?.circulatingSupply
+                coinDetails?.supply?.circulatingSupply,
+                numberGroupingFormat
             ),
             totalSupply = formatNumberOrPlaceholder(
-                coinDetails?.supply?.totalSupply
+                coinDetails?.supply?.totalSupply,
+                numberGroupingFormat
             ),
             maxSupply = formatNumberOrPlaceholder(
-                coinDetails?.supply?.maxSupply
+                coinDetails?.supply?.maxSupply,
+                numberGroupingFormat
             ),
             allTimeHigh = Price(coinDetails?.allTimeHigh?.price, currency = currency),
             allTimeHighDate = epochToDateOrPlaceholder(
@@ -104,10 +112,16 @@ class CoinDetailsMapper @Inject constructor() {
         }
     }
 
-    private fun formatNumberOrPlaceholder(numberString: String?): String =
-        formatNumberOrNull(numberString).orPlaceholder()
+    private fun formatNumberOrPlaceholder(
+        numberString: String?,
+        numberGroupingFormat: NumberFormat,
+    ): String =
+        formatNumberOrNull(numberString, numberGroupingFormat).orPlaceholder()
 
-    private fun formatNumberOrNull(numberString: String?): String? {
+    private fun formatNumberOrNull(
+        numberString: String?,
+        numberGroupingFormat: NumberFormat,
+    ): String? {
         val number = numberString?.toDoubleOrNull() ?: return null
 
         return numberGroupingFormat.format(number)

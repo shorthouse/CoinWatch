@@ -13,10 +13,16 @@ import dev.shorthouse.coinwatch.model.CoinDetails
 import dev.shorthouse.coinwatch.model.CoinLink
 import dev.shorthouse.coinwatch.model.CoinLinkType
 import dev.shorthouse.coinwatch.model.Price
+import dev.shorthouse.coinwatch.rule.LocaleRule
 import kotlinx.collections.immutable.persistentListOf
+import org.junit.Rule
 import org.junit.Test
+import java.util.Locale
 
 class CoinDetailsMapperTest {
+
+    @get:Rule
+    val localeRule = LocaleRule(Locale.US)
 
     // Class under test
     private val coinDetailsMapper = CoinDetailsMapper()
@@ -521,6 +527,80 @@ class CoinDetailsMapperTest {
     }
 
     @Test
+    fun `When format locale is passed should format grouped numbers with expected separators`() {
+        // Arrange
+        val coinDetailsApiModel = validNumbersCoinDetailsApiModel()
+
+        val cases = listOf(
+            Locale.US to ExpectedNumbers(
+                numberOfExchanges = "82",
+                numberOfMarkets = "1,211",
+                circulatingSupply = "19,508,368",
+                totalSupply = "19,508,368",
+                maxSupply = "21,000,000"
+            ),
+            Locale.GERMANY to ExpectedNumbers(
+                numberOfExchanges = "82",
+                numberOfMarkets = "1.211",
+                circulatingSupply = "19.508.368",
+                totalSupply = "19.508.368",
+                maxSupply = "21.000.000"
+            ),
+            Locale.FRANCE to ExpectedNumbers(
+                numberOfExchanges = "82",
+                numberOfMarkets = "1\u202F211",
+                circulatingSupply = "19\u202F508\u202F368",
+                totalSupply = "19\u202F508\u202F368",
+                maxSupply = "21\u202F000\u202F000"
+            ),
+            Locale.forLanguageTag("ar-SA") to ExpectedNumbers(
+                numberOfExchanges = "\u0668\u0662",
+                numberOfMarkets = "\u0661\u066C\u0662\u0661\u0661",
+                circulatingSupply = "\u0661\u0669\u066C\u0665\u0660\u0668\u066C\u0663\u0666\u0668",
+                totalSupply = "\u0661\u0669\u066C\u0665\u0660\u0668\u066C\u0663\u0666\u0668",
+                maxSupply = "\u0662\u0661\u066C\u0660\u0660\u0660\u066C\u0660\u0660\u0660"
+            )
+        )
+
+        cases.forEach { (locale, expectedNumbers) ->
+            // Act
+            val coinDetails = coinDetailsMapper.mapApiModelToModel(
+                apiModel = coinDetailsApiModel,
+                currency = defaultCurrency,
+                formatLocale = locale
+            )
+
+            // Assert
+            assertThat(coinDetails.numberOfExchanges).isEqualTo(expectedNumbers.numberOfExchanges)
+            assertThat(coinDetails.numberOfMarkets).isEqualTo(expectedNumbers.numberOfMarkets)
+            assertThat(coinDetails.circulatingSupply).isEqualTo(expectedNumbers.circulatingSupply)
+            assertThat(coinDetails.totalSupply).isEqualTo(expectedNumbers.totalSupply)
+            assertThat(coinDetails.maxSupply).isEqualTo(expectedNumbers.maxSupply)
+        }
+    }
+
+    @Test
+    fun `When format locale default is changed should format grouped numbers with format locale`() {
+        localeRule.withLocales(displayLocale = Locale.US, formatLocale = Locale.GERMANY) {
+            // Arrange
+            val coinDetailsApiModel = validNumbersCoinDetailsApiModel()
+
+            // Act
+            val coinDetails = coinDetailsMapper.mapApiModelToModel(
+                apiModel = coinDetailsApiModel,
+                currency = defaultCurrency
+            )
+
+            // Assert
+            assertThat(coinDetails.numberOfExchanges).isEqualTo("82")
+            assertThat(coinDetails.numberOfMarkets).isEqualTo("1.211")
+            assertThat(coinDetails.circulatingSupply).isEqualTo("19.508.368")
+            assertThat(coinDetails.totalSupply).isEqualTo("19.508.368")
+            assertThat(coinDetails.maxSupply).isEqualTo("21.000.000")
+        }
+    }
+
+    @Test
     fun `When timestamps are invalid should return unavailable values`() {
         // Arrange
         val coinDetailsApiModel = CoinDetailsApiModel(
@@ -919,4 +999,42 @@ class CoinDetailsMapperTest {
         // Assert
         assertThat(coinDetails).isEqualTo(expectedCoinDetails)
     }
+
+    private fun validNumbersCoinDetailsApiModel() = CoinDetailsApiModel(
+        coinDetailsDataHolder = CoinDetailsDataHolder(
+            coinDetailsData = CoinDetailsData(
+                id = null,
+                name = null,
+                symbol = null,
+                description = null,
+                websiteUrl = null,
+                imageUrl = null,
+                currentPrice = null,
+                marketCap = null,
+                fullyDilutedMarketCap = null,
+                marketCapRank = null,
+                volume24h = null,
+                numberOfMarkets = 1211,
+                numberOfExchanges = 82,
+                supply = Supply(
+                    circulatingSupply = "19508368",
+                    totalSupply = "19508368",
+                    maxSupply = "21000000"
+                ),
+                allTimeHigh = null,
+                tags = null,
+                links = null,
+                coinrankingUrl = null,
+                listedAt = null
+            )
+        )
+    )
+
+    private data class ExpectedNumbers(
+        val numberOfExchanges: String,
+        val numberOfMarkets: String,
+        val circulatingSupply: String,
+        val totalSupply: String,
+        val maxSupply: String,
+    )
 }
