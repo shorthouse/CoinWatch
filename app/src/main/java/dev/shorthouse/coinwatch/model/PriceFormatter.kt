@@ -14,23 +14,30 @@ import java.util.Currency as JavaCurrency
 
 internal object PriceFormatter {
     fun format(amount: BigDecimal, currency: Currency, formatLocale: Locale): String {
-        val abbreviation = findAbbreviationOrNull(amount)
+        val abbreviation = findAbbreviationOrNull(amount = amount)
 
         return if (abbreviation == null) {
             val currencyFormat = createCurrencyFormat(
                 currency = currency,
                 formatLocale = formatLocale,
-                decimalPlaces = fractionDigitsFor(amount)
+                decimalPlaces = getAmountDecimalPlaces(amount = amount)
             )
+
             currencyFormat.format(amount)
         } else {
             val shortenedAmount = amount.divide(abbreviation.divisor, 2, roundingMode)
+
             val currencyFormat = createCurrencyFormat(
                 currency = currency,
                 formatLocale = formatLocale,
                 decimalPlaces = 2
             )
-            insertAbbreviationSuffix(currencyFormat, shortenedAmount, abbreviation.suffix)
+
+            insertAbbreviationSuffix(
+                format = currencyFormat,
+                amount = shortenedAmount,
+                suffix = abbreviation.suffix
+            )
         }
     }
 
@@ -124,7 +131,7 @@ internal object PriceFormatter {
         }
     }
 
-    private fun fractionDigitsFor(amount: BigDecimal): Int =
+    private fun getAmountDecimalPlaces(amount: BigDecimal): Int =
         if (amount in smallPriceLowerBound..smallPriceUpperBound) 6 else 2
 
     private val million = BigDecimal("1000000")
