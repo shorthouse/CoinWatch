@@ -565,7 +565,7 @@ class MarketScreenTest {
     }
 
     @Test
-    fun when_formatLocaleIsGerman_should_displayCoinPricesWithGermanFormatting() {
+    fun when_formatLocaleIsGerman_should_displayCoinPricesAndPercentagesWithGermanFormatting() {
         localeRule.withLocale(Locale.GERMANY) {
             val uiState = MarketUiState(
                 coins = persistentListOf(bitcoin)
@@ -588,6 +588,8 @@ class MarketScreenTest {
                 assertTextContaining("29.446,34")
                 assertCurrencyAfterAmount("29.446,34")
                 assertNoTextContaining("29,446.34")
+                assertTextContaining("+1,77 %")
+                assertNoTextContaining("+1.77%")
             }
         }
     }

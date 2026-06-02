@@ -234,4 +234,15 @@ class PercentageTest {
         assertThat(percentage.amount).isEqualTo(BigDecimal("97123456.21"))
         assertThat(percentage.formattedAmount).isEqualTo("+97,123,456.21%")
     }
+
+    @Test
+    fun `When FORMAT locale changes formattedAmount should recompute lazily`() {
+        val percentage = Percentage("1.23")
+
+        assertThat(percentage.formattedAmount).isEqualTo("+1.23%")
+
+        localeRule.withLocale(Locale.GERMANY) {
+            assertThat(percentage.formattedAmount).isEqualTo("+1,23 %")
+        }
+    }
 }

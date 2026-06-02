@@ -4,13 +4,18 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import dev.shorthouse.coinwatch.model.Percentage
+import dev.shorthouse.coinwatch.rule.LocaleRule
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
 import org.junit.Rule
 import org.junit.Test
+import java.util.Locale
 
 class PercentageChipTest {
 
-    @get:Rule
+    @get:Rule(order = 0)
+    val localeRule = LocaleRule(Locale.US)
+
+    @get:Rule(order = 1)
     val composeTestRule = createComposeRule()
 
     @Test

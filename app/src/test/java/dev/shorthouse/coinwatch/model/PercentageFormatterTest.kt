@@ -243,7 +243,13 @@ class PercentageFormatterTest {
 
     @Test
     fun `symbol-after locales place placeholder before percent representation`() {
-        listOf(Locale.US, Locale.UK, Locale.GERMANY, Locale.FRANCE).forEach { locale ->
+        listOf(
+            Locale.US,
+            Locale.UK,
+            Locale.GERMANY,
+            Locale.FRANCE,
+            Locale.forLanguageTag("ar-SA"),
+        ).forEach { locale ->
             val formatted = PercentageFormatter.formatMissing(locale)
             assertPlaceholderBeforePercent(formatted, locale)
         }
