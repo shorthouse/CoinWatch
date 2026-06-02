@@ -15,7 +15,8 @@ object Bitcoin {
     const val RAW_PRICE = "29446.336548759988"
     const val PRICE_CHANGE_PERCENTAGE_24H = "1.76833"
 
-    val FORMATTED_PRICE: String = Price(RAW_PRICE).formattedAmount
+    val FORMATTED_PRICE: String
+        get() = Price(RAW_PRICE).formattedAmount
 
     fun coinApiModel() = CoinApiModel(
         id = ID,
@@ -70,7 +71,8 @@ object Ethereum {
     const val RAW_PRICE = "1875.473083380222"
     const val PRICE_CHANGE_PERCENTAGE_24H = "-1.84"
 
-    val FORMATTED_PRICE: String = Price(RAW_PRICE).formattedAmount
+    val FORMATTED_PRICE: String
+        get() = Price(RAW_PRICE).formattedAmount
 
     fun coinApiModel() = CoinApiModel(
         id = ID,
