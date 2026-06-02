@@ -15,6 +15,9 @@
 -keep class com.google.gson.reflect.TypeToken
 -keep class * extends com.google.gson.reflect.TypeToken
 
+# Suppress missing optional Google Play services nullness annotation referenced by Play Review KTX.
+-dontwarn com.google.android.gms.common.annotation.NoNullnessRewrite
+
 # Keep user preferences enums
 -keep public enum dev.shorthouse.coinwatch.data.source.local.preferences.**{
     *;
