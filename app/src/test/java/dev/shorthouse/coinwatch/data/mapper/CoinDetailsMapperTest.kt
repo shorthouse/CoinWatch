@@ -539,12 +539,33 @@ class CoinDetailsMapperTest {
                 totalSupply = "19,508,368",
                 maxSupply = "21,000,000"
             ),
+            Locale.UK to ExpectedNumbers(
+                numberOfExchanges = "82",
+                numberOfMarkets = "1,211",
+                circulatingSupply = "19,508,368",
+                totalSupply = "19,508,368",
+                maxSupply = "21,000,000"
+            ),
             Locale.GERMANY to ExpectedNumbers(
                 numberOfExchanges = "82",
                 numberOfMarkets = "1.211",
                 circulatingSupply = "19.508.368",
                 totalSupply = "19.508.368",
                 maxSupply = "21.000.000"
+            ),
+            Locale.forLanguageTag("tr-TR") to ExpectedNumbers(
+                numberOfExchanges = "82",
+                numberOfMarkets = "1.211",
+                circulatingSupply = "19.508.368",
+                totalSupply = "19.508.368",
+                maxSupply = "21.000.000"
+            ),
+            Locale.forLanguageTag("de-CH") to ExpectedNumbers(
+                numberOfExchanges = "82",
+                numberOfMarkets = "1’211",
+                circulatingSupply = "19’508’368",
+                totalSupply = "19’508’368",
+                maxSupply = "21’000’000"
             ),
             Locale.FRANCE to ExpectedNumbers(
                 numberOfExchanges = "82",
@@ -598,6 +619,88 @@ class CoinDetailsMapperTest {
             assertThat(coinDetails.totalSupply).isEqualTo("19.508.368")
             assertThat(coinDetails.maxSupply).isEqualTo("21.000.000")
         }
+    }
+
+    @Test
+    fun `When supply crosses grouping boundaries should place separators correctly`() {
+        // Arrange
+        val cases = listOf(
+            "0" to "0",
+            "9" to "9",
+            "999" to "999",
+            "1000" to "1,000",
+            "1000000" to "1,000,000",
+            "1000000000" to "1,000,000,000",
+            "1000000000000" to "1,000,000,000,000"
+        )
+
+        cases.forEach { (supply, expected) ->
+            // Act
+            val coinDetails = coinDetailsMapper.mapApiModelToModel(
+                apiModel = numbersCoinDetailsApiModel(circulating = supply),
+                currency = defaultCurrency,
+                formatLocale = Locale.US
+            )
+
+            // Assert
+            assertThat(coinDetails.circulatingSupply).isEqualTo(expected)
+        }
+    }
+
+    @Test
+    fun `When supply has decimals should group integer part and localise decimal separator`() {
+        // Arrange
+        val cases = listOf(
+            Triple(Locale.US, "19508368.5", "19,508,368.5"),
+            Triple(Locale.GERMANY, "19508368.5", "19.508.368,5"),
+            Triple(Locale.US, "0.123456", "0.123")
+        )
+
+        cases.forEach { (locale, supply, expected) ->
+            // Act
+            val coinDetails = coinDetailsMapper.mapApiModelToModel(
+                apiModel = numbersCoinDetailsApiModel(circulating = supply),
+                currency = defaultCurrency,
+                formatLocale = locale
+            )
+
+            // Assert
+            assertThat(coinDetails.circulatingSupply).isEqualTo(expected)
+        }
+    }
+
+    @Test
+    fun `When supply is negative should place minus sign before grouped number`() {
+        // Arrange
+        val cases = listOf(
+            Locale.US to "-19,508,368",
+            Locale.GERMANY to "-19.508.368"
+        )
+
+        cases.forEach { (locale, expected) ->
+            // Act
+            val coinDetails = coinDetailsMapper.mapApiModelToModel(
+                apiModel = numbersCoinDetailsApiModel(circulating = "-19508368"),
+                currency = defaultCurrency,
+                formatLocale = locale
+            )
+
+            // Assert
+            assertThat(coinDetails.circulatingSupply).isEqualTo(expected)
+        }
+    }
+
+    @Test
+    fun `When supply is not a number should return placeholder regardless of locale`() {
+        // Act
+        val coinDetails = coinDetailsMapper.mapApiModelToModel(
+            apiModel = numbersCoinDetailsApiModel(circulating = "abc"),
+            currency = defaultCurrency,
+            formatLocale = Locale.GERMANY
+        )
+
+        // Assert
+        assertThat(coinDetails.circulatingSupply).isEqualTo(MISSING_VALUE_PLACEHOLDER)
     }
 
     @Test
@@ -1000,7 +1103,15 @@ class CoinDetailsMapperTest {
         assertThat(coinDetails).isEqualTo(expectedCoinDetails)
     }
 
-    private fun validNumbersCoinDetailsApiModel() = CoinDetailsApiModel(
+    private fun validNumbersCoinDetailsApiModel() = numbersCoinDetailsApiModel()
+
+    private fun numbersCoinDetailsApiModel(
+        exchanges: Int? = 82,
+        markets: Int? = 1211,
+        circulating: String? = "19508368",
+        total: String? = "19508368",
+        max: String? = "21000000",
+    ) = CoinDetailsApiModel(
         coinDetailsDataHolder = CoinDetailsDataHolder(
             coinDetailsData = CoinDetailsData(
                 id = null,
@@ -1014,12 +1125,12 @@ class CoinDetailsMapperTest {
                 fullyDilutedMarketCap = null,
                 marketCapRank = null,
                 volume24h = null,
-                numberOfMarkets = 1211,
-                numberOfExchanges = 82,
+                numberOfMarkets = markets,
+                numberOfExchanges = exchanges,
                 supply = Supply(
-                    circulatingSupply = "19508368",
-                    totalSupply = "19508368",
-                    maxSupply = "21000000"
+                    circulatingSupply = circulating,
+                    totalSupply = total,
+                    maxSupply = max
                 ),
                 allTimeHigh = null,
                 tags = null,
