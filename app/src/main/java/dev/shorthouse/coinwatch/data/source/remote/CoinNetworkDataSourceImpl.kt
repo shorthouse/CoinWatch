@@ -7,7 +7,11 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.FearGreedApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.GlobalMarketCoinStatsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.GlobalStatsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.TrendingCoinsApiModel
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -68,6 +72,26 @@ class CoinNetworkDataSourceImpl @Inject constructor(
 
     override suspend fun getMarketStats(): Response<MarketStatsApiModel> {
         return coinApi.getMarketStats()
+    }
+
+    override suspend fun getGlobalStats(currency: Currency): Response<GlobalStatsApiModel> {
+        return coinApi.getGlobalStats(currencyUUID = currency.toCurrencyUUID())
+    }
+
+    override suspend fun getGlobalMarketCoinStats(
+        currency: Currency,
+    ): Response<GlobalMarketCoinStatsApiModel> {
+        return coinApi.getGlobalMarketCoinStats(currencyUUID = currency.toCurrencyUUID())
+    }
+
+    override suspend fun getFearGreed(): Response<FearGreedApiModel> {
+        return coinApi.getFearGreed()
+    }
+
+    override suspend fun getTrendingCoins(
+        currency: Currency,
+    ): Response<TrendingCoinsApiModel> {
+        return coinApi.getTrendingCoins(currencyUUID = currency.toCurrencyUUID())
     }
 }
 

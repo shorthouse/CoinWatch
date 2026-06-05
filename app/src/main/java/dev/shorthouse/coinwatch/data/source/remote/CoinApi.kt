@@ -5,7 +5,11 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinSearchResultsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.FearGreedApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.GlobalMarketCoinStatsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.GlobalStatsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.TrendingCoinsApiModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -52,4 +56,28 @@ interface CoinApi {
 
     @GET("stats/coins")
     suspend fun getMarketStats(): Response<MarketStatsApiModel>
+
+    @GET("stats")
+    suspend fun getGlobalStats(
+        @Query("referenceCurrencyUuid") currencyUUID: String = "yhjMzLPhuIDl"
+    ): Response<GlobalStatsApiModel>
+
+    @GET("stats/coins")
+    suspend fun getGlobalMarketCoinStats(
+        @Query("referenceCurrencyUuid") currencyUUID: String = "yhjMzLPhuIDl",
+        @Query("timePeriod") timePeriod: String = "24h",
+    ): Response<GlobalMarketCoinStatsApiModel>
+
+    @GET("indicators/fear-and-greed")
+    suspend fun getFearGreed(
+        @Query("timePeriod") timePeriod: String = "30d",
+        @Query("interval") interval: String = "day",
+    ): Response<FearGreedApiModel>
+
+    @GET("coins/trending")
+    suspend fun getTrendingCoins(
+        @Query("referenceCurrencyUuid") currencyUUID: String = "yhjMzLPhuIDl",
+        @Query("timePeriod") timePeriod: String = "24h",
+        @Query("tiers[]") tiers: List<Int> = listOf(1, 2),
+    ): Response<TrendingCoinsApiModel>
 }
