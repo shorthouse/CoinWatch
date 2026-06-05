@@ -67,3 +67,4 @@ google-services.json
 *.hprof
 
 .aiexclude
+.agents/
