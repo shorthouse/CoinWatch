@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.assertCountEquals
@@ -24,6 +25,7 @@ import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.PriceEntry
 import dev.shorthouse.coinwatch.ui.model.ScrubData
 import dev.shorthouse.coinwatch.ui.theme.AppTheme
+import dev.shorthouse.coinwatch.ui.theme.NegativeRed
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import org.junit.Rule
@@ -122,6 +124,111 @@ class PriceGraphTest {
 
         composeTestRule.onNodeWithTag(STATIC_CANVAS_TAG, useUnmergedTree = true)
             .assertIsDisplayed()
+    }
+
+    @Test
+    fun when_staticLineGraphHasData_should_drawVisiblePixels() {
+        composeTestRule.setContent {
+            AppTheme {
+                StaticLineGraph(
+                    values = sampleStaticPrices,
+                    lineColor = NegativeRed,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(120.dp)
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag(STATIC_LINE_CANVAS_TAG, useUnmergedTree = true)
+            .assertIsDisplayed()
+
+        assertNodeHasDrawnPixels(STATIC_LINE_CANVAS_TAG)
+    }
+
+    @Test
+    fun when_staticLineGraphUsesFlatValues_should_stillDrawGraph() {
+        composeTestRule.setContent {
+            AppTheme {
+                StaticLineGraph(
+                    values = persistentListOf(
+                        BigDecimal("10.00"),
+                        BigDecimal("10.00"),
+                        BigDecimal("10.00"),
+                        BigDecimal("10.00")
+                    ),
+                    lineColor = NegativeRed,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(120.dp)
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag(STATIC_LINE_CANVAS_TAG, useUnmergedTree = true)
+            .assertIsDisplayed()
+
+        assertNodeHasDrawnPixels(STATIC_LINE_CANVAS_TAG)
+    }
+
+    @Test
+    fun when_staticLineGraphHasSingleValue_should_renderWithoutDrawingFailure() {
+        composeTestRule.setContent {
+            AppTheme {
+                StaticLineGraph(
+                    values = persistentListOf(BigDecimal("10.00")),
+                    lineColor = NegativeRed,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(120.dp)
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag(STATIC_LINE_CANVAS_TAG, useUnmergedTree = true)
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun when_staticLineGraphHasExplicitColor_should_drawThatColor() {
+        composeTestRule.setContent {
+            AppTheme {
+                StaticLineGraph(
+                    values = sampleStaticPrices,
+                    lineColor = NegativeRed,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(120.dp)
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag(STATIC_LINE_CANVAS_TAG, useUnmergedTree = true)
+            .assertIsDisplayed()
+
+        assertNodeContainsColor(STATIC_LINE_CANVAS_TAG, NegativeRed)
+    }
+
+    @Test
+    fun when_staticLineGraphHasCallerTestTag_should_preserveCallerTagAndInternalCanvasTag() {
+        composeTestRule.setContent {
+            AppTheme {
+                StaticLineGraph(
+                    values = sampleStaticPrices,
+                    lineColor = NegativeRed,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(120.dp)
+                        .testTag(CALLER_LINE_GRAPH_TAG)
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag(CALLER_LINE_GRAPH_TAG, useUnmergedTree = true)
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithTag(STATIC_LINE_CANVAS_TAG, useUnmergedTree = true)
+            .assertIsDisplayed()
+        assertNodeHasDrawnPixels(STATIC_LINE_CANVAS_TAG)
     }
 
     @Test
@@ -408,6 +515,31 @@ class PriceGraphTest {
         assertThat(hasDrawnPixel).isTrue()
     }
 
+    private fun assertNodeContainsColor(tag: String, expected: Color, tolerance: Float = 0.06f) {
+        val pixelMap = composeTestRule
+            .onNodeWithTag(tag, useUnmergedTree = true)
+            .captureToImage()
+            .toPixelMap()
+
+        var hasMatchingPixel = false
+        for (x in 0 until pixelMap.width) {
+            for (y in 0 until pixelMap.height) {
+                val pixel = pixelMap[x, y]
+                val matches = kotlin.math.abs(pixel.red - expected.red) <= tolerance &&
+                    kotlin.math.abs(pixel.green - expected.green) <= tolerance &&
+                    kotlin.math.abs(pixel.blue - expected.blue) <= tolerance &&
+                    pixel.alpha >= 1f - tolerance
+                if (matches) {
+                    hasMatchingPixel = true
+                    break
+                }
+            }
+            if (hasMatchingPixel) break
+        }
+
+        assertThat(hasMatchingPixel).isTrue()
+    }
+
     private fun assertNodeTopRowIsUniform(tag: String) {
         val pixelMap = composeTestRule
             .onNodeWithTag(tag, useUnmergedTree = true)
@@ -422,9 +554,11 @@ class PriceGraphTest {
 
     private companion object {
         const val CALLER_STATIC_GRAPH_TAG = "callerStaticPriceGraph"
+        const val CALLER_LINE_GRAPH_TAG = "callerStaticLineGraph"
         const val SCRUB_DATE_LABEL_TAG = "scrubPriceGraphDateLabel"
         const val SCRUB_CANVAS_TAG = "scrubPriceGraphCanvas"
         const val STATIC_CANVAS_TAG = "staticPriceGraphCanvas"
+        const val STATIC_LINE_CANVAS_TAG = "staticLineGraphCanvas"
 
         val sampleStaticPrices = persistentListOf(
             BigDecimal("100.00"),

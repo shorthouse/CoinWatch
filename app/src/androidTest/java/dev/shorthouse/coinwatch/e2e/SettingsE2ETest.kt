@@ -14,6 +14,7 @@ import dev.shorthouse.coinwatch.MainActivity
 import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.e2e.fixture.Bitcoin
 import dev.shorthouse.coinwatch.e2e.fixture.Ethereum
+import dev.shorthouse.coinwatch.e2e.support.awaitSelectedText
 import dev.shorthouse.coinwatch.e2e.support.awaitText
 import dev.shorthouse.coinwatch.e2e.support.awaitTextGone
 import dev.shorthouse.coinwatch.e2e.support.launchMainActivityAfterPreLaunchSetup
@@ -126,6 +127,20 @@ class SettingsE2ETest {
             relaunchActivity()
 
             awaitText("No favourite coins")
+        }
+    }
+
+    @Test
+    fun when_startScreenChangedToPulse_should_startOnPulseAfterActivityRecreate() {
+        composeTestRule.apply {
+            openSettingsFromMarket()
+            selectStartScreen("Pulse")
+            awaitText("Pulse")
+
+            relaunchActivity()
+
+            awaitText("Market Mood")
+            onNodeWithText("Fear").assertIsDisplayed()
         }
     }
 

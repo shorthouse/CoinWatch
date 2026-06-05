@@ -6,6 +6,7 @@ import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -17,6 +18,7 @@ import dev.shorthouse.coinwatch.e2e.fixture.bitcoinFavouriteCoinApiModel
 import dev.shorthouse.coinwatch.e2e.fixture.bitcoinSearchResult
 import dev.shorthouse.coinwatch.e2e.fixture.respondWithFavouriteCoins
 import dev.shorthouse.coinwatch.e2e.fixture.respondWithSearchResults
+import dev.shorthouse.coinwatch.e2e.support.awaitSelectedText
 import dev.shorthouse.coinwatch.e2e.support.awaitText
 import javax.inject.Inject
 import org.junit.Before
@@ -47,6 +49,12 @@ class NavigationE2ETest {
 
             onNodeWithText("Favourites").performClick()
             awaitText("No favourite coins")
+
+            onNodeWithText("Pulse").performClick()
+            awaitText("Market Mood")
+            onNodeWithText("Fear").assertIsDisplayed()
+            onNodeWithText("Trending Now").performScrollTo().assertIsDisplayed()
+            onNodeWithText("#1 Trending").assertIsDisplayed()
 
             onNodeWithText("Search").performClick()
             awaitText("Explore coins")

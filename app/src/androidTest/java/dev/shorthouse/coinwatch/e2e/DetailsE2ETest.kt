@@ -114,9 +114,40 @@ class DetailsE2ETest {
         }
     }
 
+    @Test
+    fun when_detailsOpenedFromPulseTrending_should_displayPrimaryContent() {
+        composeTestRule.apply {
+            openBitcoinDetailsFromPulseTrending()
+
+            assertBitcoinDetailsHeader()
+            onNodeWithText("+1.77%").assertIsDisplayed()
+            onNodeWithText("Past day").assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_detailsBackClickedFromPulse_should_returnToPulse() {
+        composeTestRule.apply {
+            openBitcoinDetailsFromPulseTrending()
+
+            onNodeWithContentDescription("Back").performClick()
+
+            awaitText("Market Mood")
+            onNodeWithText("Trending Now").performScrollTo().assertIsDisplayed()
+        }
+    }
+
     private fun ComposeTestRule.openBitcoinDetailsFromMarket() {
         awaitText(Bitcoin.NAME)
         onNodeWithText(Bitcoin.NAME).performClick()
+        awaitText("Past day")
+    }
+
+    private fun ComposeTestRule.openBitcoinDetailsFromPulseTrending() {
+        awaitText(Bitcoin.NAME)
+        onNodeWithText("Pulse").performClick()
+        awaitText("Trending Now")
+        onNodeWithText(Bitcoin.NAME).performScrollTo().performClick()
         awaitText("Past day")
     }
 
