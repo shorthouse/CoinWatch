@@ -46,6 +46,14 @@ class PercentageFormatterTest {
     }
 
     @Test
+    fun `en-US formats unsigned percentage without plus sign`() {
+        val formatted = PercentageFormatter.formatUnsigned(BigDecimal("54.2"), Locale.US)
+
+        assertThat(formatted).isEqualTo("54.20%")
+        assertThat(formatted).doesNotContain("+")
+    }
+
+    @Test
     fun `en-GB formats positive percentage with plus sign`() {
         assertThat(PercentageFormatter.format(BigDecimal("1.23"), Locale.UK))
             .isEqualTo("+1.23%")
@@ -109,6 +117,15 @@ class PercentageFormatterTest {
     fun `de-DE placeholder places em-dash before percent symbol`() {
         val formatted = PercentageFormatter.formatMissing(Locale.GERMANY)
         assertPlaceholderBeforePercent(formatted, Locale.GERMANY)
+    }
+
+    @Test
+    fun `de-DE formats unsigned percentage with comma decimal separator`() {
+        val de = Locale.GERMANY
+        val formatted = PercentageFormatter.formatUnsigned(BigDecimal("54.2"), de)
+
+        assertThat(formatted).contains("54${decimalSeparator(de)}20")
+        assertThat(formatted).doesNotContain("+")
     }
 
     @Test
@@ -185,6 +202,15 @@ class PercentageFormatterTest {
     }
 
     @Test
+    fun `tr-TR formats unsigned percentage with percent symbol before digits`() {
+        val tr = Locale.forLanguageTag("tr-TR")
+        val formatted = PercentageFormatter.formatUnsigned(BigDecimal("54.2"), tr)
+
+        assertPercentBeforeDigits(formatted, tr)
+        assertThat(formatted).doesNotContain("+")
+    }
+
+    @Test
     fun `ar-SA uses Arabic-Indic digits`() {
         val ar = Locale.forLanguageTag("ar-SA")
         val formatted = PercentageFormatter.format(BigDecimal("1.23"), ar)
@@ -210,6 +236,16 @@ class PercentageFormatterTest {
         val ar = Locale.forLanguageTag("ar-SA")
         val formatted = PercentageFormatter.format(BigDecimal("-1.23"), ar)
         assertThat(formatted).contains(minusSign(ar))
+        assertThat(formatted).doesNotContain("+")
+    }
+
+    @Test
+    fun `ar-SA formats unsigned percentage with localized digits and percent representation`() {
+        val ar = Locale.forLanguageTag("ar-SA")
+        val formatted = PercentageFormatter.formatUnsigned(BigDecimal("54.2"), ar)
+
+        assertThat(formatted.any { it in '٠'..'٩' }).isTrue()
+        assertThat(formatted).contains(percentRepresentation(ar))
         assertThat(formatted).doesNotContain("+")
     }
 
