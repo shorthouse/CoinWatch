@@ -285,6 +285,33 @@ fun StaticPriceGraph(
     }
 }
 
+/**
+ * A line graph for non-price data (e.g. Fear & Greed history) where the caller
+ * supplies the [lineColor] directly rather than deriving it from a percentage.
+ */
+@Composable
+fun StaticLineGraph(
+    values: ImmutableList<BigDecimal>,
+    lineColor: Color,
+    modifier: Modifier = Modifier,
+) {
+    val fillColor = lineColor.copy(alpha = GRAPH_FILL_ALPHA)
+
+    Box(modifier = modifier) {
+        PriceGraphCanvas(
+            prices = values,
+            canvasTag = "staticLineGraphCanvas",
+            modifier = Modifier.matchParentSize(),
+        ) { paths, _ ->
+            drawPriceGraph(
+                paths = paths,
+                lineColor = lineColor,
+                fillColor = fillColor,
+            )
+        }
+    }
+}
+
 private data class PriceGraphPaths(
     val line: Path,
     val fill: Path,
@@ -615,6 +642,29 @@ private fun StaticPriceGraphPreview() {
             BigDecimal("1730.56"),
         ),
         priceChangePercentage = Percentage("0.42"),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(250.dp),
+    )
+
+}
+
+@Composable
+@Preview(showBackground = true)
+@PreviewWrapper(wrapper = AppPreviewWrapper::class)
+private fun StaticLineGraphPreview() {
+    StaticLineGraph(
+        values = persistentListOf(
+            BigDecimal("54"),
+            BigDecimal("50"),
+            BigDecimal("48"),
+            BigDecimal("52"),
+            BigDecimal("46"),
+            BigDecimal("41"),
+            BigDecimal("39"),
+            BigDecimal("36"),
+        ),
+        lineColor = NegativeRed,
         modifier = Modifier
             .fillMaxWidth()
             .height(250.dp),
