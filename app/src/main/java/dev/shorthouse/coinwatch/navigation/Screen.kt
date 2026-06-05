@@ -17,6 +17,11 @@ sealed class NavigationBarScreen(
         nameResourceId = R.string.favourites_screen
     )
 
+    data object Pulse : NavigationBarScreen(
+        route = "pulse_screen",
+        nameResourceId = R.string.pulse_screen
+    )
+
     data object Search : NavigationBarScreen(
         route = "search_screen",
         nameResourceId = R.string.search_screen
