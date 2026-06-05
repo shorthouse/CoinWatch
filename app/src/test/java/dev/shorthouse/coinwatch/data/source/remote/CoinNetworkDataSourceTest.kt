@@ -5,6 +5,9 @@ import dev.shorthouse.coinwatch.data.source.local.datastore.common.CoinSort
 import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.FearGreedApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.GlobalMarketCoinStatsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.GlobalStatsApiModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -91,6 +94,57 @@ class CoinNetworkDataSourceTest {
                 orderBy = "marketCap",
                 orderDirection = "desc",
                 currencyUUID = "yhjMzLPhuIDl"
+            )
+        }
+    }
+
+    @Test
+    fun `When get fear greed should call API with expected queries`() = runTest {
+        // Arrange
+        coEvery { coinApi.getFearGreed(any(), any()) } returns
+            Response.success(FearGreedApiModel(data = null))
+
+        // Act
+        coinNetworkDataSource.getFearGreed()
+
+        // Assert
+        coVerify(exactly = 1) {
+            coinApi.getFearGreed(
+                timePeriod = "30d",
+                interval = "day"
+            )
+        }
+    }
+
+    @Test
+    fun `When get global stats should call API with expected queries`() = runTest {
+        // Arrange
+        coEvery { coinApi.getGlobalStats(any()) } returns
+            Response.success(GlobalStatsApiModel(data = null))
+
+        // Act
+        coinNetworkDataSource.getGlobalStats(currency = Currency.EUR)
+
+        // Assert
+        coVerify(exactly = 1) {
+            coinApi.getGlobalStats(currencyUUID = "5k-_VTxqtCEI")
+        }
+    }
+
+    @Test
+    fun `When get global market coin stats should call API with expected queries`() = runTest {
+        // Arrange
+        coEvery { coinApi.getGlobalMarketCoinStats(any(), any()) } returns
+            Response.success(GlobalMarketCoinStatsApiModel(data = null))
+
+        // Act
+        coinNetworkDataSource.getGlobalMarketCoinStats(currency = Currency.GBP)
+
+        // Assert
+        coVerify(exactly = 1) {
+            coinApi.getGlobalMarketCoinStats(
+                currencyUUID = "Hokyui45Z38f",
+                timePeriod = "24h"
             )
         }
     }

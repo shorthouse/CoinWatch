@@ -5,6 +5,7 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsData
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinDetailsLink
 import dev.shorthouse.coinwatch.data.source.remote.model.Supply
+import dev.shorthouse.coinwatch.data.source.remote.model.TrendingCoinApiModel
 import dev.shorthouse.coinwatch.model.Price
 
 object Bitcoin {
@@ -25,6 +26,17 @@ object Bitcoin {
         imageUrl = IMAGE_URL,
         currentPrice = RAW_PRICE,
         priceChangePercentage24h = PRICE_CHANGE_PERCENTAGE_24H,
+    )
+
+    fun trendingCoinApiModel(rank: Int = 1) = TrendingCoinApiModel(
+        id = ID,
+        symbol = SYMBOL,
+        name = NAME,
+        imageUrl = IMAGE_URL,
+        currentPrice = RAW_PRICE,
+        priceChangePercentage24h = PRICE_CHANGE_PERCENTAGE_24H,
+        rank = rank,
+        sparkline = listOf("29100", "29250", "29446"),
     )
 
     fun coinDetailsData() = CoinDetailsData(
@@ -81,5 +93,16 @@ object Ethereum {
         imageUrl = IMAGE_URL,
         currentPrice = RAW_PRICE,
         priceChangePercentage24h = PRICE_CHANGE_PERCENTAGE_24H,
+    )
+
+    fun trendingCoinApiModel(rank: Int = 1) = TrendingCoinApiModel(
+        id = ID,
+        symbol = SYMBOL,
+        name = NAME,
+        imageUrl = IMAGE_URL,
+        currentPrice = RAW_PRICE,
+        priceChangePercentage24h = PRICE_CHANGE_PERCENTAGE_24H,
+        rank = rank,
+        sparkline = listOf("1850", "1860", "1875"),
     )
 }

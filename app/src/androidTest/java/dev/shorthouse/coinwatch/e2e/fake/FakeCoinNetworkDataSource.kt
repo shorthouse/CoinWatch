@@ -13,10 +13,19 @@ import dev.shorthouse.coinwatch.data.source.remote.model.CoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.CoinsData
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsData
+import dev.shorthouse.coinwatch.data.source.remote.model.FearGreedApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.FearGreedDataPointApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.GlobalMarketCoinStatsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.GlobalMarketCoinStatsData
+import dev.shorthouse.coinwatch.data.source.remote.model.GlobalMarketCoinStatsDataHolder
+import dev.shorthouse.coinwatch.data.source.remote.model.GlobalStatsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.GlobalStatsData
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsData
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsDataHolder
 import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
+import dev.shorthouse.coinwatch.data.source.remote.model.TrendingCoinsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.TrendingCoinsData
 import dev.shorthouse.coinwatch.e2e.fixture.Bitcoin
 import dev.shorthouse.coinwatch.e2e.fixture.Ethereum
 import retrofit2.Response
@@ -49,6 +58,16 @@ class FakeCoinNetworkDataSource @Inject constructor() : CoinNetworkDataSource {
 
     var marketStatsResponse: Response<MarketStatsApiModel> = Response.success(defaultMarketStats())
 
+    var globalStatsResponse: Response<GlobalStatsApiModel> = Response.success(defaultGlobalStats())
+
+    var globalMarketCoinStatsResponse: Response<GlobalMarketCoinStatsApiModel> =
+        Response.success(defaultGlobalMarketCoinStats())
+
+    var fearGreedResponse: Response<FearGreedApiModel> = Response.success(defaultFearGreed())
+
+    var trendingCoinsResponse: Response<TrendingCoinsApiModel> =
+        Response.success(defaultTrendingCoins())
+
     override suspend fun getCoins(
         coinSort: CoinSort,
         currency: Currency,
@@ -77,6 +96,19 @@ class FakeCoinNetworkDataSource @Inject constructor() : CoinNetworkDataSource {
 
     override suspend fun getMarketStats(): Response<MarketStatsApiModel> = marketStatsResponse
 
+    override suspend fun getGlobalStats(currency: Currency): Response<GlobalStatsApiModel> =
+        globalStatsResponse
+
+    override suspend fun getGlobalMarketCoinStats(
+        currency: Currency,
+    ): Response<GlobalMarketCoinStatsApiModel> = globalMarketCoinStatsResponse
+
+    override suspend fun getFearGreed(): Response<FearGreedApiModel> = fearGreedResponse
+
+    override suspend fun getTrendingCoins(
+        currency: Currency,
+    ): Response<TrendingCoinsApiModel> = trendingCoinsResponse
+
     private companion object {
         fun defaultCoins() = CoinsApiModel(
             coinsData = CoinsData(
@@ -104,6 +136,40 @@ class FakeCoinNetworkDataSource @Inject constructor() : CoinNetworkDataSource {
             marketStatsDataHolder = MarketStatsDataHolder(
                 marketStatsData = MarketStatsData(
                     marketCapChangePercentage24h = "1.2"
+                )
+            )
+        )
+
+        fun defaultGlobalStats() = GlobalStatsApiModel(
+            data = GlobalStatsData(
+                totalMarketCap = "2410000000000",
+                total24hVolume = "98200000000",
+                btcDominance = 54.2
+            )
+        )
+
+        fun defaultGlobalMarketCoinStats() = GlobalMarketCoinStatsApiModel(
+            data = GlobalMarketCoinStatsDataHolder(
+                stats = GlobalMarketCoinStatsData(
+                    positiveChanges = 2841,
+                    negativeChanges = 1893
+                )
+            )
+        )
+
+        fun defaultFearGreed() = FearGreedApiModel(
+            data = listOf(
+                FearGreedDataPointApiModel(timestamp = 1700000000L, value = 42.0),
+                FearGreedDataPointApiModel(timestamp = 1700086400L, value = 44.0),
+                FearGreedDataPointApiModel(timestamp = 1700172800L, value = 41.0)
+            )
+        )
+
+        fun defaultTrendingCoins() = TrendingCoinsApiModel(
+            trendingCoinsData = TrendingCoinsData(
+                coins = listOf(
+                    Bitcoin.trendingCoinApiModel(rank = 1),
+                    Ethereum.trendingCoinApiModel(rank = 2)
                 )
             )
         )

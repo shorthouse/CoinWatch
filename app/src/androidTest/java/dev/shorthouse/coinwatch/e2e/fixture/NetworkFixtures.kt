@@ -13,6 +13,9 @@ import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.FavouriteCoinsData
 import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
+import dev.shorthouse.coinwatch.data.source.remote.model.TrendingCoinApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.TrendingCoinsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.TrendingCoinsData
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
@@ -60,6 +63,20 @@ fun FakeCoinNetworkDataSource.respondWithCoinChart(
     }
 }
 
+fun FakeCoinNetworkDataSource.respondWithTrendingCoins(vararg trendingCoins: TrendingCoinApiModel) {
+    trendingCoinsResponse = Response.success(
+        TrendingCoinsApiModel(
+            trendingCoinsData = TrendingCoinsData(
+                coins = trendingCoins.toList(),
+            ),
+        ),
+    )
+}
+
+fun FakeCoinNetworkDataSource.failTrendingCoins() {
+    trendingCoinsResponse = e2eErrorResponse()
+}
+
 fun FakeCoinNetworkDataSource.failCoins() {
     coinsResponse = e2eErrorResponse()
 }
@@ -82,6 +99,14 @@ fun FakeCoinNetworkDataSource.failSearchResults() {
 
 fun FakeCoinNetworkDataSource.failMarketStats() {
     marketStatsResponse = e2eErrorResponse()
+}
+
+fun FakeCoinNetworkDataSource.failGlobalStats() {
+    globalStatsResponse = e2eErrorResponse()
+}
+
+fun FakeCoinNetworkDataSource.failGlobalMarketCoinStats() {
+    globalMarketCoinStatsResponse = e2eErrorResponse()
 }
 
 fun bitcoinSearchResult() = CoinSearchResult(

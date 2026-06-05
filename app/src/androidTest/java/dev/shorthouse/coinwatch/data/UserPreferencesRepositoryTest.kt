@@ -131,6 +131,22 @@ class UserPreferencesRepositoryTest {
         }
 
     @Test
+    fun when_setStartScreenToPulse_should_updateUserPreferencesStartScreenToPulse() =
+        testCoroutineScope.runTest {
+            val startScreen = StartScreen.Pulse
+
+            userPreferencesRepository.updateStartScreen(
+                startScreen = startScreen
+            )
+
+            val userPreferences = userPreferencesRepository
+                .userPreferencesFlow
+                .first()
+
+            assertThat(userPreferences.startScreen).isEqualTo(startScreen)
+        }
+
+    @Test
     fun when_setStartScreenToSearch_should_updateUserPreferencesStartScreenToSearch() =
         testCoroutineScope.runTest {
             val startScreen = StartScreen.Search
