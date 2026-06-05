@@ -21,6 +21,13 @@ internal object PercentageFormatter {
         }
     }
 
+    fun formatUnsigned(amount: BigDecimal, formatLocale: Locale): String {
+        val percentFormat = createPercentFormat(formatLocale)
+        val fraction = amount.divide(oneHundred)
+
+        return percentFormat.format(fraction)
+    }
+
     fun formatMissing(formatLocale: Locale): String {
         val percentFormat = createPercentFormat(formatLocale)
         return withNumericSpan(percentFormat, BigDecimal.ZERO) { formatted, start, end ->
