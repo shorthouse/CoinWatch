@@ -116,7 +116,7 @@ class SettingsViewModelTest {
     @Test
     fun `When update start screen called should call update start screen use case`() {
         // Arrange
-        val startScreen = StartScreen.Favourites
+        val startScreen = StartScreen.Pulse
 
         // Act
         viewModel.updateStartScreen(startScreen)

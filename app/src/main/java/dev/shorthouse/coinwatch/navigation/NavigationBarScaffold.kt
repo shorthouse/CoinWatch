@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.Insights
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -39,6 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import dev.shorthouse.coinwatch.ui.review.launchInAppReview
 import dev.shorthouse.coinwatch.ui.screen.favourites.FavouritesScreen
 import dev.shorthouse.coinwatch.ui.screen.market.MarketScreen
+import dev.shorthouse.coinwatch.ui.screen.pulse.PulseScreen
 import dev.shorthouse.coinwatch.ui.screen.search.SearchScreen
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
@@ -57,6 +59,7 @@ fun NavigationBarScaffold(
         persistentListOf(
             NavigationBarScreen.Market,
             NavigationBarScreen.Favourites,
+            NavigationBarScreen.Pulse,
             NavigationBarScreen.Search
         )
     }
@@ -142,6 +145,9 @@ private fun NavigationBarNavHost(
         composable(route = NavigationBarScreen.Favourites.route) {
             FavouritesScreen(onNavigateDetails = onNavigateDetails)
         }
+        composable(route = NavigationBarScreen.Pulse.route) {
+            PulseScreen(onNavigateDetails = onNavigateDetails)
+        }
         composable(route = NavigationBarScreen.Search.route) {
             SearchScreen(onNavigateDetails = onNavigateDetails)
         }
@@ -171,6 +177,7 @@ private fun RowScope.AddNavigationBarItem(
                 imageVector = when (screen) {
                     NavigationBarScreen.Market -> Icons.Rounded.BarChart
                     NavigationBarScreen.Favourites -> Icons.Rounded.Favorite
+                    NavigationBarScreen.Pulse -> Icons.Rounded.Insights
                     NavigationBarScreen.Search -> Icons.Rounded.Search
                 },
                 contentDescription = null

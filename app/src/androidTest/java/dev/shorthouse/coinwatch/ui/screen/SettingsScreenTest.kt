@@ -400,6 +400,31 @@ class SettingsScreenTest {
     }
 
     @Test
+    fun when_startScreenIsPulse_should_displayStartScreenAsPulse() {
+        val uiState = SettingsUiState(
+            startScreen = StartScreen.Pulse
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("Start screen").assertIsDisplayed()
+            onNodeWithText("Pulse").assertIsDisplayed()
+        }
+    }
+
+    @Test
     fun when_startScreenIsSearch_should_displayStartScreenAsSearch() {
         val uiState = SettingsUiState(
             startScreen = StartScreen.Search
@@ -473,6 +498,7 @@ class SettingsScreenTest {
             onNodeWithText("App start screen").assertIsDisplayed()
             onNode(hasText("Market").and(isSelected())).assertIsDisplayed()
             onNode(hasText("Favourites").and(isNotSelected())).assertIsDisplayed()
+            onNode(hasText("Pulse").and(isNotSelected())).assertIsDisplayed()
             onNode(hasText("Search").and(isNotSelected())).assertIsDisplayed()
         }
     }
@@ -501,6 +527,36 @@ class SettingsScreenTest {
             onNodeWithText("App start screen").assertIsDisplayed()
             onNode(hasText("Market").and(isNotSelected())).assertIsDisplayed()
             onNode(hasText("Favourites").and(isSelected())).assertIsDisplayed()
+            onNode(hasText("Pulse").and(isNotSelected())).assertIsDisplayed()
+            onNode(hasText("Search").and(isNotSelected())).assertIsDisplayed()
+        }
+    }
+
+    @Test
+    fun when_startScreenIsPulse_should_havePulseSelectedInStartScreenBottomSheet() {
+        val uiState = SettingsUiState(
+            startScreen = StartScreen.Pulse,
+            isStartScreenSheetShown = true
+        )
+
+        composeTestRule.setContent {
+            AppTheme {
+                SettingsScreen(
+                    uiState = uiState,
+                    onNavigateUp = {},
+                    onUpdateCurrency = {},
+                    onUpdateIsCurrencySheetShown = {},
+                    onUpdateStartScreen = {},
+                    onUpdateIsStartScreenSheetShown = {}
+                )
+            }
+        }
+
+        composeTestRule.apply {
+            onNodeWithText("App start screen").assertIsDisplayed()
+            onNode(hasText("Market").and(isNotSelected())).assertIsDisplayed()
+            onNode(hasText("Favourites").and(isNotSelected())).assertIsDisplayed()
+            onNode(hasText("Pulse").and(isSelected())).assertIsDisplayed()
             onNode(hasText("Search").and(isNotSelected())).assertIsDisplayed()
         }
     }
@@ -529,6 +585,7 @@ class SettingsScreenTest {
             onNodeWithText("App start screen").assertIsDisplayed()
             onNode(hasText("Market").and(isNotSelected())).assertIsDisplayed()
             onNode(hasText("Favourites").and(isNotSelected())).assertIsDisplayed()
+            onNode(hasText("Pulse").and(isNotSelected())).assertIsDisplayed()
             onNode(hasText("Search").and(isSelected())).assertIsDisplayed()
         }
     }
@@ -549,7 +606,7 @@ class SettingsScreenTest {
                     onUpdateCurrency = {},
                     onUpdateIsCurrencySheetShown = {},
                     onUpdateStartScreen = { startScreen ->
-                        updateStartScreenCalled = startScreen == StartScreen.Favourites
+                        updateStartScreenCalled = startScreen == StartScreen.Pulse
                     },
                     onUpdateIsStartScreenSheetShown = {}
                 )
@@ -557,7 +614,7 @@ class SettingsScreenTest {
         }
 
         composeTestRule.apply {
-            onNodeWithText("Favourites").performClick()
+            onNodeWithText("Pulse").performClick()
         }
 
         assertThat(updateStartScreenCalled).isTrue()

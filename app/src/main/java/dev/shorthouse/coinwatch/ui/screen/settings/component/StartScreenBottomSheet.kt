@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.Insights
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetState
@@ -47,6 +48,11 @@ fun StartScreenBottomSheet(
                 icon = Icons.Rounded.Favorite,
                 labelId = StartScreen.Favourites.nameId,
                 startScreen = StartScreen.Favourites
+            ),
+            StartScreenOption(
+                icon = Icons.Rounded.Insights,
+                labelId = StartScreen.Pulse.nameId,
+                startScreen = StartScreen.Pulse
             ),
             StartScreenOption(
                 icon = Icons.Rounded.Search,
