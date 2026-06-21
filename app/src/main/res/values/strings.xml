@@ -78,10 +78,6 @@
     <string name="pulse_breadth_down">%1$s down</string>
     <string name="pulse_trending_now">Trending Now</string>
     <string name="pulse_trending_badge">#1 Trending</string>
-    <string name="pulse_movers">Movers</string>
-    <string name="pulse_top_gainer">Top gainer</string>
-    <string name="pulse_top_loser">Top loser</string>
-    <string name="pulse_most_movement">Most movement</string>
     <string name="error_state_settings">Error loading settings screen</string>
     <string name="currency_usd" translatable="false">USD</string>
     <string name="currency_gbp" translatable="false">GBP</string>
@@ -101,7 +97,6 @@
     <string name="error_pulse_market_mood">Market mood unavailable</string>
     <string name="error_pulse_global_market">Global market unavailable</string>
     <string name="error_pulse_trending">Trending coins unavailable</string>
-    <string name="error_pulse_movers">Movers unavailable</string>
     <string name="error_local_favourite_coin_ids">Saved favourite coin IDs unavailable</string>
     <string name="error_local_favourite_coins">Saved favourite coin data unavailable</string>
     <string name="error_network_favourite_coins">Latest favourite coin data unavailable</string>

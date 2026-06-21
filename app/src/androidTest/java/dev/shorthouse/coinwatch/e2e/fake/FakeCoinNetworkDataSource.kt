@@ -23,9 +23,6 @@ import dev.shorthouse.coinwatch.data.source.remote.model.GlobalStatsData
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsData
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsDataHolder
-import dev.shorthouse.coinwatch.data.source.remote.model.MoverCoinApiModel
-import dev.shorthouse.coinwatch.data.source.remote.model.MoversApiModel
-import dev.shorthouse.coinwatch.data.source.remote.model.MoversData
 import dev.shorthouse.coinwatch.data.source.remote.model.PastPrice
 import dev.shorthouse.coinwatch.data.source.remote.model.TrendingCoinsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.TrendingCoinsData
@@ -71,10 +68,6 @@ class FakeCoinNetworkDataSource @Inject constructor() : CoinNetworkDataSource {
     var trendingCoinsResponse: Response<TrendingCoinsApiModel> =
         Response.success(defaultTrendingCoins())
 
-    var moversResponse: (coinSort: CoinSort) -> Response<MoversApiModel> = { coinSort ->
-        Response.success(defaultMovers(coinSort))
-    }
-
     override suspend fun getCoins(
         coinSort: CoinSort,
         currency: Currency,
@@ -115,11 +108,6 @@ class FakeCoinNetworkDataSource @Inject constructor() : CoinNetworkDataSource {
     override suspend fun getTrendingCoins(
         currency: Currency,
     ): Response<TrendingCoinsApiModel> = trendingCoinsResponse
-
-    override suspend fun getMovers(
-        coinSort: CoinSort,
-        currency: Currency,
-    ): Response<MoversApiModel> = moversResponse(coinSort)
 
     private companion object {
         fun defaultCoins() = CoinsApiModel(
@@ -184,31 +172,6 @@ class FakeCoinNetworkDataSource @Inject constructor() : CoinNetworkDataSource {
                     Ethereum.trendingCoinApiModel(rank = 2)
                 )
             )
-        )
-
-        fun defaultMovers(coinSort: CoinSort): MoversApiModel {
-            val featured = if (coinSort == CoinSort.Gainers) {
-                moverCoinApiModel(Bitcoin.ID, Bitcoin.SYMBOL, Bitcoin.NAME, Bitcoin.IMAGE_URL, "14.27")
-            } else {
-                moverCoinApiModel(Ethereum.ID, Ethereum.SYMBOL, Ethereum.NAME, Ethereum.IMAGE_URL, "-9.31")
-            }
-            return MoversApiModel(moversData = MoversData(coins = listOf(featured)))
-        }
-
-        private fun moverCoinApiModel(
-            id: String,
-            symbol: String,
-            name: String,
-            imageUrl: String,
-            change: String,
-        ) = MoverCoinApiModel(
-            id = id,
-            symbol = symbol,
-            name = name,
-            imageUrl = imageUrl,
-            currentPrice = "29446.336548759988",
-            priceChangePercentage24h = change,
-            sparkline = listOf("29100", "29250", "29446")
         )
     }
 }

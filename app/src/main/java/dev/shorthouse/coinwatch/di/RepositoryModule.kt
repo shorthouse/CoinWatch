@@ -13,7 +13,6 @@ import dev.shorthouse.coinwatch.data.mapper.FearGreedMapper
 import dev.shorthouse.coinwatch.data.mapper.FavouriteCoinMapper
 import dev.shorthouse.coinwatch.data.mapper.GlobalMarketMapper
 import dev.shorthouse.coinwatch.data.mapper.MarketStatsMapper
-import dev.shorthouse.coinwatch.data.mapper.MoversMapper
 import dev.shorthouse.coinwatch.data.mapper.TrendingCoinMapper
 import dev.shorthouse.coinwatch.data.repository.chart.CoinChartRepository
 import dev.shorthouse.coinwatch.data.repository.chart.CoinChartRepositoryImpl
@@ -31,8 +30,6 @@ import dev.shorthouse.coinwatch.data.repository.globalmarket.GlobalMarketReposit
 import dev.shorthouse.coinwatch.data.repository.globalmarket.GlobalMarketRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.marketStats.MarketStatsRepository
 import dev.shorthouse.coinwatch.data.repository.marketStats.MarketStatsRepositoryImpl
-import dev.shorthouse.coinwatch.data.repository.movers.MoversRepository
-import dev.shorthouse.coinwatch.data.repository.movers.MoversRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.reviewprompt.ReviewPromptRepository
 import dev.shorthouse.coinwatch.data.repository.reviewprompt.ReviewPromptRepositoryImpl
 import dev.shorthouse.coinwatch.data.repository.searchResults.CoinSearchResultsRepository
@@ -182,18 +179,6 @@ object RepositoryModule {
         return TrendingCoinsRepositoryImpl(
             coinNetworkDataSource = coinNetworkDataSource,
             trendingCoinMapper = trendingCoinMapper
-        )
-    }
-
-    @Provides
-    @Singleton
-    fun provideMoversRepository(
-        coinNetworkDataSource: CoinNetworkDataSource,
-        moversMapper: MoversMapper,
-    ): MoversRepository {
-        return MoversRepositoryImpl(
-            coinNetworkDataSource = coinNetworkDataSource,
-            moversMapper = moversMapper
         )
     }
 
