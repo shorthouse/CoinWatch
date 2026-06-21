@@ -28,7 +28,7 @@ fun TrendingNow(
     val pillCoins = trendingCoins.drop(1)
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
     ) {
         TrendingSpotlightCard(

@@ -46,11 +46,12 @@ fun TrendingCoinPill(
     Surface(
         onClick = { onCoinClick(trendingCoin.id) },
         shape = MaterialTheme.shapes.small,
+        modifier = modifier,
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 6.dp, bottom = 6.dp)
+            modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 12.dp)
         ) {
             AsyncImage(
                 model = imageBuilder

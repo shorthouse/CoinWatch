@@ -121,7 +121,7 @@ fun MarketMoodCard(
                 lineColor = moodColor,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(60.dp)
+                    .height(100.dp)
             )
         }
     }
