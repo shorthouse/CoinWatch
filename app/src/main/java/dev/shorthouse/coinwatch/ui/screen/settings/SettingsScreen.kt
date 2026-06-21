@@ -16,11 +16,11 @@ import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.CurrencyPound
 import androidx.compose.material.icons.rounded.Euro
 import androidx.compose.material.icons.rounded.Favorite
-import androidx.compose.material.icons.rounded.Insights
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Smartphone
 import androidx.compose.material.icons.rounded.StarRate
+import androidx.compose.material.icons.rounded.WifiTethering
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -203,7 +203,7 @@ fun SettingsContent(
                 leadingIcon = when (startScreen) {
                     StartScreen.Market -> Icons.Rounded.BarChart
                     StartScreen.Favourites -> Icons.Rounded.Favorite
-                    StartScreen.Pulse -> Icons.Rounded.Insights
+                    StartScreen.Pulse -> Icons.Rounded.WifiTethering
                     StartScreen.Search -> Icons.Rounded.Search
                 },
                 trailingIcon = Icons.Rounded.ChevronRight,

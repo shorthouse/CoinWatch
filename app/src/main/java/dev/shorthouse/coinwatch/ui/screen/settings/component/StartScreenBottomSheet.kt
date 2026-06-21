@@ -4,8 +4,8 @@ import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.Favorite
-import androidx.compose.material.icons.rounded.Insights
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.WifiTethering
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SheetValue
@@ -50,7 +50,7 @@ fun StartScreenBottomSheet(
                 startScreen = StartScreen.Favourites
             ),
             StartScreenOption(
-                icon = Icons.Rounded.Insights,
+                icon = Icons.Rounded.WifiTethering,
                 labelId = StartScreen.Pulse.nameId,
                 startScreen = StartScreen.Pulse
             ),

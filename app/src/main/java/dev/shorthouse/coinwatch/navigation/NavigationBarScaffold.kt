@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.Favorite
-import androidx.compose.material.icons.rounded.Insights
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.WifiTethering
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -177,7 +177,7 @@ private fun RowScope.AddNavigationBarItem(
                 imageVector = when (screen) {
                     NavigationBarScreen.Market -> Icons.Rounded.BarChart
                     NavigationBarScreen.Favourites -> Icons.Rounded.Favorite
-                    NavigationBarScreen.Pulse -> Icons.Rounded.Insights
+                    NavigationBarScreen.Pulse -> Icons.Rounded.WifiTethering
                     NavigationBarScreen.Search -> Icons.Rounded.Search
                 },
                 contentDescription = null
