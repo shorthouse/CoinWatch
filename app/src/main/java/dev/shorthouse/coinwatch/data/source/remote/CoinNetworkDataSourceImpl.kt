@@ -11,6 +11,7 @@ import dev.shorthouse.coinwatch.data.source.remote.model.FearGreedApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.GlobalMarketCoinStatsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.GlobalStatsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.MoversApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.TrendingCoinsApiModel
 import retrofit2.Response
 import javax.inject.Inject
@@ -92,6 +93,17 @@ class CoinNetworkDataSourceImpl @Inject constructor(
         currency: Currency,
     ): Response<TrendingCoinsApiModel> {
         return coinApi.getTrendingCoins(currencyUUID = currency.toCurrencyUUID())
+    }
+
+    override suspend fun getMovers(
+        coinSort: CoinSort,
+        currency: Currency,
+    ): Response<MoversApiModel> {
+        return coinApi.getMovers(
+            orderBy = coinSort.getOrderBy(),
+            orderDirection = coinSort.getOrderDirection(),
+            currencyUUID = currency.toCurrencyUUID()
+        )
     }
 }
 

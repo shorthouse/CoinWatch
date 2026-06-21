@@ -43,6 +43,7 @@ import dev.shorthouse.coinwatch.R
 import dev.shorthouse.coinwatch.model.FearGreed
 import dev.shorthouse.coinwatch.model.FearGreedMoodBand
 import dev.shorthouse.coinwatch.model.GlobalMarket
+import dev.shorthouse.coinwatch.model.Movers
 import dev.shorthouse.coinwatch.model.TrendingCoin
 import dev.shorthouse.coinwatch.ui.component.ErrorState
 import dev.shorthouse.coinwatch.ui.component.LoadingIndicator
@@ -51,6 +52,7 @@ import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 import dev.shorthouse.coinwatch.ui.preview.PulseUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.pulse.component.GlobalMarketCard
 import dev.shorthouse.coinwatch.ui.screen.pulse.component.MarketMoodCard
+import dev.shorthouse.coinwatch.ui.screen.pulse.component.MoversSection
 import dev.shorthouse.coinwatch.ui.screen.pulse.component.PulseSection
 import dev.shorthouse.coinwatch.ui.screen.pulse.component.TrendingNow
 import dev.shorthouse.coinwatch.ui.theme.FearAmber
@@ -134,6 +136,7 @@ fun PulseScreen(
                         fearGreed = uiState.fearGreed,
                         globalMarket = uiState.globalMarket,
                         trendingCoins = uiState.trendingCoins,
+                        movers = uiState.movers,
                         onCoinClick = onCoinClick
                     )
                 }
@@ -203,6 +206,7 @@ private fun PulseContent(
     fearGreed: FearGreed?,
     globalMarket: GlobalMarket?,
     trendingCoins: ImmutableList<TrendingCoin>,
+    movers: Movers?,
     onCoinClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -229,6 +233,15 @@ private fun PulseContent(
             PulseSection(title = stringResource(R.string.pulse_trending_now)) {
                 TrendingNow(
                     trendingCoins = trendingCoins,
+                    onCoinClick = onCoinClick
+                )
+            }
+        }
+
+        movers?.let {
+            PulseSection(title = stringResource(R.string.pulse_movers)) {
+                MoversSection(
+                    movers = it,
                     onCoinClick = onCoinClick
                 )
             }

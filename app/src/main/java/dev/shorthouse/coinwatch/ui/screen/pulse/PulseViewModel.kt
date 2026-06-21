@@ -10,6 +10,7 @@ import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.domain.preferences.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.pulse.GetFearGreedUseCase
 import dev.shorthouse.coinwatch.domain.pulse.GetGlobalMarketUseCase
+import dev.shorthouse.coinwatch.domain.pulse.GetMoversUseCase
 import dev.shorthouse.coinwatch.domain.pulse.GetTrendingCoinsUseCase
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.delay
@@ -31,6 +32,7 @@ class PulseViewModel @Inject constructor(
     private val getFearGreedUseCase: GetFearGreedUseCase,
     private val getGlobalMarketUseCase: GetGlobalMarketUseCase,
     private val getTrendingCoinsUseCase: GetTrendingCoinsUseCase,
+    private val getMoversUseCase: GetMoversUseCase,
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(PulseUiState())
@@ -49,6 +51,7 @@ class PulseViewModel @Inject constructor(
             loadFearGreed()
             loadGlobalMarket(currency = currency)
             loadTrendingCoins(currency = currency)
+            loadMovers(currency = currency)
 
             _uiState.update { it.copy(isLoading = false) }
         }
@@ -64,6 +67,7 @@ class PulseViewModel @Inject constructor(
             loadFearGreed()
             loadGlobalMarket(currency = currency)
             loadTrendingCoins(currency = currency)
+            loadMovers(currency = currency)
 
             _uiState.update { it.copy(isRefreshing = false) }
         }
@@ -117,6 +121,20 @@ class PulseViewModel @Inject constructor(
         }
     }
 
+    private suspend fun loadMovers(currency: Currency) {
+        when (val result = getMoversUseCase(currency = currency)) {
+            is Result.Success -> {
+                _uiState.update {
+                    it.copy(movers = result.data)
+                }
+            }
+
+            is Result.Error -> {
+                addErrorMessage(R.string.error_pulse_movers)
+            }
+        }
+    }
+
     private fun addErrorMessage(@StringRes errorMessageId: Int) {
         _uiState.update {
             it.copy(errorMessageIds = it.errorMessageIds + errorMessageId)
@@ -131,6 +149,7 @@ class PulseViewModel @Inject constructor(
             .onEach { currency ->
                 loadGlobalMarket(currency = currency)
                 loadTrendingCoins(currency = currency)
+                loadMovers(currency = currency)
             }
             .launchIn(viewModelScope)
     }

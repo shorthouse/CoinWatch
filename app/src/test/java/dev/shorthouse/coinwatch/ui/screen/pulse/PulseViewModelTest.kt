@@ -9,10 +9,13 @@ import dev.shorthouse.coinwatch.data.source.local.datastore.global.UserPreferenc
 import dev.shorthouse.coinwatch.domain.preferences.GetUserPreferencesUseCase
 import dev.shorthouse.coinwatch.domain.pulse.GetFearGreedUseCase
 import dev.shorthouse.coinwatch.domain.pulse.GetGlobalMarketUseCase
+import dev.shorthouse.coinwatch.domain.pulse.GetMoversUseCase
 import dev.shorthouse.coinwatch.domain.pulse.GetTrendingCoinsUseCase
 import dev.shorthouse.coinwatch.model.FearGreed
 import dev.shorthouse.coinwatch.model.FearGreedMoodBand
 import dev.shorthouse.coinwatch.model.GlobalMarket
+import dev.shorthouse.coinwatch.model.MoverCoin
+import dev.shorthouse.coinwatch.model.Movers
 import dev.shorthouse.coinwatch.model.Percentage
 import dev.shorthouse.coinwatch.model.Price
 import dev.shorthouse.coinwatch.model.TrendingCoin
@@ -50,6 +53,9 @@ class PulseViewModelTest {
     private lateinit var getTrendingCoinsUseCase: GetTrendingCoinsUseCase
 
     @MockK
+    private lateinit var getMoversUseCase: GetMoversUseCase
+
+    @MockK
     private lateinit var getUserPreferencesUseCase: GetUserPreferencesUseCase
 
     private lateinit var userPreferencesFlow: MutableStateFlow<UserPreferences>
@@ -79,7 +85,8 @@ class PulseViewModelTest {
             PulseUiState(
                 fearGreed = fearGreed,
                 globalMarket = globalMarket(),
-                trendingCoins = expectedTrendingCoins
+                trendingCoins = expectedTrendingCoins,
+                movers = expectedMovers
             )
         )
     }
@@ -97,6 +104,7 @@ class PulseViewModelTest {
             PulseUiState(
                 globalMarket = globalMarket(),
                 trendingCoins = expectedTrendingCoins,
+                movers = expectedMovers,
                 errorMessageIds = setOf(R.string.error_pulse_market_mood)
             )
         )
@@ -120,7 +128,8 @@ class PulseViewModelTest {
             PulseUiState(
                 fearGreed = fearGreed,
                 globalMarket = globalMarket,
-                trendingCoins = expectedTrendingCoins
+                trendingCoins = expectedTrendingCoins,
+                movers = expectedMovers
             )
         )
     }
@@ -140,6 +149,7 @@ class PulseViewModelTest {
             PulseUiState(
                 fearGreed = fearGreed,
                 trendingCoins = expectedTrendingCoins,
+                movers = expectedMovers,
                 errorMessageIds = setOf(R.string.error_pulse_global_market)
             )
         )
@@ -163,7 +173,8 @@ class PulseViewModelTest {
             PulseUiState(
                 fearGreed = fearGreed,
                 globalMarket = gbpGlobalMarket,
-                trendingCoins = expectedTrendingCoins
+                trendingCoins = expectedTrendingCoins,
+                movers = expectedMovers
             )
         )
         coVerify(exactly = 1) {
@@ -193,7 +204,8 @@ class PulseViewModelTest {
             PulseUiState(
                 fearGreed = fearGreed,
                 globalMarket = updatedGlobalMarket,
-                trendingCoins = expectedTrendingCoins
+                trendingCoins = expectedTrendingCoins,
+                movers = expectedMovers
             )
         )
         coVerify(exactly = 1) {
@@ -225,7 +237,8 @@ class PulseViewModelTest {
             PulseUiState(
                 fearGreed = fearGreed,
                 globalMarket = initialGlobalMarket,
-                trendingCoins = expectedTrendingCoins
+                trendingCoins = expectedTrendingCoins,
+                movers = expectedMovers
             )
         )
         coVerify(exactly = 1) {
@@ -254,7 +267,8 @@ class PulseViewModelTest {
             PulseUiState(
                 fearGreed = refreshedFearGreed,
                 globalMarket = globalMarket(),
-                trendingCoins = expectedTrendingCoins
+                trendingCoins = expectedTrendingCoins,
+                movers = expectedMovers
             )
         )
         coVerify(exactly = 2) {
@@ -286,6 +300,7 @@ class PulseViewModelTest {
                 fearGreed = initialFearGreed,
                 globalMarket = globalMarket(),
                 trendingCoins = expectedTrendingCoins,
+                movers = expectedMovers,
                 errorMessageIds = setOf(R.string.error_pulse_market_mood)
             )
         )
@@ -312,6 +327,7 @@ class PulseViewModelTest {
                 fearGreed = refreshedFearGreed,
                 globalMarket = globalMarket(),
                 trendingCoins = expectedTrendingCoins,
+                movers = expectedMovers,
                 errorMessageIds = setOf(R.string.error_pulse_market_mood)
             )
         )
@@ -337,6 +353,7 @@ class PulseViewModelTest {
                 fearGreed = fearGreed,
                 globalMarket = globalMarket,
                 trendingCoins = expectedTrendingCoins,
+                movers = expectedMovers,
                 errorMessageIds = setOf(R.string.error_pulse_global_market)
             )
         )
@@ -362,6 +379,7 @@ class PulseViewModelTest {
                 fearGreed = fearGreed,
                 globalMarket = initialGlobalMarket,
                 trendingCoins = expectedTrendingCoins,
+                movers = expectedMovers,
                 errorMessageIds = setOf(R.string.error_pulse_global_market)
             )
         )
@@ -412,6 +430,7 @@ class PulseViewModelTest {
                 fearGreed = fearGreed,
                 globalMarket = globalMarket(),
                 trendingCoins = persistentListOf(),
+                movers = expectedMovers,
                 errorMessageIds = setOf(R.string.error_pulse_trending)
             )
         )
@@ -436,18 +455,78 @@ class PulseViewModelTest {
         }
     }
 
+    @Test
+    fun `When initial movers returns success should update UI state`() {
+        val fearGreed = fearGreed()
+
+        coEvery { getFearGreedUseCase() } returns Result.Success(fearGreed)
+        coEvery { getGlobalMarketUseCase(currency = Currency.USD) } returns Result.Success(
+            globalMarket()
+        )
+
+        initialiseViewModel()
+
+        assertThat(viewModel.uiState.value.movers).isEqualTo(expectedMovers)
+    }
+
+    @Test
+    fun `When initial movers returns error should update UI state with error`() {
+        val fearGreed = fearGreed()
+
+        coEvery { getFearGreedUseCase() } returns Result.Success(fearGreed)
+        coEvery { getGlobalMarketUseCase(currency = Currency.USD) } returns Result.Success(
+            globalMarket()
+        )
+
+        initialiseViewModel(
+            moversResult = Result.Error("Unable to fetch movers")
+        )
+
+        assertThat(viewModel.uiState.value).isEqualTo(
+            PulseUiState(
+                fearGreed = fearGreed,
+                globalMarket = globalMarket(),
+                trendingCoins = expectedTrendingCoins,
+                movers = null,
+                errorMessageIds = setOf(R.string.error_pulse_movers)
+            )
+        )
+    }
+
+    @Test
+    fun `When currency changes should reload movers`() {
+        val fearGreed = fearGreed()
+
+        coEvery { getFearGreedUseCase() } returns Result.Success(fearGreed)
+        coEvery { getGlobalMarketUseCase(currency = any()) } returns Result.Success(globalMarket())
+
+        initialiseViewModel()
+        userPreferencesFlow.value = UserPreferences(currency = Currency.GBP)
+        mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
+
+        coVerify(exactly = 1) {
+            getMoversUseCase(currency = Currency.USD)
+        }
+        coVerify(exactly = 1) {
+            getMoversUseCase(currency = Currency.GBP)
+        }
+    }
+
     private fun initialiseViewModel(
         currency: Currency = Currency.USD,
         trendingResult: Result<List<TrendingCoin>> = Result.Success(trendingCoinsList()),
+        moversResult: Result<Movers> = Result.Success(movers()),
     ) {
         userPreferencesFlow = MutableStateFlow(UserPreferences(currency = currency))
         every { getUserPreferencesUseCase() } returns userPreferencesFlow
         coEvery { getTrendingCoinsUseCase(currency = any()) } returns trendingResult
+        coEvery { getMoversUseCase(currency = any()) } returns moversResult
 
         viewModel = PulseViewModel(
             getFearGreedUseCase = getFearGreedUseCase,
             getGlobalMarketUseCase = getGlobalMarketUseCase,
             getTrendingCoinsUseCase = getTrendingCoinsUseCase,
+            getMoversUseCase = getMoversUseCase,
             getUserPreferencesUseCase = getUserPreferencesUseCase
         )
         mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
@@ -493,6 +572,32 @@ class PulseViewModelTest {
             )
         )
 
+    private fun movers(): Movers =
+        Movers(
+            topGainer = MoverCoin(
+                id = "gainer",
+                name = "Bitcoin",
+                symbol = "BTC",
+                imageUrl = "https://cdn.coinranking.com/bOabBYkcX/bitcoin_btc.svg",
+                currentPrice = Price("29446.336548759988", Currency.USD),
+                priceChangePercentage24h = Percentage("12.5"),
+                sparkline = persistentListOf()
+            ),
+            topLoser = MoverCoin(
+                id = "loser",
+                name = "Dogecoin",
+                symbol = "DOGE",
+                imageUrl = "https://cdn.coinranking.com/H1arVnjQ_/doge.svg",
+                currentPrice = Price("0.11923", Currency.USD),
+                priceChangePercentage24h = Percentage("-9.3"),
+                sparkline = persistentListOf()
+            ),
+            mostMovement = persistentListOf()
+        )
+
     private val expectedTrendingCoins: ImmutableList<TrendingCoin>
         get() = trendingCoinsList().toPersistentList()
+
+    private val expectedMovers: Movers
+        get() = movers()
 }

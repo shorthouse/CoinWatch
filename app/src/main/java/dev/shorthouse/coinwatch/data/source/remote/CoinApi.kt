@@ -9,6 +9,7 @@ import dev.shorthouse.coinwatch.data.source.remote.model.FearGreedApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.GlobalMarketCoinStatsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.GlobalStatsApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.MarketStatsApiModel
+import dev.shorthouse.coinwatch.data.source.remote.model.MoversApiModel
 import dev.shorthouse.coinwatch.data.source.remote.model.TrendingCoinsApiModel
 import retrofit2.Response
 import retrofit2.http.GET
@@ -80,4 +81,13 @@ interface CoinApi {
         @Query("timePeriod") timePeriod: String = "24h",
         @Query("tiers[]") tiers: List<Int> = listOf(1, 2),
     ): Response<TrendingCoinsApiModel>
+
+    @GET("coins")
+    suspend fun getMovers(
+        @Query("referenceCurrencyUuid") currencyUUID: String = "yhjMzLPhuIDl",
+        @Query("orderBy") orderBy: String = "change",
+        @Query("orderDirection") orderDirection: String = "desc",
+        @Query("timePeriod") timePeriod: String = "24h",
+        @Query("limit") limit: String = "100"
+    ): Response<MoversApiModel>
 }
