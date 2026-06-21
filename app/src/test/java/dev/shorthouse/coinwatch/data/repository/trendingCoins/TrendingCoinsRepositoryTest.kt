@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.repository.trendingcoins
+package dev.shorthouse.coinwatch.data.repository.trendingCoins
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.common.Result

@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.repository.trendingcoins
+package dev.shorthouse.coinwatch.data.repository.trendingCoins
 
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.mapper.TrendingCoinMapper

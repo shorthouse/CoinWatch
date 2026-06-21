@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.repository.globalmarket
+package dev.shorthouse.coinwatch.data.repository.globalMarket
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.common.Result

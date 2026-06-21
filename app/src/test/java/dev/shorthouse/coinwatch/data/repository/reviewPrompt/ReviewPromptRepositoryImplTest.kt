@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.repository.reviewprompt
+package dev.shorthouse.coinwatch.data.repository.reviewPrompt
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.common.TimeProvider

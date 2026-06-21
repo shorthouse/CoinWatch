@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.repository.reviewprompt
+package dev.shorthouse.coinwatch.data.repository.reviewPrompt
 
 import dev.shorthouse.coinwatch.common.TimeProvider
 import dev.shorthouse.coinwatch.data.source.local.datastore.reviewanalytics.ReviewAnalytics

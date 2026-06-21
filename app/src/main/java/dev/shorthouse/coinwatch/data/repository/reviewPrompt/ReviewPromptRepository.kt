@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.repository.reviewprompt
+package dev.shorthouse.coinwatch.data.repository.reviewPrompt
 
 interface ReviewPromptRepository {
     suspend fun recordSuccessfulDetailsView()

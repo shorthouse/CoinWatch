@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.repository.globalmarket
+package dev.shorthouse.coinwatch.data.repository.globalMarket
 
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.mapper.GlobalMarketMapper

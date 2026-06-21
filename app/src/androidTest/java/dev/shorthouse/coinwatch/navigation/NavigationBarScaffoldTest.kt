@@ -4,7 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
-import dev.shorthouse.coinwatch.data.repository.reviewprompt.ReviewPromptRepository
+import dev.shorthouse.coinwatch.data.repository.reviewPrompt.ReviewPromptRepository
 import dev.shorthouse.coinwatch.domain.reviewprompt.IsReviewPromptEligibleUseCase
 import dev.shorthouse.coinwatch.domain.reviewprompt.RecordReviewPromptAttemptedUseCase
 import java.util.Collections

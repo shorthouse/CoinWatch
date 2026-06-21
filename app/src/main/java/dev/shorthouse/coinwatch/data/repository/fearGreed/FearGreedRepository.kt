@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.repository.feargreed
+package dev.shorthouse.coinwatch.data.repository.fearGreed
 
 import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.model.FearGreed

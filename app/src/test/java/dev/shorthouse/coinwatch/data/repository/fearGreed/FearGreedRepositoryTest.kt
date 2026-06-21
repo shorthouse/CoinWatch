@@ -1,4 +1,4 @@
-package dev.shorthouse.coinwatch.data.repository.feargreed
+package dev.shorthouse.coinwatch.data.repository.fearGreed
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.common.Result

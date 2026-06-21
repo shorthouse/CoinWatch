@@ -2,7 +2,7 @@ package dev.shorthouse.coinwatch.domain.pulse
 
 import com.google.common.truth.Truth.assertThat
 import dev.shorthouse.coinwatch.common.Result
-import dev.shorthouse.coinwatch.data.repository.feargreed.FearGreedRepository
+import dev.shorthouse.coinwatch.data.repository.fearGreed.FearGreedRepository
 import dev.shorthouse.coinwatch.model.FearGreed
 import dev.shorthouse.coinwatch.model.FearGreedMoodBand
 import io.mockk.MockKAnnotations
