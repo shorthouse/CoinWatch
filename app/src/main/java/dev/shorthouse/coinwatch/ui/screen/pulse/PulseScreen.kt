@@ -1,16 +1,11 @@
 package dev.shorthouse.coinwatch.ui.screen.pulse
 
-import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -30,7 +25,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,13 +45,9 @@ import dev.shorthouse.coinwatch.ui.preview.AppPreviewWrapper
 import dev.shorthouse.coinwatch.ui.preview.PulseUiStatePreviewProvider
 import dev.shorthouse.coinwatch.ui.screen.pulse.component.GlobalMarketCard
 import dev.shorthouse.coinwatch.ui.screen.pulse.component.MarketMoodCard
+import dev.shorthouse.coinwatch.ui.screen.pulse.component.PulseDot
 import dev.shorthouse.coinwatch.ui.screen.pulse.component.PulseSection
 import dev.shorthouse.coinwatch.ui.screen.pulse.component.TrendingNow
-import dev.shorthouse.coinwatch.ui.theme.FearAmber
-import dev.shorthouse.coinwatch.ui.theme.GreedLightGreen
-import dev.shorthouse.coinwatch.ui.theme.NegativeRed
-import dev.shorthouse.coinwatch.ui.theme.PositiveGreen
-import dev.shorthouse.coinwatch.ui.theme.ZeroWhite
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -162,25 +152,9 @@ private fun PulseTopBar(
         title = {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.animateContentSize()
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                moodBand?.let { band ->
-                    Box(
-                        modifier = Modifier
-                            .size(8.dp)
-                            .clip(CircleShape)
-                            .background(
-                                when (band) {
-                                    FearGreedMoodBand.ExtremeFear -> NegativeRed
-                                    FearGreedMoodBand.Fear -> FearAmber
-                                    FearGreedMoodBand.Neutral -> ZeroWhite
-                                    FearGreedMoodBand.Greed -> GreedLightGreen
-                                    FearGreedMoodBand.ExtremeGreed -> PositiveGreen
-                                }
-                            )
-                    )
-                }
+                PulseDot(moodBand = moodBand)
 
                 Text(
                     text = stringResource(R.string.pulse_screen),
