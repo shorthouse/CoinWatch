@@ -67,6 +67,9 @@ android {
         }
     }
     testOptions {
+        screenshotTests {
+            imageDifferenceThreshold = 0.005f // 0.5%
+        }
         managedDevices {
             localDevices {
                 create("pixel2api30") {

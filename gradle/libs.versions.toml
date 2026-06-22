@@ -26,7 +26,7 @@ retrofit = "3.0.0"
 room = "2.8.4"
 rules = "1.7.0"
 runner = "1.7.0"
-screenshot = "0.0.1-alpha14"
+screenshot = "0.0.1-alpha15"
 timber = "5.0.1"
 truth = "1.4.5"
 
