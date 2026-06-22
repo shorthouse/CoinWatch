@@ -54,7 +54,7 @@ class NavigationE2ETest {
             awaitText("Market Mood")
             onNodeWithText("Fear").assertIsDisplayed()
             onNodeWithText("Trending Now").performScrollTo().assertIsDisplayed()
-            onNodeWithText("#1 Trending").assertIsDisplayed()
+            onNodeWithText("#1 Trending").performScrollTo().assertIsDisplayed()
 
             onNodeWithText("Search").performClick()
             awaitText("Explore coins")

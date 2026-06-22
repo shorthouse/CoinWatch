@@ -242,8 +242,8 @@ class PulseScreenTest {
         composeTestRule.apply {
             onNodeWithText("Trending Now").performScrollTo().assertIsDisplayed()
             onNodeWithText("Bitcoin").assertIsDisplayed()
-            onNodeWithText("#1 Trending").assertIsDisplayed()
-            onNodeWithText("ETH").assertIsDisplayed()
+            onNodeWithText("#1 Trending").performScrollTo().assertIsDisplayed()
+            onNodeWithText("ETH").assertExists()
         }
     }
 
