@@ -11,7 +11,7 @@ plugins {
 
 android {
     namespace = "dev.shorthouse.coinwatch"
-    compileSdk = 36
+    compileSdk = 37
 
     experimentalProperties["android.experimental.enableScreenshotTest"] = true
 
