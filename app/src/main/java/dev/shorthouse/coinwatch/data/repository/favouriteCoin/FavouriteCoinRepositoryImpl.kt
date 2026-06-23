@@ -8,6 +8,7 @@ import dev.shorthouse.coinwatch.data.source.local.datastore.common.CoinSort
 import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.di.IoDispatcher
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -53,6 +54,8 @@ class FavouriteCoinRepositoryImpl @Inject constructor(
                 )
                 Result.Error("Unable to fetch network favourite coins list")
             }
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Timber.e("getRemoteFavouriteCoins error ${e.message}")
             Result.Error("Unable to fetch network favourite coins list")

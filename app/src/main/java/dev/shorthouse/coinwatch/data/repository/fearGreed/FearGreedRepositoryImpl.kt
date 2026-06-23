@@ -4,6 +4,7 @@ import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.mapper.FearGreedMapper
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.model.FearGreed
+import kotlinx.coroutines.CancellationException
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -25,6 +26,8 @@ class FearGreedRepositoryImpl @Inject constructor(
                 )
                 Result.Error(ERROR_MESSAGE)
             }
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Timber.e("getFearGreed error ${e.message}")
             Result.Error(ERROR_MESSAGE)

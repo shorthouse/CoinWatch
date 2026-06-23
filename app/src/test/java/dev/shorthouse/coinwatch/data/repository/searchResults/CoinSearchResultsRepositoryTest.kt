@@ -13,6 +13,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.unmockkAll
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.After
@@ -335,5 +336,24 @@ class CoinSearchResultsRepositoryTest {
         // Assert
         assertThat(result).isInstanceOf(Result.Error::class.java)
         assertThat((result as Result.Error).message).isEqualTo(expectedResult.message)
+    }
+
+    @Test
+    fun `When coin search results request is cancelled should rethrow cancellation`() = runTest {
+        // Arrange
+        val searchQuery = ""
+        val cancellationException = CancellationException("Cancelled")
+
+        coEvery {
+            coinNetworkDataSource.getCoinSearchResults(searchQuery)
+        } throws cancellationException
+
+        // Act & Assert
+        try {
+            coinSearchResultsRepository.getCoinSearchResults(searchQuery)
+            throw AssertionError("Expected CancellationException")
+        } catch (e: CancellationException) {
+            assertThat(e).isSameInstanceAs(cancellationException)
+        }
     }
 }

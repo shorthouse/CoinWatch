@@ -5,6 +5,7 @@ import dev.shorthouse.coinwatch.data.mapper.GlobalMarketMapper
 import dev.shorthouse.coinwatch.data.source.local.datastore.global.Currency
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.model.GlobalMarket
+import kotlinx.coroutines.CancellationException
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -42,6 +43,8 @@ class GlobalMarketRepositoryImpl @Inject constructor(
                 Timber.e("getGlobalMarket unsuccessful retrofit response")
                 Result.Error(ERROR_MESSAGE)
             }
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Timber.e("getGlobalMarket error ${e.message}")
             Result.Error(ERROR_MESSAGE)

@@ -23,6 +23,7 @@ import io.mockk.just
 import io.mockk.runs
 import io.mockk.unmockkAll
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -273,6 +274,35 @@ class FavouriteCoinRepositoryTest {
         // Assert
         assertThat(result).isInstanceOf(Result.Error::class.java)
         assertThat((result as Result.Error).message).isEqualTo(expectedResult.message)
+    }
+
+    @Test
+    fun `When remote favourite coins request is cancelled should rethrow cancellation`() = runTest {
+        // Arrange
+        val coinIds = listOf("Qwsogvtv82FCd")
+        val coinSort = CoinSort.MarketCap
+        val currency = Currency.EUR
+        val cancellationException = CancellationException("Cancelled")
+
+        coEvery {
+            coinNetworkDataSource.getFavouriteCoins(
+                coinIds = coinIds,
+                coinSort = coinSort,
+                currency = currency
+            )
+        } throws cancellationException
+
+        // Act & Assert
+        try {
+            favouriteCoinRepository.getRemoteFavouriteCoins(
+                coinIds = coinIds,
+                coinSort = coinSort,
+                currency = currency
+            )
+            throw AssertionError("Expected CancellationException")
+        } catch (e: CancellationException) {
+            assertThat(e).isSameInstanceAs(cancellationException)
+        }
     }
 
     @Test

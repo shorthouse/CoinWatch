@@ -6,6 +6,7 @@ import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.di.IoDispatcher
 import dev.shorthouse.coinwatch.model.SearchCoin
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -31,6 +32,8 @@ class CoinSearchResultsRepositoryImpl @Inject constructor(
                     Result.Error("Unable to fetch coin search results")
                 }
             }
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Timber.e("getCoinSearchResults error ${e.message}")
             Result.Error("Unable to fetch coin search results")

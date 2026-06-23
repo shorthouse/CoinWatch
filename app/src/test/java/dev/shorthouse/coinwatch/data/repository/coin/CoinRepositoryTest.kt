@@ -22,6 +22,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.runs
 import io.mockk.unmockkAll
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -260,6 +261,32 @@ class CoinRepositoryTest {
         // Assert
         assertThat(result).isInstanceOf(Result.Error::class.java)
         assertThat((result as Result.Error).message).isEqualTo(expectedResult.message)
+    }
+
+    @Test
+    fun `When remote coins request is cancelled should rethrow cancellation`() = runTest {
+        // Arrange
+        val coinSort = CoinSort.MarketCap
+        val currency = Currency.USD
+        val cancellationException = CancellationException("Cancelled")
+
+        coEvery {
+            coinNetworkDataSource.getCoins(
+                coinSort = coinSort,
+                currency = currency
+            )
+        } throws cancellationException
+
+        // Act & Assert
+        try {
+            coinRepository.getRemoteCoins(
+                coinSort = coinSort,
+                currency = currency
+            )
+            throw AssertionError("Expected CancellationException")
+        } catch (e: CancellationException) {
+            assertThat(e).isSameInstanceAs(cancellationException)
+        }
     }
 
     @Test

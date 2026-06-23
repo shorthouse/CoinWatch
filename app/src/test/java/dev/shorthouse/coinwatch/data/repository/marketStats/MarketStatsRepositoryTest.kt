@@ -15,6 +15,7 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.unmockkAll
 import java.io.IOException
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.After
@@ -199,5 +200,21 @@ class MarketStatsRepositoryTest {
         // Assert
         assertThat(result).isInstanceOf(Result.Error::class.java)
         assertThat((result as Result.Error).message).isEqualTo(expectedResult.message)
+    }
+
+    @Test
+    fun `When market stats request is cancelled should rethrow cancellation`() = runTest {
+        // Arrange
+        val cancellationException = CancellationException("Cancelled")
+
+        coEvery { coinNetworkDataSource.getMarketStats() } throws cancellationException
+
+        // Act & Assert
+        try {
+            marketStatsRepository.getMarketStats()
+            throw AssertionError("Expected CancellationException")
+        } catch (e: CancellationException) {
+            assertThat(e).isSameInstanceAs(cancellationException)
+        }
     }
 }

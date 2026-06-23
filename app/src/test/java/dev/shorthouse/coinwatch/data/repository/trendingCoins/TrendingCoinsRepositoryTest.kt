@@ -19,6 +19,7 @@ import io.mockk.unmockkAll
 import java.io.IOException
 import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.After
@@ -123,6 +124,20 @@ class TrendingCoinsRepositoryTest {
 
         assertThat(result).isInstanceOf(Result.Error::class.java)
         assertThat((result as Result.Error).message).isEqualTo(ERROR_MESSAGE)
+    }
+
+    @Test
+    fun `When trending coins request is cancelled should rethrow cancellation`() = runTest {
+        val cancellationException = CancellationException("Cancelled")
+
+        coEvery { coinNetworkDataSource.getTrendingCoins(Currency.USD) } throws cancellationException
+
+        try {
+            trendingCoinsRepository.getTrendingCoins(currency = Currency.USD)
+            throw AssertionError("Expected CancellationException")
+        } catch (e: CancellationException) {
+            assertThat(e).isSameInstanceAs(cancellationException)
+        }
     }
 
     private fun trendingCoinsApiModel() = TrendingCoinsApiModel(

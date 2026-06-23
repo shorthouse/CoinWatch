@@ -19,6 +19,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.unmockkAll
 import java.io.IOException
 import java.math.BigDecimal
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.After
@@ -185,6 +186,20 @@ class GlobalMarketRepositoryTest {
 
         assertThat(result).isInstanceOf(Result.Error::class.java)
         assertThat((result as Result.Error).message).isEqualTo(ERROR_MESSAGE)
+    }
+
+    @Test
+    fun `When global market request is cancelled should rethrow cancellation`() = runTest {
+        val cancellationException = CancellationException("Cancelled")
+
+        coEvery { coinNetworkDataSource.getGlobalStats(Currency.USD) } throws cancellationException
+
+        try {
+            globalMarketRepository.getGlobalMarket(currency = Currency.USD)
+            throw AssertionError("Expected CancellationException")
+        } catch (e: CancellationException) {
+            assertThat(e).isSameInstanceAs(cancellationException)
+        }
     }
 
     private fun globalStatsApiModel() = GlobalStatsApiModel(

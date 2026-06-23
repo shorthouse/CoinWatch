@@ -4,6 +4,7 @@ import dev.shorthouse.coinwatch.common.Result
 import dev.shorthouse.coinwatch.data.mapper.MarketStatsMapper
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.model.MarketStats
+import kotlinx.coroutines.CancellationException
 import javax.inject.Inject
 import timber.log.Timber
 
@@ -25,6 +26,8 @@ class MarketStatsRepositoryImpl @Inject constructor(
                 )
                 Result.Error("Unable to fetch market stats")
             }
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Timber.e("getMarketStats error ${e.message}")
             Result.Error("Unable to fetch market stats")

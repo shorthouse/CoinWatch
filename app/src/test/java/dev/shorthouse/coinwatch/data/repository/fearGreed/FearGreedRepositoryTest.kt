@@ -16,6 +16,7 @@ import io.mockk.unmockkAll
 import java.io.IOException
 import java.math.BigDecimal
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.After
@@ -142,6 +143,20 @@ class FearGreedRepositoryTest {
 
         assertThat(result).isInstanceOf(Result.Error::class.java)
         assertThat((result as Result.Error).message).isEqualTo(ERROR_MESSAGE)
+    }
+
+    @Test
+    fun `When fear greed request is cancelled should rethrow cancellation`() = runTest {
+        val cancellationException = CancellationException("Cancelled")
+
+        coEvery { coinNetworkDataSource.getFearGreed() } throws cancellationException
+
+        try {
+            fearGreedRepository.getFearGreed()
+            throw AssertionError("Expected CancellationException")
+        } catch (e: CancellationException) {
+            assertThat(e).isSameInstanceAs(cancellationException)
+        }
     }
 
     private companion object {

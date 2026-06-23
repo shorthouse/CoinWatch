@@ -8,6 +8,7 @@ import dev.shorthouse.coinwatch.data.source.local.database.CoinLocalDataSource
 import dev.shorthouse.coinwatch.data.source.local.database.model.Coin
 import dev.shorthouse.coinwatch.data.source.remote.CoinNetworkDataSource
 import dev.shorthouse.coinwatch.di.IoDispatcher
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -42,6 +43,8 @@ class CoinRepositoryImpl @Inject constructor(
                 Timber.e("getRemoteCoins unsuccessful retrofit response ${response.message()}")
                 Result.Error("Unable to fetch network coins list")
             }
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Timber.e("getRemoteCoins error ${e.message}")
             Result.Error("Unable to fetch network coins list")
