@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId = "dev.shorthouse.coinwatch"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 27
         versionName = "1.4.1"
         ndk {
